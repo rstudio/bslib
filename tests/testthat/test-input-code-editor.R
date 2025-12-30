@@ -35,19 +35,18 @@ test_that("input_code_editor generates correct HTML structure", {
   dep_names <- sapply(deps, function(d) d$name)
   expect_true("prism-code-editor" %in% dep_names)
   expect_true("bslib-code-editor-js" %in% dep_names)
-  expect_true("bslib-code-editor-css" %in% dep_names)
 
   html <- as.character(editor)
 
-  # Check for editor div with correct class (may include other classes from as_fill_carrier)
-  expect_match(html, 'shiny-input-code-editor')
+  # Check for bslib-code-editor custom element tag
+  expect_match(html, '<bslib-code-editor')
 
   # Check for correct ID
   expect_match(html, 'id="test_editor"')
 
-  # Check for data attributes
-  expect_match(html, 'data-language="sql"')
-  expect_match(html, 'data-initial-code="SELECT \\* FROM table"')
+  # Check for attributes
+  expect_match(html, 'language="sql"')
+  expect_match(html, 'value="SELECT \\* FROM table"')
 })
 
 test_that("input_code_editor handles all parameters correctly", {
@@ -68,15 +67,15 @@ test_that("input_code_editor handles all parameters correctly", {
 
   html <- as.character(editor)
 
-  # Check all data attributes
-  expect_match(html, 'data-language="python"')
-  expect_match(html, 'data-theme-light="vs-code-light"')
-  expect_match(html, 'data-theme-dark="vs-code-dark"')
-  expect_match(html, 'data-read-only="true"')
-  expect_match(html, 'data-line-numbers="false"')
-  expect_match(html, 'data-word-wrap="true"')
-  expect_match(html, 'data-tab-size="4"')
-  expect_match(html, 'data-insert-spaces="false"') # tab indentation
+  # Check all attributes
+  expect_match(html, 'language="python"')
+  expect_match(html, 'theme-light="vs-code-light"')
+  expect_match(html, 'theme-dark="vs-code-dark"')
+  expect_match(html, 'readonly="true"')
+  expect_match(html, 'line-numbers="false"')
+  expect_match(html, 'word-wrap="true"')
+  expect_match(html, 'tab-size="4"')
+  expect_match(html, 'insert-spaces="false"') # tab indentation
 
   # Check style attributes
   expect_match(html, 'height:\\s*500px')
@@ -88,14 +87,14 @@ test_that("input_code_editor uses correct defaults", {
 
   html <- as.character(editor)
 
-  expect_match(html, 'data-language="sql"')
-  expect_match(html, 'data-theme-light="github-light"')
-  expect_match(html, 'data-theme-dark="github-dark"')
-  expect_match(html, 'data-read-only="false"')
-  expect_match(html, 'data-line-numbers="true"')
-  expect_match(html, 'data-word-wrap="false"')
-  expect_match(html, 'data-tab-size="2"')
-  expect_match(html, 'data-insert-spaces="true"')
+  expect_match(html, 'language="sql"')
+  expect_match(html, 'theme-light="github-light"')
+  expect_match(html, 'theme-dark="github-dark"')
+  expect_match(html, 'readonly="false"')
+  expect_match(html, 'line-numbers="true"')
+  expect_match(html, 'word-wrap="false"')
+  expect_match(html, 'tab-size="2"')
+  expect_match(html, 'insert-spaces="true"')
   expect_match(html, 'height:\\s*auto')
   expect_match(html, 'width:\\s*100%')
 })
@@ -117,7 +116,7 @@ test_that("input_code_editor handles empty value", {
   editor <- input_code_editor("empty_editor", value = "")
 
   html <- as.character(editor)
-  expect_match(html, 'data-initial-code=""')
+  expect_match(html, 'value=""')
 })
 
 test_that("input_code_editor indentation parameter works correctly", {
@@ -127,8 +126,8 @@ test_that("input_code_editor indentation parameter works correctly", {
   html_spaces <- as.character(editor_spaces)
   html_tabs <- as.character(editor_tabs)
 
-  expect_match(html_spaces, 'data-insert-spaces="true"')
-  expect_match(html_tabs, 'data-insert-spaces="false"')
+  expect_match(html_spaces, 'insert-spaces="true"')
+  expect_match(html_tabs, 'insert-spaces="false"')
 })
 
 test_that("update_code_editor validates inputs", {
@@ -160,9 +159,8 @@ test_that("input_code_editor supports label parameter", {
   expect_match(html_with, "<label")
   expect_match(html_with, "SQL Query")
 
-  # Editor without label should not have a label element or have an empty one
-  # (shinyInputLabel handles NULL by not creating a label)
-  expect_true(grepl("shiny-input-code-editor", html_without))
+  # Editor without label should still have the custom element tag
+  expect_true(grepl("<bslib-code-editor", html_without))
 })
 
 test_that("input_code_editor creates unique IDs", {
@@ -192,7 +190,6 @@ test_that("input_code_editor attaches dependencies", {
   dep_names <- sapply(deps, function(d) d$name)
   expect_true("prism-code-editor" %in% dep_names)
   expect_true("bslib-code-editor-js" %in% dep_names)
-  expect_true("bslib-code-editor-css" %in% dep_names)
 })
 
 test_that("input_code_editor works with different languages", {
@@ -201,7 +198,7 @@ test_that("input_code_editor works with different languages", {
   for (lang in languages) {
     editor <- input_code_editor(paste0("editor_", lang), language = lang)
     html <- as.character(editor)
-    expect_match(html, sprintf('data-language="%s"', lang))
+    expect_match(html, sprintf('language="%s"', lang))
   }
 })
 

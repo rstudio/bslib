@@ -428,8 +428,8 @@ with_dir("inst/lib", {
 
   # Scope theme CSS files to support multiple editors with different themes.
   # Each theme is wrapped with attribute selectors that match the editor's
-  # data-theme-light/data-theme-dark attributes, combined with the page's
-  # data-bs-theme attribute, using CSS nesting (supported in modern browsers).
+  # theme-light/theme-dark attributes, combined with the page's data-bs-theme
+  # attribute, using CSS nesting (supported in modern browsers).
   theme_files <- Sys.glob(file.path(dest, "themes", "*.css"))
   for (theme_file in theme_files) {
     theme_name <- sub("\\.css$", "", basename(theme_file))
@@ -438,12 +438,12 @@ with_dir("inst/lib", {
     # Wrap with scoped selectors using CSS nesting
     scoped_css <- c(
       sprintf(
-        "[data-bs-theme=\"light\"] [data-theme-light=\"%s\"], [data-bs-theme=\"light\"][data-theme-light=\"%s\"],",
+        "[data-bs-theme=\"light\"] [theme-light=\"%s\"], [data-bs-theme=\"light\"][theme-light=\"%s\"],",
         theme_name,
         theme_name
       ),
       sprintf(
-        "[data-bs-theme=\"dark\"] [data-theme-dark=\"%s\"], [data-bs-theme=\"dark\"][data-theme-dark=\"%s\"] {",
+        "[data-bs-theme=\"dark\"] [theme-dark=\"%s\"], [data-bs-theme=\"dark\"][theme-dark=\"%s\"] {",
         theme_name,
         theme_name
       ),

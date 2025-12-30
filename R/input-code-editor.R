@@ -139,29 +139,34 @@ input_code_editor <- function(
 
   label_tag <- shiny_input_label(id, label)
 
-  tag <- htmltools::tags$div(
-    id = id,
-    class = "shiny-input-code-editor",
-    style = htmltools::css(
-      height = height,
-      width = width
-    ),
-    !!!dots$attribs,
-    if (fill) bslib::as_fill_item(),
-    bslib::as_fillable_container(),
-    `data-language` = language,
-    `data-initial-code` = value,
-    `data-theme-light` = theme_light,
-    `data-theme-dark` = theme_dark,
-    `data-read-only` = tolower(as.character(read_only)),
-    `data-line-numbers` = tolower(as.character(line_numbers)),
-    `data-word-wrap` = tolower(as.character(word_wrap)),
-    `data-tab-size` = as.character(tab_size),
-    `data-insert-spaces` = tolower(as.character(insert_spaces)),
-    label_tag,
-    editor_inner,
-    code_editor_dependencies()
+  tag <- htmltools::tag(
+    "bslib-code-editor",
+    list(
+      id = id,
+      style = htmltools::css(
+        height = height,
+        width = width
+      ),
+      !!!dots$attribs,
+      language = language,
+      value = value,
+      `theme-light` = theme_light,
+      `theme-dark` = theme_dark,
+      readonly = tolower(as.character(read_only)),
+      `line-numbers` = tolower(as.character(line_numbers)),
+      `word-wrap` = tolower(as.character(word_wrap)),
+      `tab-size` = as.character(tab_size),
+      `insert-spaces` = tolower(as.character(insert_spaces)),
+      label_tag,
+      editor_inner,
+      code_editor_dependencies()
+    )
   )
+
+  tag <- as_fillable_container(tag)
+  if (fill) {
+    tag <- as_fill_item(tag)
+  }
 
   tag <- tag_require(tag, version = 5, caller = "input_code_editor()")
   as_fragment(tag, page = page_fillable)
@@ -200,7 +205,7 @@ update_code_editor <- function(
 
   # Build message with only non-NULL values
   message <- dropNulls(list(
-    code = if (!is.null(value)) {
+    value = if (!is.null(value)) {
       check_value_line_count(value)
       value
     },
@@ -241,7 +246,7 @@ code_editor_dependencies <- function() {
   list(
     code_editor_dependency_prism(),
     code_editor_dependency_js(),
-    code_editor_dependency_css()
+    component_dependencies()
   )
 }
 
@@ -270,16 +275,6 @@ code_editor_dependency_js <- function() {
         type = "module"
       )
     )
-  )
-}
-
-code_editor_dependency_css <- function() {
-  htmltools::htmlDependency(
-    name = "bslib-code-editor-css",
-    version = get_package_version("bslib"),
-    package = "bslib",
-    src = "components/dist",
-    stylesheet = "code-editor.css"
   )
 }
 
