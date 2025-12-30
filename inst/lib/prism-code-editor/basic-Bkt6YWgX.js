@@ -16,6 +16,7 @@ import "./languages/arturo.js";
 import "./languages/asciidoc.js";
 import "./languages/asm.js";
 import "./languages/aspnet.js";
+import "./languages/astro.js";
 import "./languages/autohotkey.js";
 import "./languages/autoit.js";
 import "./languages/avisynth.js";
@@ -198,6 +199,7 @@ import "./languages/stan.js";
 import "./languages/stata.js";
 import "./languages/stylus.js";
 import "./languages/supercollider.js";
+import "./languages/svelte.js";
 import "./languages/swift.js";
 import "./languages/systemd.js";
 import "./languages/tcl.js";
@@ -218,6 +220,7 @@ import "./languages/verilog.js";
 import "./languages/vhdl.js";
 import "./languages/vim.js";
 import "./languages/visual-basic.js";
+import "./languages/vue.js";
 import "./languages/warpscript.js";
 import "./languages/wasm.js";
 import "./languages/web-idl.js";
@@ -232,29 +235,36 @@ import "./languages/xquery.js";
 import "./languages/yaml.js";
 import "./languages/yang.js";
 import "./languages/zig.js";
-import { indentGuides } from "./extensions/guides.js";
 import { matchBrackets } from "./extensions/matchBrackets/index.js";
-import { copyButton } from "./extensions/copyButton/index.js";
-import { matchTags } from "./extensions/matchTags.js";
-import { readOnlyCodeFolding, blockCommentFolding, markdownFolding } from "./extensions/folding/index.js";
 import { highlightBracketPairs } from "./extensions/matchBrackets/highlight.js";
-import { h as highlightSelectionMatches } from "./selection-DKyfPTY3.js";
-const style1 = '.pce-copy{all:unset;cursor:pointer;position:sticky;right:.5em;top:.5em;left:.5em;box-shadow:inset 0 0 0 1px var(--widget__border);margin:-9in 0 0;padding:.6em;background:var(--widget__bg);z-index:3;color:var(--widget__color-options);pointer-events:auto;display:grid!important;align-items:center;font:400 1em/1.5 Arial,Helvetica,sans-serif}.pce-copy,.pce-copy:after,.pce-copy:before{opacity:0;border-radius:.4em;transition:opacity .1s ease-out}.pce-copy:after{content:attr(aria-label);position:absolute;right:calc(100% + .5em);background:#000000b3;color:#fff;text-align:center;width:8ch;font-size:80%;padding:.3em 0;pointer-events:none}.pce-copy:before{content:"";position:absolute;top:0;bottom:0;left:0;right:0;background:#9992;box-shadow:inset 0 0 0 1px #999}.prism-code-editor:hover .pce-copy,.pce-copy:hover:before,.pce-copy:hover:after{opacity:1}.pce-copy:focus-visible:before,.pce-copy:focus-visible,.pce-copy:focus-visible:after{opacity:1}';
-const style2 = `.pce-fold{position:absolute;display:inline-grid;margin:0 0 0 calc(2px - var(--_ns));width:calc(var(--_ns) - 2px);place-items:center;z-index:2}.pce-fold,.pce-unfold span{pointer-events:auto;cursor:pointer}.pce-fold>*{width:.7em}.pce-fold>:after{content:"";display:block;position:absolute;top:50%;transform:translateY(-50%);height:.7em;width:.7em;background:var(--editor__bg-fold, #777);clip-path:polygon(6.36% 21.82%,0% 28.18%,50% 78.18%,100% 28.18%,93.64% 21.82%,50% 65.45%)}.closed-fold>:after{transform:translateY(-50%) rotate(-90deg)}.pce-nowrap .pce-fold{position:sticky;left:calc(2px + var(--padding-left) - var(--_ns))}.pce-unfold{position:absolute;padding:inherit;top:0;color:#0000;z-index:1}.pce-unfold span{box-shadow:inset 0 0 0 1px var(--widget__border);border-radius:.3em;background:repeat-x var(--widget__bg) calc(1.5ch - 1.3px) .5em/.85ch url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"><circle fill="%23999" r="1.3" cx="1.3" cy="1.3"/></svg>')}`;
-const addExtensions = (editor) => {
-  editor.addExtensions(
-    matchBrackets(),
-    highlightBracketPairs(),
-    highlightSelectionMatches(),
-    matchTags(),
-    indentGuides(),
-    copyButton(),
-    readOnlyCodeFolding(markdownFolding, blockCommentFolding)
-  );
-};
-const style = style1 + style2;
+import { indentGuides } from "./extensions/guides.js";
+import { cursorPosition } from "./extensions/cursor.js";
+import { defaultCommands, editHistory } from "./extensions/commands.js";
+import { searchWidget, showInvisibles } from "./extensions/search/index.js";
+import { h as highlightSelectionMatches } from "./selection-CYI5EdcY.js";
+import { matchTags } from "./extensions/matchTags.js";
+const searchStyle = '.prism-search{display:grid;border:1px solid var(--widget__border);grid:auto / 1em auto;gap:.3em;padding:.3em;border-radius:.3em;margin:-99in 0 0;line-height:1.5;color:var(--widget__color);background:var(--widget__bg);position:sticky;top:.5em;right:.5em;left:.5em;z-index:4;pointer-events:auto}.prism-search-container *{box-sizing:border-box}.prism-search button{all:unset;cursor:pointer}.pce-readonly .prism-search{grid:auto / auto}.prism-search>div>div{display:flex}.prism-search input{padding:0 0 0 .3em;width:calc(var(--search-width, 20em) - 10ch - 4px);font:inherit;border:none;background:#0000;color:var(--widget__color)}.prism-search ::placeholder{color:inherit;opacity:.6}.pce-match-count{margin:1px auto 1px 0}.pce-match-count,.pce-input{font-family:Arial,Helvetica,sans-serif}.pce-options{color:var(--widget__color-options);font-size:80%;gap:.25em}.pce-options button{padding:0 .2em;border-radius:.2em;width:1.2em;text-align:center}.pce-options button span{pointer-events:none}.prism-search button:focus-visible{outline:1px solid var(--widget__focus-ring);z-index:1}.prism-search .pce-input,.pce-options button{box-shadow:0 0 0 1px var(--_border, var(--widget__border));margin:1px}.prism-search .pce-input{display:flex;position:relative;background:var(--widget__bg-input);border-radius:.15em;height:1.5em}.prism-search input:focus{outline:0}.pce-input:focus-within{--_border: var(--widget__focus-ring)}.pce-find button{display:grid;align-items:center;padding:0 .4em}.pce-replace button{width:7.3ch;text-align:center}.pce-replace :last-child{width:2.7ch}.pce-input button{box-shadow:-1px 0 0 0 var(--widget__border);margin-left:1px}.prev-match:before{transform:rotate(-90deg)}.next-match:before,.pce-expand:before{transform:rotate(90deg)}@media (hover: hover){.prism-search button:hover{background:var(--widget__bg-hover)}}.pce-options button[aria-pressed=true]{background:var(--widget__bg-active);color:var(--widget__color-active);--_border: var(--widget__focus-ring)}.pce-input>:nth-child(3){border-radius:0 .15em .15em 0}.pce-input.pce-error{--_border: var(--widget__error-ring)}.search-error{display:none;position:absolute;top:100%;box-shadow:inherit;width:100%;white-space:normal;word-break:break-word;left:0;background:var(--widget__bg-error);padding:.5em;z-index:1}.pce-error:focus-within .search-error{display:block}button.pce-close{display:grid;width:1.3em;height:1.3em;place-items:center;margin-left:auto;border-radius:.3em}.pce-find button:before,.pce-expand:before,.pce-close:before{content:"";background:currentColor;height:1.2em;opacity:.75}.pce-close:before{clip-path:polygon(50% 44.34%,0% 74.34%,9.43% 80%,9.43% 20%,0% 25.66%,50% 55.66%,100% 25.66%,90.57% 20%,50% 44.34%,9.43% 20%,9.43% 80%,50% 55.66%,90.57% 80%,100% 74.34%);width:.72em}.prism-search>div{display:grid;gap:.25em;width:var(--search-width, 20em)}button.pce-expand{display:grid;place-items:center;border-radius:.25em;margin:-.15em}.pce-readonly .pce-expand,[aria-expanded=false]+div .pce-replace,.pce-readonly .pce-replace{display:none}.pce-expand[aria-expanded=true]:before{transform:rotate(180deg)}.pce-find button:before,.pce-expand:before{width:.84em;clip-path:polygon(50% 28.96%,0% 63.96%,10.1% 71.04%,50% 43.11%,89.9% 71.04%,100% 63.96%)}button.pce-regex{display:flex}.pce-regex span{display:flex;align-items:flex-end}.pce-regex span:before{content:"";width:.3em;height:.3em;background:currentColor;margin:0 0 .2em .1em}.pce-regex span:after{content:"*";line-height:0;font-size:140%;margin-bottom:.5em}button.pce-in-selection{display:grid;place-items:center}button.pce-whole{position:relative}.pce-whole:after{content:"";position:absolute;bottom:.31em;right:.27em;left:.27em;height:.25em;clip-path:inset(1px -1px -1px);box-shadow:0 0 0 1px}.pce-in-selection:before{content:"";height:80%;width:90%;background:currentColor;clip-path:polygon(0 16%,80% 16%,80% 24%,0 24%,0 46%,100% 46%,100% 54%,0 54%,0 76%,60% 76%,60% 84%,0 84%)}.pce-matches span{background:var(--search__bg-find)}.pce-matches :empty{padding:0 2px;margin:0 -2px}';
+const invisibles = '.pce-invisibles :before,.token.tab:before,.token.space:before{content:"·";position:absolute;color:var(--pce-invisibles, #e3e4e229)}.pce-tab:before,.token.tab:before{content:"→"}';
+const basic = (history = editHistory()) => [
+  defaultCommands(),
+  indentGuides(),
+  matchBrackets(),
+  highlightBracketPairs(),
+  cursorPosition(),
+  highlightSelectionMatches(),
+  searchWidget(),
+  showInvisibles(),
+  matchTags(),
+  history,
+  {
+    update(editor) {
+      if (editor.value != editor.textarea.value) history.clear();
+    }
+  }
+];
+const style = searchStyle + invisibles;
 export {
-  addExtensions,
+  basic,
   style
 };
-//# sourceMappingURL=readonly-xnjHQnjE.js.map
+//# sourceMappingURL=basic-Bkt6YWgX.js.map

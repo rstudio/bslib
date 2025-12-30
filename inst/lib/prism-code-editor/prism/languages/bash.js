@@ -1,4 +1,4 @@
-import { l as languages } from "../../index-XEj74r-1.js";
+import { l as languages } from "../../index-C1_GGQ8y.js";
 var envVars = "\\b(?:BASH(?:OPTS|_ALIASES|_ARG[CV]|_CMDS|_COMPLETION_COMPAT_DIR|_LINENO|_REMATCH|_SOURCE|_VERSINFO|_VERSION)?|COLORTERM|COLUMNS|COMP_WORDBREAKS|DBUS_SESSION_BUS_ADDRESS|DEFAULTS_PATH|DESKTOP_SESSION|DIRSTACK|DISPLAY|E?UID|GDMSESSION|GDM_LANG|GNOME_KEYRING_CONTROL|GNOME_KEYRING_PID|GPG_AGENT_INFO|GROUPS|HISTCONTROL|HISTFILE|HISTFILESIZE|HISTSIZE|HOME|HOSTNAME|HOSTTYPE|IFS|INSTANCE|JOB|LANG|LANGUAGE|LC_(?:ADDRESS|ALL|IDENTIFICATION|MEASUREMENT|MONETARY|NAME|NUMERIC|PAPER|TELEPHONE|TIME)|LESSCLOSE|LESSOPEN|LINES|LOGNAME|LS_COLORS|MACHTYPE|MAILCHECK|MANDATORY_PATH|NO_AT_BRIDGE|OLDPWD|OPTERR|OPTIND|ORBIT_SOCKETDIR|OSTYPE|PAPERSIZE|PATH|PIPESTATUS|PPID|PS[1-4]|PWD|RANDOM|REPLY|SECONDS|SELINUX_INIT|SESSION|SESSIONTYPE|SESSION_MANAGER|SHELL|SHELLOPTS|SHLVL|SSH_AUTH_SOCK|TERM|UPSTART_EVENTS|UPSTART_INSTANCE|UPSTART_JOB|UPSTART_SESSION|USER|WINDOWID|XAUTHORITY|XDG_(?:CONFIG_DIRS|CURRENT_DESKTOP|DATA_DIRS|GREETER_DATA_DIR|MENU_PREFIX|RUNTIME_DIR|SEAT|SEAT_PATH|SESSION_DESKTOP|SESSION_ID|SESSION_PATH|SESSION_TYPE|VTNR)|XMODIFIERS)\\b";
 var commandAfterHeredoc = {
   pattern: /(^(["']?)\w+\2)[ 	]+\S.*/,
@@ -67,7 +67,7 @@ var bash = commandAfterHeredoc.inside = languages.sh = languages.shell = languag
     alias: "important"
   },
   "comment": {
-    pattern: /(^|[^"{\\$])#.*/,
+    pattern: /(^|[^\\"{$])#.*/,
     lookbehind: true
   },
   "function-name": [
@@ -141,7 +141,7 @@ var bash = commandAfterHeredoc.inside = languages.sh = languages.shell = languag
     },
     {
       // https://www.gnu.org/software/bash/manual/html_node/Single-Quotes.html
-      pattern: /(^|[^$\\])'[^']*'/g,
+      pattern: /(^|[^\\$])'[^']*'/g,
       lookbehind: true,
       greedy: true
     },

@@ -1,4 +1,4 @@
-import { r as rest, l as languages } from "../../index-XEj74r-1.js";
+import { r as rest, l as languages } from "../../index-C1_GGQ8y.js";
 var string = /(?:"(?:\\[^]|[^\\\n"])*"|'(?:\\[^]|[^\\\n'])*')/g;
 var stringSrc = string.source;
 var atruleInside = {
@@ -17,7 +17,7 @@ var atruleInside = {
 atruleInside[rest] = languages.css = {
   "comment": /\/\*[^]*?\*\//,
   "atrule": {
-    pattern: RegExp(`@[\\w-](?:[^;{\\s"']|\\s+(?!\\s)|${stringSrc})*?(?:;|(?=\\s*\\{))`),
+    pattern: RegExp(`@[\\w-](?:[^\\s;{"']|\\s+(?!\\s)|${stringSrc})*?(?:;|(?=\\s*\\{))`),
     inside: atruleInside
   },
   "url": {
@@ -35,7 +35,7 @@ atruleInside[rest] = languages.css = {
     }
   },
   "selector": {
-    pattern: RegExp(`(^|[{}\\s])[^{}\\s](?:[^{};"'\\s]|\\s+(?![\\s{])|${stringSrc})*(?=\\s*\\{)`),
+    pattern: RegExp(`(^|[{}\\s])[^\\s{}](?:[^\\s{};"']|\\s+(?![\\s{])|${stringSrc})*(?=\\s*\\{)`),
     lookbehind: true
   },
   "string": {

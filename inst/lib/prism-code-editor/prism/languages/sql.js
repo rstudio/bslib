@@ -1,4 +1,4 @@
-import { l as languages } from "../../index-XEj74r-1.js";
+import { l as languages } from "../../index-C1_GGQ8y.js";
 languages.sql = {
   "comment": /\/\*[^]*?\*\/|(?:--|\/\/|#).*/,
   "variable": [
@@ -9,12 +9,12 @@ languages.sql = {
     /@[\w.$]+/
   ],
   "string": {
-    pattern: /(^|[^@\\])(["'])(?:\\[^]|(?!\2)[^\\]|\2\2)*\2/g,
+    pattern: /(^|[^\\@])(["'])(?:\\[^]|(?!\2)[^\\]|\2\2)*\2/g,
     lookbehind: true,
     greedy: true
   },
   "identifier": {
-    pattern: /(^|[^@\\])`(?:\\[^]|[^\\`]|``)*`/g,
+    pattern: /(^|[^\\@])`(?:\\[^]|[^\\`]|``)*`/g,
     lookbehind: true,
     greedy: true,
     inside: {

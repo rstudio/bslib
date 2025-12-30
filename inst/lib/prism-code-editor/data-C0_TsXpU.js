@@ -9,7 +9,7 @@ const attrValueFm = ["get", "post"];
 const attrValueS = ["row", "col", "rowgroup", "colgroup"];
 const attrValueT = ["hidden", "text", "search", "tel", "url", "email", "password", "datetime", "date", "month", "week", "time", "datetime-local", "number", "range", "color", "checkbox", "radio", "file", "submit", "image", "reset", "button"];
 const attrValueIm = ["none", "text", "decimal", "numeric", "tel", "search", "email", "url"];
-const attrValueBt = ["button", "submit", "reset", "menu"];
+const attrValueBt = ["button", "submit", "reset"];
 const attrValueLt = ["1", "a", "A", "i", "I"];
 const attrValueEt = ["application/x-www-form-urlencoded", "multipart/form-data", "text/plain"];
 const attrValueTk = ["subtitles", "captions", "descriptions", "chapters", "metadata"];
@@ -33,7 +33,9 @@ const attrValueHaspopup = ["true", "false", "menu", "listbox", "tree", "grid", "
 const attrValueDecoding = ["sync", "async", "auto"];
 const attrValueLoading = ["eager", "lazy"];
 const attrValueReferrerpolicy = ["no-referrer", "no-referrer-when-downgrade", "origin", "origin-when-cross-origin", "same-origin", "strict-origin", "strict-origin-when-cross-origin", "unsafe-url"];
-const attrValueEkh = ["enter", "done", "go", "next", "previous", "search", "send"];
+const attrValueEnterkeyhint = ["enter", "done", "go", "next", "previous", "search", "send"];
+const attrValuePopover = ["auto", "hint", "manual"];
+const attrValueFetchpriority = ["high", "low", "auto"];
 const attrValueCe = ["true", "false", "plaintext-only"];
 const htmlEventHandlers = {
   onabort: null,
@@ -160,13 +162,15 @@ const globalHtmlAttributes = {
   ...htmlEventHandlers,
   accesskey: null,
   autocapitalize: null,
+  autocorrect: attrValueO,
+  autofocus: null,
   class: null,
   contenteditable: attrValueCe,
   contextmenu: null,
   dir: attrValueD,
   draggable: attrValueB,
   dropzone: null,
-  enterkeyhint: attrValueEkh,
+  enterkeyhint: attrValueEnterkeyhint,
   exportparts: null,
   hidden: null,
   id: null,
@@ -179,14 +183,17 @@ const globalHtmlAttributes = {
   itemscope: null,
   itemtype: null,
   lang: null,
+  nonce: null,
   part: null,
+  popover: attrValuePopover,
   role: attrValueRoles,
   slot: null,
   spellcheck: attrValueB,
   style: null,
   tabindex: null,
   title: null,
-  translate: attrValueY
+  translate: attrValueY,
+  virtualkeyboardpolicy: attrValueB
 };
 const empty = {};
 const htmlTags = {
@@ -225,7 +232,6 @@ const htmlTags = {
   },
   style: {
     media: null,
-    nonce: null,
     type: null,
     scoped: null
   },
@@ -371,6 +377,7 @@ const htmlTags = {
     height: null,
     decoding: attrValueDecoding,
     loading: attrValueLoading,
+    fetchpriority: attrValueFetchpriority,
     referrerpolicy: attrValueReferrerpolicy,
     sizes: null,
     importance: null,
@@ -538,7 +545,6 @@ const htmlTags = {
     accept: null,
     alt: null,
     autocomplete: attrValueInputautocomplete,
-    autofocus: null,
     checked: null,
     dirname: null,
     disabled: null,
@@ -558,6 +564,8 @@ const htmlTags = {
     name: null,
     pattern: null,
     placeholder: null,
+    popovertarget: null,
+    popovertargetaction: null,
     readonly: null,
     required: null,
     size: null,
@@ -568,7 +576,6 @@ const htmlTags = {
     width: null
   },
   button: {
-    autofocus: null,
     disabled: null,
     form: null,
     formaction: null,
@@ -577,13 +584,14 @@ const htmlTags = {
     formnovalidate: null,
     formtarget: null,
     name: null,
+    popovertarget: null,
+    popovertargetaction: null,
     type: attrValueBt,
     value: null,
     autocomplete: null
   },
   select: {
     autocomplete: attrValueInputautocomplete,
-    autofocus: null,
     disabled: null,
     form: null,
     multiple: null,
@@ -604,7 +612,6 @@ const htmlTags = {
   },
   textarea: {
     autocomplete: attrValueInputautocomplete,
-    autofocus: null,
     cols: null,
     dirname: null,
     disabled: null,
@@ -656,7 +663,6 @@ const htmlTags = {
     async: null,
     defer: null,
     crossorigin: attrValueXo,
-    nonce: null,
     integrity: null,
     nomodule: null,
     referrerpolicy: null,
@@ -676,29 +682,36 @@ const htmlTags = {
     value: null
   },
   hgroup: empty,
-  menu: empty
+  menu: empty,
+  search: empty,
+  fencedframe: {
+    allow: null,
+    height: null,
+    width: null
+  },
+  selectedcontent: empty
 };
 export {
   attrValuePl as A,
   attrValueSb as B,
   attrValueLoading as C,
   attrValueLt as D,
-  attrValueXo as a,
-  attrValueDecoding as b,
-  attrValueB as c,
-  attrValueTarget as d,
-  attrValueReferrerpolicy as e,
-  htmlEventHandlers as f,
+  htmlEventHandlers as a,
+  attrValueXo as b,
+  attrValueDecoding as c,
+  attrValueB as d,
+  attrValueTarget as e,
+  attrValueReferrerpolicy as f,
   globalHtmlAttributes as g,
   htmlTags as h,
-  attrValueIm as i,
-  attrValueO as j,
-  attrValueRoles as k,
-  attrValueY as l,
-  attrValueEkh as m,
-  attrValueD as n,
-  attrValueCe as o,
-  ariaAttributes as p,
+  ariaAttributes as i,
+  attrValueIm as j,
+  attrValueO as k,
+  attrValueRoles as l,
+  attrValueY as m,
+  attrValueEnterkeyhint as n,
+  attrValueD as o,
+  attrValueCe as p,
   attrValueW as q,
   attrValueInputautocomplete as r,
   attrValueBt as s,
@@ -710,4 +723,4 @@ export {
   attrValueSh as y,
   attrValueTk as z
 };
-//# sourceMappingURL=data-CfWnlfiW.js.map
+//# sourceMappingURL=data-C0_TsXpU.js.map

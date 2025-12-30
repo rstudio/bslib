@@ -1,4 +1,4 @@
-import { l as languages } from "../../index-XEj74r-1.js";
+import { l as languages } from "../../index-C1_GGQ8y.js";
 var diff = languages.diff = {
   // Match all kinds of coord lines (prefixed by "+++", "---" or "***").
   // Match "@@ ... @@" coord lines in unified diff.

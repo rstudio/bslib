@@ -1,5 +1,5 @@
-import { l as languages } from "../../index-XEj74r-1.js";
-import { e as extend, i as insertBefore } from "../../language-DxUX0ITY.js";
+import { l as languages } from "../../index-C1_GGQ8y.js";
+import { e as extend, i as insertBefore } from "../../language-gdIi4UL0.js";
 import { b as boolean } from "../../patterns-Cp3h1ylA.js";
 import { r as re } from "../../shared-Sq5P6lf6.js";
 import "./c.js";
@@ -47,7 +47,7 @@ insertBefore(cpp, "string", {
     }
   },
   "raw-string": {
-    pattern: /R"([^()\\ ]{0,16})\([^]*?\)\1"/g,
+    pattern: /R"([^\\() ]{0,16})\([^]*?\)\1"/g,
     greedy: true,
     alias: "string"
   }

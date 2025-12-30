@@ -1,4 +1,4 @@
-import { l as languageMap } from "../index-MBlAXvVu.js";
-import { b as bracketIndenting } from "../index-Fp08-m-Z.js";
+import { l as languageMap } from "../index-CKRNGLIi.js";
+import { b as bracketIndenting } from "../index-BZh6eCR8.js";
 languageMap.rust = bracketIndenting();
 //# sourceMappingURL=rust.js.map

@@ -1,5 +1,5 @@
-import { l as languages } from "../../index-XEj74r-1.js";
-import { c as clone, i as insertBefore } from "../../language-DxUX0ITY.js";
+import { l as languages } from "../../index-C1_GGQ8y.js";
+import { c as clone, i as insertBefore } from "../../language-gdIi4UL0.js";
 import "./xml.js";
 var addLang = (grammar, lang) => {
   grammar["language-" + lang] = {
@@ -21,10 +21,11 @@ var addInlined = (tagName, lang) => ({
     }
   }, lang)
 });
-var addAttribute = (attrName, lang) => ({
-  pattern: RegExp(`((?:^|["'\\s])(?:${attrName})\\s*=\\s*)(?:"[^"]*"|'[^']*'|[^\\s"'=>]+)`, "gi"),
+var addAttribute = (attrName, lang, alias = attrName) => ({
+  pattern: RegExp(`([\\s"']${attrName}\\s*=\\s*)(?:"[^"]*"|'[^']*'|[^\\s>]+)`, "gi"),
   lookbehind: true,
   greedy: true,
+  alias,
   inside: addLang({
     "punctuation": /^["']|["']$/
   }, lang)
@@ -32,7 +33,7 @@ var addAttribute = (attrName, lang) => ({
 var markup = languages.svg = languages.mathml = languages.html = languages.markup = clone(languages.xml);
 markup.tag.inside["attr-value"].unshift(
   addAttribute("style", "css"),
-  addAttribute("on[a-z]+", "javascript")
+  addAttribute("on[a-z]+", "javascript", "script")
 );
 insertBefore(markup, "cdata", {
   "style": addInlined("style", "css"),

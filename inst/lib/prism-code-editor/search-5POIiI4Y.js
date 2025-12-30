@@ -1,9 +1,9 @@
-import { regexEscape } from "./utils/index.js";
-import { a as createTemplate } from "./index-MBlAXvVu.js";
-const searchTemplate = createTemplate(
+import { r as regexEscape, u as updateNode, a as addOverlay } from "./index-DYIRSLx1.js";
+import { b as createTemplate } from "./index-CKRNGLIi.js";
+const searchTemplate = /* @__PURE__ */ createTemplate(
   '<div style="color:#0000;contain:strict;padding:0 var(--_pse) 0 var(--padding-left)" aria-hidden=true> '
 );
-const matchTemplate = createTemplate("<span> ");
+const matchTemplate = /* @__PURE__ */ createTemplate("<span> ");
 const testBoundary = (str, position, pattern = /[_\p{N}\p{L}]{2}/u) => {
   if (!position) return false;
   return pattern.test(
@@ -16,7 +16,6 @@ const testBoundary = (str, position, pattern = /[_\p{N}\p{L}]{2}/u) => {
 const createSearchAPI = (editor) => {
   const container = searchTemplate();
   const nodes = [container.firstChild];
-  const nodeValues = [" "];
   const matchPositions = [];
   const stopSearch = () => {
     if (matchPositions[0]) {
@@ -25,7 +24,7 @@ const createSearchAPI = (editor) => {
     }
   };
   let regex;
-  let nodeCount = 1;
+  let lastNode = 0;
   return {
     search(str, caseSensitive, wholeWord, useRegExp, selection, filter, pattern) {
       if (!str) return stopSearch();
@@ -58,19 +57,17 @@ const createSearchAPI = (editor) => {
           nodes[i++] = matchTemplate();
           nodes[i++] = new Text();
         }
-        for (i = nodeCount - 1; i > l; ) nodes[i--].remove();
-        if (nodeCount <= l) container.append(...nodes.slice(nodeCount, l + 1));
+        for (i = l; i < lastNode; ) nodes[++i].remove();
+        if (lastNode < l) container.append(...nodes.slice(lastNode + 1, l + 1));
         let prevEnd = 0;
-        for (i = 0; i < l; ++i) {
+        for (i = 0; i < l; ) {
           const [start, end] = matchPositions[i / 2];
-          const before = value.slice(prevEnd, start);
-          const match2 = value.slice(start, prevEnd = end);
-          if (before != nodeValues[i]) nodes[i].data = nodeValues[i] = before;
-          if (match2 != nodeValues[++i]) nodes[i].firstChild.data = nodeValues[i] = match2;
+          updateNode(nodes[i++], value.slice(prevEnd, start));
+          updateNode(nodes[i++].firstChild, value.slice(start, prevEnd = end));
         }
-        nodes[l].data = nodeValues[l] = value.slice(prevEnd);
-        if (!container.parentNode) editor.overlays.append(container);
-        nodeCount = l + 1;
+        updateNode(nodes[l], value.slice(prevEnd));
+        if (!container.parentNode) addOverlay(editor, container);
+        lastNode = l;
       } else stopSearch();
     },
     container,
@@ -86,4 +83,4 @@ export {
   matchTemplate as m,
   searchTemplate as s
 };
-//# sourceMappingURL=search-D6Y7tPkL.js.map
+//# sourceMappingURL=search-5POIiI4Y.js.map

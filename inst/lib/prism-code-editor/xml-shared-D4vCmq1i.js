@@ -5,6 +5,10 @@ var entity = [
   },
   /&#x?[a-f\d]{1,8};/i
 ];
+var xmlComment = {
+  pattern: /<!--(?:(?!<!--)[^])*?-->/g,
+  greedy: true
+};
 var tag = {
   pattern: /<\/?(?!\d)[^\s/=>$<%]+(?:\s(?:\s*[^\s/=>]+(?:\s*=\s*(?!\s)(?:"[^"]*"|'[^']*'|[^\s"'=>]+(?=[\s>]))?|(?=[\s/>])))+)?\s*\/?>/g,
   greedy: true,
@@ -17,7 +21,7 @@ var tag = {
       }
     },
     "attr-value": [{
-      pattern: /(=\s*)(?:"[^"]*"|'[^']*'|[^\s"'=>]+)/g,
+      pattern: /(=\s*)(?:"[^"]*"|'[^']*'|[^\s>]+)/g,
       lookbehind: true,
       greedy: true,
       inside: {
@@ -36,6 +40,7 @@ var tag = {
 };
 export {
   entity as e,
-  tag as t
+  tag as t,
+  xmlComment as x
 };
-//# sourceMappingURL=xml-shared-Cw3KspmP.js.map
+//# sourceMappingURL=xml-shared-D4vCmq1i.js.map

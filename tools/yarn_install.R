@@ -394,8 +394,10 @@ with_dir("inst/lib", {
 
   # Copy languages (only bundled)
   bundled_lang_files <- paste0(code_editor_bundled_languages, ".js")
+  bundled_languages <- file.path(src, "languages", bundled_lang_files)
+  bundled_languages <- bundled_languages[file.exists(bundled_languages)]
   file.copy(
-    file.path(src, "languages", bundled_lang_files),
+    bundled_languages,
     file.path(dest, "languages")
   )
 

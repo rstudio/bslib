@@ -1,4 +1,4 @@
-import { l as languages } from "../../index-XEj74r-1.js";
+import { l as languages } from "../../index-C1_GGQ8y.js";
 import { a as replace, r as re } from "../../shared-Sq5P6lf6.js";
 var anchorOrAlias = /[*&][^\s[\]{},]+/;
 var tag = /!(?:<[\w%#;/?:@&=$,.!~*'()[\]+-]+>|(?:[a-zA-Z\d-]*!)?[\w%#;/?:@&=$.~*'()+-]+)?/;

@@ -1,5 +1,5 @@
-import { a as createTemplate } from "./index-MBlAXvVu.js";
-import { g as getStyleValue } from "./local-BXkeW3T1.js";
+import { b as createTemplate } from "./index-CKRNGLIi.js";
+import { a as addOverlay, g as getStyleValue } from "./index-DYIRSLx1.js";
 const template = /* @__PURE__ */ createTemplate(
   "<div class=pce-tooltip style=z-index:5;top:auto;display:flex;overflow-x:clip><div>"
 );
@@ -14,7 +14,7 @@ const addTooltip = (editor, element, fixedWidth = true) => {
       let cursor = editor.extensions.cursor;
       if (cursor) {
         let { left, right, top, bottom, height } = cursor.getPosition();
-        container.parentNode || editor.overlays.append(container);
+        container.parentNode || addOverlay(editor, container);
         spacer.style.width = (editor.options.rtl ? right : left) + "px";
         let placeAbove = !above == top > bottom && (above ? top : bottom) < container.clientHeight ? !above : above;
         style[placeAbove ? "bottom" : "top"] = height + (placeAbove ? bottom : top) + "px";
@@ -32,10 +32,10 @@ const observer = window.ResizeObserver && /* @__PURE__ */ new ResizeObserver(
   })
 );
 const addOverscroll = (editor) => {
-  observer && observer.observe(editor.scrollContainer);
+  observer && observer.observe(editor.container);
 };
 const removeOverscroll = (editor) => {
-  observer && observer.unobserve(editor.scrollContainer);
+  observer && observer.unobserve(editor.container);
   editor.wrapper.style.paddingBottom = "";
 };
 export {

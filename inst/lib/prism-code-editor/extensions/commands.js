@@ -1,18 +1,17 @@
-import { l as languageMap, p as preventDefault, i as isMac, b as addTextareaListener } from "../index-MBlAXvVu.js";
-import { getLanguage, insertText, getModifierCode, getLines, getLineBefore, prevSelection, regexEscape } from "../utils/index.js";
-import { a as getLineStart, g as getStyleValue, b as getLineEnd } from "../local-BXkeW3T1.js";
+import { l as languageMap, p as preventDefault } from "../index-CKRNGLIi.js";
+import { b as getLanguage, i as insertText, c as getModifierCode, d as getLines, e as getLineBefore, f as getLineStart, h as isMac, g as getStyleValue, j as addTextareaListener, s as setSelection, p as prevSelection, r as regexEscape, k as getLineEnd } from "../index-DYIRSLx1.js";
 let ignoreTab = false;
-const clipboard = navigator.clipboard;
 const mod = isMac ? 4 : 2;
 const setIgnoreTab = (newState) => ignoreTab = newState;
 const whitespaceEnd = (str) => str.search(/\S|$/);
 const defaultCommands = (selfClosePairs = ['""', "''", "``", "()", "[]", "{}"], selfCloseRegex = /([^$\w'"`]["'`]|.[[({])[.,:;\])}>\s]|.[[({]`/s) => (editor, options) => {
   let prevCopy;
-  const { keyCommandMap, inputCommandMap, getSelection, scrollContainer } = editor;
+  const { keyCommandMap, inputCommandMap, getSelection, container } = editor;
+  const clipboard = navigator.clipboard;
   const getIndent = ({ insertSpaces = true, tabSize } = options) => [insertSpaces ? " " : "	", insertSpaces ? tabSize || 2 : 1];
   const scroll = () => !options.readOnly && !editor.extensions.cursor?.scrollIntoView();
   const selfClose = ([start, end], [open, close], value, wrapOnly) => (start < end || !wrapOnly && selfCloseRegex.test((value[end - 1] || " ") + open + (value[end] || " "))) && !insertText(editor, open + value.slice(start, end) + close, null, null, start + 1, end + 1);
-  const skipIfEqual = ([start, end], char, value) => start == end && value[end] == char && !editor.setSelection(start + 1);
+  const skipIfEqual = ([start, end], char, value) => start == end && value[end] == char && !setSelection(editor, start + 1);
   const insertLines = (old, newL, start, end, selectionStart, selectionEnd) => {
     let newLines = newL.join("\n");
     if (newLines != old.join("\n")) {
@@ -122,7 +121,7 @@ const defaultCommands = (selfClosePairs = ['""', "''", "``", "()", "[]", "{}"], 
         insertText(editor, str + "\n" + str, start1, end1, start + offset, end + offset);
         return scroll();
       } else if (code == 2 && !isMac) {
-        scrollContainer.scrollBy(0, getStyleValue(scrollContainer, "lineHeight") * (i ? 1 : -1));
+        container.scrollBy(0, getStyleValue(container, "lineHeight") * (i ? 1 : -1));
         return true;
       }
     };
@@ -276,7 +275,7 @@ const editHistory = (historyLimit = 999) => {
     getSelection = editor.getSelection;
     textarea || update(0);
     textarea = editor.textarea;
-    editor.addListener("selectionChange", () => {
+    editor.on("selectionChange", () => {
       allowMerge = isTyping;
       isTyping = false;
     });

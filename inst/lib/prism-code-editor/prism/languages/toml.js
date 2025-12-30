@@ -1,4 +1,4 @@
-import { l as languages } from "../../index-XEj74r-1.js";
+import { l as languages } from "../../index-C1_GGQ8y.js";
 import { b as boolean } from "../../patterns-Cp3h1ylA.js";
 import { r as re } from "../../shared-Sq5P6lf6.js";
 var insertKey = (pattern) => re(pattern, [`(?:[\\w-]+|'[^

@@ -1,4 +1,4 @@
-import { l as languages } from "../../index-XEj74r-1.js";
+import { l as languages } from "../../index-C1_GGQ8y.js";
 languages.ini = {
   /**
    * The component mimics the behavior of the Win32 API parser.

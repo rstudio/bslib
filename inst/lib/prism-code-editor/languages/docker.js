@@ -1,4 +1,4 @@
-import { l as languageMap } from "../index-MBlAXvVu.js";
+import { l as languageMap } from "../index-CKRNGLIi.js";
 languageMap.dockerfile = languageMap.docker = {
   comments: {
     line: "#"

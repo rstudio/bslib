@@ -3,5 +3,5 @@ version_bs5 <- "5.3.1"
 version_bs4 <- "4.6.0"
 version_bs3 <- "3.4.1"
 version_accessibility <- "1.0.6"
-version_prism_code_editor <- "0.0.3"
+version_prism_code_editor <- "4.2.0"
 code_editor_bundled_languages <- c("r", "python", "julia", "sql", "javascript", "typescript", "markup", "css", "scss", "sass", "json", "markdown", "yaml", "xml", "toml", "ini", "bash", "docker", "latex", "cpp", "rust", "diff")

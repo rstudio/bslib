@@ -1,10 +1,7 @@
-import { c, f, d, i, e, l, n } from "./index-MBlAXvVu.js";
+import { c, f, l, n } from "./index-CKRNGLIi.js";
 export {
   c as createEditor,
   f as editorFromPlaceholder,
-  d as isChrome,
-  i as isMac,
-  e as isWebKit,
   l as languageMap,
   n as numLines
 };

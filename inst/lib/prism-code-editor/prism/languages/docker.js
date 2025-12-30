@@ -1,4 +1,4 @@
-import { l as languages } from "../../index-XEj74r-1.js";
+import { l as languages } from "../../index-C1_GGQ8y.js";
 import { a as replace, r as re } from "../../shared-Sq5P6lf6.js";
 var spaceAfterBackSlash = "\\\\\n(?:\\s|\\\\\n|#.*(?!.))*(?![\\s#]|\\\\\n)";
 var space = replace("(?:[ 	]+(?![ 	])<0>?|<0>)", [spaceAfterBackSlash]);
@@ -49,7 +49,7 @@ languages.dockerfile = languages.docker = {
         },
         {
           // https://docs.docker.com/engine/reference/builder/#from
-          pattern: re("(^(?:onbuild<0>)?from<0>(?:<1><0>)*(?!--)[^ 	\\\\]+<0>)as", [space, option], "gi"),
+          pattern: re("(^(?:onbuild<0>)?from<0>(?:<1><0>)*(?!--)[^\\\\ 	]+<0>)as", [space, option], "gi"),
           lookbehind: true,
           greedy: true
         },
@@ -66,7 +66,7 @@ languages.dockerfile = languages.docker = {
       ],
       "comment": commentRule,
       "string": stringRule,
-      "variable": /\$(?:\w+|\{[^{}"'\\]*\})/,
+      "variable": /\$(?:\w+|\{[^\\{}"']*\})/,
       "operator": /\\$/m
     }
   },

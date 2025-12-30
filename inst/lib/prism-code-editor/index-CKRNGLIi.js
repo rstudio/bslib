@@ -1,12 +1,10 @@
-import { l as languages, a as tokenizeText, h as highlightTokens } from "./index-XEj74r-1.js";
+import { t as tokenizeText, l as languages, h as highlightTokens } from "./index-C1_GGQ8y.js";
 const createEditor = (container, options, ...extensions) => {
   let language;
-  let grammar;
   let prevLines = [];
   let activeLine;
   let value = "";
   let activeLineNumber;
-  let removed = false;
   let focused = false;
   let handleSelectionChange = true;
   let tokens = [];
@@ -22,24 +20,26 @@ const createEditor = (container, options, ...extensions) => {
   const listeners = {};
   const setOptions = (options2) => {
     Object.assign(currentOptions, options2);
-    value = options2.value ?? value;
-    language = currentOptions.language;
-    if (!languages[language]) throw Error(`Language '${language}' has no grammar.`);
+    let isNewVal = value != (value = options2.value ?? value);
+    let isNewLang = language != (language = currentOptions.language);
     readOnly = !!currentOptions.readOnly;
     scrollContainer.style.tabSize = currentOptions.tabSize || 2;
     textarea.inputMode = readOnly ? "none" : "";
     textarea.setAttribute("aria-readonly", readOnly);
     updateClassName();
     updateExtensions();
-    if (grammar != (grammar = languages[language]) || value != textarea.value) {
-      focusRelatedTarget();
+    if (isNewVal) {
+      if (!focused) textarea.remove();
       textarea.value = value;
       textarea.selectionEnd = 0;
+      if (!focused) overlays.prepend(textarea);
+    }
+    if (isNewVal || isNewLang) {
       update();
     }
   };
   const update = () => {
-    tokens = tokenizeText(value = textarea.value, grammar);
+    tokens = tokenizeText(value = textarea.value, languages[language] || {});
     dispatchEvent("tokenize", tokens, language, value);
     let newLines = highlightTokens(tokens).split("\n");
     let start = 0;
@@ -59,7 +59,7 @@ const createEditor = (container, options, ...extensions) => {
       for (i = insertStart + 1; i < lineCount; ) lines[++i].setAttribute("data-line", i);
       scrollContainer.style.setProperty(
         "--number-width",
-        Math.ceil(Math.log10(lineCount + 1)) + ".001ch"
+        (0 | Math.log10(lineCount)) + 1 + ".001ch"
       );
     }
     dispatchEvent("update", value);
@@ -80,7 +80,7 @@ const createEditor = (container, options, ...extensions) => {
     });
   };
   const updateClassName = ([start, end] = getInputSelection()) => {
-    scrollContainer.className = `prism-code-editor language-${language}${currentOptions.lineNumbers == false ? "" : " show-line-numbers"} pce-${currentOptions.wordWrap ? "" : "no"}wrap${currentOptions.rtl ? " pce-rtl" : ""} pce-${start < end ? "has" : "no"}-selection${focused ? " pce-focus" : ""}${readOnly ? " pce-readonly" : ""}`;
+    scrollContainer.className = `prism-code-editor language-${language}${currentOptions.lineNumbers == false ? "" : " show-line-numbers"} pce-${currentOptions.wordWrap ? "" : "no"}wrap${currentOptions.rtl ? " pce-rtl" : ""} pce-${start < end ? "has" : "no"}-selection${focused ? " pce-focus" : ""}${readOnly ? " pce-readonly" : ""}${currentOptions.class ? " " + currentOptions.class : ""}`;
   };
   const getInputSelection = () => [
     textarea.selectionStart,
@@ -93,16 +93,6 @@ const createEditor = (container, options, ...extensions) => {
     }
   };
   const inputCommandMap = {};
-  const focusRelatedTarget = () => isWebKit && !focused && addTextareaListener(
-    self,
-    "focus",
-    (e) => {
-      let relatedTarget = e.relatedTarget;
-      if (relatedTarget) relatedTarget.focus();
-      else textarea.blur();
-    },
-    { once: true }
-  );
   const dispatchEvent = (name, ...args) => {
     listeners[name]?.forEach((handler) => handler.apply(self, args));
     currentOptions["on" + name[0].toUpperCase() + name.slice(1)]?.apply(self, args);
@@ -121,14 +111,11 @@ const createEditor = (container, options, ...extensions) => {
     }
   };
   const self = {
-    scrollContainer,
+    container: scrollContainer,
     wrapper,
-    overlays,
+    lines,
     textarea,
     get activeLine() {
-      return activeLine;
-    },
-    get activeLineNumber() {
       return activeLineNumber;
     },
     get value() {
@@ -137,9 +124,6 @@ const createEditor = (container, options, ...extensions) => {
     options: currentOptions,
     get focused() {
       return focused;
-    },
-    get removed() {
-      return removed;
     },
     get tokens() {
       return tokens;
@@ -150,44 +134,36 @@ const createEditor = (container, options, ...extensions) => {
     setOptions,
     update,
     getSelection: getInputSelection,
-    setSelection(start, end = start, direction) {
-      focusRelatedTarget();
-      textarea.setSelectionRange(start, end, direction);
-      dispatchSelection(true);
-    },
     addExtensions(...extensions2) {
       updateExtensions(extensions2);
     },
-    addListener(name, handler) {
-      (listeners[name] || (listeners[name] = /* @__PURE__ */ new Set())).add(handler);
-    },
-    removeListener(name, handler) {
-      listeners[name]?.delete(handler);
+    on: (name, handler) => {
+      (listeners[name] ||= /* @__PURE__ */ new Set()).add(handler);
+      return () => listeners[name].delete(handler);
     },
     remove() {
       scrollContainer.remove();
-      removed = true;
     }
   };
-  addTextareaListener(self, "keydown", (e) => {
+  addListener(textarea, "keydown", (e) => {
     keyCommandMap[e.key]?.(e, getInputSelection(), value) && preventDefault(e);
   });
-  addTextareaListener(self, "beforeinput", (e) => {
+  addListener(textarea, "beforeinput", (e) => {
     if (readOnly || e.inputType == "insertText" && inputCommandMap[e.data]?.(e, getInputSelection(), value))
       preventDefault(e);
   });
-  addTextareaListener(self, "input", update);
-  addTextareaListener(self, "blur", () => {
+  addListener(textarea, "input", update);
+  addListener(textarea, "blur", () => {
     selectionChange = null;
     focused = false;
     updateClassName();
   });
-  addTextareaListener(self, "focus", () => {
+  addListener(textarea, "focus", () => {
     selectionChange = dispatchSelection;
     focused = true;
     updateClassName();
   });
-  addTextareaListener(self, "selectionchange", (e) => {
+  addListener(textarea, "selectionchange", (e) => {
     dispatchSelection();
     preventDefault(e);
   });
@@ -202,21 +178,20 @@ const editorFromPlaceholder = (placeholder, options, ...extensions) => {
     Object.assign({ value: el.textContent }, options),
     ...extensions
   );
-  el.replaceWith(editor.scrollContainer);
+  el.replaceWith(editor.container);
   return editor;
 };
-const templateEl = /* @__PURE__ */ document.createElement("div");
-const createTemplate = (html) => {
-  templateEl.innerHTML = html;
-  const node = templateEl.firstChild;
+const doc = "u" > typeof window ? document : null;
+const templateEl = /* @__PURE__ */ doc?.createElement("div");
+const createTemplate = (html, node) => {
+  if (templateEl) {
+    templateEl.innerHTML = html;
+    node = templateEl.firstChild;
+  }
   return () => node.cloneNode(true);
 };
-const addTextareaListener = (editor, type, listener, options) => editor.textarea.addEventListener(type, listener, options);
-const getElement = (el) => typeof el == "string" ? document.querySelector(el) : el;
-const userAgent = navigator.userAgent;
-const isMac = /Mac|iPhone|iPod|iPad/i.test(navigator.platform);
-const isChrome = /Chrome\//.test(userAgent);
-const isWebKit = !isChrome && /AppleWebKit\//.test(userAgent);
+const addListener = (target, type, listener, options) => target.addEventListener(type, listener, options);
+const getElement = (el) => typeof el == "string" ? doc.querySelector(el) : el;
 const numLines = (str, start = 0, end = Infinity) => {
   let count = 1;
   for (; (start = str.indexOf("\n", start) + 1) && start <= end; count++) ;
@@ -224,25 +199,26 @@ const numLines = (str, start = 0, end = Infinity) => {
 };
 const languageMap = {};
 const editorTemplate = /* @__PURE__ */ createTemplate(
-  "<div><div class=pce-wrapper><div class=pce-overlays><textarea spellcheck=false autocapitalize=off autocomplete=off>"
+  "<div><div class=pce-wrapper><div class=pce-overlays><textarea class=pce-textarea spellcheck=false autocapitalize=off autocomplete=off>"
 );
 const preventDefault = (e) => {
   e.preventDefault();
   e.stopImmediatePropagation();
 };
+const setSelectionChange = (f) => selectionChange = f;
 let selectionChange;
-document.addEventListener("selectionchange", () => selectionChange?.());
+if (doc) addListener(doc, "selectionchange", () => selectionChange?.());
 export {
-  createTemplate as a,
-  addTextareaListener as b,
+  addListener as a,
+  createTemplate as b,
   createEditor as c,
-  isChrome as d,
-  isWebKit as e,
+  doc as d,
+  selectionChange as e,
   editorFromPlaceholder as f,
   getElement as g,
-  isMac as i,
   languageMap as l,
   numLines as n,
-  preventDefault as p
+  preventDefault as p,
+  setSelectionChange as s
 };
-//# sourceMappingURL=index-MBlAXvVu.js.map
+//# sourceMappingURL=index-CKRNGLIi.js.map

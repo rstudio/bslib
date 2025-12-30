@@ -21,6 +21,9 @@ var withoutTokenizer = (text, grammar) => {
   while (array[i++] = startNode[0], startNode = startNode[1]) ;
   return array;
 };
+var escapeHtml = (string, pattern, replacement) => {
+  return string.replace(/&/g, "&amp;").replace(pattern, replacement);
+};
 var closingTag = "</span>";
 var openingTags = "";
 var closingTags = "";
@@ -43,7 +46,7 @@ var stringify = (token) => {
     return opening + contentStr + closingTag;
   }
   if (typeof token != "string") return highlightTokens(token);
-  token = token.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+  token = escapeHtml(token, /</g, "&lt;");
   if (closingTags && token.includes("\n")) {
     return token.replace(/\n/g, closingTags + "\n" + openingTags);
   }
@@ -71,27 +74,25 @@ var matchGrammar = (text, grammar, startNode, startPos, rematch) => {
         }
         pattern.lastIndex = greedy ? pos : 0;
         match = pattern.exec(greedy ? text : str);
-        if (match && lookbehind && match[1]) {
+        if (!match && greedy) {
+          break;
+        }
+        if (!(match && match[0])) {
+          continue;
+        }
+        if (lookbehind && match[1]) {
           lookbehindLength = match[1].length;
           match.index += lookbehindLength;
           match[0] = match[0].slice(lookbehindLength);
         }
         if (greedy) {
-          if (!match) {
-            break;
+          for (var from = match.index, to = from + match[0].length, l; from >= pos + (l = currentNode[0].length); currentNode = currentNode[1], pos += l) ;
+          if (currentNode[0] instanceof Token) {
+            continue;
           }
-          if (match[0]) {
-            for (var from = match.index, to = from + match[0].length, l; from >= pos + (l = currentNode[0].length); currentNode = currentNode[1], pos += l) ;
-            if (currentNode[0] instanceof Token) {
-              continue;
-            }
-            for (var k = currentNode, p = pos; (p += k[0].length) < to; k = k[1], removeCount++) ;
-            str = text.slice(pos, p);
-            match.index -= pos;
-          }
-        }
-        if (!(match && match[0])) {
-          continue;
+          for (var k = currentNode, p = pos; (p += k[0].length) < to; k = k[1], removeCount++) ;
+          str = text.slice(pos, p);
+          match.index -= pos;
         }
         var from = match.index;
         var matchStr = match[0];
@@ -126,13 +127,14 @@ function Token(type, content, matchedStr, alias) {
 }
 export {
   Token as T,
-  tokenizeText as a,
+  tokenize as a,
   resolve as b,
   highlightText as c,
+  escapeHtml as e,
   highlightTokens as h,
   languages as l,
   rest as r,
-  tokenize as t,
+  tokenizeText as t,
   withoutTokenizer as w
 };
-//# sourceMappingURL=index-XEj74r-1.js.map
+//# sourceMappingURL=index-C1_GGQ8y.js.map

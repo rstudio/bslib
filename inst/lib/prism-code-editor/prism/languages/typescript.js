@@ -1,5 +1,5 @@
-import { l as languages } from "../../index-XEj74r-1.js";
-import { e as extend, i as insertBefore } from "../../language-DxUX0ITY.js";
+import { l as languages } from "../../index-C1_GGQ8y.js";
+import { e as extend, i as insertBefore } from "../../language-gdIi4UL0.js";
 import "./javascript.js";
 var className = {
   pattern: /(\b(?:class|extends|implements|instanceof|interface|new|type)\s+)(?!keyof\b)(?!\d)(?:(?!\s)[$\w\xa0-\uffff])+(?:\s*<(?:[^<>]|<(?:[^<>]|<[^<>]*>)*>)*>)?/g,

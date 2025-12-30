@@ -1,4 +1,4 @@
-import { l as languages } from "../../index-XEj74r-1.js";
+import { l as languages } from "../../index-C1_GGQ8y.js";
 import { b as boolean, a as clikeComment } from "../../patterns-Cp3h1ylA.js";
 languages.webmanifest = languages.json = {
   "property": {

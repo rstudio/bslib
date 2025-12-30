@@ -1,4 +1,4 @@
-import { l as languages } from "../../index-XEj74r-1.js";
+import { l as languages } from "../../index-C1_GGQ8y.js";
 var funcPattern = /\\(?:[^a-z()[\]]|[a-z*]+)/i;
 var insideEqu = {
   "equation-command": {

@@ -1,11 +1,11 @@
-import { c as createSearchAPI } from "./search-D6Y7tPkL.js";
+import { c as createSearchAPI } from "./search-5POIiI4Y.js";
 const highlightSelectionMatches = (caseSensitive, minLength = 1, maxLength = 200) => {
   const self = (editor) => {
     const searchAPI = self.api = createSearchAPI(editor);
     const container = searchAPI.container;
     container.style.zIndex = -1;
     container.className = "selection-matches";
-    editor.addListener("selectionChange", ([start, end], value) => {
+    editor.on("selectionChange", ([start, end], value) => {
       value = editor.focused ? value.slice(start, end) : "";
       start += value.search(/\S/);
       value = value.trim();
@@ -29,8 +29,8 @@ const highlightCurrentWord = (filter, includeHyphens) => {
     let container = searchAPI.container;
     container.style.zIndex = -1;
     container.className = "word-matches";
-    editor.addListener("update", () => noHighlight = true);
-    editor.addListener("selectionChange", ([start, end], value) => {
+    editor.on("update", () => noHighlight = true);
+    editor.on("selectionChange", ([start, end], value) => {
       if (start < end || !editor.focused || noHighlight) searchAPI.search("");
       else {
         let group = `[_$\\p{L}\\d${includeHyphens && includeHyphens(start) ? "-" : ""}]`;
@@ -57,4 +57,4 @@ export {
   highlightCurrentWord as a,
   highlightSelectionMatches as h
 };
-//# sourceMappingURL=selection-DKyfPTY3.js.map
+//# sourceMappingURL=selection-CYI5EdcY.js.map

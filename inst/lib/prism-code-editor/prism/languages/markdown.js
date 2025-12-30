@@ -1,5 +1,5 @@
-import { l as languages, t as tokenize, w as withoutTokenizer, a as tokenizeText } from "../../index-XEj74r-1.js";
-import { c as clone, i as insertBefore } from "../../language-DxUX0ITY.js";
+import { l as languages, a as tokenize, w as withoutTokenizer, t as tokenizeText } from "../../index-C1_GGQ8y.js";
+import { c as clone, i as insertBefore } from "../../language-gdIi4UL0.js";
 import { a as replace, r as re } from "../../shared-Sq5P6lf6.js";
 import "./markup.js";
 var inner = ["(?:\\\\.|[^\\\\\n]|\n(?!\n))"];
@@ -140,13 +140,13 @@ insertBefore(markdown, "prolog", {
     // [id]: http://example.com 'Optional title'
     // [id]: http://example.com (Optional title)
     // [id]: <http://example.com> "Optional title"
-    pattern: /!?\[[^\]]+\]:[ 	]+(?:\S+|<(?:\\.|[^>\\])+>)(?:[ 	]+(?:"(?:\\.|[^\\"])*"|'(?:\\.|[^\\'])*'|\((?:\\.|[^)\\])*\)))?/,
+    pattern: /!?\[[^\]]+\]:[ 	]+(?:\S+|<(?:\\.|[^\\>])+>)(?:[ 	]+(?:"(?:\\.|[^\\"])*"|'(?:\\.|[^\\'])*'|\((?:\\.|[^\\)])*\)))?/,
     inside: {
       "variable": {
         pattern: /^(!?\[)[^\]]+/,
         lookbehind: true
       },
-      "string": /(?:"(?:\\.|[^\\"])*"|'(?:\\.|[^\\'])*'|\((?:\\.|[^)\\])*\))$/,
+      "string": /(?:"(?:\\.|[^\\"])*"|'(?:\\.|[^\\'])*'|\((?:\\.|[^\\)])*\))$/,
       "punctuation": /^[[\]!:]|<|>/
     },
     alias: "url"
@@ -203,7 +203,7 @@ insertBefore(markdown, "prolog", {
   "code-snippet": {
     // `code`
     // ``code``
-    pattern: /(^|[^\\`])(?:``[^\n`]+(?:`[^\n`]+)*``(?!`)|`[^\n`]+`(?!`))/g,
+    pattern: /(^|[^\\`])(`+)[^\n`](?:|.*?[^\n`])\2(?!`)/g,
     lookbehind: true,
     greedy: true,
     alias: "code keyword"

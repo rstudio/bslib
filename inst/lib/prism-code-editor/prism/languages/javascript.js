@@ -1,4 +1,4 @@
-import { r as rest, l as languages } from "../../index-XEj74r-1.js";
+import { r as rest, l as languages } from "../../index-C1_GGQ8y.js";
 import { b as boolean, c as clikeString, a as clikeComment } from "../../patterns-Cp3h1ylA.js";
 var js = {};
 languages.js = languages.javascript = Object.assign(js, {
@@ -59,7 +59,7 @@ languages.js = languages.javascript = Object.assign(js, {
   },
   "class-name": [
     {
-      pattern: /(\b(?:class|extends|implements|instanceof|interface|new)\s+)(?!\d)(?:(?!\s)[$\w.\xa0-\uffff])+/,
+      pattern: /(\b(?:class|extends|implements|instanceof|interface|new)\s+)(?!\d)(?:(?!\s)[$\w\xa0-\uffff.])+/,
       lookbehind: true,
       inside: {
         "punctuation": /\./

@@ -1,4 +1,4 @@
-import { r as rest, l as languages } from "../../index-XEj74r-1.js";
+import { r as rest, l as languages } from "../../index-C1_GGQ8y.js";
 import { d as clikePunctuation } from "../../patterns-Cp3h1ylA.js";
 var inside = {
   "format-spec": {

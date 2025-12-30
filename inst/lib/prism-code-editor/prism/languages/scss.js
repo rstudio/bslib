@@ -1,5 +1,5 @@
-import { l as languages, r as rest } from "../../index-XEj74r-1.js";
-import { e as extend, i as insertBefore } from "../../language-DxUX0ITY.js";
+import { l as languages, r as rest } from "../../index-C1_GGQ8y.js";
+import { e as extend, i as insertBefore } from "../../language-gdIi4UL0.js";
 import { a as clikeComment, b as boolean } from "../../patterns-Cp3h1ylA.js";
 import "./css.js";
 var scss = languages.scss = extend("css", {

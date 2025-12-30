@@ -1,4 +1,4 @@
-import { w as withoutTokenizer, a as tokenizeText, b as resolve } from "./index-XEj74r-1.js";
+import { w as withoutTokenizer, t as tokenizeText, b as resolve } from "./index-C1_GGQ8y.js";
 var embeddedIn = (hostGrammar) => (code, templateGrammar) => {
   var host = resolve(hostGrammar);
   var hostCode = "";
@@ -57,4 +57,4 @@ var embeddedIn = (hostGrammar) => (code, templateGrammar) => {
 export {
   embeddedIn as e
 };
-//# sourceMappingURL=templating-CGPRy7qI.js.map
+//# sourceMappingURL=templating-DcpUBghR.js.map

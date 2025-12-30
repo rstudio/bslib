@@ -1,4 +1,4 @@
-import { r as rest, t as tokenize, l as languages } from "./index-XEj74r-1.js";
+import { r as rest, a as tokenize, l as languages } from "./index-C1_GGQ8y.js";
 var _clone = (o, visited) => {
   if (visited.has(o)) return visited.get(o);
   var copy = o, t = toString.call(o).slice(8, -1);
@@ -38,4 +38,4 @@ export {
   extend as e,
   insertBefore as i
 };
-//# sourceMappingURL=language-DxUX0ITY.js.map
+//# sourceMappingURL=language-gdIi4UL0.js.map

@@ -1,6 +1,16 @@
-import { l as languageMap } from "./index-MBlAXvVu.js";
-import { getClosestToken, getLineBefore } from "./utils/index.js";
-const clikeIndent = /[([{][^)\]}]*$|^[^.]*\b(?:case .+?|default):\s*$/, isBracketPair = /\[]|\(\)|{}/, xmlOpeningTag = /<(?![?!\d#@])([^\s/=>$<%]+)(?:\s(?:\s*[^\s/"'=>]+(?:\s*=\s*(?!\s)(?:"[^"]*"|'[^']*'|[^\s"'=>]+(?=[\s>]))?|(?=[\s/>])))+)?\s*>[ 	]*$/, xmlClosingTag = /^<\/(?!\d)[^\s/=>$<%]+\s*>/, openBracket = /[([{][^)\]}]*$/;
+import { l as languageMap } from "./index-CKRNGLIi.js";
+import { b as braces } from "./jsx-shared-Dd7t2otl.js";
+import { r as re } from "./shared-Sq5P6lf6.js";
+import { n as getClosestToken, e as getLineBefore, o as voidTags } from "./index-DYIRSLx1.js";
+const clikeIndent = /[([{][^)\]}]*$|^[^.]*\b(?:case .+?|default):\s*$/;
+const isBracketPair = /\[]|\(\)|{}/;
+const xmlOpeningTag = /<(?![\d?!#@])([^\s/=>$<%]+)(?:\s(?:\s*[^\s/"'=>]+(?:\s*=\s*(?!\s)(?:"[^"]*"|'[^']*'|[^\s"'=>]+(?=[\s>]))?|(?=[\s/>])))+)?\s*>[ 	]*$/;
+const xmlClosingTag = /^<\/(?!\d)[^\s/=>$<%]+\s*>/;
+const openBracket = /[([{][^)\]}]*$/;
+const astroOpeningTag = /* @__PURE__ */ re(
+  `<(?:(?![\\d!])([^\\s%=<>/]+)(?:\\s(?:\\s*(?:[^\\s{=<>/]+(?:\\s*=\\s*(?!\\s)(?:"[^"]*"|'[^']*'|[^\\s{=<>/"']+(?=[\\s/>])|<0>)?|(?=[\\s/>]))|<0>))*)?\\s*)?>[ 	]*$`,
+  [braces]
+);
 const testBracketPair = ([start, end], value) => {
   return isBracketPair.test(value[start - 1] + value[end]);
 };
@@ -8,7 +18,6 @@ const clikeComment = {
   line: "//",
   block: ["/*", "*/"]
 };
-const voidTags = /^(?:area|base|w?br|col|embed|hr|img|input|link|meta|source|track)$/i;
 const isOpen = (match, voidTags2) => !!match && !voidTags2?.test(match[1]);
 const htmlAutoIndent = (tagPattern, voidTags2) => [
   ([start], value) => isOpen(value.slice(0, start).match(tagPattern), voidTags2) || openBracket.test(getLineBefore(value, start)),
@@ -51,7 +60,7 @@ const bracketIndenting = (comments = clikeComment, indentPattern = openBracket) 
 });
 const markupTemplateLang = (name, comments) => languageMap[name] = {
   comments,
-  autoIndent: htmlAutoIndent(xmlClosingTag, voidTags),
+  autoIndent: htmlAutoIndent(xmlOpeningTag, voidTags),
   autoCloseTags: ([start, end], value, editor) => {
     return getClosestToken(editor, "." + name, 0, 0, start) ? "" : autoCloseTags(editor, start, end, value, xmlOpeningTag, voidTags);
   }
@@ -60,13 +69,13 @@ export {
   clikeIndent as a,
   bracketIndenting as b,
   clikeComment as c,
-  markupComment as d,
-  autoCloseTags as e,
-  markupTemplateLang as f,
+  astroOpeningTag as d,
+  markupComment as e,
+  autoCloseTags as f,
+  markupTemplateLang as g,
   htmlAutoIndent as h,
   markupLanguage as m,
   testBracketPair as t,
-  voidTags as v,
   xmlOpeningTag as x
 };
-//# sourceMappingURL=index-Fp08-m-Z.js.map
+//# sourceMappingURL=index-BZh6eCR8.js.map

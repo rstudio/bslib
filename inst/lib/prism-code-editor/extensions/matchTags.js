@@ -1,7 +1,4 @@
-import { getClosestToken } from "../utils/index.js";
-import { b as addTextareaListener } from "../index-MBlAXvVu.js";
-const voidlessLangs = "xml,rss,atom,jsx,tsx,xquery,actionscript".split(",");
-const voidTags = /^(?:area|base|w?br|col|embed|hr|img|input|link|meta|source|track)$/i;
+import { n as getClosestToken, j as addTextareaListener, v as voidlessLangs, o as voidTags } from "../index-DYIRSLx1.js";
 const createTagMatcher = (editor) => {
   let pairMap = [];
   let code;
@@ -15,7 +12,7 @@ const createTagMatcher = (editor) => {
     matchTagsRecursive(tokens, language, 0);
   };
   let matchTagsRecursive = (tokens, language, position) => {
-    let noVoidTags = voidlessLangs.includes(language);
+    let noVoidTags = voidlessLangs.has(language);
     let i = 0;
     let l = tokens.length;
     for (; i < l; ) {
@@ -27,7 +24,7 @@ const createTagMatcher = (editor) => {
           const openLen = content[0].length;
           const tagName = content[2] ? code.substr(position + openLen, content[1].length) : "";
           const notSelfClosing = content[content.length - 1].length < 2 && (noVoidTags || !voidTags.test(tagName));
-          if (content[2] && noVoidTags) matchTagsRecursive(content, language, position);
+          if (content[2]) matchTagsRecursive(content, language, position);
           if (notSelfClosing) {
             if (openLen > 1) {
               for (let i2 = sp; i2; ) {
@@ -60,7 +57,7 @@ const createTagMatcher = (editor) => {
       position += length;
     }
   };
-  editor.addListener("tokenize", matchTags2);
+  editor.on("tokenize", matchTags2);
   matchTags2(editor.tokens, editor.options.language, editor.value);
   return {
     tags,
@@ -71,13 +68,12 @@ const getClosestTagIndex = (pos, tags) => {
   for (let i = 0, l = tags.length; i < l; i++) if (tags[i][1] <= pos && tags[i][2] >= pos) return i;
 };
 const matchTags = () => (editor) => {
-  var _a;
   let openEl, closeEl;
-  const { tags, pairs } = (_a = editor.extensions).matchTags || (_a.matchTags = createTagMatcher(editor));
+  const { tags, pairs } = editor.extensions.matchTags ||= createTagMatcher(editor);
   const highlight = (remove) => [openEl, closeEl].forEach((el) => {
     el && el.classList.toggle("active-tagname", !remove);
   });
-  editor.addListener("selectionChange", ([start, end]) => {
+  editor.on("selectionChange", ([start, end]) => {
     let newEl1;
     let newEl2;
     let index;
@@ -99,9 +95,8 @@ const matchTags = () => (editor) => {
   });
 };
 const highlightTagPunctuation = (className, alwaysHighlight) => (editor) => {
-  var _a;
   let openEl, closeEl;
-  const { tags } = (_a = editor.extensions).matchTags || (_a.matchTags = createTagMatcher(editor));
+  const { tags } = editor.extensions.matchTags ||= createTagMatcher(editor);
   const getPunctuation = (pos) => getClosestToken(editor, ".tag>.punctuation", 0, 0, pos);
   const highlight = (remove) => [openEl, closeEl].forEach((el) => {
     el && el.classList.toggle(className, !remove);
@@ -124,7 +119,7 @@ const highlightTagPunctuation = (className, alwaysHighlight) => (editor) => {
       highlight();
     }
   };
-  editor.addListener("selectionChange", selectionChange);
+  editor.on("selectionChange", selectionChange);
   addTextareaListener(editor, "focus", selectionChange);
   addTextareaListener(editor, "blur", selectionChange);
 };

@@ -1,7 +1,7 @@
 var __defProp = Object.defineProperty;
 var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
 var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
-import { updateTheme, basicEditor, fullEditor, readonlyEditor, minimalEditor } from "./setups/index.js";
+import { basicEditor, readonlyEditor, minimalEditor } from "./setups/index.js";
 const attributeMap = {
   language: [(value) => value || "text"],
   "tab-size": [(value) => +value || 2, "tabSize"],
@@ -21,7 +21,7 @@ const getOptions = (el) => {
   el.textContent = "";
   return options;
 };
-const addComponent = (name, createEditor) => {
+const addComponent = (createEditor, name) => {
   var _a;
   customElements.define(
     name,
@@ -36,7 +36,7 @@ const addComponent = (name, createEditor) => {
           () => this.dispatchEvent(new CustomEvent("ready"))
         );
         if (internals) {
-          this.editor.addListener("update", internals.setFormValue.bind(internals));
+          this.editor.on("update", internals.setFormValue.bind(internals));
         }
         for (const attr in attributeMap)
           Object.defineProperty(this, attributeMap[attr][1] || attr, {
@@ -58,23 +58,19 @@ const addComponent = (name, createEditor) => {
         const [fn, propName] = attributeMap[name2];
         const newVal = fn(newValue);
         if (fn(oldValue) != newVal) {
-          if (name2 == "theme") updateTheme(this.editor, newVal);
-          else
-            this.editor.setOptions({
-              [propName || name2]: newVal
-            });
+          this.editor.setOptions({
+            [propName || name2]: newVal
+          });
         }
       }
     }, __publicField(_a, "observedAttributes", attributes), __publicField(_a, "formAssociated", true), _a)
   );
 };
-const addMinimalEditor = (name) => addComponent(name, minimalEditor);
-const addBasicEditor = (name) => addComponent(name, basicEditor);
-const addFullEditor = (name) => addComponent(name, fullEditor);
-const addReadonlyEditor = (name) => addComponent(name, readonlyEditor);
+const addMinimalEditor = (name) => addComponent(minimalEditor, name);
+const addBasicEditor = (name) => addComponent(basicEditor, name);
+const addReadonlyEditor = (name) => addComponent(readonlyEditor, name);
 export {
   addBasicEditor,
-  addFullEditor,
   addMinimalEditor,
   addReadonlyEditor
 };
