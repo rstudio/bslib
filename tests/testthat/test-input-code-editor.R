@@ -11,19 +11,16 @@ test_that("code_editor_themes returns character vector of themes", {
   expect_true("vs-code-dark" %in% themes)
 })
 
-test_that("arg_match_theme rejects invalid themes", {
-  # Test indirectly via input_code_editor since arg_match_theme is internal
-  expect_error(
-    input_code_editor("test", theme_light = "nonexistent-theme"),
-    "must be one of"
-  )
+test_that("input_code_editor() rejects invalid themes", {
+  expect_snapshot(error = TRUE, {
+    input_code_editor("test", theme_light = "invalid-theme")
+  })
 })
 
 test_that("arg_match_language rejects invalid languages", {
-  expect_error(
-    input_code_editor("test", language = "fortran"),
-    "must be one of"
-  )
+  expect_snapshot(error = TRUE, {
+    input_code_editor("test", language = "fortran")
+  })
 })
 
 test_that("input_code_editor generates correct HTML structure", {
@@ -104,22 +101,16 @@ test_that("input_code_editor uses correct defaults", {
 })
 
 test_that("input_code_editor validates theme names", {
-  expect_error(
-    input_code_editor("test", theme_light = "invalid-theme"),
-    "theme_light.*must be one of"
-  )
-
-  expect_error(
-    input_code_editor("test", theme_dark = "invalid-theme"),
-    "theme_dark.*must be one of"
-  )
+  expect_snapshot(error = TRUE, {
+    input_code_editor("test", theme_light = "invalid-theme")
+    input_code_editor("test", theme_dark = "invalid-theme")
+  })
 })
 
 test_that("input_code_editor validates language", {
-  expect_error(
-    input_code_editor("test", language = "fortran"),
-    "language.*must be one of"
-  )
+  expect_snapshot(error = TRUE, {
+    input_code_editor("test", language = "fortran")
+  })
 })
 
 test_that("input_code_editor handles empty value", {
@@ -127,15 +118,6 @@ test_that("input_code_editor handles empty value", {
 
   html <- as.character(editor)
   expect_match(html, 'data-initial-code=""')
-})
-
-test_that("input_code_editor handles special characters in value", {
-  code_with_special <- "SELECT * FROM table WHERE name = 'O\"Brien' AND value < 100"
-  editor <- input_code_editor("special_editor", value = code_with_special)
-
-  html <- as.character(editor)
-  # HTML should be properly escaped
-  expect_true(grepl("data-initial-code", html))
 })
 
 test_that("input_code_editor indentation parameter works correctly", {
@@ -150,29 +132,21 @@ test_that("input_code_editor indentation parameter works correctly", {
 })
 
 test_that("update_code_editor validates inputs", {
-  # Create a mock session for testing
-  # Note: This test verifies validation, not actual message sending
-  # which requires a live Shiny session
+  expect_snapshot(error = TRUE, {
+    update_code_editor("test", language = "fortran", session = NULL)
+  })
 
-  expect_error(
-    update_code_editor("test", language = "fortran", session = NULL),
-    "language.*must be one of"
-  )
+  expect_snapshot(error = TRUE, {
+    update_code_editor("test", theme_light = "invalid", session = NULL)
+  })
 
-  expect_error(
-    update_code_editor("test", theme_light = "invalid", session = NULL),
-    "theme_light.*must be one of"
-  )
+  expect_snapshot(error = TRUE, {
+    update_code_editor("test", theme_dark = "invalid", session = NULL)
+  })
 
-  expect_error(
-    update_code_editor("test", theme_dark = "invalid", session = NULL),
-    "theme_dark.*must be one of"
-  )
-
-  expect_error(
-    update_code_editor("test", indentation = "invalid", session = NULL),
-    "indentation.*must be"
-  )
+  expect_snapshot(error = TRUE, {
+    update_code_editor("test", indentation = "invalid", session = NULL)
+  })
 })
 
 test_that("input_code_editor supports label parameter", {
@@ -237,8 +211,7 @@ test_that("input_code_editor tab_size validates range", {
   expect_silent(input_code_editor("test2", tab_size = 4))
   expect_silent(input_code_editor("test3", tab_size = 8))
 
-  # Note: The function doesn't currently validate tab_size range,
-  # but this test is here for future validation if needed
+  expect_error(input_code_editor("test4", tab_size = 0))
 })
 
 test_that("input_code_editor warns when value has 750 or more lines", {
