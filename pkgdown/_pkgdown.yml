@@ -186,9 +186,7 @@ reference:
   desc: |
     UI controls for capturing user input
   contents:
-    - input_switch
-    - input_dark_mode
-    - input_submit_textarea
+    - starts_with("input_")
     - input_task_button
     - bind_task_button
 
