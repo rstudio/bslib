@@ -149,10 +149,12 @@ ui <- page_sidebar(
 server <- function(input, output, session) {
   # Update code editor settings
   observeEvent(input$language, {
-    language <- input$language
-    if (language == "plain") {
-      language <- "markdown"
-    }
+    language <- switch(
+      input$language,
+      plain = "markdown",
+      html = "markup",
+      input$language
+    )
     updateActionButton(
       session,
       "load_sample",
@@ -184,7 +186,12 @@ server <- function(input, output, session) {
 
   # Load sample code for selected language
   observeEvent(input$load_sample, {
-    lang <- input$language
+    lang <- switch(
+      input$language,
+      plain = "markdown",
+      html = "markup",
+      input$language
+    )
     sample <- sample_code[[lang]]
     if (!is.null(sample)) {
       update_code_editor(
