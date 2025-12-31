@@ -41,14 +41,14 @@ ui <- page_sidebar(
     selectInput(
       "theme_light",
       "Light Theme:",
-      choices = code_editor_themes(),
+      choices = bslib:::code_editor_themes(),
       selected = "github-light"
     ),
 
     selectInput(
       "theme_dark",
       "Dark Theme:",
-      choices = code_editor_themes(),
+      choices = bslib:::code_editor_themes(),
       selected = "github-dark"
     ),
 

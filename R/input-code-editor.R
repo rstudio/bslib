@@ -21,10 +21,13 @@
 #' - `Tab`: Indent selection
 #' - `Shift+Tab`: Dedent selection
 #'
-#' @section Theme switching:
+#' @section Themes:
 #' The editor automatically switches between `theme_light` and `theme_dark`
 #' when used with [bslib::input_dark_mode()]. Otherwise, the editor will use
 #' `theme_light` by default.
+#'
+#' A variety of themes are available for use. The full list of bundled themes
+#' is: `r code_editor_themes(mode="docs")`.
 #'
 #' @examplesIf rlang::is_interactive()
 #' library(shiny)
@@ -60,10 +63,9 @@
 #'   `"plain"`.
 #' @param height CSS height of the editor. Default is `"300px"`.
 #' @param width CSS width of the editor. Default is `"100%"`.
-#' @param theme_light Theme to use in light mode. See [code_editor_themes()] for
-#'   available themes. Default is `"github-light"`.
-#' @param theme_dark Theme to use in dark mode. See [code_editor_themes()] for
-#'   available themes. Default is `"github-dark"`.
+#' @param theme_light,theme_dark Theme to use in light or dark mode. Defaults to
+#'   `"github-light"` and `"github-dark"`, respectively. See the Theme section
+#'   for more details.
 #' @param read_only Whether the editor should be read-only. Default is `FALSE`.
 #' @param line_numbers Whether to show line numbers. Default is `TRUE`, except
 #'   for markdown and plain text.
@@ -233,9 +235,8 @@ update_code_editor <- function(
   invisible(NULL)
 }
 
-#' @rdname input_code_editor
-#' @export
-code_editor_themes <- function() {
+code_editor_themes <- function(mode = c("raw", "docs")) {
+  mode <- match.arg(mode)
   themes_dir <- path_inst("lib", "prism-code-editor", "themes")
 
   if (!dir.exists(themes_dir)) {
@@ -243,7 +244,13 @@ code_editor_themes <- function() {
   }
 
   theme_files <- list.files(themes_dir, pattern = "\\.css$")
-  sub("\\.css$", "", theme_files)
+  themes <- sub("\\.css$", "", theme_files)
+
+  switch(
+    mode,
+    raw = themes,
+    docs = paste(sprintf('`"%s"`', themes), collapse = ", ")
+  )
 }
 
 # Internal dependency functions ------------------------------------------------

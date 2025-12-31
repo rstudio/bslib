@@ -3,7 +3,6 @@
 \name{input_code_editor}
 \alias{input_code_editor}
 \alias{update_code_editor}
-\alias{code_editor_themes}
 \title{Code editor input}
 \usage{
 input_code_editor(
@@ -11,7 +10,7 @@ input_code_editor(
   value = "",
   label = NULL,
   ...,
-  language = "sql",
+  language = "plain",
   height = "auto",
   width = "100\%",
   theme_light = "github-light",
@@ -38,8 +37,6 @@ update_code_editor(
   indentation = NULL,
   session = get_current_session()
 )
-
-code_editor_themes()
 }
 \arguments{
 \item{id}{Input ID. Access the current value with \verb{input$<id>}.}
@@ -62,11 +59,9 @@ languages include \code{"r"}, \code{"python"}, \code{"julia"}, \code{"sql"}, \co
 
 \item{width}{CSS width of the editor. Default is \code{"100\%"}.}
 
-\item{theme_light}{Theme to use in light mode. See \code{\link[=code_editor_themes]{code_editor_themes()}} for
-available themes. Default is \code{"github-light"}.}
-
-\item{theme_dark}{Theme to use in dark mode. See \code{\link[=code_editor_themes]{code_editor_themes()}} for
-available themes. Default is \code{"github-dark"}.}
+\item{theme_light, theme_dark}{Theme to use in light or dark mode. Defaults to
+\code{"github-light"} and \code{"github-dark"}, respectively. See the Theme section
+for more details.}
 
 \item{read_only}{Whether the editor should be read-only. Default is \code{FALSE}.}
 
@@ -115,11 +110,14 @@ The editor supports the following keyboard shortcuts:
 }
 }
 
-\section{Theme switching}{
+\section{Themes}{
 
 The editor automatically switches between \code{theme_light} and \code{theme_dark}
 when used with \code{\link[=input_dark_mode]{input_dark_mode()}}. Otherwise, the editor will use
 \code{theme_light} by default.
+
+A variety of themes are available for use. The full list of bundled themes
+is: \code{"atom-one-dark"}, \code{"dracula"}, \code{"github-dark-dimmed"}, \code{"github-dark"}, \code{"github-light"}, \code{"night-owl-light"}, \code{"night-owl"}, \code{"prism-okaidia"}, \code{"prism-solarized-light"}, \code{"prism-tomorrow"}, \code{"prism-twilight"}, \code{"prism"}, \code{"vs-code-dark"}, \code{"vs-code-light"}.
 }
 
 \examples{
