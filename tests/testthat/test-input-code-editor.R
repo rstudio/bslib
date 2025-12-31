@@ -211,34 +211,34 @@ test_that("input_code_editor tab_size validates range", {
   expect_error(input_code_editor("test4", tab_size = 0))
 })
 
-test_that("input_code_editor warns when value has 750 or more lines", {
+test_that("input_code_editor warns when value has 1,000 or more lines", {
   # No warning for small values
   expect_silent(input_code_editor("test1", value = "line1\nline2\nline3"))
 
-  # No warning for exactly 749 lines
-  value_749 <- paste(rep("line", 749), collapse = "\n")
-  expect_silent(input_code_editor("test2", value = value_749))
+  # No warning for exactly 999 lines
+  value_999 <- paste(rep("line", 999), collapse = "\n")
+  expect_silent(input_code_editor("test2", value = value_999))
 
-  # Warning for exactly 750 lines
-  value_750 <- paste(rep("line", 750), collapse = "\n")
+  # Warning for exactly 1000 lines
+  value_1000 <- paste(rep("line", 1000), collapse = "\n")
   expect_warning(
-    input_code_editor("test3", value = value_750),
-    "Code editor value contains 750 lines"
+    input_code_editor("test3", value = value_1000),
+    "Code editor value contains 1000 lines"
   )
   expect_warning(
-    input_code_editor("test3", value = value_750),
+    input_code_editor("test3", value = value_1000),
     "performance issues"
   )
 
-  # Warning for more than 750 lines
-  value_1000 <- paste(rep("line", 1000), collapse = "\n")
+  # Warning for more than 1000 lines
+  value_2000 <- paste(rep("line", 2000), collapse = "\n")
   expect_warning(
-    input_code_editor("test4", value = value_1000),
-    "Code editor value contains 1000 lines"
+    input_code_editor("test4", value = value_2000),
+    "Code editor value contains 2000 lines"
   )
 })
 
-test_that("update_code_editor warns when value has 750 or more lines", {
+test_that("update_code_editor warns when value has 1000 or more lines", {
   mock_session <- list(sendInputMessage = function(...) invisible())
 
   # No warning for small values
@@ -248,15 +248,15 @@ test_that("update_code_editor warns when value has 750 or more lines", {
     session = mock_session
   ))
 
-  # Warning for exactly 750 lines
-  value_750 <- paste(rep("line", 750), collapse = "\n")
+  # Warning for exactly 1000 lines
+  value_1000 <- paste(rep("line", 1000), collapse = "\n")
   expect_warning(
-    update_code_editor("test3", value = value_750, session = mock_session),
-    "Code editor value contains 750 lines"
+    update_code_editor("test4", value = value_1000, session = mock_session),
+    "Code editor value contains 1000 lines"
   )
 
-  # Warning for more than 750 lines
-  value_1000 <- paste(rep("line", 1000), collapse = "\n")
+  # Warning for more than 1000 lines
+  value_2000 <- paste(rep("line", 2000), collapse = "\n")
   expect_warning(
     update_code_editor("test4", value = value_1000, session = mock_session),
     "Code editor value contains 1000 lines"
