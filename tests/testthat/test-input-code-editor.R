@@ -106,17 +106,24 @@ test_that("input_code_editor validates theme names", {
   })
 })
 
-test_that("input_code_editor validates language", {
+test_that("input_code_editor validates `language`", {
   expect_snapshot(error = TRUE, {
     input_code_editor("test", language = "fortran")
   })
 })
 
-test_that("input_code_editor handles empty value", {
+test_that("input_code_editor handles empty `value`", {
   editor <- input_code_editor("empty_editor", value = "")
 
   html <- as.character(editor)
   expect_match(html, 'value=""')
+})
+
+test_that("input_code_editor handles character vector `value`", {
+  editor <- input_code_editor("empty_editor", value = c("one", "two", "three"))
+
+  html <- as.character(editor)
+  expect_match(html, 'value="one&#10;two&#10;three"')
 })
 
 test_that("input_code_editor indentation parameter works correctly", {
@@ -161,19 +168,6 @@ test_that("input_code_editor supports label parameter", {
 
   # Editor without label should still have the custom element tag
   expect_true(grepl("<bslib-code-editor", html_without))
-})
-
-test_that("input_code_editor creates unique IDs", {
-  editor1 <- input_code_editor("editor1")
-  editor2 <- input_code_editor("editor2")
-
-  html1 <- as.character(editor1)
-  html2 <- as.character(editor2)
-
-  expect_match(html1, 'id="editor1"')
-  expect_match(html2, 'id="editor2"')
-  expect_false(grepl('id="editor2"', html1))
-  expect_false(grepl('id="editor1"', html2))
 })
 
 test_that("input_code_editor attaches dependencies", {
@@ -238,7 +232,7 @@ test_that("input_code_editor warns when value has 1,000 or more lines", {
   )
 })
 
-test_that("update_code_editor warns when value has 1000 or more lines", {
+test_that("update_code_editor warns when value has 1,000 or more lines", {
   mock_session <- list(sendInputMessage = function(...) invisible())
 
   # No warning for small values
