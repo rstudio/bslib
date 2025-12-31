@@ -440,7 +440,8 @@ with_dir("inst/lib", {
     # Wrap with scoped selectors using CSS nesting
     scoped_css <- c(
       sprintf(
-        "[data-bs-theme=\"light\"] [theme-light=\"%s\"], [data-bs-theme=\"light\"][theme-light=\"%s\"],",
+        "html:not([data-bs-theme]) [theme-light=\"%s\"],[data-bs-theme=\"light\"] [theme-light=\"%s\"], [data-bs-theme=\"light\"][theme-light=\"%s\"],",
+        theme_name,
         theme_name,
         theme_name
       ),

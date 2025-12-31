@@ -209,6 +209,7 @@ var _BslibCodeEditor = class extends HTMLElement {
   }
   /** Responds to attribute changes by updating the prism-code-editor instance. */
   attributeChangedCallback(name, oldValue, newValue) {
+    var _a, _b;
     if (oldValue === newValue || !this.prismEditor)
       return;
     const editor = this.prismEditor;
@@ -239,11 +240,11 @@ var _BslibCodeEditor = class extends HTMLElement {
         break;
       case "theme-light":
         if (newValue)
-          this._maybeLoadThemeForMode(newValue, false);
+          __privateMethod(_a = _BslibCodeEditor, _loadTheme, loadTheme_fn).call(_a, newValue);
         break;
       case "theme-dark":
         if (newValue)
-          this._maybeLoadThemeForMode(newValue, true);
+          __privateMethod(_b = _BslibCodeEditor, _loadTheme, loadTheme_fn).call(_b, newValue);
         break;
       default:
         break;
@@ -404,14 +405,6 @@ var _BslibCodeEditor = class extends HTMLElement {
       }
       this.dispatchEvent(new CustomEvent("codeEditorUpdate"));
     });
-  }
-  /** Loads a theme only if it matches the current light/dark mode. */
-  _maybeLoadThemeForMode(theme, forDarkMode) {
-    var _a;
-    const isDark = document.documentElement.getAttribute("data-bs-theme") === "dark";
-    if (isDark === forDarkMode) {
-      __privateMethod(_a = _BslibCodeEditor, _loadTheme, loadTheme_fn).call(_a, theme);
-    }
   }
 };
 var BslibCodeEditor = _BslibCodeEditor;
