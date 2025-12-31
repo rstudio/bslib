@@ -7,8 +7,8 @@
 \usage{
 input_code_editor(
   id,
-  value = "",
   label = NULL,
+  value = "",
   ...,
   language = "plain",
   height = "auto",
@@ -25,8 +25,9 @@ input_code_editor(
 
 update_code_editor(
   id,
-  value = NULL,
   ...,
+  value = NULL,
+  label = NULL,
   language = NULL,
   theme_light = NULL,
   theme_dark = NULL,
@@ -41,9 +42,9 @@ update_code_editor(
 \arguments{
 \item{id}{Input ID. Access the current value with \verb{input$<id>}.}
 
-\item{value}{Code content. Default is an empty string.}
-
 \item{label}{Display label for the input. Default is \code{NULL} for no label.}
+
+\item{value}{Code content. Default is an empty string.}
 
 \item{...}{Named arguments, e.g. \code{class} and \code{style}, that will be added to
 the outer container of the input.}
