@@ -100,6 +100,39 @@ function showShinyClientMessage({
 function hasDefinedProperty(obj, prop) {
   return Object.prototype.hasOwnProperty.call(obj, prop) && obj[prop] !== void 0;
 }
+function shinyRenderContent(...args) {
+  return __async(this, null, function* () {
+    if (!Shiny) {
+      throw new Error("This function must be called in a Shiny app.");
+    }
+    if (Shiny.renderContentAsync) {
+      return yield Shiny.renderContentAsync.apply(null, args);
+    } else {
+      return yield Shiny.renderContent.apply(null, args);
+    }
+  });
+}
+function updateLabel(labelContent, labelNode) {
+  return __async(this, null, function* () {
+    if (typeof labelContent === "undefined")
+      return;
+    if (labelNode.length !== 1) {
+      throw new Error("labelNode must be of length 1");
+    }
+    if (typeof labelContent === "string") {
+      labelContent = {
+        html: labelContent,
+        deps: []
+      };
+    }
+    if (labelContent.html === "") {
+      labelNode.addClass("shiny-label-null");
+    } else {
+      yield shinyRenderContent(labelNode, labelContent);
+      labelNode.removeClass("shiny-label-null");
+    }
+  });
+}
 
 // srcts/src/components/codeEditor.ts
 var DEFAULT_LANGUAGE = "plain";
@@ -374,6 +407,10 @@ var _BslibCodeEditor = class extends HTMLElement {
       }
       if (hasDefinedProperty(data, "value")) {
         this.value = (_a = data.value) != null ? _a : "";
+      }
+      if (hasDefinedProperty(data, "label")) {
+        const labelEl = $(this).find("label");
+        yield updateLabel(data.label, labelEl);
       }
       if (hasDefinedProperty(data, "tab_size") && data.tab_size !== void 0) {
         this.tabSize = data.tab_size;

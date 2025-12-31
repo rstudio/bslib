@@ -51,8 +51,8 @@
 #' shinyApp(ui, server)
 #'
 #' @param id Input ID. Access the current value with `input$<id>`.
-#' @param value Code content. Default is an empty string.
 #' @param label Display label for the input. Default is `NULL` for no label.
+#' @param value Code content. Default is an empty string.
 #' @param ... Named arguments, e.g. `class` and `style`, that will be added to
 #'   the outer container of the input.
 #' @param language Programming language for syntax highlighting. Supported
@@ -82,8 +82,8 @@
 #' @export
 input_code_editor <- function(
   id,
-  value = "",
   label = NULL,
+  value = "",
   ...,
   language = "plain",
   height = "auto",
@@ -183,8 +183,9 @@ input_code_editor <- function(
 #' @export
 update_code_editor <- function(
   id,
-  value = NULL,
   ...,
+  value = NULL,
+  label = NULL,
   language = NULL,
   theme_light = NULL,
   theme_dark = NULL,
@@ -217,6 +218,7 @@ update_code_editor <- function(
   # Build message with only non-NULL values
   message <- dropNulls(list(
     value = value,
+    label = if (!is.null(label)) processDeps(label, session),
     language = language,
     theme_light = theme_light,
     theme_dark = theme_dark,

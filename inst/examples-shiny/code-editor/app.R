@@ -21,6 +21,8 @@ ui <- page_sidebar(
     title = "Editor Controls",
     gap = "0.5rem",
 
+    textInput("label", "Label:", value = "Code Editor"),
+
     selectInput(
       "language",
       "Language:",
@@ -137,7 +139,10 @@ ui <- page_sidebar(
 )
 
 server <- function(input, output, session) {
-  # Update code editor settings
+  observeEvent(input$label, {
+    update_code_editor("code", label = input$label)
+  })
+
   observeEvent(input$language, {
     language <- switch(
       input$language,

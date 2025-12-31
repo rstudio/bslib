@@ -12,7 +12,11 @@
 
 import type { CustomElementInputGetValue } from "./webcomponents/_makeInputBinding";
 import { makeInputBinding } from "./webcomponents/_makeInputBinding";
-import { hasDefinedProperty, showShinyClientMessage } from "./_utils";
+import {
+  hasDefinedProperty,
+  showShinyClientMessage,
+  updateLabel,
+} from "./_utils";
 
 // Default values - should match R defaults in input-code-editor.R
 /* eslint-disable @typescript-eslint/naming-convention */
@@ -68,6 +72,7 @@ interface CommandsModule {
 // eslint-disable-next-line @typescript-eslint/naming-convention
 type CodeEditorReceiveMessageData = {
   value?: string;
+  label?: string;
   /* eslint-disable @typescript-eslint/naming-convention */
   tab_size?: number;
   indentation?: "space" | "tab";
@@ -497,6 +502,11 @@ export class BslibCodeEditor
 
     if (hasDefinedProperty(data, "value")) {
       this.value = data.value ?? "";
+    }
+
+    if (hasDefinedProperty(data, "label")) {
+      const labelEl = $(this).find("label");
+      await updateLabel(data.label, labelEl);
     }
 
     // Properties set via setters trigger attributeChangedCallback
