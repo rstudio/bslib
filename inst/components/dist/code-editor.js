@@ -102,7 +102,7 @@ function hasDefinedProperty(obj, prop) {
 }
 
 // srcts/src/components/codeEditor.ts
-var DEFAULT_LANGUAGE = "sql";
+var DEFAULT_LANGUAGE = "plain";
 var DEFAULT_TAB_SIZE = 2;
 var DEFAULT_THEME_LIGHT = "github-light";
 var DEFAULT_THEME_DARK = "github-dark";

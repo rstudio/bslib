@@ -3,14 +3,15 @@
 #' @description
 #' Creates an interactive light-weight code editor input that can be used in
 #' Shiny applications. The editor provides syntax highlighting, line numbers,
-#' and other basic code editing features powered by Prism Code Editor.
+#' and other basic code editing features powered by Prism Code Editor. For a
+#' complete example, run `shiny::runExample("code-editor", package = "bslib")`.
 #'
 #' The editor value is not sent to R on every keystroke. Instead, updates are
-#' reflected on the server when the editor loses focus or when the user presses
-#' `Ctrl/Cmd` + `Enter`.
+#' reflected on the server when the user moves away from the editor or when they
+#' press `Ctrl/Cmd` + `Enter`.
 #'
-#' Note that this input is not designed for editing or rendering very large
-#' files; avoid displaying more than 1,000 lines of code.
+#' Note that this input is designed for editing or rendering large files.
+#' Displaying files with 1,000 lines or more may lead to performance issues.
 #'
 #' @section Keyboard shortcuts:
 #' The editor supports the following keyboard shortcuts:
@@ -47,7 +48,7 @@
 #' shinyApp(ui, server)
 #'
 #' @param id Input ID. Access the current value with `input$<id>`.
-#' @param value Initial code content. Default is an empty string.
+#' @param value Code content. Default is an empty string.
 #' @param label Display label for the input. Default is `NULL` for no label.
 #' @param ... Named arguments, e.g. `class` and `style`, that will be added to
 #'   the outer container of the input.
@@ -82,7 +83,7 @@ input_code_editor <- function(
   value = "",
   label = NULL,
   ...,
-  language = "sql",
+  language = "plain",
   height = "auto",
   width = "100%",
   theme_light = "github-light",
@@ -95,6 +96,9 @@ input_code_editor <- function(
   fill = TRUE
 ) {
   dots <- separate_arguments(...)
+
+  stopifnot("`value` must be a character" = is.character(value))
+  value <- paste(value, collapse = "\n")
 
   # Restore input for bookmarking support
   value <- shiny::restoreInput(id, default = value)
@@ -193,6 +197,11 @@ update_code_editor <- function(
   rlang::check_dots_empty()
 
   # Validate inputs if provided
+  if (!is.null(value)) {
+    stopifnot("`value` must be a character" = is.character(value))
+    value <- paste(value, collapse = "\n")
+    check_value_line_count(value)
+  }
   if (!is.null(language)) {
     language <- arg_match_language(language, "language")
   }
@@ -205,10 +214,7 @@ update_code_editor <- function(
 
   # Build message with only non-NULL values
   message <- dropNulls(list(
-    value = if (!is.null(value)) {
-      check_value_line_count(value)
-      value
-    },
+    value = value,
     language = language,
     theme_light = theme_light,
     theme_dark = theme_dark,

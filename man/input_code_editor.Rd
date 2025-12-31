@@ -44,7 +44,7 @@ code_editor_themes()
 \arguments{
 \item{id}{Input ID. Access the current value with \verb{input$<id>}.}
 
-\item{value}{Initial code content. Default is an empty string.}
+\item{value}{Code content. Default is an empty string.}
 
 \item{label}{Display label for the input. Default is \code{NULL} for no label.}
 
@@ -93,14 +93,15 @@ An HTML tag object that can be included in a Shiny UI.
 \description{
 Creates an interactive light-weight code editor input that can be used in
 Shiny applications. The editor provides syntax highlighting, line numbers,
-and other basic code editing features powered by Prism Code Editor.
+and other basic code editing features powered by Prism Code Editor. For a
+complete example, run \code{shiny::runExample("code-editor", package = "bslib")}.
 
 The editor value is not sent to R on every keystroke. Instead, updates are
-reflected on the server when the editor loses focus or when the user presses
-\code{Ctrl/Cmd} + \code{Enter}.
+reflected on the server when the user moves away from the editor or when they
+press \code{Ctrl/Cmd} + \code{Enter}.
 
-Note that this input is not designed for editing or rendering very large
-files; avoid displaying more than 1,000 lines of code.
+Note that this input is designed for editing or rendering large files.
+Displaying files with 1,000 lines or more may lead to performance issues.
 }
 \section{Keyboard shortcuts}{
 

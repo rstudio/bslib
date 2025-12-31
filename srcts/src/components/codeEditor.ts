@@ -16,7 +16,7 @@ import { hasDefinedProperty, showShinyClientMessage } from "./_utils";
 
 // Default values - should match R defaults in input-code-editor.R
 /* eslint-disable @typescript-eslint/naming-convention */
-const DEFAULT_LANGUAGE = "sql";
+const DEFAULT_LANGUAGE = "plain";
 const DEFAULT_TAB_SIZE = 2;
 const DEFAULT_THEME_LIGHT = "github-light";
 const DEFAULT_THEME_DARK = "github-dark";
