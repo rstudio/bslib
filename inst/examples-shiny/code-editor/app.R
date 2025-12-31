@@ -24,11 +24,7 @@ ui <- page_sidebar(
     selectInput(
       "language",
       "Language:",
-      choices = c(
-        "plain",
-        "html",
-        bslib:::code_editor_bundled_languages
-      ),
+      choices = c("plain", "html", bslib:::code_editor_bundled_languages),
       selected = "r"
     ),
     actionButton(
@@ -114,14 +110,8 @@ ui <- page_sidebar(
       col_widths = 12,
       navset_card_underline(
         title = "Editor Info",
-        nav_panel(
-          "Value",
-          verbatimTextOutput("code_output"),
-        ),
-        nav_panel(
-          "Settings",
-          verbatimTextOutput("editor_info")
-        )
+        nav_panel("Value", verbatimTextOutput("code_output"), ),
+        nav_panel("Settings", verbatimTextOutput("editor_info"))
       ),
 
       card(
