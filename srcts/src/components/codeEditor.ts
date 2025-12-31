@@ -345,10 +345,10 @@ export class BslibCodeEditor
         editor.setOptions({ insertSpaces: newValue !== "false" });
         break;
       case "theme-light":
-        if (newValue) this._maybeLoadThemeForMode(newValue, false);
+        if (newValue) BslibCodeEditor.#loadTheme(newValue);
         break;
       case "theme-dark":
-        if (newValue) this._maybeLoadThemeForMode(newValue, true);
+        if (newValue) BslibCodeEditor.#loadTheme(newValue);
         break;
       default:
         break;
@@ -534,15 +534,6 @@ export class BslibCodeEditor
     }
 
     this.dispatchEvent(new CustomEvent("codeEditorUpdate"));
-  }
-
-  /** Loads a theme only if it matches the current light/dark mode. */
-  private _maybeLoadThemeForMode(theme: string, forDarkMode: boolean): void {
-    const isDark =
-      document.documentElement.getAttribute("data-bs-theme") === "dark";
-    if (isDark === forDarkMode) {
-      BslibCodeEditor.#loadTheme(theme);
-    }
   }
 }
 
