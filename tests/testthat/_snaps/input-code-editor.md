@@ -4,7 +4,7 @@
       input_code_editor("test", theme_light = "invalid-theme")
     Condition
       Error in `input_code_editor()`:
-      ! `theme_light` must be one of "atom-one-dark", "dracula", "github-dark-dimmed", "github-dark", "github-light", "night-owl", "prism-okaidia", "prism-solarized-light", "prism-tomorrow", "prism-twilight", "prism", "vs-code-dark", or "vs-code-light", not "invalid-theme".
+      ! `theme_light` must be one of "atom-one-dark", "dracula", "github-dark-dimmed", "github-dark", "github-light", "night-owl-light", "night-owl", "prism-okaidia", "prism-solarized-light", "prism-tomorrow", "prism-twilight", "prism", "vs-code-dark", or "vs-code-light", not "invalid-theme".
 
 # arg_match_language rejects invalid languages
 
@@ -20,12 +20,12 @@
       input_code_editor("test", theme_light = "invalid-theme")
     Condition
       Error in `input_code_editor()`:
-      ! `theme_light` must be one of "atom-one-dark", "dracula", "github-dark-dimmed", "github-dark", "github-light", "night-owl", "prism-okaidia", "prism-solarized-light", "prism-tomorrow", "prism-twilight", "prism", "vs-code-dark", or "vs-code-light", not "invalid-theme".
+      ! `theme_light` must be one of "atom-one-dark", "dracula", "github-dark-dimmed", "github-dark", "github-light", "night-owl-light", "night-owl", "prism-okaidia", "prism-solarized-light", "prism-tomorrow", "prism-twilight", "prism", "vs-code-dark", or "vs-code-light", not "invalid-theme".
     Code
       input_code_editor("test", theme_dark = "invalid-theme")
     Condition
       Error in `input_code_editor()`:
-      ! `theme_dark` must be one of "atom-one-dark", "dracula", "github-dark-dimmed", "github-dark", "github-light", "night-owl", "prism-okaidia", "prism-solarized-light", "prism-tomorrow", "prism-twilight", "prism", "vs-code-dark", or "vs-code-light", not "invalid-theme".
+      ! `theme_dark` must be one of "atom-one-dark", "dracula", "github-dark-dimmed", "github-dark", "github-light", "night-owl-light", "night-owl", "prism-okaidia", "prism-solarized-light", "prism-tomorrow", "prism-twilight", "prism", "vs-code-dark", or "vs-code-light", not "invalid-theme".
 
 # input_code_editor validates language
 
@@ -49,7 +49,7 @@
       update_code_editor("test", theme_light = "invalid", session = NULL)
     Condition
       Error in `update_code_editor()`:
-      ! `theme_light` must be one of "atom-one-dark", "dracula", "github-dark-dimmed", "github-dark", "github-light", "night-owl", "prism-okaidia", "prism-solarized-light", "prism-tomorrow", "prism-twilight", "prism", "vs-code-dark", or "vs-code-light", not "invalid".
+      ! `theme_light` must be one of "atom-one-dark", "dracula", "github-dark-dimmed", "github-dark", "github-light", "night-owl-light", "night-owl", "prism-okaidia", "prism-solarized-light", "prism-tomorrow", "prism-twilight", "prism", "vs-code-dark", or "vs-code-light", not "invalid".
 
 ---
 
@@ -57,7 +57,7 @@
       update_code_editor("test", theme_dark = "invalid", session = NULL)
     Condition
       Error in `update_code_editor()`:
-      ! `theme_dark` must be one of "atom-one-dark", "dracula", "github-dark-dimmed", "github-dark", "github-light", "night-owl", "prism-okaidia", "prism-solarized-light", "prism-tomorrow", "prism-twilight", "prism", "vs-code-dark", or "vs-code-light", not "invalid".
+      ! `theme_dark` must be one of "atom-one-dark", "dracula", "github-dark-dimmed", "github-dark", "github-light", "night-owl-light", "night-owl", "prism-okaidia", "prism-solarized-light", "prism-tomorrow", "prism-twilight", "prism", "vs-code-dark", or "vs-code-light", not "invalid".
 
 ---
 
