@@ -83,11 +83,11 @@ test_that("input_code_editor handles all parameters correctly", {
 })
 
 test_that("input_code_editor uses correct defaults", {
-  editor <- input_code_editor("default_editor")
+  editor <- input_code_editor("default_editor", language = "r")
 
   html <- as.character(editor)
 
-  expect_match(html, 'language="sql"')
+  expect_match(html, 'language="r"')
   expect_match(html, 'theme-light="github-light"')
   expect_match(html, 'theme-dark="github-dark"')
   expect_match(html, 'readonly="false"')
