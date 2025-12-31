@@ -476,14 +476,22 @@ update_toolbar_input_select <- function(
   icon = NULL,
   session = get_current_session()
 ) {
-  # Process label
+  # Label can be null if there is no update, but if it is supplied it must be
+  # valid
+  if (
+    !is.null(label) &&
+      (!is.character(label) || length(label) != 1 || !nzchar(trimws(label)))
+  ) {
+    rlang::abort("`label` must be a non-empty string.")
+  }
+  # Process label if supplied
   label_processed <- if (!is.null(label)) {
     processDeps(label, session)
   } else {
     NULL
   }
 
-  # Process icon
+  # Process icon if supplied
   icon_processed <- if (!is.null(icon)) {
     processDeps(validateIcon(icon), session)
   } else {

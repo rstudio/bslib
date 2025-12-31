@@ -4,7 +4,6 @@ import {
   registerBinding,
   hasDefinedProperty,
   shinyRenderContent,
-  Shiny,
 } from "./_utils";
 import type { HtmlDep } from "./_utils";
 
@@ -20,27 +19,8 @@ type ToolbarInputSelectMessage = {
  * This is a Shiny input binding for `bslib::toolbar_input_select()`.
  * It extends the standard select input behavior with support for updating
  * the select's label, icon, and choices.
- *
- * For core select functionality (getValue, subscribe, etc.), we delegate to
- * Shiny's built-in select input binding when available.
  */
 class BslibToolbarInputSelectBinding extends InputBinding {
-  #selectBinding: typeof InputBinding.prototype | null = null;
-
-  constructor() {
-    super();
-    // Get reference to Shiny's standard select input binding
-    if (Shiny?.inputBindings) {
-      const bindings = Shiny.inputBindings.bindingNames;
-      for (const name of Object.keys(bindings)) {
-        if (name.includes("select")) {
-          this.#selectBinding = bindings[name].binding;
-          break;
-        }
-      }
-    }
-  }
-
   find(scope: HTMLElement) {
     return $(scope).find(".bslib-toolbar-input-select");
   }
@@ -51,37 +31,22 @@ class BslibToolbarInputSelectBinding extends InputBinding {
   }
 
   getValue(el: HTMLElement) {
-    // Delegate to Shiny's select binding if available
     const selectEl = el.querySelector("select");
-    if (selectEl && this.#selectBinding) {
-      return this.#selectBinding.getValue(selectEl);
-    }
-    // Fallback: get the select value directly
     return (selectEl as HTMLSelectElement)?.value;
-  }
-
-  getType(/*el: HTMLElement*/): string | null {
-    // Return null to use default type handling (same as standard select)
-    return null;
   }
 
   subscribe(el: HTMLElement, callback: InputSubscribeCallback) {
     const selectEl = el.querySelector("select");
-    if (selectEl && this.#selectBinding) {
-      this.#selectBinding.subscribe(selectEl, callback);
-    } else if (selectEl) {
-      // Fallback: subscribe to change event
+    if (selectEl) {
       $(selectEl).on("change.bslibToolbarInputSelect", () => {
-        callback("event");
+        callback(false);
       });
     }
   }
 
   unsubscribe(el: HTMLElement) {
     const selectEl = el.querySelector("select");
-    if (selectEl && this.#selectBinding) {
-      this.#selectBinding.unsubscribe(selectEl);
-    } else if (selectEl) {
+    if (selectEl) {
       $(selectEl).off(".bslibToolbarInputSelect");
     }
   }
