@@ -55,8 +55,8 @@ alongside the icon.}
 
 \item{border}{Whether to show a border around the button.}
 
-\item{session}{The \code{session} object passed to function given to \code{shinyServer}.
-Default is \code{getDefaultReactiveDomain()}.}
+\item{session}{A Shiny session object (the default should almost always be
+used).}
 }
 \value{
 Returns a button suitable for use in a toolbar.

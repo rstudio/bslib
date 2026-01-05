@@ -715,3 +715,81 @@ test_that("bslib::selectOptions() matches shiny::selectOptions() output", {
   ))
   expect_equal(bslib_out8, shiny_out8)
 })
+
+# Tests for update functions #
+
+test_that("update_toolbar_input_select() validates label parameter", {
+  # Empty string label should error (validation happens before session is used)
+  expect_error(
+    update_toolbar_input_select(
+      "test_id",
+      label = ""
+    ),
+    "`label` must be a non-empty string"
+  )
+
+  # Whitespace-only label should error
+  expect_error(
+    update_toolbar_input_select(
+      "test_id",
+      label = "   "
+    ),
+    "`label` must be a non-empty string"
+  )
+
+  # Non-character label should error
+  expect_error(
+    update_toolbar_input_select(
+      "test_id",
+      label = 123
+    ),
+    "`label` must be a non-empty string"
+  )
+
+  # Multiple strings should error
+  expect_error(
+    update_toolbar_input_select(
+      "test_id",
+      label = c("A", "B")
+    ),
+    "`label` must be a non-empty string"
+  )
+})
+
+test_that("update_toolbar_input_button() warns for blank label", {
+  # Note: We can't fully test these functions without a Shiny session,
+  # but we can test that the warning is issued before the session error occurs.
+
+  # Empty string label should warn
+  expect_warning(
+    expect_error(
+      update_toolbar_input_button(
+        "test_id",
+        label = ""
+      )
+    ),
+    "non-empty string label"
+  )
+
+  # Whitespace-only label should warn
+  expect_warning(
+    expect_error(
+      update_toolbar_input_button(
+        "test_id",
+        label = "   "
+      )
+    ),
+    "non-empty string label"
+  )
+
+  # Empty tag label should warn
+  expect_warning(
+    expect_error(
+      update_toolbar_input_button(
+        "test_id",
+        label = span("")
+      )
+    ),
+    "non-empty string label"
+  )
+})

@@ -62,8 +62,8 @@ alongside the icon.}
 \code{!show_label}.
 }}
 
-\item{session}{The \code{session} object passed to function given to \code{shinyServer}.
-Default is \code{getDefaultReactiveDomain()}.}
+\item{session}{A Shiny session object (the default should almost always be
+used).}
 }
 \value{
 Returns a select input control suitable for use in a toolbar.
