@@ -301,10 +301,12 @@ test_that("toolbar_input_select() has proper label structure", {
 
   # Label should have for attribute pointing to select
   label_for <- htmltools::tagGetAttribute(label_elem, "for")
-  expect_equal(label_for, "select")
+  expect_equal(label_for, "select-select")
 
   # Find the label text span
-  label_spans <- tagQuery(label_elem)$find("span.bslib-toolbar-label")$selectedTags()
+  label_spans <- tagQuery(label_elem)$find(
+    "span.bslib-toolbar-label"
+  )$selectedTags()
   expect_true(length(label_spans) > 0)
 
   label_text_span <- label_spans[[1]]

@@ -2,6 +2,7 @@
 % Please edit documentation in R/toolbar.R
 \name{toolbar_input_button}
 \alias{toolbar_input_button}
+\alias{update_toolbar_input_button}
 \title{Add toolbar button input}
 \usage{
 toolbar_input_button(
@@ -13,6 +14,15 @@ toolbar_input_button(
   ...,
   disabled = FALSE,
   border = FALSE
+)
+
+update_toolbar_input_button(
+  id,
+  label = NULL,
+  show_label = NULL,
+  icon = NULL,
+  disabled = NULL,
+  session = get_current_session()
 )
 }
 \arguments{
@@ -44,12 +54,26 @@ alongside the icon.}
 \code{\link[shiny:updateActionButton]{shiny::updateActionButton()}} to dynamically enable/disable the button.}
 
 \item{border}{Whether to show a border around the button.}
+
+\item{session}{The \code{session} object passed to function given to \code{shinyServer}.
+Default is \code{getDefaultReactiveDomain()}.}
 }
 \value{
 Returns a button suitable for use in a toolbar.
 }
 \description{
 A button designed to fit well in small places such as in a \code{\link[=toolbar]{toolbar()}}.
+
+Change the value or appearance of a toolbar button input on the client.
+}
+\details{
+This update function works similarly to \code{\link[shiny:updateActionButton]{shiny::updateActionButton()}}, but
+is specifically designed for \code{\link[=toolbar_input_button]{toolbar_input_button()}}. It allows you to
+update the button's label, icon, and disabled state from the server.
+
+Note that you cannot change \code{show_label}, \code{tooltip}, or \code{border} parameters
+after the button has been created, as these affect the button's structure
+and ARIA attributes.
 }
 \examples{
 \dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
@@ -60,8 +84,40 @@ toolbar(
   toolbar_input_button(id = "edit", icon = icon("pencil"), label = "Edit", show_label = TRUE)
 )
 \dontshow{\}) # examplesIf}
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
+library(shiny)
+library(bslib)
+
+ui <- page_fluid(
+  toolbar(
+    align = "right",
+    toolbar_input_button("btn", label = "Click me", icon = icon("play"))
+  ),
+  verbatimTextOutput("count")
+)
+
+server <- function(input, output, session) {
+  output$count <- renderPrint({
+    input$btn
+  })
+
+  observeEvent(input$btn, {
+    if (input$btn == 1) {
+      update_toolbar_input_button(
+        "btn",
+        label = "Clicked!",
+        icon = icon("check")
+      )
+    }
+  })
+}
+
+shinyApp(ui, server)
+\dontshow{\}) # examplesIf}
 }
 \seealso{
+\code{\link[=toolbar_input_button]{toolbar_input_button()}}, \code{\link[shiny:updateActionButton]{shiny::updateActionButton()}}
+
 Other Toolbar components: 
 \code{\link{toolbar}()},
 \code{\link{toolbar_divider}()},
