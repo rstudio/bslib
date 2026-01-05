@@ -171,8 +171,8 @@ toolbar_input_button <- function(
 #'
 #' @rdname toolbar_input_button
 #' @inheritParams toolbar_input_button
-#' @param session The `session` object passed to function given to `shinyServer`.
-#'   Default is `getDefaultReactiveDomain()`.
+#' @param session A Shiny session object (the default should almost always be
+#'   used).
 #'
 #' @details
 #' This update function works similarly to [shiny::updateActionButton()], but
@@ -353,7 +353,7 @@ toolbar_input_select <- function(
   choices <- choicesWithNames(choices)
 
   # Use a unique ID for the select element to avoid conflicts with standard
-  # select binding. The wrapper will have the main ID that Shiny uses.
+  # select binding. The wrapper will have the user-specified id.
   select_internal_id <- paste0(id, "-select")
 
   select_tag <- tags$select(
@@ -364,12 +364,12 @@ toolbar_input_select <- function(
 
   # Add optional icon before the select
   icon_elem <- span(
+    icon,
     class = "bslib-toolbar-icon",
     `aria-hidden` = "true",
     style = "pointer-events: none",
     `role` = "none",
-    tabindex = "-1",
-    icon
+    tabindex = "-1"
   )
 
   label_elem <- tags$label(
@@ -418,8 +418,8 @@ toolbar_input_select <- function(
 #' @rdname toolbar_input_select
 #' @inheritParams toolbar_input_select
 #' @param selected The new selected value. If `NULL`, the selection is not changed.
-#' @param session The `session` object passed to function given to `shinyServer`.
-#'   Default is `getDefaultReactiveDomain()`.
+#' @param session A Shiny session object (the default should almost always be
+#'   used).
 #'
 #' @details
 #' This update function works similarly to [shiny::updateSelectInput()], but
