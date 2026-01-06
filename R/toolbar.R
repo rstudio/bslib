@@ -359,6 +359,7 @@ toolbar_input_select <- function(
   select_tag <- tags$select(
     id = select_internal_id,
     class = "form-select form-select-sm bslib-toolbar-select",
+    `data-shiny-no-bind-input` = NA,
     selectOptions(choices, selected, inputId = select_internal_id)
   )
 
