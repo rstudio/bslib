@@ -303,7 +303,7 @@ export class BslibCodeEditor
       });
 
     const updateCallback = (): void => this.onChangeCallback(true);
-    this.addEventListener("codeEditorUpdate", updateCallback);
+    this.addEventListener("bslibCodeEditorUpdate", updateCallback);
   }
 
   /** Cleans up observers when the element is removed from the DOM. */
@@ -417,7 +417,7 @@ export class BslibCodeEditor
       value: string
     ) => {
       if (e.metaKey || e.ctrlKey) {
-        this.dispatchEvent(new CustomEvent("codeEditorUpdate"));
+        this.dispatchEvent(new CustomEvent("bslibCodeEditorUpdate"));
         editorContainer.classList.add("code-editor-submit-flash");
         setTimeout(() => {
           editorContainer.classList.remove("code-editor-submit-flash");
@@ -433,7 +433,7 @@ export class BslibCodeEditor
     const textarea = this.querySelector("textarea");
     if (textarea) {
       textarea.addEventListener("blur", () => {
-        this.dispatchEvent(new CustomEvent("codeEditorUpdate"));
+        this.dispatchEvent(new CustomEvent("bslibCodeEditorUpdate"));
       });
     }
 
@@ -543,7 +543,7 @@ export class BslibCodeEditor
       this.themeDark = data.theme_dark;
     }
 
-    this.dispatchEvent(new CustomEvent("codeEditorUpdate"));
+    this.dispatchEvent(new CustomEvent("bslibCodeEditorUpdate"));
   }
 }
 

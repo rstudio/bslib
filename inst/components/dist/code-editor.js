@@ -232,7 +232,7 @@ var _BslibCodeEditor = class extends HTMLElement {
       console.error("Failed to initialize code editor:", error);
     });
     const updateCallback = () => this.onChangeCallback(true);
-    this.addEventListener("codeEditorUpdate", updateCallback);
+    this.addEventListener("bslibCodeEditorUpdate", updateCallback);
   }
   /** Cleans up observers when the element is removed from the DOM. */
   disconnectedCallback() {
@@ -328,7 +328,7 @@ var _BslibCodeEditor = class extends HTMLElement {
       const oldEnterCallback = editor.keyCommandMap.Enter;
       editor.keyCommandMap.Enter = (e, selection, value) => {
         if (e.metaKey || e.ctrlKey) {
-          this.dispatchEvent(new CustomEvent("codeEditorUpdate"));
+          this.dispatchEvent(new CustomEvent("bslibCodeEditorUpdate"));
           editorContainer.classList.add("code-editor-submit-flash");
           setTimeout(() => {
             editorContainer.classList.remove("code-editor-submit-flash");
@@ -342,7 +342,7 @@ var _BslibCodeEditor = class extends HTMLElement {
       const textarea = this.querySelector("textarea");
       if (textarea) {
         textarea.addEventListener("blur", () => {
-          this.dispatchEvent(new CustomEvent("codeEditorUpdate"));
+          this.dispatchEvent(new CustomEvent("bslibCodeEditorUpdate"));
         });
       }
       return editor;
@@ -440,7 +440,7 @@ var _BslibCodeEditor = class extends HTMLElement {
       if (hasDefinedProperty(data, "theme_dark") && data.theme_dark) {
         this.themeDark = data.theme_dark;
       }
-      this.dispatchEvent(new CustomEvent("codeEditorUpdate"));
+      this.dispatchEvent(new CustomEvent("bslibCodeEditorUpdate"));
     });
   }
 };
