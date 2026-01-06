@@ -4,8 +4,8 @@
 // ```
 
 import { build } from "./_build";
-import type { BuildOptions } from "esbuild";
-import { copyFileSync } from "fs";
+import type { BuildOptions, Plugin } from "esbuild";
+import { copyFileSync, readFileSync } from "fs";
 
 const opts: BuildOptions = {
   target: ["es6"],
@@ -14,6 +14,32 @@ const opts: BuildOptions = {
   minify: true,
   external: ["bootstrap"],
 };
+
+// Plugin to copy CSS file on every build and watch for changes
+function copyCssPlugin(source: string, dest: string): Plugin {
+  return {
+    name: "copy-css",
+    setup(build) {
+      // Resolve a virtual module to watch the CSS file
+      build.onResolve({ filter: /^watch-css$/ }, () => ({
+        path: source,
+        namespace: "watch-css",
+      }));
+
+      // Load the CSS file so it's part of the dependency graph
+      build.onLoad({ filter: /.*/, namespace: "watch-css" }, () => ({
+        contents: "",
+        loader: "js",
+        watchFiles: [source],
+      }));
+
+      build.onEnd(() => {
+        copyFileSync(source, dest);
+        console.log("√ -", "code-editor.css", "-", new Date().toJSON());
+      });
+    },
+  };
+}
 
 for (const minified of [true, false]) {
   build({
@@ -41,12 +67,12 @@ for (const minified of [true, false]) {
     outfile: `inst/components/dist/code-editor${minified ? ".min" : ""}.js`,
     minify: minified,
     format: "esm",
+    inject: ["watch-css"],
+    plugins: [
+      copyCssPlugin(
+        "srcts/src/components/codeEditor.css",
+        "inst/components/dist/code-editor.css"
+      ),
+    ],
   });
 }
-
-// Copy code editor CSS to dist
-copyFileSync(
-  "srcts/src/components/codeEditor.css",
-  "inst/components/dist/code-editor.css"
-);
-console.log("√ -", "code-editor.css", "-", new Date().toJSON());
