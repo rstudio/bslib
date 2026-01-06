@@ -260,8 +260,7 @@ code_editor_themes <- function(mode = c("raw", "docs")) {
 code_editor_dependencies <- function() {
   list(
     code_editor_dependency_prism(),
-    code_editor_dependency_js(),
-    component_dependencies()
+    code_editor_dependency()
   )
 }
 
@@ -277,7 +276,7 @@ code_editor_dependency_prism <- function() {
   )
 }
 
-code_editor_dependency_js <- function() {
+code_editor_dependency <- function() {
   minified <- get_shiny_devmode_option("shiny.minified", default = TRUE)
   htmltools::htmlDependency(
     name = "bslib-code-editor-js",
@@ -289,7 +288,9 @@ code_editor_dependency_js <- function() {
         src = paste0("code-editor", if (minified) ".min", ".js"),
         type = "module"
       )
-    )
+    ),
+    stylesheet = "code-editor.css",
+    all_files = FALSE
   )
 }
 

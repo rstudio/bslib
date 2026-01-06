@@ -27,7 +27,7 @@
       Error in `input_code_editor()`:
       ! `theme_dark` must be one of "atom-one-dark", "dracula", "github-dark-dimmed", "github-dark", "github-light", "night-owl-light", "night-owl", "prism-okaidia", "prism-solarized-light", "prism-tomorrow", "prism-twilight", "prism", "vs-code-dark", or "vs-code-light", not "invalid-theme".
 
-# input_code_editor validates language
+# input_code_editor validates `language`
 
     Code
       input_code_editor("test", language = "fortran")

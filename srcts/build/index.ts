@@ -5,6 +5,7 @@
 
 import { build } from "./_build";
 import type { BuildOptions } from "esbuild";
+import { copyFileSync } from "fs";
 
 const opts: BuildOptions = {
   target: ["es6"],
@@ -42,3 +43,10 @@ for (const minified of [true, false]) {
     format: "esm",
   });
 }
+
+// Copy code editor CSS to dist
+copyFileSync(
+  "srcts/src/components/codeEditor.css",
+  "inst/components/dist/code-editor.css"
+);
+console.log("√ -", "code-editor.css", "-", new Date().toJSON());

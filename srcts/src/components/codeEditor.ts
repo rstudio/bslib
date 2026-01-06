@@ -18,7 +18,7 @@ import {
   updateLabel,
 } from "./_utils";
 
-// Default values - should match R defaults in input-code-editor.R
+// Default values - should match input_code_editor() defaults
 /* eslint-disable @typescript-eslint/naming-convention */
 const DEFAULT_LANGUAGE = "plain";
 const DEFAULT_TAB_SIZE = 2;
