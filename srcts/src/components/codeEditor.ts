@@ -39,8 +39,10 @@ interface PrismEditor {
     ) => boolean | undefined;
     [key: string]: unknown;
   };
+  textarea: HTMLTextAreaElement;
   setOptions(options: PrismEditorOptions): void;
   update(): void;
+  on(event: string, callback: () => void): void;
 }
 
 interface PrismEditorOptions {
@@ -67,6 +69,18 @@ interface CopyButtonModule {
 
 interface CommandsModule {
   defaultCommands: () => any;
+}
+
+interface TooltipsModule {
+  addTooltip: (
+    editor: PrismEditor,
+    tooltip: HTMLElement,
+    autoHide: boolean
+  ) => [() => void, () => void];
+}
+
+interface CursorModule {
+  cursorPosition: () => (editor: PrismEditor) => void;
 }
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -202,6 +216,7 @@ export class BslibCodeEditor
   private darkLightObserver?: MutationObserver;
   private initPromise?: Promise<PrismEditor | undefined>;
   private languageChangePromise?: Promise<void>;
+  private readonlyTooltipCleanup?: () => void;
 
   // Properties that reflect to/from HTML attributes
   get language(): string {
@@ -310,6 +325,8 @@ export class BslibCodeEditor
   disconnectedCallback(): void {
     this.darkLightObserver?.disconnect();
     this.darkLightObserver = undefined;
+    this.readonlyTooltipCleanup?.();
+    this.readonlyTooltipCleanup = undefined;
     // Theme stylesheets are intentionally kept (shared across editors)
   }
 
@@ -330,9 +347,21 @@ export class BslibCodeEditor
           this.languageChangePromise = this._handleLanguageChange(newValue);
         }
         break;
-      case "readonly":
-        editor.setOptions({ readOnly: newValue === "true" });
+      case "readonly": {
+        const isReadOnly = newValue === "true";
+        editor.setOptions({ readOnly: isReadOnly });
+
+        // Setup or cleanup tooltip based on readonly state
+        if (isReadOnly && !this.readonlyTooltipCleanup) {
+          // Setup tooltip when changing to readonly
+          void this._setupReadOnlyTooltip(editor);
+        } else if (!isReadOnly && this.readonlyTooltipCleanup) {
+          // Cleanup tooltip when changing to editable
+          this.readonlyTooltipCleanup();
+          this.readonlyTooltipCleanup = undefined;
+        }
         break;
+      }
       case "line-numbers":
         editor.setOptions({ lineNumbers: newValue !== "false" });
         break;
@@ -437,6 +466,11 @@ export class BslibCodeEditor
       });
     }
 
+    // Setup read-only tooltip if editor is read-only
+    if (readOnly) {
+      void this._setupReadOnlyTooltip(editor);
+    }
+
     return editor;
   }
 
@@ -474,6 +508,58 @@ export class BslibCodeEditor
         status: "error",
       });
       console.error(`Failed to load language '${newLanguage}':`, error);
+    }
+  }
+
+  /**
+   * Sets up a tooltip that appears when user tries to type in a read-only editor.
+   * Stores cleanup function in readonlyTooltipCleanup.
+   * @param editor - The PrismEditor instance
+   */
+  private async _setupReadOnlyTooltip(editor: PrismEditor): Promise<void> {
+    try {
+      const basePath = BslibCodeEditor.#getBasePath();
+      const [{ addTooltip }, { cursorPosition }] = await Promise.all([
+        import(`${basePath}/tooltips.js`) as Promise<TooltipsModule>,
+        import(`${basePath}/extensions/cursor.js`) as Promise<CursorModule>,
+      ]);
+
+      // Apply cursor position extension (required for tooltips)
+      cursorPosition()(editor);
+
+      // Create tooltip element
+      const tooltip = document.createElement("div");
+      tooltip.className = "code-editor-readonly-tooltip alert alert-danger";
+      tooltip.textContent = "Cannot edit read-only editor.";
+
+      const [show, hide] = addTooltip(editor, tooltip, false);
+
+      // Event handlers
+      const onBeforeInput = (): void => {
+        this.classList.add("is-invalid");
+        show();
+      };
+      const onHide = (): void => {
+        this.classList.remove("is-invalid");
+        hide();
+      };
+
+      // Show tooltip when user tries to type (use capture phase)
+      editor.textarea.addEventListener("beforeinput", onBeforeInput, true);
+
+      // Hide tooltip on cursor movement or click
+      editor.on("selectionChange", onHide);
+      editor.textarea.addEventListener("click", onHide);
+
+      // Store cleanup function
+      this.readonlyTooltipCleanup = (): void => {
+        editor.textarea.removeEventListener("beforeinput", onBeforeInput, true);
+        editor.textarea.removeEventListener("click", onHide);
+        // Note: Cannot easily remove 'on' listener, but editor cleanup will handle it
+        hide();
+      };
+    } catch (error) {
+      console.error("Failed to setup read-only tooltip:", error);
     }
   }
 

@@ -236,9 +236,11 @@ var _BslibCodeEditor = class extends HTMLElement {
   }
   /** Cleans up observers when the element is removed from the DOM. */
   disconnectedCallback() {
-    var _a;
+    var _a, _b;
     (_a = this.darkLightObserver) == null ? void 0 : _a.disconnect();
     this.darkLightObserver = void 0;
+    (_b = this.readonlyTooltipCleanup) == null ? void 0 : _b.call(this);
+    this.readonlyTooltipCleanup = void 0;
   }
   /** Responds to attribute changes by updating the prism-code-editor instance. */
   attributeChangedCallback(name, oldValue, newValue) {
@@ -252,9 +254,17 @@ var _BslibCodeEditor = class extends HTMLElement {
           this.languageChangePromise = this._handleLanguageChange(newValue);
         }
         break;
-      case "readonly":
-        editor.setOptions({ readOnly: newValue === "true" });
+      case "readonly": {
+        const isReadOnly = newValue === "true";
+        editor.setOptions({ readOnly: isReadOnly });
+        if (isReadOnly && !this.readonlyTooltipCleanup) {
+          void this._setupReadOnlyTooltip(editor);
+        } else if (!isReadOnly && this.readonlyTooltipCleanup) {
+          this.readonlyTooltipCleanup();
+          this.readonlyTooltipCleanup = void 0;
+        }
         break;
+      }
       case "line-numbers":
         editor.setOptions({ lineNumbers: newValue !== "false" });
         break;
@@ -345,6 +355,9 @@ var _BslibCodeEditor = class extends HTMLElement {
           this.dispatchEvent(new CustomEvent("bslibCodeEditorUpdate"));
         });
       }
+      if (readOnly) {
+        void this._setupReadOnlyTooltip(editor);
+      }
       return editor;
     });
   }
@@ -383,6 +396,46 @@ var _BslibCodeEditor = class extends HTMLElement {
           status: "error"
         });
         console.error(`Failed to load language '${newLanguage}':`, error);
+      }
+    });
+  }
+  /**
+   * Sets up a tooltip that appears when user tries to type in a read-only editor.
+   * Stores cleanup function in readonlyTooltipCleanup.
+   * @param editor - The PrismEditor instance
+   */
+  _setupReadOnlyTooltip(editor) {
+    return __async(this, null, function* () {
+      var _a;
+      try {
+        const basePath = __privateMethod(_a = _BslibCodeEditor, _getBasePath, getBasePath_fn).call(_a);
+        const [{ addTooltip }, { cursorPosition }] = yield Promise.all([
+          import(`${basePath}/tooltips.js`),
+          import(`${basePath}/extensions/cursor.js`)
+        ]);
+        cursorPosition()(editor);
+        const tooltip = document.createElement("div");
+        tooltip.className = "code-editor-readonly-tooltip alert alert-danger";
+        tooltip.textContent = "Cannot edit read-only editor.";
+        const [show, hide] = addTooltip(editor, tooltip, false);
+        const onBeforeInput = () => {
+          this.classList.add("is-invalid");
+          show();
+        };
+        const onHide = () => {
+          this.classList.remove("is-invalid");
+          hide();
+        };
+        editor.textarea.addEventListener("beforeinput", onBeforeInput, true);
+        editor.on("selectionChange", onHide);
+        editor.textarea.addEventListener("click", onHide);
+        this.readonlyTooltipCleanup = () => {
+          editor.textarea.removeEventListener("beforeinput", onBeforeInput, true);
+          editor.textarea.removeEventListener("click", onHide);
+          hide();
+        };
+      } catch (error) {
+        console.error("Failed to setup read-only tooltip:", error);
       }
     });
   }

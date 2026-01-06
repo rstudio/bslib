@@ -327,6 +327,7 @@ with_dir("inst/lib", {
   # The full package is installed as prism-code-editor-full, and we copy
   # only the needed files to prism-code-editor, then remove the full package
   # ----------------------------------------------------------------------
+  cat("\n\n==== Processing prism-code-editor ====\n")
   unlink("prism-code-editor", recursive = TRUE)
 
   src <- "prism-code-editor-full/dist"
@@ -422,6 +423,86 @@ with_dir("inst/lib", {
     file.path(dest, "extensions", "copyButton")
   )
 
+  # ============================================================================
+  # Remove unused CSS files
+  # ============================================================================
+  unused_css <- c(
+    "autocomplete.css",
+    "autocomplete-icons.css",
+    "invisibles.css",
+    "code-block.css",
+    "folding.css",
+    "guides.css",
+    "search.css"
+  )
+  for (css in unused_css) {
+    css_path <- file.path(dest, css)
+    if (file.exists(css_path)) {
+      file.remove(css_path)
+      cat("Removed unused CSS:", css, "\n")
+    }
+  }
+
+  # Keep scrollbar.css and rtl-layout.css (don't remove)
+
+  # ============================================================================
+  # Remove unused extensions
+  # ============================================================================
+  unused_extensions <- c(
+    "guides.js",
+    "matchTags.js"
+  )
+  for (ext in unused_extensions) {
+    ext_path <- file.path(dest, "extensions", ext)
+    if (file.exists(ext_path)) {
+      file.remove(ext_path)
+      cat("Removed unused extension:", ext, "\n")
+    }
+  }
+
+  # Keep cursor.js (required by tooltips)
+
+  # ============================================================================
+  # Remove unused chunks
+  # ============================================================================
+  # Remove chunks matching these patterns
+  chunk_patterns <- c(
+    "basic-*.js",
+    "readonly-*.js",
+    "search-*.js",
+    "selection-*.js",
+    "styles-*.js"
+  )
+
+  for (pattern in chunk_patterns) {
+    chunks <- Sys.glob(file.path(dest, pattern))
+    if (length(chunks) > 0) {
+      file.remove(chunks)
+      cat("Removed", length(chunks), "chunk(s) matching", pattern, "\n")
+    }
+  }
+
+  # Remove webComponent.js specifically
+  webcomp <- file.path(dest, "webComponent.js")
+  if (file.exists(webcomp)) {
+    file.remove(webcomp)
+    cat("Removed webComponent.js\n")
+  }
+
+  # ============================================================================
+  # Remove development files (TypeScript definitions and source maps)
+  # ============================================================================
+  ts_defs <- Sys.glob(file.path(dest, "**", "*.d.ts"))
+  js_maps <- Sys.glob(file.path(dest, "**", "*.js.map"))
+  if (length(ts_defs) > 0) {
+    file.remove(ts_defs)
+  }
+  if (length(js_maps) > 0) {
+    file.remove(js_maps)
+  }
+  cat("Removed", length(ts_defs), "TypeScript definition files\n")
+  cat("Removed", length(js_maps), "source map files\n")
+
   # Copy themes
   file.copy(
     Sys.glob(file.path(src, "themes", "*.css")),
@@ -435,7 +516,7 @@ with_dir("inst/lib", {
   theme_files <- Sys.glob(file.path(dest, "themes", "*.css"))
   for (theme_file in theme_files) {
     theme_name <- sub("\\.css$", "", basename(theme_file))
-    css_content <- readLines(theme_file, warn = FALSE)
+    css_content <- readLines(theme_file)
 
     # Wrap with scoped selectors using CSS nesting
     scoped_css <- c(
@@ -465,6 +546,7 @@ with_dir("inst/lib", {
   # Remove the full package now that we've copied what we need
 
   unlink("prism-code-editor-full", recursive = TRUE)
+  cat("\n\n==== Finished prism-code-editor ====\n")
 
   # GitHub reports security issues of devDependencies, but that's irrelevant to us
   remove_dev_dependencies <- function(pkg_file) {

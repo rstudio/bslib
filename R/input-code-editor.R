@@ -271,7 +271,7 @@ code_editor_dependency_prism <- function() {
     package = "bslib",
     src = "lib/prism-code-editor",
     script = list(src = "index.js", type = "module"),
-    stylesheet = c("layout.css", "copy.css"),
+    stylesheet = c("layout.css", "copy.css", "scrollbar.css"),
     all_files = TRUE
   )
 }
