@@ -279,7 +279,7 @@ code_editor_dependency_prism <- function() {
 code_editor_dependency <- function() {
   minified <- get_shiny_devmode_option("shiny.minified", default = TRUE)
   htmltools::htmlDependency(
-    name = "bslib-code-editor-js",
+    name = "bslib-code-editor",
     version = get_package_version("bslib"),
     package = "bslib",
     src = "components/dist",

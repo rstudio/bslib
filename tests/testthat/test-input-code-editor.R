@@ -34,7 +34,7 @@ test_that("input_code_editor generates correct HTML structure", {
   deps <- htmltools::findDependencies(editor)
   dep_names <- sapply(deps, function(d) d$name)
   expect_true("prism-code-editor" %in% dep_names)
-  expect_true("bslib-code-editor-js" %in% dep_names)
+  expect_true("bslib-code-editor" %in% dep_names)
 
   html <- as.character(editor)
 
@@ -183,7 +183,7 @@ test_that("input_code_editor attaches dependencies", {
   # Check that all expected dependencies are present
   dep_names <- sapply(deps, function(d) d$name)
   expect_true("prism-code-editor" %in% dep_names)
-  expect_true("bslib-code-editor-js" %in% dep_names)
+  expect_true("bslib-code-editor" %in% dep_names)
 })
 
 test_that("input_code_editor works with different languages", {
