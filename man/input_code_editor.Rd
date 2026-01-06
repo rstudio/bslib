@@ -96,7 +96,7 @@ The editor value is not sent to R on every keystroke. Instead, updates are
 reflected on the server when the user moves away from the editor or when they
 press \code{Ctrl/Cmd} + \code{Enter}.
 
-Note that this input is designed for editing or rendering large files.
+Note that this input is not designed for editing or rendering large files.
 Displaying files with 1,000 lines or more may lead to performance issues.
 }
 \section{Keyboard shortcuts}{
