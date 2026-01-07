@@ -5,7 +5,8 @@
 
 import { build } from "./_build";
 import type { BuildOptions, Plugin } from "esbuild";
-import { copyFileSync, readFileSync } from "fs";
+import { copyFileSync } from "fs";
+import { basename } from "path";
 
 const opts: BuildOptions = {
   target: ["es6"],
@@ -35,7 +36,7 @@ function copyCssPlugin(source: string, dest: string): Plugin {
 
       build.onEnd(() => {
         copyFileSync(source, dest);
-        console.log("√ -", "code-editor.css", "-", new Date().toJSON());
+        console.log(`√ - ${basename(dest)} - ${new Date().toJSON()}`);
       });
     },
   };
@@ -67,12 +68,15 @@ for (const minified of [true, false]) {
     outfile: `inst/components/dist/code-editor${minified ? ".min" : ""}.js`,
     minify: minified,
     format: "esm",
-    inject: ["watch-css"],
-    plugins: [
-      copyCssPlugin(
-        "srcts/src/components/codeEditor.css",
-        "inst/components/dist/code-editor.css"
-      ),
-    ],
+    // Only attach plugin to non-minified build
+    ...(minified ? {} : {
+      inject: ["watch-css"],
+      plugins: [
+        copyCssPlugin(
+          "srcts/src/components/codeEditor.css",
+          "inst/components/dist/code-editor.css"
+        ),
+      ],
+    }),
   });
 }
