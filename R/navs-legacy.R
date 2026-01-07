@@ -763,10 +763,19 @@ buildNavItem <- function(divTag, tabsetId, index) {
     liTag = tagAddRenderHook(
       liTag(id, title, value, attr(divTag, "_shiny_icon")),
       function(x) {
+        # Check if this is a hidden nav item (title is NULL)
+        is_hidden_nav <- is.null(title)
+
         if (isTRUE(getCurrentThemeVersion() >= 4)) {
-          tagQuery(x)$addClass("nav-item")$find("a")$addClass(
-            c("nav-link", if (active) "active")
-          )$allTags()
+          # Don't add nav-link class to hidden items to prevent keyboard navigation
+          if (!is_hidden_nav) {
+            tagQuery(x)$addClass("nav-item")$find("a")$addClass(
+              c("nav-link", if (active) "active")
+            )$allTags()
+          } else {
+            # Still add nav-item but not nav-link for hidden tabs
+            tagQuery(x)$addClass("nav-item")$allTags()
+          }
         } else {
           tagAppendAttributes(x, class = if (active) "active")
         }
@@ -776,7 +785,12 @@ buildNavItem <- function(divTag, tabsetId, index) {
 }
 
 liTag <- function(id, title, value, icon) {
+  # When title is NULL (i.e., nav_panel_hidden()), hide the nav item
+  # from view and keyboard navigation
+  is_hidden <- is.null(title)
+
   tags$li(
+    style = if (is_hidden) "display: none;",
     tags$a(
       href = paste0("#", id),
       `data-toggle` = "tab",
