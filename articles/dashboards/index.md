@@ -21,6 +21,7 @@ area contents to
 [`page_sidebar()`](https://rstudio.github.io/bslib/reference/page_sidebar.md).
 
 ``` r
+
 library(shiny)
 library(bslib)
 
@@ -50,6 +51,7 @@ histogram with numeric variables from the
 dataset.
 
 ``` r
+
 library(ggplot2)
 data(penguins, package = "palmerpenguins")
 
@@ -91,6 +93,7 @@ container for a numeric variable of interest, plus a `color_by` input
 control to color the histograms by `species`, `island`, or `sex`.
 
 ``` r
+
 cards <- list(
   card(
     full_screen = TRUE,
@@ -123,6 +126,7 @@ browser window (if the browser window is wide enough). In the next
 section, we’ll cover how to customize the layout.
 
 ``` r
+
 ui <- page_sidebar(
   title = "Penguins dashboard",
   sidebar = color_by,
@@ -157,6 +161,7 @@ If no `col_widths` are specified, it divides space evenly among the UI
 elements in a row.
 
 ``` r
+
 ui <- page_sidebar(
   title = "Penguins dashboard",
   sidebar = color_by,
@@ -177,6 +182,7 @@ all row heights are equal, but this can be customized with the
 units, but fixed length units are also supported).
 
 ``` r
+
 ui <- page_sidebar(
   title = "Penguins dashboard",
   sidebar = color_by,
@@ -198,6 +204,7 @@ Negative `col_widths` may also be provided to easily create
 negative/empty space:
 
 ``` r
+
 ui <- page_sidebar(
   title = "Penguins dashboard",
   sidebar = color_by,
@@ -239,6 +246,7 @@ to control the alignment and UI elements to the navbar (e.g., an
 external hyperlink).
 
 ``` r
+
 ui <- page_navbar(
   title = "Penguins dashboard",
   sidebar = color_by,
@@ -278,6 +286,7 @@ They can also be consumed by any `navset_*()` component, including
 [`navset_card_underline()`](https://rstudio.github.io/bslib/reference/navset.md).
 
 ``` r
+
 ui <- page_sidebar(
   title = "Penguins dashboard",
   sidebar = color_by,
@@ -321,6 +330,7 @@ shouldn’t grow/shrink and `min_height`/`max_height` on
 shouldn’t shrink/grow beyond a certain point.
 
 ``` r
+
 ui <- page_sidebar(
   title = "Penguins dashboard",
   sidebar = color_by,
@@ -341,6 +351,7 @@ height, which is usually 400px. Users will be able to scroll the page if
 the outputs take up more vertical space than the height of the window.
 
 ``` r
+
 ui <- page_sidebar(
   title = "Penguins dashboard",
   sidebar = color_by,
@@ -380,6 +391,7 @@ be opened via
 `open` argument.
 
 ``` r
+
 ui <- page_sidebar(
   title = "Penguins dashboard",
   sidebar = color_by,
@@ -409,6 +421,7 @@ but here’s a
 example:
 
 ``` r
+
 means <- colMeans(
   penguins[c("bill_length_mm", "bill_depth_mm", "body_mass_g")],
   na.rm = TRUE
@@ -457,6 +470,7 @@ input controls. Learn more about accordions on their [reference
 page](https://rstudio.github.io/bslib/reference/accordion.html).
 
 ``` r
+
 ui <- page_sidebar(
   title = "Penguins dashboard",
 
@@ -517,6 +531,7 @@ To learn more, visit the
 [sidebars](https://rstudio.github.io/bslib/articles/sidebars) articles.
 
 ``` r
+
 ui <- page_sidebar(
   title = "Penguins dashboard",
   sidebar = sidebar(
@@ -573,6 +588,7 @@ only work sensibly when setting them globally (i.e.,
 `theme_set(theme_bw())`).
 
 ``` r
+
 ui <- page_sidebar(
   title = "Penguins dashboard",
   sidebar = color_by,
@@ -620,6 +636,7 @@ to get the current version of Bootstrap, then pass that value to
 argument of the relevant `page_*()` function).
 
 ``` r
+
 library(shiny)
 
 ui <- page_sidebar(

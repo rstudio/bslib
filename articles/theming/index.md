@@ -15,6 +15,7 @@ make sure the app/document [uses `{bslib}` for its Bootstrap
 dependency](https://rstudio.github.io/bslib/articles/any-project).
 
 ``` r
+
 # Shiny example
 ui <- page_sidebar(
   title = "My app"
@@ -48,6 +49,7 @@ to create a demo Shiny app with the theming widget already overlayed
 version):
 
 ``` r
+
 bs_theme_preview()
 ```
 
@@ -76,6 +78,7 @@ provide [Bootswatch 3 themes](https://bootswatch.com/3), but with
 [zephyr](https://bootswatch.com/zephyr).
 
 ``` r
+
 # Shiny example
 page_sidebar(
   theme = bs_theme(bootswatch = "minty")
@@ -104,6 +107,7 @@ an example of using a subset of these named arguments to implement a
 dark mode with custom fonts:
 
 ``` r
+
 # Shiny example
 page_sidebar(
   title = "My app",
@@ -213,6 +217,7 @@ let’s set the
 Sass variable to `'orange'` (a CSS color).
 
 ``` r
+
 # Shiny example
 bs_theme(
   bg = "#002B36", fg = "#EEE8D5",
@@ -241,6 +246,7 @@ which is quite useful for leveraging Sass’ built-in module’s (e.g.,
 colors](https://sass-lang.com/documentation/modules/color#mix))
 
 ``` r
+
 bs_theme("progress-bar-bg" = "mix(white, orange, 20%)")
 #> $progress-bar-bg: mix(white, orange, 20%) !default;
 #> @import "scss/_variables.scss";
@@ -257,6 +263,7 @@ value to other variables that default to `$primary`
 (e.g. [`$progress-bar-bg`](https://rstudio.github.io/bslib/articles/bs5-variables#progress-bar-bg)).
 
 ``` r
+
 # Reduced version of the Sass code behind `bs_theme(primary = "red")`
 sass::sass("
   $primary: red !default; // First one wins
@@ -275,6 +282,7 @@ example, what if we wanted `$progress-bar-bg` to default to `$secondary`
 instead of `$primary`?
 
 ``` r
+
 bs_theme("progress-bar-bg" = "$secondary") |>
   sass::sass()
 #> Error: Undefined variable: "$secondary".
@@ -290,6 +298,7 @@ works just like
 `.where = "declarations"`, we can place the definition after Bootstrap:
 
 ``` r
+
 bs_theme()  |>
   bs_add_variables(
     "progress-bar-bg" = "$secondary",
@@ -325,6 +334,7 @@ Sass/CSS code in a string (the CSS file in this case was taken from
 [nes.css](https://github.com/nostalgic-css/NES.css/))
 
 ``` r
+
 bs_theme(
   bg = "#e5e5e5", fg = "#0d0c0c", primary = "#dd2020",
   base_font = font_google("Press Start 2P"),
@@ -425,6 +435,7 @@ your own custom theming widget (via `session$setCurrentTheme()`), like a
 dark mode switch:
 
 ``` r
+
 light <- bs_theme()
 dark <- bs_theme(bg = "black", fg = "white", primary = "purple")
 ui <- fluidPage(

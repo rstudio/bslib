@@ -7,6 +7,7 @@ Coming soon
 ### Multi-page
 
 ``` r
+
 # source("example_gallery/multi_page")
 ```
 

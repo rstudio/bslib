@@ -16,6 +16,7 @@ difference is that `page_*()` provides the latest version of Bootstrap
 (by default). For example:
 
 ``` r
+
 library(shiny)
 
 # Same as fluidPage(), but with latest Bootstrap
@@ -58,6 +59,7 @@ for this is [crosstalk](https://rstudio.github.io/crosstalk/) (i.e.,
 linked together). For example:
 
 ``` r
+
 library(crosstalk)
 library(leaflet)
 
@@ -79,6 +81,7 @@ And since the result is static HTML, you can save it to an HTML file and
 share it with others through email, Slack, etc.:
 
 ``` r
+
 htmltools::save_html(.Last.value, "index.html")
 ```
 
@@ -88,6 +91,7 @@ example, we can use
 to layout numerous htmlwidgets:
 
 ``` r
+
 plot_card <- card(
   full_screen = TRUE,
   card_header("Plot"),
@@ -102,7 +106,7 @@ page_fillable(
 
 ## R Markdown
 
-Use the `theme` parameter of a compatible output format[¹](#fn1) to get
+Use the `theme` parameter of a compatible output format[^1] to get
 started in R Markdown. By supplying `bslib: true` to that parameter,
 you’ll get the latest “stock” version of Bootstrap (akin to using
 `page_*()` in Shiny). Alternatively, you can supply
@@ -163,6 +167,7 @@ to get the current version of Bootstrap, then pass that value to
 relevant `theme` object.
 
 ``` r
+
 library(shiny)
 
 ui <- page_fluid(
@@ -182,9 +187,7 @@ output:
 ---
 ```
 
-------------------------------------------------------------------------
-
-1.  In theory, any format that passes its `theme` parameter to
+[^1]: In theory, any format that passes its `theme` parameter to
     [`rmarkdown::html_document_base()`](https://pkgs.rstudio.com/rmarkdown/reference/html_document_base.html)
     is compatible with `bslib`. However, in practice, the format may not
     be compatible with modern versions of Bootstrap.

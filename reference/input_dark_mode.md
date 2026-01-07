@@ -56,4 +56,5 @@ value with the current color mode (`"light"` or `"dark"`).
 ## See also
 
 Other input controls:
+[`input_code_editor()`](https://rstudio.github.io/bslib/reference/input_code_editor.md),
 [`input_switch()`](https://rstudio.github.io/bslib/reference/input_switch.md)

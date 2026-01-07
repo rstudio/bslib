@@ -22,6 +22,7 @@ classes](https://getbootstrap.com/docs/5.0/components/buttons) to
 achieve their different background colors).
 
 ``` r
+
 actionButton("primary", "Primary", icon("product-hunt"), class = "btn-primary m-2")
 actionButton("secondary", "Secondary (default)", class = "m-2")
 actionButton("success", "Success", icon("check"), class = "btn-success m-2")
@@ -44,6 +45,7 @@ around the body’s content, which can make it appears though the content
 is just floating in space:
 
 ``` r
+
 tabsetPanel(
   tabPanel("One", "No padding"),
   tabPanel("Two", "Very sad!")
@@ -57,6 +59,7 @@ We can help solve this issue by adding some padding the tab’s content
 (`p-3`) as well as a nice border that matches up with the tab’s borders.
 
 ``` r
+
 tab <- function(...) {
   shiny::tabPanel(..., class = "p-3 border border-top-0 rounded-bottom")
 }
@@ -74,6 +77,7 @@ And for `tabsetPanel(type="pills")` , it looks a bit better to have a
 full, rounded, border:
 
 ``` r
+
 pill <- function(...) {
   shiny::tabPanel(..., class = "p-3 border rounded")
 }
@@ -106,6 +110,7 @@ rule](https://sass-lang.com/documentation/at-rules/extend) to
 essentially add utility classes to the relevant HTML element(s):
 
 ``` r
+
 fluidPage(
   theme = bs_theme() %>%
     bs_add_rules("#my-nav { @extend .justify-content-center }"),
@@ -132,6 +137,7 @@ component](https://getbootstrap.com/docs/4.6/components/card/#header-and-footer)
 containing a [`{DT}` table](https://rstudio.github.io/DT/).
 
 ``` r
+
 bs4_card <- function(body, title) {
   div(
     class = "card",
@@ -170,6 +176,7 @@ This could be useful if you wanted to let the `$primary` be the default
 card’s title:
 
 ``` r
+
 bs_theme("theme-colors" = "('flair': orange)")
 ```
 

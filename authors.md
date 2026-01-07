@@ -32,14 +32,14 @@
 Source:
 [`DESCRIPTION`](https://github.com/rstudio/bslib/blob/rc-v0.10.0/DESCRIPTION)
 
-Sievert C, Cheng J, Aden-Buie G (2025). *bslib: Custom 'Bootstrap'
+Sievert C, Cheng J, Aden-Buie G (2026). *bslib: Custom 'Bootstrap'
 'Sass' Themes for 'shiny' and 'rmarkdown'*. R package version 0.10.0,
 <https://rstudio.github.io/bslib/>.
 
     @Manual{,
       title = {bslib: Custom 'Bootstrap' 'Sass' Themes for 'shiny' and 'rmarkdown'},
       author = {Carson Sievert and Joe Cheng and Garrick Aden-Buie},
-      year = {2025},
+      year = {2026},
       note = {R package version 0.10.0},
       url = {https://rstudio.github.io/bslib/},
     }

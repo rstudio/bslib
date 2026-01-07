@@ -10,6 +10,7 @@ see the examples section below.
 ## Examples
 
 ``` r
+
 # If you have an internet connection, running the following code
 # will download, cache, and import the relevant Google Font files
 # for local use

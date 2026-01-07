@@ -45,6 +45,7 @@ received for the input corresponding to `id` will be a logical
 ## See also
 
 Other input controls:
+[`input_code_editor()`](https://rstudio.github.io/bslib/reference/input_code_editor.md),
 [`input_dark_mode()`](https://rstudio.github.io/bslib/reference/input_dark_mode.md)
 
 ## Examples

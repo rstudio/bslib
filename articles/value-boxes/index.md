@@ -5,6 +5,7 @@ This (short) article on
 assumes you’ve loaded the following packages:
 
 ``` r
+
 library(bslib)
 library(shiny)
 library(bsicons)
@@ -58,6 +59,7 @@ documentation lays out all of your options.
 - Top Right
 
 ``` r
+
 value_box(
   title = "I got",
   value = "99 problems",
@@ -80,6 +82,7 @@ hit me
 ![](data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdib3g9IjAgMCAxNiAxNiIgY2xhc3M9ImJpIGJpLXN1aXQtc3BhZGUgIiBzdHlsZT0iaGVpZ2h0OjFlbTt3aWR0aDoxZW07ZmlsbDpjdXJyZW50Q29sb3I7dmVydGljYWwtYWxpZ246LTAuMTI1ZW07IiBhcmlhLWhpZGRlbj0idHJ1ZSIgcm9sZT0iaW1nIj48cGF0aCBkPSJNOCAwYS41LjUgMCAwIDEgLjQyOS4yNDNjMS4zNTkgMi4yNjUgMi45MjUgMy42ODIgNC4yNSA0Ljg4Mi4wOTYuMDg2LjE5LjE3LjI4Mi4yNTVDMTQuMzA4IDYuNjA0IDE1LjUgNy43NDcgMTUuNSA5LjVhNCA0IDAgMCAxLTUuNDA2IDMuNzQ2Yy4yMzUuMzkuNDkxLjc4Mi43MjIgMS4xMzEuNDM0LjY1OS0uMDEgMS42MjMtLjg1NiAxLjYyM0g2LjA0Yy0uODQ1IDAtMS4yOS0uOTY0LS44NTYtMS42MjMuMjYzLS4zOTcuNTEtLjc3Ny43MjgtMS4xMzRBNCA0IDAgMCAxIC41IDkuNWMwLTEuNzUzIDEuMTkyLTIuODk2IDIuNTM5LTQuMTJsLjI4MS0uMjU1YzEuMzI2LTEuMiAyLjg5Mi0yLjYxNyA0LjI1MS00Ljg4MkEuNS41IDAgMCAxIDggMHpNMy43MTEgNi4xMkMyLjMwOCA3LjM5NiAxLjUgOC4yNTMgMS41IDkuNWEzIDMgMCAwIDAgNS4yNzUgMS45NTYuNS41IDAgMCAxIC44NjguNDNjLS4wOTQuNDM4LS4zMy45MzItLjYxMSAxLjQyOGEyOS4yNDcgMjkuMjQ3IDAgMCAxLTEuMDEzIDEuNjE0LjAzLjAzIDAgMCAwLS4wMDUuMDE4LjA3NC4wNzQgMCAwIDAgLjAyNC4wNTRoMy45MjRhLjA3NC4wNzQgMCAwIDAgLjAyNC0uMDU0LjAzLjAzIDAgMCAwLS4wMDUtLjAxOGMtLjMtLjQ1NS0uNjU4LTEuMDA1LS45Ni0xLjUzNS0uMjk0LS41MTQtLjU3LTEuMDY0LS42NjQtMS41MDdhLjUuNSAwIDAgMSAuODY4LS40M0EzIDMgMCAwIDAgMTQuNSA5LjVjMC0xLjI0Ny0uODA4LTIuMTA0LTIuMjExLTMuMzhMMTIgNS44NmMtMS4xOTYtMS4wODQtMi42NjgtMi40MTYtNC00LjQyNC0xLjMzMiAyLjAwOC0yLjgwNCAzLjM0LTQgNC40MjJsLS4yODkuMjYxeiIgLz48L3N2Zz4=)
 
 ``` r
+
 value_box(
   title = "I got",
   value = "99 problems",
@@ -115,6 +118,7 @@ ready, and thus reduces “layout shift” when the value is actually
 rendered.
 
 ``` r
+
 ui <- page_fixed(
   value_box(
     title = "The current time",
@@ -143,6 +147,7 @@ which ensures a uniform height and width (at least by default) across
 the boxes.
 
 ``` r
+
 vbs <- list(
   value_box(
     title = "1st value",
@@ -217,6 +222,7 @@ height of the value boxes don’t change, but the height of the plot does
 (and it isn’t allowed to shrink below 200 pixels):
 
 ``` r
+
 page_fillable(
   layout_column_wrap(
     width = "250px",
@@ -264,6 +270,7 @@ values to avoid hard coding `"white"` into the colors of the
 sparklines).
 
 ``` r
+
 library(plotly)
 
 sparkline <- plot_ly(economics) %>%

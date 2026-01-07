@@ -27,6 +27,7 @@ Markdown](https://rmarkdown.rstudio.com/) based on
 Install the `bslib` package from CRAN as follows:
 
 ``` r
+
 install.packages("bslib")
 ```
 

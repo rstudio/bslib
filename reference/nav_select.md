@@ -85,6 +85,7 @@ Other Panel container functions:
 ## Examples
 
 ``` r
+
 can_browse <- function() rlang::is_interactive() && require("shiny")
 
 # Selecting a tab
