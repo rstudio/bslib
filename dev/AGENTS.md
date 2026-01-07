@@ -310,6 +310,7 @@ for transitioning apps from BS3 to BS4/5
 ### Getting Started
 
 ``` r
+
 # Install package dependencies
 pak::local_install_dev_deps()
 ```
@@ -334,6 +335,7 @@ yarn check_lint        # ESLint checks only
 **R package development**:
 
 ``` r
+
 devtools::load_all() # Load package for interactive development
 devtools::document() # Build documentation
 devtools::test()     # Run tests
@@ -344,6 +346,7 @@ devtools::check()    # Check package (R CMD check) (use as final check)
 **Enable Shiny dev mode** (disables caching/precompilation):
 
 ``` r
+
 options(shiny.devmode = TRUE)
 # or
 shiny::devmode(TRUE)

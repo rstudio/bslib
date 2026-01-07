@@ -2,6 +2,17 @@
 
 ## bslib (development version)
 
+### Breaking changes
+
+- bslib now uses the
+  [brand.yml](https://posit-dev.github.io/brand-yml/pkg/r/) package for
+  reading [brand.yml](https://posit-dev.github.io/brand.yml) files. This
+  change improves compatibility with other tools that use brand.yml
+  files, such as Quarto. The
+  [brand.yml](https://posit-dev.github.io/brand-yml/pkg/r/) package must
+  be installed for `_brand.yml` files to be automatically discovered.
+  ([\#1227](https://github.com/rstudio/bslib/issues/1227))
+
 ### New features
 
 - Added a new
@@ -23,8 +34,19 @@
   [`hide_toast()`](https://rstudio.github.io/bslib/dev/reference/show_toast.md)
   for manual dismissal, and
   [`toast_header()`](https://rstudio.github.io/bslib/dev/reference/toast.md)
-  for structured headers with icons and status indicators.
+  for structured headers with icons and status indicators. Try it with
+  `shiny::runExample("toast", package = "bslib")`.
   ([\#1246](https://github.com/rstudio/bslib/issues/1246))
+
+- Added a new
+  [`input_code_editor()`](https://rstudio.github.io/bslib/dev/reference/input_code_editor.md)
+  element that allows for light-weight code editing with syntax
+  highlighting, using the
+  [prism-code-editor](https://prism-code-editor.netlify.app/) library.
+  The editor supports 20+ languages, more than a dozen themes, and
+  automatic light/dark mode switching. Try it with
+  `shiny::runExample("code-editor", package = "bslib")`.
+  ([\#1274](https://github.com/rstudio/bslib/issues/1274))
 
 ### Improvements and bug fixes
 

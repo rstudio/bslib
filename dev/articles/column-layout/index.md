@@ -17,6 +17,7 @@ into a more mobile-friendly approach of “show each card at maximum
 width”.
 
 ``` r
+
 library(bslib)
 
 card1 <- card(
@@ -55,12 +56,13 @@ height](#by-row)).
 #### Fixed number of columns
 
 For a fixed number of columns, provide `width = 1/n`, where `n` is the
-number of columns.[¹](#fn1) As the animation (except on mobile devices)
-below shows, as the width of the
+number of columns.[^1] As the animation (except on mobile devices) below
+shows, as the width of the
 [`layout_column_wrap()`](https://rstudio.github.io/bslib/dev/reference/layout_column_wrap.md)
 container changes, each card grows or shrinks to maintain its 1/2 width.
 
 ``` r
+
 layout_column_wrap(
   width = 1/2, height = 300,
   card1, card2, card3
@@ -114,6 +116,7 @@ new line when the viewport is less than 600 pixels, but on wider
 screens, the cards equally distribute the free space.
 
 ``` r
+
 layout_column_wrap(
   width = "200px", height = 300,
   card1, card2, card3
@@ -159,6 +162,7 @@ To keep the `width` of each column fixed (don’t allow cards to grow to
 take up free space), set `fixed_width = TRUE`.
 
 ``` r
+
 layout_column_wrap(
   width = "200px", height = 300,
   fixed_width = TRUE,
@@ -211,6 +215,7 @@ To allow the height of each row to be different, set
 `heights_equal = "row"`:
 
 ``` r
+
 layout_column_wrap(
   width = 1/2,
   heights_equal = "row",
@@ -259,6 +264,7 @@ row. This can be prevented by setting `fill = FALSE` on a particular
 card.
 
 ``` r
+
 layout_column_wrap(
   width = "200px",
   card1, card3, 
@@ -313,6 +319,7 @@ particular layout gives the 1st and 3rd card twice as much space as the
 2nd:
 
 ``` r
+
 layout_column_wrap(
   width = NULL, height = 300, fill = FALSE,
   style = css(grid_template_columns = "2fr 1fr 2fr"),
@@ -362,6 +369,7 @@ can appear within another
 For example
 
 ``` r
+
 layout_column_wrap(
   width = 1/2,
   height = 300,
@@ -437,6 +445,7 @@ These R functions add animation-related CSS class and styles to whatever
 tags you give it.
 
 ``` r
+
 library(htmltools)
 
 anim_width <- function(x, width1, width2) {
@@ -500,8 +509,6 @@ And here are the CSS animation rules that power those `anim_width` and
 }
 ```
 
-------------------------------------------------------------------------
-
-1.  Do not attempt to use percent-based widths with `width`–like `"50%"`
-    instead of `1/2`. Percentages will almost certainly not give you the
-    results you want.
+[^1]: Do not attempt to use percent-based widths with `width`–like
+    `"50%"` instead of `1/2`. Percentages will almost certainly not give
+    you the results you want.

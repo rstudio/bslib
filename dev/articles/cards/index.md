@@ -19,6 +19,7 @@ rendered [htmlwidgets](http://www.htmlwidgets.org/) like
 create those widgets:
 
 ``` r
+
 library(bslib)
 library(shiny)
 library(htmltools)
@@ -64,6 +65,7 @@ classes to customize things like
 [borders](https://getbootstrap.com/docs/5.2/utilities/borders), etc.
 
 ``` r
+
 card(
   card_header(
     class = "bg-dark",
@@ -90,10 +92,11 @@ aren’t “known”
 [`card()`](https://rstudio.github.io/bslib/dev/reference/card.md) items,
 are wrapped together into an implicit
 [`card_body()`](https://rstudio.github.io/bslib/dev/reference/card_body.md)
-call.[¹](#fn1) For example, the code to the right generates HTML that is
+call.[^1] For example, the code to the right generates HTML that is
 identical to the previous example:
 
 ``` r
+
 card(
   card_header(
     class = "bg-dark",
@@ -129,6 +132,7 @@ full-screen, `max_height`/`height` won’t effect the full-screen size of
 the card.
 
 ``` r
+
 card(
   max_height = 250,
   full_screen = TRUE,
@@ -183,6 +187,7 @@ match the
 size.
 
 ``` r
+
 card(
   height = 250,
   full_screen = TRUE,
@@ -208,6 +213,7 @@ padding, which can be done via [spacing & alignment utility
 classes](https://rstudio.github.io/bslib/dev/articles/utility-classes/#add-padding-borders-and-alignment).
 
 ``` r
+
 card(
   height = 275,
   full_screen = TRUE,
@@ -248,6 +254,7 @@ but this concept becomes quite useful when implementing page-level
 with [multiple cards](#multiple-cards).
 
 ``` r
+
 card(
   height = 300,
   style = "resize:vertical;",
@@ -292,6 +299,7 @@ want `min_height` on the filling output since the scrolling content will
 force it to shrink:
 
 ``` r
+
 card(
   height = 375,
   full_screen = TRUE,
@@ -385,6 +393,7 @@ Also, when the content has a fixed size, and should not be allowed to
 scroll, set `fill = FALSE`:
 
 ``` r
+
 card(
   height = 350,
   full_screen = TRUE,
@@ -422,6 +431,7 @@ for [filling output](#filling-outputs). Here we have an equal-width
 widths](https://rstudio.github.io/bslib/dev/articles/column-layout#varying-widths).
 
 ``` r
+
 card(
   height = 350,
   full_screen = TRUE,
@@ -473,6 +483,7 @@ particular row will have the same height (by default). Learn more in
 layouts](https://rstudio.github.io/bslib/dev/articles/column-layout).
 
 ``` r
+
 layout_column_wrap(
   width = 1/2,
   height = 300,
@@ -514,6 +525,7 @@ they get [implicitly wrapped](#implicit-card_body) in a
 [`card_body()`](https://rstudio.github.io/bslib/dev/reference/card_body.md).
 
 ``` r
+
 library(leaflet)
 navset_card_tab(
   height = 450,
@@ -538,9 +550,9 @@ navset_card_tab(
 
 HTML Widgets
 
-- [Plotly](#tab-3416-1)
-- [Leaflet](#tab-3416-2)
-- [](#tab-3416-3)
+- [Plotly](#tab-6664-1)
+- [Leaflet](#tab-6664-2)
+- [](#tab-6664-3)
 
 ##### A plotly plot
 
@@ -565,6 +577,7 @@ set `fillable = TRUE` in
 [`layout_sidebar()`](https://rstudio.github.io/bslib/dev/reference/sidebar.md).
 
 ``` r
+
 card(
   height = 300,
   full_screen = TRUE,
@@ -600,6 +613,7 @@ consider laying them out in [multiple cards](#multiple-cards) with
 to produce a grid of clickable thumbnails.
 
 ``` r
+
 card(
   height = 300,
   full_screen = TRUE,
@@ -647,6 +661,7 @@ but in a “normal” layout flow (`fillable = FALSE`), inline tags render
 *inline*.
 
 ``` r
+
 card(
   card_body(
     fillable = TRUE,
@@ -683,6 +698,7 @@ inline by wrapping it in a
 [`div()`](https://rstudio.github.io/htmltools/reference/builder.html).
 
 ``` r
+
 card(
   height = 325, full_screen = TRUE,
   card_header("A plot with an action links"),
@@ -714,6 +730,7 @@ utility classes](https://getbootstrap.com/docs/5.3/utilities/flex/), we
 can easily opt-in and customize defaults.
 
 ``` r
+
 card(
   height = 300, full_screen = TRUE,
   card_header(
@@ -756,6 +773,7 @@ boxes](https://rstudio.github.io/bslib/dev/articles/value-boxes) article
 for a clever use of this).
 
 ``` r
+
 # UI logic
 ui <- page_fluid(
   card(
@@ -796,8 +814,6 @@ not actually hooked up to a Shiny app, so we can’t show a real plot.
 }
 ```
 
-------------------------------------------------------------------------
-
-1.  If you want to customize this behavior, you can provide a function
+[^1]: If you want to customize this behavior, you can provide a function
     to `wrapper` argument (or set it to `NULL` to avoid wrapping the non
     card items in a container).

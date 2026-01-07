@@ -193,10 +193,9 @@ that appear temporarily in a corner of the screen.
 
 UI controls for capturing user input
 
-- [`input_switch()`](https://rstudio.github.io/bslib/dev/reference/input_switch.md)
-  [`update_switch()`](https://rstudio.github.io/bslib/dev/reference/input_switch.md)
-  [`toggle_switch()`](https://rstudio.github.io/bslib/dev/reference/input_switch.md)
-  : Switch input control
+- [`input_code_editor()`](https://rstudio.github.io/bslib/dev/reference/input_code_editor.md)
+  [`update_code_editor()`](https://rstudio.github.io/bslib/dev/reference/input_code_editor.md)
+  : Code editor input
 
 - [`input_dark_mode()`](https://rstudio.github.io/bslib/dev/reference/input_dark_mode.md)
   [`toggle_dark_mode()`](https://rstudio.github.io/bslib/dev/reference/input_dark_mode.md)
@@ -205,6 +204,11 @@ UI controls for capturing user input
 - [`input_submit_textarea()`](https://rstudio.github.io/bslib/dev/reference/input_submit_textarea.md)
   [`update_submit_textarea()`](https://rstudio.github.io/bslib/dev/reference/input_submit_textarea.md)
   : Create a textarea input control with explicit submission
+
+- [`input_switch()`](https://rstudio.github.io/bslib/dev/reference/input_switch.md)
+  [`update_switch()`](https://rstudio.github.io/bslib/dev/reference/input_switch.md)
+  [`toggle_switch()`](https://rstudio.github.io/bslib/dev/reference/input_switch.md)
+  : Switch input control
 
 - [`input_task_button()`](https://rstudio.github.io/bslib/dev/reference/input_task_button.md)
   [`update_task_button()`](https://rstudio.github.io/bslib/dev/reference/input_task_button.md)

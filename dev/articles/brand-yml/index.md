@@ -65,6 +65,7 @@ file. To run the app use
 [`shiny::runExample()`](https://rdrr.io/pkg/shiny/man/runExample.html).
 
 ``` r
+
 shiny::runExample("brand.yml", package = "bslib")
 ```
 
@@ -72,6 +73,7 @@ To use the app as a template, create a new directory for your own app
 and then copy the bslib example app to that directory
 
 ``` r
+
 new_app_dir <- "my-brand" # path to your app
 template <- fs::path_package("bslib", "examples-shiny/brand.yml")
 
@@ -82,6 +84,7 @@ fs::dir_copy(template, new_app_dir)
 Once created, open `app.R` and `_brand.yml` for editing.
 
 ``` r
+
 file.edit(fs::path(new_app_dir, "app.R"))
 file.edit(fs::path(new_app_dir, "_brand.yml"))
 ```
@@ -95,6 +98,7 @@ the example above, save the file as `_brand.yml` and include it in the
 directory containing your Shiny app.
 
 ``` r
+
 # Automatically find `_brand.yml` in app directory or its parent directories
 ui <- page_fluid(
   theme = bs_theme()  # No additional configuration needed
@@ -128,6 +132,7 @@ Use `brand = TRUE` to find `_brand.yml` in app dir or its parents, or
 fail otherwise.
 
 ``` r
+
 ui <- page_sidebar(
   theme = bs_theme(brand = TRUE)
 )
@@ -137,6 +142,7 @@ Provide `brand` with a direct path to a brand.yml file, useful when the
 file has a special name or is stored in a central location.
 
 ``` r
+
 ui <- page_sidebar(
   theme = bs_theme(brand = "path/to/brand.yml")
 )
@@ -146,6 +152,7 @@ Use a list to define brand settings inline, useful to quickly theme a
 small app.
 
 ``` r
+
 ui <- page_sidebar(
   theme = bs_theme(
     brand = list(
@@ -165,6 +172,7 @@ Finally, you can ignore an existing `_brand.yml` file and apply no
 branding.
 
 ``` r
+
 ui <- page_sidebar(
   theme = bs_theme(brand = FALSE)
 )

@@ -29,6 +29,7 @@ leverage `full_screen` expansion, add a header/footer, and more.
 Show code
 
 ``` r
+
 layout_sidebar(
   sidebar = sidebar("Sidebar"),
   "Main contents"
@@ -48,6 +49,7 @@ A sidebar layout.
 Show code
 
 ``` r
+
 card(
   full_screen = TRUE,
   card_header("Title"),
@@ -92,6 +94,7 @@ layouts within a filling layout.
 Show code
 
 ``` r
+
 page_fillable(
   layout_sidebar(
     sidebar = sidebar("Sidebar area"),
@@ -127,6 +130,7 @@ desirable to have the *same sidebar* on every page, it often helps to
 Show code
 
 ``` r
+
 page_navbar(
   sidebar = sidebar("Sidebar"),
   nav_panel("Page 1", "Page 1 content"),
@@ -136,8 +140,8 @@ page_navbar(
 
 [`page_navbar()`](https://rstudio.github.io/bslib/dev/reference/page_navbar.md)
 
-- [Page 1](#tab-5828-1)
-- [Page 2](#tab-5828-2)
+- [Page 1](#tab-8878-1)
+- [Page 2](#tab-8878-2)
 
 Page 1 content
 
@@ -152,6 +156,7 @@ A sidebar shared across multiple pages.
 Show code
 
 ``` r
+
 navset_card_tab(
   sidebar = sidebar("Sidebar"),
   nav_panel("Tab 1", "Tab 1 content"),
@@ -163,8 +168,8 @@ navset_card_tab(
 
 Tab Card
 
-- [Tab 1](#tab-8585-1)
-- [Tab 2](#tab-8585-2)
+- [Tab 1](#tab-4385-1)
+- [Tab 2](#tab-4385-2)
 
 Tab 1 content
 
@@ -179,10 +184,10 @@ A sidebar shared across multiple tabs.
 ## A real example
 
 Now that we’ve enumerated bslib’s sidebar layout options, lets use some
-real data[¹](#fn1) to create some real inputs and outputs, and explore
-some additional features of sidebar layouts.
+real data[^1] to create some real inputs and outputs, and explore some
+additional features of sidebar layouts.
 
-In a Shiny app[²](#fn2), you’ll probably want to use inputs like
+In a Shiny app[^2], you’ll probably want to use inputs like
 [`selectInput()`](https://rdrr.io/pkg/shiny/man/selectInput.html),
 [`sliderInput()`](https://rdrr.io/pkg/shiny/man/sliderInput.html), etc.,
 in the sidebar, but because you’re reading this article in a static
@@ -203,6 +208,7 @@ layouts, but do keep in mind this will give us a list of `filters` and
 Show code
 
 ``` r
+
 library(bslib)
 library(shiny)
 library(crosstalk)
@@ -252,6 +258,7 @@ in that they can be put directly inside a
 is useful for adding a header/footer, `full_screen = TRUE`, etc.).
 
 ``` r
+
 sidebar_diamonds <- layout_sidebar(
   sidebar = filters[[1]],
   plots[[1]]
@@ -303,6 +310,7 @@ Diamonds page (you could also keep the Diamonds page `fillable` an put a
 `min_height` on the cards to prevent them from shrinking too much).
 
 ``` r
+
 page_navbar(
   title = "Sidebar demo",
   fillable = "Earthquakes",
@@ -347,6 +355,7 @@ there a large amount of sidebar/main contents, consider specifying a
 well as `full_screen = TRUE` to reduce the need for scrolling).
 
 ``` r
+
 page_fixed(
   h1("Sidebar demo", class = "lead mt-3"),
   card(
@@ -370,7 +379,7 @@ provides a few additional useful features.
 
 Sometimes in a multiple page/tab setting, it’s useful to have a sidebar
 on every page/tab, but changes its contents based on which page/tab is
-active.[³](#fn3) Thanks to
+active.[^3] Thanks to
 [`conditionalPanel()`](https://rdrr.io/pkg/shiny/man/conditionalPanel.html),
 this can be done fairly easily in a Shiny app with
 [`page_navbar()`](https://rstudio.github.io/bslib/dev/reference/page_navbar.md)
@@ -382,6 +391,7 @@ and then reference that `id` in the
 [`conditionalPanel()`](https://rdrr.io/pkg/shiny/man/conditionalPanel.html):
 
 ``` r
+
 shinyApp(
   page_navbar(
     title = "Conditional sidebar",
@@ -415,6 +425,7 @@ reference use the `id` to programmatically open the sidebar on the 2nd
 page.
 
 ``` r
+
 library(shiny)
 
 ui <- page_navbar(
@@ -457,6 +468,7 @@ This example depends on objects from the [setup code
 section](#setup-code).
 
 ``` r
+
 accordion_filters <- accordion(
   accordion_panel(
     "Dropdowns", icon = bsicons::bs_icon("menu-app"),
@@ -511,6 +523,7 @@ that contains a
 to be fillable and have zero padding (`class = "p-0"`).
 
 ``` r
+
 page_fillable(
   h1("Left and right sidebar", class = "px-3 my-3"),
   layout_sidebar(
@@ -574,6 +587,7 @@ to tweak the border color of the sidebar layout to match the sidebar
 background.
 
 ``` r
+
 library(htmltools)
 library(leaflet)
 
@@ -600,18 +614,21 @@ Magnitude
 
 ![](data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdib3g9IjAgMCAxNiAxNiIgY2xhc3M9ImJpIGJpLWNoZXZyb24tbGVmdCBjb2xsYXBzZS1pY29uIiBzdHlsZT0iaGVpZ2h0Ojt3aWR0aDo7ZmlsbDpjdXJyZW50Q29sb3I7dmVydGljYWwtYWxpZ246LTAuMTI1ZW07IiBhcmlhLWhpZGRlbj0idHJ1ZSIgcm9sZT0iaW1nIj48cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xMS4zNTQgMS42NDZhLjUuNSAwIDAgMSAwIC43MDhMNS43MDcgOGw1LjY0NyA1LjY0NmEuNS41IDAgMCAxLS43MDguNzA4bC02LTZhLjUuNSAwIDAgMSAwLS43MDhsNi02YS41LjUgMCAwIDEgLjcwOCAweiIgLz48L3N2Zz4=)
 
-------------------------------------------------------------------------
+Page 1 content
 
-1.  Our “real data” is just a 1,000 rows randomly sampled from
+Page 2 content
+
+[^1]: Our “real data” is just a 1,000 rows randomly sampled from
     [ggplot2](https://ggplot2.tidyverse.org)’s `diamonds` data as well
     as [leaflet](https://rstudio.github.io/leaflet/)’s `quakes`.
 
-2.  In a Shiny app, we also recommend you add an `id` to the
+[^2]: In a Shiny app, we also recommend you add an `id` to the
     [`sidebar()`](https://rstudio.github.io/bslib/dev/reference/sidebar.md)
     so that you can reactively read/update whether the sidebar is
     open/closed.
 
-3.  If the controls depend on some other application state, you’ll need
-    to use [`uiOutput()`](https://rdrr.io/pkg/shiny/man/htmlOutput.html)
-    to fill the contents of a
+[^3]: If the controls depend on some other application state, you’ll
+    need to use
+    [`uiOutput()`](https://rdrr.io/pkg/shiny/man/htmlOutput.html) to
+    fill the contents of a
     [`sidebar()`](https://rstudio.github.io/bslib/dev/reference/sidebar.md)).

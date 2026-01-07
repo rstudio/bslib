@@ -16,6 +16,7 @@ we have the following R function to generate some HTML with classes that
 we’ll write custom Sass/CSS styles for:
 
 ``` r
+
 person <- function(name, title, company) {
   div(
     class = "person",
@@ -71,6 +72,7 @@ and use our themeable [`person()`](https://rdrr.io/r/utils/person.html)
 component like so:
 
 ``` r
+
 ui <- fluidPage(
   theme = bs_theme(bg = "#002B36", fg = "#EEE8D5") %>%
     bs_add_rules(sass::sass_file("person.scss")),
@@ -95,6 +97,7 @@ includes the `person.scss` (and pre-compiled `person.css`) file under
 the `inst/` directory. Then we could do the following:
 
 ``` r
+
 name <- "person"
 version <- "1.0.0"
 person_dependency <- function(theme) {
@@ -159,6 +162,7 @@ and then translate any relevant information to the widget’s instance
 data, for example:
 
 ``` r
+
 my_widget <- function(...) {
   createWidget(
     name = "mywidget", ...,

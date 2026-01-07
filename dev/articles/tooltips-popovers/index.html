@@ -108,7 +108,7 @@
 
 
 <script src="index_files/bslib-component-js-0.9.0.9002/components.min.js"></script><script src="index_files/bslib-component-js-0.9.0.9002/web-components.min.js" type="module"></script><link href="index_files/bslib-component-css-0.9.0.9002/components.css" rel="stylesheet">
-<script src="index_files/bslib-tag-require-0.9.0.9002/tag-require.js"></script><link href="index_files/htmltools-fill-0.5.8.9000/fill.css" rel="stylesheet">
+<script src="index_files/bslib-tag-require-0.9.0.9002/tag-require.js"></script><link href="index_files/htmltools-fill-0.5.9.9000/fill.css" rel="stylesheet">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../../logo.png" class="logo" alt=""><h1>Tooltips &amp; Popovers</h1>
@@ -243,7 +243,9 @@ should be able to interact with the message itself.</p>
 <span>  <span class="st">"Focus/hover here for tooltip"</span></span>
 <span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../../reference/tooltip.html">tooltip</a></span><span class="op">(</span><span class="st">"Tooltip message"</span><span class="op">)</span></span></code></pre></div>
-<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()"><template>Tooltip message</template><button id="btn_tip" type="button" class="btn btn-default action-button">Focus/hover here for tooltip</button>
+<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()"><template>Tooltip message</template><button id="btn_tip" type="button" class="btn btn-default action-button">
+<span class="action-label">Focus/hover here for tooltip</span>
+</button>
 </bslib-tooltip><p><br class="my-5"></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/actionButton.html" class="external-link">actionButton</a></span><span class="op">(</span></span>
@@ -256,7 +258,9 @@ should be able to interact with the message itself.</p>
 <span>  <span class="op">)</span></span></code></pre></div>
 <bslib-popover placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="popover()"><template><div style="display:contents;">Popover message</div>
 <div style="display:contents;">Popover title</div>
-</template><button id="btn_pop" type="button" class="btn btn-default action-button">Click here for popover</button>
+</template><button id="btn_pop" type="button" class="btn btn-default action-button">
+<span class="action-label">Click here for popover</span>
+</button>
 </bslib-popover>
 </div>
 </div>

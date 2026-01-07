@@ -10,8 +10,8 @@ layouts](https://rstudio.github.io/bslib/dev/articles/sidebars), or
 generally fill anywhere you want.
 
 Since, in theory, essentially any UI element can be coerced into a
-**fillable container** and/or **fill item**[¹](#fn1), it’s useful to
-first study their behavior in the abstract, which we do next in the [In
+**fillable container** and/or **fill item**[^1], it’s useful to first
+study their behavior in the abstract, which we do next in the [In
 theory](#in-theory) section. After, the [In practice](#in-practice)
 section reinforces those concepts and demonstrates their power with
 practical examples.
@@ -123,9 +123,10 @@ following code. Here we’re using [plotly](https://plotly-r.com) to
 create a list of fill items, but the same concepts extend to other
 htmlwidgets (e.g., [leaflet](https://rstudio.github.io/leaflet/)) and
 Shiny outputs like
-[`plotOutput()`](https://rdrr.io/pkg/shiny/man/plotOutput.html).[²](#fn2)
+[`plotOutput()`](https://rdrr.io/pkg/shiny/man/plotOutput.html).[^2]
 
 ``` r
+
 library(plotly)
 plots <- list(
   plot_ly(diamonds) |> add_histogram(x = ~price),
@@ -151,6 +152,7 @@ own defined height (instead of the viewport size) on mobile, which is
 often better behavior when showing multiple outputs.
 
 ``` r
+
 page_fillable(
   h2("Diamond plots"),
   plots[[1]], plots[[2]], plots[[3]]
@@ -184,6 +186,7 @@ size of the
 container.
 
 ``` r
+
 page_fillable(
   h2("Diamond plots"),
   layout_columns(plots[[1]], plots[[2]]),
@@ -203,6 +206,7 @@ value boxes should be given more/less space and the window becomes
 larger/smaller:
 
 ``` r
+
 boxes <- layout_columns(
   fill = FALSE,
   value_box(
@@ -249,6 +253,7 @@ grows/shrinks (since they are fill), but also retain the plot’s ability
 to grow/shrink (since they are fillable).
 
 ``` r
+
 plot_card <- function(header, ...) {
   card(
     full_screen = TRUE,
@@ -294,6 +299,7 @@ a fillable container, so if that behavior is undesirable, set
 [`layout_sidebar()`](https://rstudio.github.io/bslib/dev/reference/sidebar.md).
 
 ``` r
+
 page_fillable(
   padding = 0,
   layout_sidebar(
@@ -333,6 +339,7 @@ value. So, in order to carry the potential to fill down to a fill item
 carrier.
 
 ``` r
+
 library(plotly)
 
 ui <- page_fluid(
@@ -362,6 +369,7 @@ unique interface for filling a container. Specifically, make sure to set
 as you’d expect it to.
 
 ``` r
+
 library(DT)
 
 ui <- page_fluid(
@@ -410,16 +418,14 @@ Instead, use
 to implement [multi-column filling
 layouts](https://rstudio.github.io/bslib/dev/articles/column-layout)
 
-------------------------------------------------------------------------
-
-1.  Technically speaking, a **fillable container** is just a [CSS
+[^1]: Technically speaking, a **fillable container** is just a [CSS
     flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
     container with `flex-direction: column` (which makes its children
     flex items). And, when a **fill item** appears as a direct child of
     a **fillable container**, it is given a `flex` property of `1`
     (i.e., it’s allowed to grow/shrink).
 
-2.  If these techniques don’t extend as advertised to your output(s) of
-    choice, see the [other advice](#other-advice) section to help
+[^2]: If these techniques don’t extend as advertised to your output(s)
+    of choice, see the [other advice](#other-advice) section to help
     troubleshoot. If that doesn’t help, please [let us know about
     it](https://github.com/rstudio/bslib/issues/new/choose)!

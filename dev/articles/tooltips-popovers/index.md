@@ -7,6 +7,7 @@ and
 assumes you’ve loaded the following packages:
 
 ``` r
+
 library(bslib)
 library(shiny)
 library(bsicons)
@@ -40,6 +41,7 @@ to achieve a few useful patterns:
 Show code
 
 ``` r
+
 library(shiny)
 library(bslib)
 library(palmerpenguins)
@@ -113,6 +115,7 @@ tooltips for small “read-only” messages, and popovers when the user
 should be able to interact with the message itself.
 
 ``` r
+
 actionButton(
   "btn_tip",
   "Focus/hover here for tooltip"
@@ -127,6 +130,7 @@ Focus/hover here for tooltip
   
 
 ``` r
+
 actionButton(
   "btn_pop", 
   "Click here for popover"
@@ -158,6 +162,7 @@ icon and text in a
 [`span()`](https://rstudio.github.io/htmltools/reference/builder.html).
 
 ``` r
+
 tooltip(
   span(
     "This text does trigger",
@@ -189,6 +194,7 @@ and
 use the last HTML element in their 1st argument as the trigger.
 
 ``` r
+
 span(
   "This text doesn't trigger",
   tooltip(
@@ -210,6 +216,7 @@ about an input, so adding a tooltip or popover to them is a natural
 place to provide additional context.
 
 ``` r
+
 textInput(
   "txt",
   label = tooltip(
@@ -245,6 +252,7 @@ can help non-expert users gain more context about the data being
 visualized.
 
 ``` r
+
 card(
   card_header(
     "Card header",
@@ -275,6 +283,7 @@ the card’s header, which when clicked, opens a
 containing the inputs.
 
 ``` r
+
 gear <- popover(
   bs_icon("gear"),
   textInput("txt", NULL, "Enter input"),
@@ -308,9 +317,10 @@ we can provide a
 [`popover()`](https://rstudio.github.io/bslib/dev/reference/popover.md)
 attached to a
 [`actionLink()`](https://rdrr.io/pkg/shiny/man/actionButton.html) in the
-card’s footer.[¹](#fn1)
+card’s footer.[^1]
 
 ``` r
+
 foot <- popover(
   actionLink("link", "Card footer"),
   "Here's a ",
@@ -347,6 +357,7 @@ card’s header, which when clicked, opens a
 Show code
 
 ``` r
+
 ui <- page_fixed(
   card(
     card_header(
@@ -396,6 +407,7 @@ click).
 Show code
 
 ``` r
+
 library(shiny)
 
 ui <- page_fixed(
@@ -434,6 +446,7 @@ user input (e.g., a text input).
 Show code
 
 ``` r
+
 library(shiny)
 
 ui <- page_fixed(
@@ -507,9 +520,7 @@ Instead, consider using a [icon](#icons) (next to a hyperlink) as the
 trigger for the
 [`popover()`](https://rstudio.github.io/bslib/dev/reference/popover.md).
 
-------------------------------------------------------------------------
-
-1.  Using an
+[^1]: Using an
     [`actionLink()`](https://rdrr.io/pkg/shiny/man/actionButton.html)
     will only work as expected in Shiny apps. In a static document,
     you’ll need to use a `a(href = 'javascript:void(0)')` instead.
