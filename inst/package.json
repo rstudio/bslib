@@ -8,7 +8,8 @@
     "bs3": "npm:bootstrap-sass@3.4.1",
     "bsw3": "npm:bootswatch@3.4.1",
     "bs-a11y-p": "github:paypal/bootstrap-accessibility-plugin#fbbf870eafc1ee5d4547fabbeea71778ddbe2166",
-    "bs-colorpicker": "npm:bootstrap-colorpicker@3.4.0"
+    "bs-colorpicker": "npm:bootstrap-colorpicker@3.4.0",
+    "prism-code-editor-full": "npm:prism-code-editor@4.2.0"
   },
   "devDependencies": {
     "parcel-bundler": "^1.12.4"
