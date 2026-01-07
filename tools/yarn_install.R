@@ -322,6 +322,232 @@ with_dir("inst/lib", {
     unlink("logo.png")
   })
 
+  # ----------------------------------------------------------------------
+  # Copy prism-code-editor files (selective copy from dist/)
+  # The full package is installed as prism-code-editor-full, and we copy
+  # only the needed files to prism-code-editor, then remove the full package
+  # ----------------------------------------------------------------------
+  cat("\n\n==== Processing prism-code-editor ====\n")
+  unlink("prism-code-editor", recursive = TRUE)
+
+  src <- "prism-code-editor-full/dist"
+  dest <- "prism-code-editor"
+
+  # Languages to bundle locally for syntax highlighting
+  code_editor_bundled_languages <<- c(
+    # Data Science
+    "r",
+    "python",
+    "julia",
+    "sql",
+    # Web/Frontend
+    "javascript",
+    "typescript",
+    "markup",
+    "css",
+    "scss",
+    "sass",
+    "json",
+    # Markup/Config
+    "markdown",
+    "yaml",
+    "xml",
+    "toml",
+    "ini",
+    # Shell/Infrastructure
+    "bash",
+    "docker",
+    # Extras
+    "latex",
+    "cpp",
+    "rust",
+    "diff"
+  )
+
+  # Create destination directories
+  dir.create(dest, recursive = TRUE)
+  dir.create(file.path(dest, "utils"), recursive = TRUE)
+
+  dir.create(file.path(dest, "languages"), recursive = TRUE)
+  dir.create(file.path(dest, "prism", "languages"), recursive = TRUE)
+  dir.create(file.path(dest, "extensions", "copyButton"), recursive = TRUE)
+  dir.create(file.path(dest, "themes"), recursive = TRUE)
+
+  # Copy core files (*.js and *.css from dist root)
+  # Exclude theme JS files - we use the CSS files in themes/ instead.
+  # Theme JS files match pattern: <theme-name>.js or <theme-name>-<hash>.js
+  # fmt: skip
+  theme_names <- sub("\\.css$", "", basename(Sys.glob(file.path(src, "themes", "*.css"))))
+  # fmt: skip
+  theme_js_pattern <- sprintf("^(%s)(-[^.]+)?\\.js$", paste(theme_names, collapse = "|"))
+  core_files <- c(
+    Sys.glob(file.path(src, "*.js")),
+    Sys.glob(file.path(src, "*.css"))
+  )
+  core_files <- core_files[!grepl(theme_js_pattern, basename(core_files))]
+  file.copy(core_files, dest)
+
+  # Copy utils
+  file.copy(
+    Sys.glob(file.path(src, "utils", "*.js")),
+    file.path(dest, "utils")
+  )
+
+  # Copy languages (only bundled)
+  bundled_lang_files <- paste0(code_editor_bundled_languages, ".js")
+  bundled_languages <- file.path(src, "languages", bundled_lang_files)
+  bundled_languages <- bundled_languages[file.exists(bundled_languages)]
+  file.copy(
+    bundled_languages,
+    file.path(dest, "languages")
+  )
+
+  # Copy prism grammars (only bundled)
+  file.copy(
+    file.path(src, "prism", "languages", bundled_lang_files),
+    file.path(dest, "prism", "languages")
+  )
+
+  # Copy extensions
+  ext_files <- list.files(
+    file.path(src, "extensions"),
+    full.names = TRUE,
+    recursive = FALSE
+  )
+  # Copy top-level extension files
+  ext_js <- ext_files[grepl("\\.js$", ext_files)]
+  file.copy(ext_js, file.path(dest, "extensions"))
+  # Copy copyButton extension folder
+  file.copy(
+    Sys.glob(file.path(src, "extensions", "copyButton", "*")),
+    file.path(dest, "extensions", "copyButton")
+  )
+
+  # ============================================================================
+  # Remove unused CSS files
+  # ============================================================================
+  unused_css <- c(
+    "autocomplete.css",
+    "autocomplete-icons.css",
+    "invisibles.css",
+    "code-block.css",
+    "folding.css",
+    "guides.css",
+    "search.css"
+  )
+  for (css in unused_css) {
+    css_path <- file.path(dest, css)
+    if (file.exists(css_path)) {
+      file.remove(css_path)
+      cat("Removed unused CSS:", css, "\n")
+    }
+  }
+
+  # Keep scrollbar.css and rtl-layout.css (don't remove)
+
+  # ============================================================================
+  # Remove unused extensions
+  # ============================================================================
+  unused_extensions <- c(
+    "guides.js",
+    "matchTags.js"
+  )
+  for (ext in unused_extensions) {
+    ext_path <- file.path(dest, "extensions", ext)
+    if (file.exists(ext_path)) {
+      file.remove(ext_path)
+      cat("Removed unused extension:", ext, "\n")
+    }
+  }
+
+  # Keep cursor.js (required by tooltips)
+
+  # ============================================================================
+  # Remove unused chunks
+  # ============================================================================
+  # Remove chunks matching these patterns
+  chunk_patterns <- c(
+    "basic-*.js",
+    "readonly-*.js",
+    "search-*.js",
+    "selection-*.js",
+    "styles-*.js"
+  )
+
+  for (pattern in chunk_patterns) {
+    chunks <- Sys.glob(file.path(dest, pattern))
+    if (length(chunks) > 0) {
+      file.remove(chunks)
+      cat("Removed", length(chunks), "chunk(s) matching", pattern, "\n")
+    }
+  }
+
+  # Remove webComponent.js specifically
+  webcomp <- file.path(dest, "webComponent.js")
+  if (file.exists(webcomp)) {
+    file.remove(webcomp)
+    cat("Removed webComponent.js\n")
+  }
+
+  # ============================================================================
+  # Remove development files (TypeScript definitions and source maps)
+  # ============================================================================
+  ts_defs <- Sys.glob(file.path(dest, "**", "*.d.ts"))
+  js_maps <- Sys.glob(file.path(dest, "**", "*.js.map"))
+  if (length(ts_defs) > 0) {
+    file.remove(ts_defs)
+  }
+  if (length(js_maps) > 0) {
+    file.remove(js_maps)
+  }
+  cat("Removed", length(ts_defs), "TypeScript definition files\n")
+  cat("Removed", length(js_maps), "source map files\n")
+
+  # Copy themes
+  file.copy(
+    Sys.glob(file.path(src, "themes", "*.css")),
+    file.path(dest, "themes")
+  )
+
+  # Scope theme CSS files to support multiple editors with different themes.
+  # Each theme is wrapped with attribute selectors that match the editor's
+  # theme-light/theme-dark attributes, combined with the page's data-bs-theme
+  # attribute, using CSS nesting (supported in modern browsers).
+  theme_files <- Sys.glob(file.path(dest, "themes", "*.css"))
+  for (theme_file in theme_files) {
+    theme_name <- sub("\\.css$", "", basename(theme_file))
+    css_content <- readLines(theme_file)
+
+    # Wrap with scoped selectors using CSS nesting
+    scoped_css <- c(
+      sprintf(
+        "html:not([data-bs-theme]) [theme-light=\"%s\"],[data-bs-theme=\"light\"] [theme-light=\"%s\"], [data-bs-theme=\"light\"][theme-light=\"%s\"],",
+        theme_name,
+        theme_name,
+        theme_name
+      ),
+      sprintf(
+        "[data-bs-theme=\"dark\"] [theme-dark=\"%s\"], [data-bs-theme=\"dark\"][theme-dark=\"%s\"] {",
+        theme_name,
+        theme_name
+      ),
+      css_content,
+      "}"
+    )
+
+    writeLines(scoped_css, theme_file)
+  }
+
+  # Get version for tracking
+  version_prism_code_editor <<- jsonlite::fromJSON(
+    "prism-code-editor-full/package.json"
+  )$version
+
+  # Remove the full package now that we've copied what we need
+
+  unlink("prism-code-editor-full", recursive = TRUE)
+  cat("\n\n==== Finished prism-code-editor ====\n")
+
   # GitHub reports security issues of devDependencies, but that's irrelevant to us
   remove_dev_dependencies <- function(pkg_file) {
     if (!file.exists(pkg_file)) {
@@ -346,12 +572,16 @@ with_dir("inst/lib", {
 
 writeLines(
   c(
-    '# DO NOT EDIT',
-    '# This file is auto-generated by tools/yarn_install.R',
+    '# Generated by tools/yarn_install.R: do not edit by hand',
     paste0('version_bs5 <- ', deparse(version_bs5)),
     paste0('version_bs4 <- ', deparse(version_bs4)),
     paste0('version_bs3 <- ', deparse(version_bs3)),
-    paste0('version_accessibility <- ', deparse(version_accessibility))
+    paste0('version_accessibility <- ', deparse(version_accessibility)),
+    paste0('version_prism_code_editor <- ', deparse(version_prism_code_editor)),
+    paste0(
+      'code_editor_bundled_languages <- ',
+      deparse1(code_editor_bundled_languages)
+    )
   ),
   "R/versions.R"
 )

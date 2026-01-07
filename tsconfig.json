@@ -2,6 +2,7 @@
   "declaration": true,
   "compilerOptions": {
     "target": "ES6",
+    "module": "esnext",
     "skipLibCheck": true,
     "isolatedModules": true,
     "esModuleInterop": true,
@@ -14,5 +15,10 @@
   ],
   "exclude": [
     "node_modules"
-  ]
+  ],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "commonjs"
+    }
+  }
 }
