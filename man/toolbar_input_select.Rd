@@ -44,7 +44,8 @@ the example section for a small demo of this feature.}
 \item{...}{Additional named arguments passed as attributes to the outer
 container div.}
 
-\item{selected}{The new selected value. If \code{NULL}, the selection is not changed.}
+\item{selected}{The new selected value. If \code{NULL}, the selection is not
+changed.}
 
 \item{icon}{An icon. If provided without \code{show_label = TRUE}, only the icon
 will be visible.}
@@ -72,16 +73,16 @@ Returns a select input control suitable for use in a toolbar.
 Create a select list input control that can be used to choose a single
 item from a list of values, suitable for use within a \code{\link[=toolbar]{toolbar()}}.
 
-Change the value or appearance of a toolbar select input.
+Change the value or appearance of a toolbar select input. This update
+function works similarly to \code{\link[shiny:updateSelectInput]{shiny::updateSelectInput()}}, but is
+specifically designed for \code{\link[=toolbar_input_select]{toolbar_input_select()}}. It allows you to update
+the select's label, icon, choices, selected value(s), and label visibility
+from the server.
 }
 \details{
-This update function works similarly to \code{\link[shiny:updateSelectInput]{shiny::updateSelectInput()}}, but
-is specifically designed for \code{\link[=toolbar_input_select]{toolbar_input_select()}}. It allows you to
-update the select's label, icon, choices, selected value(s), and label
-visibility from the server.
-
-Note that you cannot change the \code{tooltip} parameter after the select has
-been created, as it affects the structure and ARIA attributes.
+Note that you cannot enable or disable the \code{tooltip} parameter after the
+select has been created, as it affects the structure and ARIA attributes.
+You can, however, use \code{\link[=update_tooltip]{update_tooltip()}} to update the text of the tooltip.
 }
 \examples{
 \dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}

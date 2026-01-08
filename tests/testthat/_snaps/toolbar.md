@@ -329,7 +329,7 @@
           <span class="bslib-toolbar-icon" aria-hidden="true" style="pointer-events: none" role="none" tabindex="-1"></span>
           <span class="bslib-toolbar-label visually-hidden">My Select Label</span>
         </label>
-        <bslib-tooltip placement="bottom" bsOptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+        <bslib-tooltip id="tooltip_true-tooltip" placement="bottom" bsOptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
           <template>
             <span aria-hidden="true">My Select Label</span>
           </template>
@@ -349,7 +349,7 @@
           <span class="bslib-toolbar-icon" aria-hidden="true" style="pointer-events: none" role="none" tabindex="-1"></span>
           <span class="bslib-toolbar-label visually-hidden">With tooltip</span>
         </label>
-        <bslib-tooltip placement="bottom" bsOptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+        <bslib-tooltip id="with_tooltip-tooltip" placement="bottom" bsOptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
           <template>This is helpful information</template>
           <select id="with_tooltip" class="form-select form-select-sm" data-shiny-no-bind-input><option value="A" selected>A</option>
       <option value="B">B</option></select>
@@ -386,7 +386,7 @@
           </span>
           <span class="bslib-toolbar-label visually-hidden">Icon and tooltip</span>
         </label>
-        <bslib-tooltip placement="bottom" bsOptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+        <bslib-tooltip id="icon_tooltip-tooltip" placement="bottom" bsOptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
           <template>Select an option</template>
           <select id="icon_tooltip" class="form-select form-select-sm" data-shiny-no-bind-input><option value="A" selected>A</option>
       <option value="B">B</option></select>

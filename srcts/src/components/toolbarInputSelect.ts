@@ -26,7 +26,6 @@ class BslibToolbarInputSelectBinding extends InputBinding {
   }
 
   getId(el: HTMLElement): string {
-    // The wrapper element has the input ID
     return el.id || "";
   }
 

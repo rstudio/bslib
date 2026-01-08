@@ -378,6 +378,7 @@ toolbar_input_select <- function(
     select_tag <- bslib::tooltip(
       select_tag,
       tooltip,
+      id = paste0(id, "-tooltip"),
       placement = "bottom"
     )
   }
@@ -394,22 +395,23 @@ toolbar_input_select <- function(
 #' Update toolbar select input
 #'
 #' @description
-#' Change the value or appearance of a toolbar select input.
+#' Change the value or appearance of a toolbar select input. This update
+#' function works similarly to [shiny::updateSelectInput()], but is
+#' specifically designed for [toolbar_input_select()]. It allows you to update
+#' the select's label, icon, choices, selected value(s), and label visibility
+#' from the server.
 #'
 #' @rdname toolbar_input_select
 #' @inheritParams toolbar_input_select
-#' @param selected The new selected value. If `NULL`, the selection is not changed.
+#' @param selected The new selected value. If `NULL`, the selection is not
+#'   changed.
 #' @param session A Shiny session object (the default should almost always be
 #'   used).
 #'
 #' @details
-#' This update function works similarly to [shiny::updateSelectInput()], but
-#' is specifically designed for [toolbar_input_select()]. It allows you to
-#' update the select's label, icon, choices, selected value(s), and label
-#' visibility from the server.
-#'
-#' Note that you cannot change the `tooltip` parameter after the select has
-#' been created, as it affects the structure and ARIA attributes.
+#' Note that you cannot enable or disable the `tooltip` parameter after the
+#' select has been created, as it affects the structure and ARIA attributes.
+#' You can, however, use [update_tooltip()] to update the text of the tooltip.
 #'
 #' @examplesIf interactive()
 #' library(shiny)
@@ -459,9 +461,7 @@ update_toolbar_input_select <- function(
 ) {
   # Label can be null if there is no update, but if it is supplied it must be
   # valid
-  if (
-    !(is.null(label) || (rlang::is_string(label) && nzchar(trimws(label))))
-  ) {
+  if (!(is.null(label) || (rlang::is_string(label) && nzchar(trimws(label))))) {
     rlang::abort("`label` must be a non-empty string.")
   }
   icon <- validateIcon(icon)
