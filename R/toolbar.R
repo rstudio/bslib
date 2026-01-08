@@ -352,15 +352,11 @@ toolbar_input_select <- function(
   choicesWithNames <- asNamespace("shiny")[["choicesWithNames"]]
   choices <- choicesWithNames(choices)
 
-  # Use a unique ID for the select element to avoid conflicts with standard
-  # select binding. The wrapper will have the user-specified id.
-  select_internal_id <- paste0(id, "-select")
-
   select_tag <- tags$select(
-    id = select_internal_id,
-    class = "form-select form-select-sm bslib-toolbar-select",
+    id = id,
+    class = "form-select form-select-sm",
     `data-shiny-no-bind-input` = NA,
-    selectOptions(choices, selected, inputId = select_internal_id)
+    selectOptions(choices, selected, inputId = id)
   )
 
   # Add optional icon before the select
@@ -377,7 +373,7 @@ toolbar_input_select <- function(
     # shiny::selectInput() append `-label` to id for the label `for` attribute
     id = sprintf("%s-label", id),
     class = "control-label",
-    `for` = select_internal_id,
+    `for` = id,
     icon_elem,
     tags$span(
       class = "bslib-toolbar-label",
