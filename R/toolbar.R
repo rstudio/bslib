@@ -332,9 +332,8 @@ toolbar_input_select <- function(
     selected <- firstChoice(choices)
   }
 
-  # Normalize choices using util function imported from Shiny
-  choicesWithNames <- asNamespace("shiny")[["choicesWithNames"]]
-  choices <- choicesWithNames(choices)
+  # Normalize choices and generate select options
+  choices <- normalize_choices(choices)
 
   select_tag <- tags$select(
     id = id,
@@ -471,13 +470,9 @@ update_toolbar_input_select <- function(
   # Process choices - reuse the selectOptions helper
   # Follow Shiny's pattern: choices and selected are handled separately
   choices_processed <- if (!is.null(choices)) {
-    # Normalize choices using util function imported from Shiny
-    choicesWithNames <- asNamespace("shiny")[["choicesWithNames"]]
-    choices <- choicesWithNames(choices)
-
-    # Generate the options HTML (selected will be marked in the HTML if provided)
+    # Normalize choices and generate the options HTML
+    choices <- normalize_choices(choices)
     options_html <- selectOptions(choices, selected, inputId = id)
-
     as.character(options_html)
   } else {
     NULL
@@ -499,6 +494,12 @@ update_toolbar_input_select <- function(
   ))
 
   session$sendInputMessage(id, message)
+}
+
+# Helper function to normalize choices using Shiny's choicesWithNames
+normalize_choices <- function(choices) {
+  choicesWithNames <- asNamespace("shiny")[["choicesWithNames"]]
+  choicesWithNames(choices)
 }
 
 # This function was copied from shiny's `input-select.R` with a small change

@@ -720,40 +720,16 @@ test_that("bslib::selectOptions() matches shiny::selectOptions() output", {
 
 test_that("update_toolbar_input_select() validates label parameter", {
   # Empty string label should error (validation happens before session is used)
-  expect_error(
-    update_toolbar_input_select(
-      "test_id",
-      label = ""
-    ),
-    "`label` must be a non-empty string"
-  )
+  expect_snapshot(update_toolbar_input_select("test_id", label = ""), error = TRUE)
 
   # Whitespace-only label should error
-  expect_error(
-    update_toolbar_input_select(
-      "test_id",
-      label = "   "
-    ),
-    "`label` must be a non-empty string"
-  )
+  expect_snapshot(update_toolbar_input_select("test_id", label = "   "), error = TRUE)
 
   # Non-character label should error
-  expect_error(
-    update_toolbar_input_select(
-      "test_id",
-      label = 123
-    ),
-    "`label` must be a non-empty string"
-  )
+  expect_snapshot(update_toolbar_input_select("test_id", label = 123), error = TRUE)
 
   # Multiple strings should error
-  expect_error(
-    update_toolbar_input_select(
-      "test_id",
-      label = c("A", "B")
-    ),
-    "`label` must be a non-empty string"
-  )
+  expect_snapshot(update_toolbar_input_select("test_id", label = c("A", "B")), error = TRUE)
 })
 
 test_that("update_toolbar_input_button() warns for blank label", {

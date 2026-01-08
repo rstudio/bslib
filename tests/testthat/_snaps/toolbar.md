@@ -393,3 +393,35 @@
         </bslib-tooltip>
       </div>
 
+# update_toolbar_input_select() validates label parameter
+
+    Code
+      update_toolbar_input_select("test_id", label = "")
+    Condition
+      Error in `update_toolbar_input_select()`:
+      ! `label` must be a non-empty string.
+
+---
+
+    Code
+      update_toolbar_input_select("test_id", label = "   ")
+    Condition
+      Error in `update_toolbar_input_select()`:
+      ! `label` must be a non-empty string.
+
+---
+
+    Code
+      update_toolbar_input_select("test_id", label = 123)
+    Condition
+      Error in `update_toolbar_input_select()`:
+      ! `label` must be a non-empty string.
+
+---
+
+    Code
+      update_toolbar_input_select("test_id", label = c("A", "B"))
+    Condition
+      Error in `update_toolbar_input_select()`:
+      ! `label` must be a non-empty string.
+
