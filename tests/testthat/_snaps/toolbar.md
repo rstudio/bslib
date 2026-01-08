@@ -396,7 +396,7 @@
 # update_toolbar_input_select() validates label parameter
 
     Code
-      update_toolbar_input_select("test_id", label = "")
+      update_toolbar_input_select("test_id", label = "", session = session)
     Condition
       Error in `update_toolbar_input_select()`:
       ! `label` must be a non-empty string.
@@ -404,7 +404,7 @@
 ---
 
     Code
-      update_toolbar_input_select("test_id", label = "   ")
+      update_toolbar_input_select("test_id", label = "   ", session = session)
     Condition
       Error in `update_toolbar_input_select()`:
       ! `label` must be a non-empty string.
@@ -412,7 +412,7 @@
 ---
 
     Code
-      update_toolbar_input_select("test_id", label = 123)
+      update_toolbar_input_select("test_id", label = 123, session = session)
     Condition
       Error in `update_toolbar_input_select()`:
       ! `label` must be a non-empty string.
@@ -420,7 +420,7 @@
 ---
 
     Code
-      update_toolbar_input_select("test_id", label = c("A", "B"))
+      update_toolbar_input_select("test_id", label = c("A", "B"), session = session)
     Condition
       Error in `update_toolbar_input_select()`:
       ! `label` must be a non-empty string.
