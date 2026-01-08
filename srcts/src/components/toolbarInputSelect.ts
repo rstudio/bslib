@@ -55,31 +55,25 @@ class BslibToolbarInputSelectBinding extends InputBinding {
     const selectEl = el.querySelector("select");
 
     // Update label
-    if (hasDefinedProperty(message, "label")) {
+    if (hasDefinedProperty(message, "label") && message.label !== undefined) {
       const labelEl = el.querySelector(".bslib-toolbar-label") as HTMLElement;
-      if (labelEl && message.label !== undefined) {
-        await shinyRenderContent(labelEl, message.label);
-      }
+      await shinyRenderContent(labelEl, message.label);
     }
 
     // Update show_label visibility
     if (hasDefinedProperty(message, "showLabel")) {
       const labelEl = el.querySelector(".bslib-toolbar-label") as HTMLElement;
-      if (labelEl) {
-        if (message.showLabel === false) {
-          labelEl.classList.add("visually-hidden");
-        } else {
-          labelEl.classList.remove("visually-hidden");
-        }
+      if (message.showLabel === false) {
+        labelEl.classList.add("visually-hidden");
+      } else {
+        labelEl.classList.remove("visually-hidden");
       }
     }
 
     // Update icon
-    if (hasDefinedProperty(message, "icon")) {
+    if (hasDefinedProperty(message, "icon") && message.icon !== undefined) {
       const iconEl = el.querySelector(".bslib-toolbar-icon") as HTMLElement;
-      if (iconEl && message.icon !== undefined) {
-        await shinyRenderContent(iconEl, message.icon);
-      }
+      await shinyRenderContent(iconEl, message.icon);
     }
 
     // Update choices (options HTML)

@@ -61,33 +61,27 @@ class BslibToolbarInputButtonBinding extends InputBinding {
     }
 
     // Update label
-    if (hasDefinedProperty(message, "label")) {
+    if (hasDefinedProperty(message, "label") && message.label !== undefined) {
       const labelEl = el.querySelector(".bslib-toolbar-label") as HTMLElement;
-      if (labelEl && message.label !== undefined) {
-        await shinyRenderContent(labelEl, message.label);
-      }
+      await shinyRenderContent(labelEl, message.label);
     }
 
     // Update show_label visibility
     if (hasDefinedProperty(message, "showLabel")) {
       const labelEl = el.querySelector(".bslib-toolbar-label") as HTMLElement;
-      if (labelEl) {
-        if (message.showLabel === false) {
-          labelEl.setAttribute("hidden", "");
-          el.setAttribute("data-type", "icon");
-        } else {
-          labelEl.removeAttribute("hidden");
-          el.setAttribute("data-type", "both");
-        }
+      if (message.showLabel === false) {
+        labelEl.setAttribute("hidden", "");
+        el.setAttribute("data-type", "icon");
+      } else {
+        labelEl.removeAttribute("hidden");
+        el.setAttribute("data-type", "both");
       }
     }
 
     // Update icon
-    if (hasDefinedProperty(message, "icon")) {
+    if (hasDefinedProperty(message, "icon") && message.icon !== undefined) {
       const iconEl = el.querySelector(".bslib-toolbar-icon") as HTMLElement;
-      if (iconEl && message.icon !== undefined) {
-        await shinyRenderContent(iconEl, message.icon);
-      }
+      await shinyRenderContent(iconEl, message.icon);
     }
   }
 }
