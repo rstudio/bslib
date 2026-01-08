@@ -467,23 +467,9 @@ update_toolbar_input_select <- function(
   icon_processed <- if (!is.null(icon)) processDeps(icon, session)
   label_processed <- if (!is.null(label)) processDeps(label, session)
 
-  # Process choices - reuse the selectOptions helper
-  # Follow Shiny's pattern: choices and selected are handled separately
-  choices_processed <- if (!is.null(choices)) {
-    # Normalize choices and generate the options HTML
-    choices <- normalize_choices(choices)
-    options_html <- selectOptions(choices, selected, inputId = id)
-    as.character(options_html)
-  } else {
-    NULL
-  }
-
-  # Convert selected to character if provided (following Shiny's pattern)
-  selected_processed <- if (!is.null(selected)) {
-    as.character(selected)
-  } else {
-    NULL
-  }
+  # Process choices and selected value
+  choices_processed <- process_select_choices(choices, selected, id)
+  selected_processed <- if (!is.null(selected)) as.character(selected)
 
   message <- dropNulls(list(
     label = label_processed,
@@ -500,6 +486,16 @@ update_toolbar_input_select <- function(
 normalize_choices <- function(choices) {
   choicesWithNames <- asNamespace("shiny")[["choicesWithNames"]]
   choicesWithNames(choices)
+}
+
+# Helper function to process select choices into HTML options
+process_select_choices <- function(choices, selected = NULL, inputId) {
+  if (is.null(choices)) {
+    return(NULL)
+  }
+  choices <- normalize_choices(choices)
+  options_html <- selectOptions(choices, selected, inputId = inputId)
+  as.character(options_html)
 }
 
 # This function was copied from shiny's `input-select.R` with a small change
