@@ -244,10 +244,8 @@ update_toolbar_input_button <- function(
   session$sendInputMessage(id, message)
 }
 
-# Input handler for toolbar_input_button
 toolbar_input_button_input_handler <- function(value, shinysession, name) {
-  # Match shinyActionButtonValue class so it behaves
-  # like a standard action button for event handlers and input validation
+  # Treat like a standard action button for event handlers and input validation
   class(value) <- c("shinyActionButtonValue", class(value))
   value
 }
