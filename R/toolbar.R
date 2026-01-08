@@ -230,21 +230,9 @@ update_toolbar_input_button <- function(
     )
   }
 
-  # Process label - wrap it in the same structure as toolbar_input_button()
-  # The label content will be updated within the existing .bslib-toolbar-label span
-  label_processed <- if (!is.null(label)) {
-    processDeps(label, session)
-  } else {
-    NULL
-  }
-
-  # Process icon - wrap it in the same structure as toolbar_input_button()
-  # The icon content will be updated within the existing .bslib-toolbar-icon span
-  icon_processed <- if (!is.null(icon)) {
-    processDeps(validateIcon(icon), session)
-  } else {
-    NULL
-  }
+  icon <- validateIcon(icon)
+  icon_processed <- if (!is.null(icon)) processDeps(icon, session)
+  label_processed <- if (!is.null(label)) processDeps(label, session)
 
   message <- dropNulls(list(
     label = label_processed,
