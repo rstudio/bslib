@@ -465,19 +465,9 @@ update_toolbar_input_select <- function(
   ) {
     rlang::abort("`label` must be a non-empty string.")
   }
-  # Process label if supplied
-  label_processed <- if (!is.null(label)) {
-    processDeps(label, session)
-  } else {
-    NULL
-  }
-
-  # Process icon if supplied
-  icon_processed <- if (!is.null(icon)) {
-    processDeps(validateIcon(icon), session)
-  } else {
-    NULL
-  }
+  icon <- validateIcon(icon)
+  icon_processed <- if (!is.null(icon)) processDeps(icon, session)
+  label_processed <- if (!is.null(label)) processDeps(label, session)
 
   # Process choices - reuse the selectOptions helper
   # Follow Shiny's pattern: choices and selected are handled separately
