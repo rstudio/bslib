@@ -223,11 +223,9 @@ update_toolbar_input_button <- function(
   disabled = NULL,
   session = get_current_session()
 ) {
-  # Validate that label has text for accessibility
   label_text <- paste(unlist(find_characters(label)), collapse = " ")
-  # Verifies the label contains non-empty text
   if (!nzchar(trimws(label_text))) {
-    warning(
+    rlang::warn(
       "Consider providing a non-empty string label for accessibility."
     )
   }
