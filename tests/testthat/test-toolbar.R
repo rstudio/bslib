@@ -842,14 +842,14 @@ test_that("update_toolbar_input_select() clears invalid current value", {
   )
   expect_null(session$last_message$value)  # NULL means keep current
 
-  # Update choices - current value "B" is no longer valid, should be cleared
+  # Update choices - current value "B" is no longer valid, should select first
   session$input$test_select <- "B"
   update_toolbar_input_select(
     "test_select",
     choices = c("X", "Y", "Z"),
     session = session
   )
-  expect_equal(session$last_message$value, "")  # Empty string clears value
+  expect_equal(session$last_message$value, "X")  # Should select first option
 })
 
 test_that("validate_update_selected() handles all cases correctly", {
@@ -883,9 +883,9 @@ test_that("validate_update_selected() handles all cases correctly", {
   expect_null(result$value)
   expect_null(result$warning)
 
-  # Case 7: No selected, new choices, current value no longer valid - clear
+  # Case 7: No selected, new choices, current value no longer valid - select first
   result <- validate_update_selected(NULL, c("X", "Y", "Z"), "B")
-  expect_equal(result$value, "")
+  expect_equal(result$value, "X")  # Should select first option
   expect_null(result$warning)
 
   # Case 8: Valid selected with named choices

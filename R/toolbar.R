@@ -543,46 +543,43 @@ get_choice_values <- function(choices) {
 #   - value: the value to send (character, "" to clear, or NULL to keep current)
 #   - warning: warning message if validation failed (NULL if no warning)
 validate_update_selected <- function(selected, choices, current_value) {
-  # If no selected value provided
+  # Helper to return a clearing result with warning
+  clear_with_warning <- function(msg) {
+    list(value = "", warning = msg)
+  }
+
+  # If no selected value provided, check if current value needs updating
   if (is.null(selected)) {
-    # If choices are being updated, check if current value is still valid
     if (!is.null(choices) && !is.null(current_value)) {
       choice_values <- get_choice_values(choices)
       if (!as.character(current_value) %in% choice_values) {
-        # Current value is no longer valid
-        return(list(value = "", warning = NULL))
+        # Current value is no longer valid - select first option
+        firstChoice <- asNamespace("shiny")[["firstChoice"]]
+        first_value <- firstChoice(normalize_choices(choices))
+        return(list(value = as.character(first_value), warning = NULL))
       }
     }
-    # Keep current value
-    return(list(value = NULL, warning = NULL))
+    return(list(value = NULL, warning = NULL))  # Keep current value
   }
 
-  # Validate selected is a single value
+  # Validate selected value
   if (length(selected) != 1) {
-    return(list(
-      value = "",
-      warning = "`selected` must be a single value, not a vector. Clearing selection."
+    return(clear_with_warning(
+      "`selected` must be a single value, not a vector. Clearing selection."
     ))
   }
 
-  # Choices must be provided when setting a selected value
   if (is.null(choices)) {
-    return(list(
-      value = "",
-      warning = "`selected` cannot be set without `choices`. Clearing selection."
+    return(clear_with_warning(
+      "`selected` cannot be set without `choices`. Clearing selection."
     ))
   }
 
-  # Validate selected is in choices
-  choice_values <- get_choice_values(choices)
-  if (!as.character(selected) %in% choice_values) {
-    return(list(
-      value = "",
-      warning = sprintf(
-        "`selected` value '%s' is not in `choices`. Clearing selection.",
-        as.character(selected)
-      )
-    ))
+  if (!as.character(selected) %in% get_choice_values(choices)) {
+    return(clear_with_warning(sprintf(
+      "`selected` value '%s' is not in `choices`. Clearing selection.",
+      as.character(selected)
+    )))
   }
 
   # Valid selected value
