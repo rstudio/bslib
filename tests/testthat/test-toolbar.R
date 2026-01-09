@@ -852,74 +852,64 @@ test_that("update_toolbar_input_select() keeps current value when choices change
   expect_null(session$last_message$value)
 })
 
-test_that("validate_update_selected() handles all cases correctly", {
+test_that("process_choices_selected() handles all cases correctly", {
   # Case 1: Valid selected value with choices
-  result <- validate_update_selected("B", c("A", "B", "C"), NULL)
-  expect_equal(result$value, "B")
-  expect_null(result$warning)
+  result <- process_choices_selected(c("A", "B", "C"), "B", "test_id")
+  expect_equal(result$data$value, "B")
+  expect_null(result$error)
 
   # Case 2: Invalid selected value with choices
-  result <- validate_update_selected("D", c("A", "B", "C"), NULL)
-  expect_null(result$value)
-  expect_match(result$warning, "not in `choices`")
+  result <- process_choices_selected(c("A", "B", "C"), "D", "test_id")
+  expect_null(result$data$value)
+  expect_match(result$error, "not in `choices`")
 
   # Case 3: selected is a vector (invalid)
-  result <- validate_update_selected(c("A", "B"), c("A", "B", "C"), NULL)
-  expect_null(result$value)
-  expect_match(result$warning, "single value")
+  result <- process_choices_selected(c("A", "B", "C"), c("A", "B"), "test_id")
+  expect_null(result$data$value)
+  expect_match(result$error, "single value")
 
-  # Case 4: No selected, no choices, no current value - keep current
-  result <- validate_update_selected(NULL, NULL, NULL)
-  expect_null(result$value)
-  expect_null(result$warning)
+  # Case 4: No selected, no choices
+  result <- process_choices_selected(NULL, NULL, "test_id")
+  expect_null(result$data$value)
+  expect_null(result$error)
 
-  # Case 5: No selected, no choices, has current value - keep current
-  result <- validate_update_selected(NULL, NULL, "B")
-  expect_null(result$value)
-  expect_null(result$warning)
+  # Case 5: No selected, has choices - keep current (NULL value)
+  result <- process_choices_selected(c("A", "B", "C"), NULL, "test_id")
+  expect_null(result$data$value)
+  expect_null(result$error)
 
-  # Case 6: No selected, new choices, current value still valid - keep current
-  result <- validate_update_selected(NULL, c("A", "B", "C"), "B")
-  expect_null(result$value)
-  expect_null(result$warning)
+  # Case 6: Valid selected with named choices
+  result <- process_choices_selected(c("Label A" = "val_a", "Label B" = "val_b"), "val_a", "test_id")
+  expect_equal(result$data$value, "val_a")
+  expect_null(result$error)
 
-  # Case 7: No selected, new choices, current value no longer valid - keep current
-  result <- validate_update_selected(NULL, c("X", "Y", "Z"), "B")
-  expect_null(result$value)
-  expect_null(result$warning)
+  # Case 7: Invalid selected (using label instead of value)
+  result <- process_choices_selected(c("Label A" = "val_a", "Label B" = "val_b"), "Label A", "test_id")
+  expect_null(result$data$value)
+  expect_match(result$error, "not in `choices`")
 
-  # Case 8: Valid selected with named choices
-  result <- validate_update_selected("val_a", c("Label A" = "val_a", "Label B" = "val_b"), NULL)
-  expect_equal(result$value, "val_a")
-  expect_null(result$warning)
-
-  # Case 9: Invalid selected (using label instead of value)
-  result <- validate_update_selected("Label A", c("Label A" = "val_a", "Label B" = "val_b"), NULL)
-  expect_null(result$value)
-  expect_match(result$warning, "not in `choices`")
-
-  # Case 10: Valid selected with grouped choices
-  result <- validate_update_selected(
+  # Case 8: Valid selected with grouped choices
+  result <- process_choices_selected(
+    list("Group 1" = c("A", "B"), "Group 2" = c("C", "D")),
     "B",
-    list("Group 1" = c("A", "B"), "Group 2" = c("C", "D")),
-    NULL
+    "test_id"
   )
-  expect_equal(result$value, "B")
-  expect_null(result$warning)
+  expect_equal(result$data$value, "B")
+  expect_null(result$error)
 
-  # Case 11: Invalid selected with grouped choices
-  result <- validate_update_selected(
+  # Case 9: Invalid selected with grouped choices
+  result <- process_choices_selected(
+    list("Group 1" = c("A", "B"), "Group 2" = c("C", "D")),
     "E",
-    list("Group 1" = c("A", "B"), "Group 2" = c("C", "D")),
-    NULL
+    "test_id"
   )
-  expect_null(result$value)
-  expect_match(result$warning, "not in `choices`")
+  expect_null(result$data$value)
+  expect_match(result$error, "not in `choices`")
 
-  # Case 12: Selected without choices (invalid - warn and don't update)
-  result <- validate_update_selected("B", NULL, NULL)
-  expect_null(result$value)
-  expect_match(result$warning, "cannot be set without `choices`")
+  # Case 10: Selected without choices (invalid)
+  result <- process_choices_selected(NULL, "B", "test_id")
+  expect_null(result$data$value)
+  expect_match(result$error, "cannot be set without `choices`")
 })
 
 test_that("update_toolbar_input_button() warns for blank label", {

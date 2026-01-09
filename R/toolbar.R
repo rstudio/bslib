@@ -323,22 +323,6 @@ toolbar_input_select <- function(
     rlang::abort("`label` must be a non-empty string.")
   }
 
-  # Validate selected value if provided
-  if (!is.null(selected)) {
-    if (length(selected) != 1) {
-      rlang::abort("`selected` must be a single value, not a vector.")
-    }
-    choice_values <- get_choice_values(choices)
-    if (!as.character(selected) %in% choice_values) {
-      rlang::abort(
-        sprintf(
-          "`selected` value '%s' is not in `choices`.",
-          as.character(selected)
-        )
-      )
-    }
-  }
-
   # Restore input for bookmarking
   selected <- shiny::restoreInput(id = id, default = selected)
 
@@ -346,16 +330,24 @@ toolbar_input_select <- function(
   firstChoice <- asNamespace("shiny")[["firstChoice"]]
   if (is.null(selected)) {
     selected <- firstChoice(choices)
+    # firstChoice() may return multiple values, take only the first
+    if (length(selected) > 1) {
+      selected <- selected[1]
+    }
   }
 
-  # Normalize choices and generate select options
-  choices <- normalize_choices(choices)
+  # Process and validate choices and selected
+  processed <- process_choices_selected(choices, selected, id)
+
+  if (!is.null(processed$error)) {
+    rlang::abort(processed$error)
+  }
 
   select_tag <- tags$select(
     id = id,
     class = "form-select form-select-sm",
     `data-shiny-no-bind-input` = NA,
-    selectOptions(choices, selected, inputId = id)
+    HTML(processed$data$options)
   )
 
   # Add optional icon before the select
@@ -483,38 +475,19 @@ update_toolbar_input_select <- function(
   icon_processed <- if (!is.null(icon)) processDeps(icon, session)
   label_processed <- if (!is.null(label)) processDeps(label, session)
 
-  current_value <- session$input[[id]]
-  validation_result <- validate_update_selected(
-    selected,
-    choices,
-    current_value
-  )
+  # Process and validate choices and selected
+  processed <- process_choices_selected(choices, selected, id)
 
-  if (!is.null(validation_result$warning)) {
-    rlang::warn(validation_result$warning)
+  if (!is.null(processed$error)) {
+    rlang::warn(processed$error)
   }
-
-  # Determine which value to use for rendering options HTML
-  # If validation returned NULL, use current_value for HTML
-  # Otherwise use the validated selected value
-  value_for_html <- if (is.null(validation_result$value)) {
-    current_value
-  } else {
-    validation_result$value
-  }
-
-  # Process choices with the appropriate selected value for HTML rendering
-  choices_processed <- process_select_choices(choices, value_for_html, id)
-
-  # Use the validated/processed selected value for the message
-  selected_processed <- validation_result$value
 
   message <- dropNulls(list(
     label = label_processed,
     showLabel = show_label,
     icon = icon_processed,
-    options = choices_processed,
-    value = selected_processed
+    options = processed$data$options,
+    value = processed$data$value
   ))
 
   session$sendInputMessage(id, message)
@@ -552,53 +525,55 @@ get_choice_values <- function(choices) {
   as.character(values)
 }
 
-# Helper function to validate and process selected value for updates
+# Helper function to process and validate choices and selected
 # Returns a list with:
-#   - value: the value to send (character value, or NULL to keep current)
-#   - warning: warning message if validation failed (NULL if no warning)
-validate_update_selected <- function(selected, choices, current_value) {
-  # Helper to return NULL (don't update value) with warning
-  keep_with_warning <- function(msg) {
-    list(value = NULL, warning = msg)
+#   - data: list with 'options' (HTML) and 'value' (selected value), or NULL entries
+#   - error: error message if validation failed (NULL if no error)
+process_choices_selected <- function(choices, selected, inputId) {
+  # If neither choices nor selected provided, nothing to process
+  if (is.null(choices) && is.null(selected)) {
+    return(list(data = list(options = NULL, value = NULL), error = NULL))
   }
 
-  # If no selected value provided, don't change the value
-  # Even if current value is not in new choices, we leave it as-is
-  if (is.null(selected)) {
-    return(list(value = NULL, warning = NULL))
+  # Validate selected if provided
+  if (!is.null(selected)) {
+    if (length(selected) != 1) {
+      return(list(
+        data = list(options = NULL, value = NULL),
+        error = "`selected` must be a single value, not a vector."
+      ))
+    }
+
+    if (is.null(choices)) {
+      return(list(
+        data = list(options = NULL, value = NULL),
+        error = "`selected` cannot be set without `choices`."
+      ))
+    }
+
+    choice_values <- get_choice_values(choices)
+    if (!as.character(selected) %in% choice_values) {
+      return(list(
+        data = list(options = NULL, value = NULL),
+        error = sprintf("`selected` value '%s' is not in `choices`.", as.character(selected))
+      ))
+    }
   }
 
-  if (length(selected) != 1) {
-    return(keep_with_warning(
-      "`selected` must be a single value, not a vector."
-    ))
+  # Process choices into HTML options
+  options_html <- NULL
+  if (!is.null(choices)) {
+    choices_normalized <- normalize_choices(choices)
+    options_html <- as.character(selectOptions(choices_normalized, selected, inputId = inputId))
   }
 
-  if (is.null(choices)) {
-    return(keep_with_warning(
-      "`selected` cannot be set without `choices`."
-    ))
-  }
+  # Process selected value
+  value <- if (!is.null(selected)) as.character(selected) else NULL
 
-  if (!as.character(selected) %in% get_choice_values(choices)) {
-    return(keep_with_warning(sprintf(
-      "`selected` value '%s' is not in `choices`.",
-      as.character(selected)
-    )))
-  }
-
-  # Valid selected value
-  list(value = as.character(selected), warning = NULL)
-}
-
-# Helper function to process select choices into HTML options
-process_select_choices <- function(choices, selected = NULL, inputId) {
-  if (is.null(choices)) {
-    return(NULL)
-  }
-  choices <- normalize_choices(choices)
-  options_html <- selectOptions(choices, selected, inputId = inputId)
-  as.character(options_html)
+  list(
+    data = list(options = options_html, value = value),
+    error = NULL
+  )
 }
 
 # This function was copied from shiny's `input-select.R` with a small change

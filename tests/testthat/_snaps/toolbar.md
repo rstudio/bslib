@@ -310,7 +310,7 @@
         </label>
         <select id="grouped" class="form-select form-select-sm" data-shiny-no-bind-input><optgroup label="Group A">
       <option value="A1" selected>A1</option>
-      <option value="A2" selected>A2</option>
+      <option value="A2">A2</option>
       </optgroup>
       <optgroup label="Group B">
       <option value="B1">B1</option>
