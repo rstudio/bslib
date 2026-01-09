@@ -801,7 +801,7 @@ test_that("update_toolbar_input_select() validates selected is in choices", {
     input = list()
   )
 
-  # Invalid selected value should warn and clear when updating
+  # Invalid selected value should warn and not update
   expect_snapshot({
     update_toolbar_input_select(
       "test_id",
@@ -810,7 +810,7 @@ test_that("update_toolbar_input_select() validates selected is in choices", {
       session = session
     )
   })
-  expect_equal(session$last_message$value, "")  # Should clear selection
+  expect_null(session$last_message$value)
 
   # Valid selected value should not warn
   expect_no_warning(
@@ -824,7 +824,7 @@ test_that("update_toolbar_input_select() validates selected is in choices", {
   expect_equal(session$last_message$value, "B")  # Should set to B
 })
 
-test_that("update_toolbar_input_select() clears invalid current value", {
+test_that("update_toolbar_input_select() keeps current value when choices change", {
   # Mock session with a current input value
   session <- list(
     sendInputMessage = function(id, message) {
@@ -840,16 +840,16 @@ test_that("update_toolbar_input_select() clears invalid current value", {
     choices = c("A", "B", "C"),
     session = session
   )
-  expect_null(session$last_message$value)  # NULL means keep current
+  expect_null(session$last_message$value)
 
-  # Update choices - current value "B" is no longer valid, should clear
+  # Update choices - current value "B" is no longer valid, should keep current (don't update)
   session$input$test_select <- "B"
   update_toolbar_input_select(
     "test_select",
     choices = c("X", "Y", "Z"),
     session = session
   )
-  expect_equal(session$last_message$value, "")  # Should clear selection
+  expect_null(session$last_message$value)
 })
 
 test_that("validate_update_selected() handles all cases correctly", {
@@ -860,12 +860,12 @@ test_that("validate_update_selected() handles all cases correctly", {
 
   # Case 2: Invalid selected value with choices
   result <- validate_update_selected("D", c("A", "B", "C"), NULL)
-  expect_equal(result$value, "")
+  expect_null(result$value)
   expect_match(result$warning, "not in `choices`")
 
   # Case 3: selected is a vector (invalid)
   result <- validate_update_selected(c("A", "B"), c("A", "B", "C"), NULL)
-  expect_equal(result$value, "")
+  expect_null(result$value)
   expect_match(result$warning, "single value")
 
   # Case 4: No selected, no choices, no current value - keep current
@@ -883,9 +883,9 @@ test_that("validate_update_selected() handles all cases correctly", {
   expect_null(result$value)
   expect_null(result$warning)
 
-  # Case 7: No selected, new choices, current value no longer valid - clear
+  # Case 7: No selected, new choices, current value no longer valid - keep current
   result <- validate_update_selected(NULL, c("X", "Y", "Z"), "B")
-  expect_equal(result$value, "")  # Should clear selection
+  expect_null(result$value)
   expect_null(result$warning)
 
   # Case 8: Valid selected with named choices
@@ -895,7 +895,7 @@ test_that("validate_update_selected() handles all cases correctly", {
 
   # Case 9: Invalid selected (using label instead of value)
   result <- validate_update_selected("Label A", c("Label A" = "val_a", "Label B" = "val_b"), NULL)
-  expect_equal(result$value, "")
+  expect_null(result$value)
   expect_match(result$warning, "not in `choices`")
 
   # Case 10: Valid selected with grouped choices
@@ -913,12 +913,12 @@ test_that("validate_update_selected() handles all cases correctly", {
     list("Group 1" = c("A", "B"), "Group 2" = c("C", "D")),
     NULL
   )
-  expect_equal(result$value, "")
+  expect_null(result$value)
   expect_match(result$warning, "not in `choices`")
 
-  # Case 12: Selected without choices (invalid - warn and clear)
+  # Case 12: Selected without choices (invalid - warn and don't update)
   result <- validate_update_selected("B", NULL, NULL)
-  expect_equal(result$value, "")
+  expect_null(result$value)
   expect_match(result$warning, "cannot be set without `choices`")
 })
 

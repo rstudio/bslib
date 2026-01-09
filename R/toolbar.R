@@ -483,17 +483,19 @@ update_toolbar_input_select <- function(
   icon_processed <- if (!is.null(icon)) processDeps(icon, session)
   label_processed <- if (!is.null(label)) processDeps(label, session)
 
-  # Validate and process selected value
   current_value <- session$input[[id]]
-  validation_result <- validate_update_selected(selected, choices, current_value)
+  validation_result <- validate_update_selected(
+    selected,
+    choices,
+    current_value
+  )
 
-  # Emit warning if validation failed
   if (!is.null(validation_result$warning)) {
     rlang::warn(validation_result$warning)
   }
 
   # Determine which value to use for rendering options HTML
-  # If validation returned NULL (keep current), use current_value for HTML
+  # If validation returned NULL, use current_value for HTML
   # Otherwise use the validated selected value
   value_for_html <- if (is.null(validation_result$value)) {
     current_value
@@ -532,13 +534,16 @@ get_choice_values <- function(choices) {
   # If it's a list of lists (grouped choices), flatten it
   if (is.list(choices) && any(vapply(choices, is.list, logical(1)))) {
     # Extract values from each group
-    values <- unlist(lapply(choices, function(group) {
-      if (is.list(group)) {
-        unname(group)
-      } else {
-        group
-      }
-    }), use.names = FALSE)
+    values <- unlist(
+      lapply(choices, function(group) {
+        if (is.list(group)) {
+          unname(group)
+        } else {
+          group
+        }
+      }),
+      use.names = FALSE
+    )
   } else {
     # Flat choices - extract values
     values <- unname(choices)
@@ -549,42 +554,35 @@ get_choice_values <- function(choices) {
 
 # Helper function to validate and process selected value for updates
 # Returns a list with:
-#   - value: the value to send (character, "" to clear, or NULL to keep current)
+#   - value: the value to send (character value, or NULL to keep current)
 #   - warning: warning message if validation failed (NULL if no warning)
 validate_update_selected <- function(selected, choices, current_value) {
-  # Helper to return a clearing result with warning
-  clear_with_warning <- function(msg) {
-    list(value = "", warning = msg)
+  # Helper to return NULL (don't update value) with warning
+  keep_with_warning <- function(msg) {
+    list(value = NULL, warning = msg)
   }
 
-  # If no selected value provided, check if current value needs updating
+  # If no selected value provided, don't change the value
+  # Even if current value is not in new choices, we leave it as-is
   if (is.null(selected)) {
-    if (!is.null(choices) && !is.null(current_value)) {
-      choice_values <- get_choice_values(choices)
-      if (!as.character(current_value) %in% choice_values) {
-        # Current value is no longer valid - clear it
-        return(list(value = "", warning = NULL))
-      }
-    }
-    return(list(value = NULL, warning = NULL))  # Keep current value
+    return(list(value = NULL, warning = NULL))
   }
 
-  # Validate selected value
   if (length(selected) != 1) {
-    return(clear_with_warning(
-      "`selected` must be a single value, not a vector. Clearing selection."
+    return(keep_with_warning(
+      "`selected` must be a single value, not a vector."
     ))
   }
 
   if (is.null(choices)) {
-    return(clear_with_warning(
-      "`selected` cannot be set without `choices`. Clearing selection."
+    return(keep_with_warning(
+      "`selected` cannot be set without `choices`."
     ))
   }
 
   if (!as.character(selected) %in% get_choice_values(choices)) {
-    return(clear_with_warning(sprintf(
-      "`selected` value '%s' is not in `choices`. Clearing selection.",
+    return(keep_with_warning(sprintf(
+      "`selected` value '%s' is not in `choices`.",
       as.character(selected)
     )))
   }

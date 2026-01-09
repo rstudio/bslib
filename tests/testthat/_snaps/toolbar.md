@@ -459,5 +459,5 @@
       session = session)
     Condition
       Warning:
-      `selected` value 'D' is not in `choices`. Clearing selection.
+      `selected` value 'D' is not in `choices`.
 
