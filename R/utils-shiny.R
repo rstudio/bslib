@@ -42,6 +42,10 @@ processDeps <- function(...) {
   getFromNamespace("processDeps", "shiny")(...)
 }
 
+validateIcon <- function(...) {
+  getFromNamespace("validateIcon", "shiny")(...)
+}
+
 p_randomInt <- function(...) {
   getFromNamespace("p_randomInt", "shiny")(...)
 }

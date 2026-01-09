@@ -2,6 +2,7 @@
 % Please edit documentation in R/toolbar.R
 \name{toolbar_input_select}
 \alias{toolbar_input_select}
+\alias{update_toolbar_input_select}
 \title{Toolbar Input Select}
 \usage{
 toolbar_input_select(
@@ -13,6 +14,16 @@ toolbar_input_select(
   icon = NULL,
   show_label = FALSE,
   tooltip = !show_label
+)
+
+update_toolbar_input_select(
+  id,
+  label = NULL,
+  show_label = NULL,
+  choices = NULL,
+  selected = NULL,
+  icon = NULL,
+  session = get_current_session()
 )
 }
 \arguments{
@@ -33,8 +44,8 @@ the example section for a small demo of this feature.}
 \item{...}{Additional named arguments passed as attributes to the outer
 container div.}
 
-\item{selected}{The initially selected value. If not provided, the first
-choice will be selected by default.}
+\item{selected}{The new selected value. If \code{NULL}, the selection is not
+changed.}
 
 \item{icon}{An icon. If provided without \code{show_label = TRUE}, only the icon
 will be visible.}
@@ -51,6 +62,9 @@ alongside the icon.}
 \item A character string - shows a tooltip with custom text Defaults to
 \code{!show_label}.
 }}
+
+\item{session}{A Shiny session object (the default should almost always be
+used).}
 }
 \value{
 Returns a select input control suitable for use in a toolbar.
@@ -58,6 +72,17 @@ Returns a select input control suitable for use in a toolbar.
 \description{
 Create a select list input control that can be used to choose a single
 item from a list of values, suitable for use within a \code{\link[=toolbar]{toolbar()}}.
+
+Change the value or appearance of a toolbar select input. This update
+function works similarly to \code{\link[shiny:updateSelectInput]{shiny::updateSelectInput()}}, but is
+specifically designed for \code{\link[=toolbar_input_select]{toolbar_input_select()}}. It allows you to update
+the select's label, icon, choices, selected value(s), and label visibility
+from the server.
+}
+\details{
+Note that you cannot enable or disable the \code{tooltip} parameter after the
+select has been created, as it affects the structure and ARIA attributes.
+You can, however, use \code{\link[=update_tooltip]{update_tooltip()}} to update the text of the tooltip.
 }
 \examples{
 \dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
@@ -94,8 +119,45 @@ toolbar(
   )
 )
 \dontshow{\}) # examplesIf}
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
+library(shiny)
+library(bslib)
+
+ui <- page_fluid(
+  toolbar(
+    align = "right",
+    toolbar_input_select(
+      "select",
+      label = "Choose",
+      choices = c("A", "B", "C")
+    )
+  ),
+  verbatimTextOutput("value")
+)
+
+server <- function(input, output, session) {
+  output$value <- renderPrint({
+    input$select
+  })
+
+  observeEvent(input$select, {
+    if (input$select == "A") {
+      update_toolbar_input_select(
+        "select",
+        label = "Pick one",
+        choices = c("X", "Y", "Z"),
+        selected = "Y"
+      )
+    }
+  })
+}
+
+shinyApp(ui, server)
+\dontshow{\}) # examplesIf}
 }
 \seealso{
+\code{\link[=toolbar_input_select]{toolbar_input_select()}}, \code{\link[shiny:updateSelectInput]{shiny::updateSelectInput()}}
+
 Other Toolbar components: 
 \code{\link{toolbar}()},
 \code{\link{toolbar_divider}()},
