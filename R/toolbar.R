@@ -562,10 +562,8 @@ validate_update_selected <- function(selected, choices, current_value) {
     if (!is.null(choices) && !is.null(current_value)) {
       choice_values <- get_choice_values(choices)
       if (!as.character(current_value) %in% choice_values) {
-        # Current value is no longer valid - select first option
-        firstChoice <- asNamespace("shiny")[["firstChoice"]]
-        first_value <- firstChoice(normalize_choices(choices))
-        return(list(value = as.character(first_value), warning = NULL))
+        # Current value is no longer valid - clear it
+        return(list(value = "", warning = NULL))
       }
     }
     return(list(value = NULL, warning = NULL))  # Keep current value
