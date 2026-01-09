@@ -323,6 +323,22 @@ toolbar_input_select <- function(
     rlang::abort("`label` must be a non-empty string.")
   }
 
+  # Validate selected value if provided
+  if (!is.null(selected)) {
+    if (length(selected) != 1) {
+      rlang::abort("`selected` must be a single value, not a vector.")
+    }
+    choice_values <- get_choice_values(choices)
+    if (!as.character(selected) %in% choice_values) {
+      rlang::abort(
+        sprintf(
+          "`selected` value '%s' is not in `choices`.",
+          as.character(selected)
+        )
+      )
+    }
+  }
+
   # Restore input for bookmarking
   selected <- shiny::restoreInput(id = id, default = selected)
 
@@ -467,9 +483,20 @@ update_toolbar_input_select <- function(
   icon_processed <- if (!is.null(icon)) processDeps(icon, session)
   label_processed <- if (!is.null(label)) processDeps(label, session)
 
-  # Process choices and selected value
+  # Validate and process selected value
+  current_value <- session$input[[id]]
+  validation_result <- validate_update_selected(selected, choices, current_value)
+
+  # Emit warning if validation failed
+  if (!is.null(validation_result$warning)) {
+    rlang::warn(validation_result$warning)
+  }
+
+  # Process choices
   choices_processed <- process_select_choices(choices, selected, id)
-  selected_processed <- if (!is.null(selected)) as.character(selected)
+
+  # Use the validated/processed selected value
+  selected_processed <- validation_result$value
 
   message <- dropNulls(list(
     label = label_processed,
@@ -486,6 +513,80 @@ update_toolbar_input_select <- function(
 normalize_choices <- function(choices) {
   choicesWithNames <- asNamespace("shiny")[["choicesWithNames"]]
   choicesWithNames(choices)
+}
+
+# Helper function to extract all choice values from a choices structure
+# Handles both flat and grouped choices
+get_choice_values <- function(choices) {
+  choices <- normalize_choices(choices)
+
+  # If it's a list of lists (grouped choices), flatten it
+  if (is.list(choices) && any(vapply(choices, is.list, logical(1)))) {
+    # Extract values from each group
+    values <- unlist(lapply(choices, function(group) {
+      if (is.list(group)) {
+        unname(group)
+      } else {
+        group
+      }
+    }), use.names = FALSE)
+  } else {
+    # Flat choices - extract values
+    values <- unname(choices)
+  }
+
+  as.character(values)
+}
+
+# Helper function to validate and process selected value for updates
+# Returns a list with:
+#   - value: the value to send (character, "" to clear, or NULL to keep current)
+#   - warning: warning message if validation failed (NULL if no warning)
+validate_update_selected <- function(selected, choices, current_value) {
+  # If no selected value provided
+  if (is.null(selected)) {
+    # If choices are being updated, check if current value is still valid
+    if (!is.null(choices) && !is.null(current_value)) {
+      choice_values <- get_choice_values(choices)
+      if (!as.character(current_value) %in% choice_values) {
+        # Current value is no longer valid
+        return(list(value = "", warning = NULL))
+      }
+    }
+    # Keep current value
+    return(list(value = NULL, warning = NULL))
+  }
+
+  # Validate selected is a single value
+  if (length(selected) != 1) {
+    return(list(
+      value = "",
+      warning = "`selected` must be a single value, not a vector. Clearing selection."
+    ))
+  }
+
+  # Choices must be provided when setting a selected value
+  if (is.null(choices)) {
+    return(list(
+      value = "",
+      warning = "`selected` cannot be set without `choices`. Clearing selection."
+    ))
+  }
+
+  # Validate selected is in choices
+  choice_values <- get_choice_values(choices)
+  if (!as.character(selected) %in% choice_values) {
+    return(list(
+      value = "",
+      warning = sprintf(
+        "`selected` value '%s' is not in `choices`. Clearing selection.",
+        as.character(selected)
+      )
+    ))
+  }
+
+  # Valid selected value
+  list(value = as.character(selected), warning = NULL)
 }
 
 # Helper function to process select choices into HTML options

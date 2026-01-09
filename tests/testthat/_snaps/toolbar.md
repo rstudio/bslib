@@ -425,3 +425,39 @@
       Error in `update_toolbar_input_select()`:
       ! `label` must be a non-empty string.
 
+# toolbar_input_select() validates selected is in choices
+
+    Code
+      toolbar_input_select(id = "test", label = "Test", choices = c("A", "B", "C"),
+      selected = "D", tooltip = FALSE)
+    Condition
+      Error in `toolbar_input_select()`:
+      ! `selected` value 'D' is not in `choices`.
+
+---
+
+    Code
+      toolbar_input_select(id = "test", label = "Test", choices = c(`Label A` = "val_a",
+        `Label B` = "val_b"), selected = "Label A", tooltip = FALSE)
+    Condition
+      Error in `toolbar_input_select()`:
+      ! `selected` value 'Label A' is not in `choices`.
+
+---
+
+    Code
+      toolbar_input_select(id = "test", label = "Test", choices = list(`Group 1` = c(
+        "A", "B"), `Group 2` = c("C", "D")), selected = "E", tooltip = FALSE)
+    Condition
+      Error in `toolbar_input_select()`:
+      ! `selected` value 'E' is not in `choices`.
+
+# update_toolbar_input_select() validates selected is in choices
+
+    Code
+      update_toolbar_input_select("test_id", choices = c("A", "B", "C"), selected = "D",
+      session = session)
+    Condition
+      Warning:
+      `selected` value 'D' is not in `choices`. Clearing selection.
+
