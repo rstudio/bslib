@@ -326,17 +326,13 @@ toolbar_input_select <- function(
   # Restore input for bookmarking
   selected <- shiny::restoreInput(id = id, default = selected)
 
-  # Set selected to the first choice if no default or restored value
+  choices <- normalize_choices(choices)
+
   firstChoice <- asNamespace("shiny")[["firstChoice"]]
   if (is.null(selected)) {
     selected <- firstChoice(choices)
-    # firstChoice() may return multiple values, take only the first
-    if (length(selected) > 1) {
-      selected <- selected[1]
-    }
   }
 
-  # Process and validate choices and selected
   processed <- process_choices_selected(choices, selected, id)
 
   if (!is.null(processed$error)) {
@@ -555,7 +551,10 @@ process_choices_selected <- function(choices, selected, inputId) {
     if (!as.character(selected) %in% choice_values) {
       return(list(
         data = list(options = NULL, value = NULL),
-        error = sprintf("`selected` value '%s' is not in `choices`.", as.character(selected))
+        error = sprintf(
+          "`selected` value '%s' is not in `choices`.",
+          as.character(selected)
+        )
       ))
     }
   }
@@ -564,7 +563,11 @@ process_choices_selected <- function(choices, selected, inputId) {
   options_html <- NULL
   if (!is.null(choices)) {
     choices_normalized <- normalize_choices(choices)
-    options_html <- as.character(selectOptions(choices_normalized, selected, inputId = inputId))
+    options_html <- as.character(selectOptions(
+      choices_normalized,
+      selected,
+      inputId = inputId
+    ))
   }
 
   # Process selected value
