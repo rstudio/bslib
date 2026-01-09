@@ -560,7 +560,7 @@ process_choices_selected <- function(choices, selected, inputId) {
     }
   }
 
-  # Process choices into HTML options (even if selected is invalid)
+  # Process choices into HTML options
   options_html <- NULL
   if (!is.null(choices_normalized)) {
     options_html <- as.character(selectOptions(
@@ -571,7 +571,11 @@ process_choices_selected <- function(choices, selected, inputId) {
   }
 
   # Process selected value
-  value <- if (!is.null(validated_selected)) as.character(validated_selected) else NULL
+  value <- if (!is.null(validated_selected)) {
+    as.character(validated_selected)
+  } else {
+    NULL
+  }
 
   list(
     data = list(options = options_html, value = value),
