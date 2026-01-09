@@ -492,10 +492,19 @@ update_toolbar_input_select <- function(
     rlang::warn(validation_result$warning)
   }
 
-  # Process choices
-  choices_processed <- process_select_choices(choices, selected, id)
+  # Determine which value to use for rendering options HTML
+  # If validation returned NULL (keep current), use current_value for HTML
+  # Otherwise use the validated selected value
+  value_for_html <- if (is.null(validation_result$value)) {
+    current_value
+  } else {
+    validation_result$value
+  }
 
-  # Use the validated/processed selected value
+  # Process choices with the appropriate selected value for HTML rendering
+  choices_processed <- process_select_choices(choices, value_for_html, id)
+
+  # Use the validated/processed selected value for the message
   selected_processed <- validation_result$value
 
   message <- dropNulls(list(
