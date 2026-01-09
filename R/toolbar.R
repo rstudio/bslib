@@ -495,16 +495,16 @@ normalize_choices <- function(choices) {
   choicesWithNames(choices)
 }
 
-# Helper function to extract all choice values from a choices structure
-# Handles both flat and grouped choices
-get_choice_values <- function(choices) {
-  choices <- normalize_choices(choices)
-
-  # If it's a list of lists (grouped choices), flatten it
-  if (is.list(choices) && any(vapply(choices, is.list, logical(1)))) {
-    # Extract values from each group
+# Helper function to extract all choice values from normalized choices
+# Note: expects choices to already be normalized via normalize_choices()
+extract_choice_values <- function(choices_normalized) {
+  # If it's a list of lists (grouped choices), flatten it and extract the values
+  if (
+    is.list(choices_normalized) &&
+      any(vapply(choices_normalized, is.list, logical(1)))
+  ) {
     values <- unlist(
-      lapply(choices, function(group) {
+      lapply(choices_normalized, function(group) {
         if (is.list(group)) {
           unname(group)
         } else {
@@ -515,7 +515,7 @@ get_choice_values <- function(choices) {
     )
   } else {
     # Flat choices - extract values
-    values <- unname(choices)
+    values <- unname(choices_normalized)
   }
 
   as.character(values)
@@ -526,56 +526,56 @@ get_choice_values <- function(choices) {
 #   - data: list with 'options' (HTML) and 'value' (selected value), or NULL entries
 #   - error: error message if validation failed (NULL if no error)
 process_choices_selected <- function(choices, selected, inputId) {
-  # If neither choices nor selected provided, nothing to process
   if (is.null(choices) && is.null(selected)) {
     return(list(data = list(options = NULL, value = NULL), error = NULL))
   }
 
+  # Normalize choices once if provided
+  choices_normalized <- NULL
+  if (!is.null(choices)) {
+    choices_normalized <- normalize_choices(choices)
+  }
+
   # Validate selected if provided
+  error_msg <- NULL
+  validated_selected <- selected
+
   if (!is.null(selected)) {
     if (length(selected) != 1) {
-      return(list(
-        data = list(options = NULL, value = NULL),
-        error = "`selected` must be a single value, not a vector."
-      ))
-    }
-
-    if (is.null(choices)) {
-      return(list(
-        data = list(options = NULL, value = NULL),
-        error = "`selected` cannot be set without `choices`."
-      ))
-    }
-
-    choice_values <- get_choice_values(choices)
-    if (!as.character(selected) %in% choice_values) {
-      return(list(
-        data = list(options = NULL, value = NULL),
-        error = sprintf(
+      error_msg <- "`selected` must be a single value, not a vector."
+      validated_selected <- NULL
+    } else if (is.null(choices)) {
+      error_msg <- "`selected` cannot be set without `choices`."
+      validated_selected <- NULL
+    } else {
+      # Extract all valid choice values from normalized choices
+      choice_values <- extract_choice_values(choices_normalized)
+      if (!as.character(selected) %in% choice_values) {
+        error_msg <- sprintf(
           "`selected` value '%s' is not in `choices`.",
           as.character(selected)
         )
-      ))
+        validated_selected <- NULL
+      }
     }
   }
 
-  # Process choices into HTML options
+  # Process choices into HTML options (even if selected is invalid)
   options_html <- NULL
-  if (!is.null(choices)) {
-    choices_normalized <- normalize_choices(choices)
+  if (!is.null(choices_normalized)) {
     options_html <- as.character(selectOptions(
       choices_normalized,
-      selected,
+      validated_selected,
       inputId = inputId
     ))
   }
 
   # Process selected value
-  value <- if (!is.null(selected)) as.character(selected) else NULL
+  value <- if (!is.null(validated_selected)) as.character(validated_selected) else NULL
 
   list(
     data = list(options = options_html, value = value),
-    error = NULL
+    error = error_msg
   )
 }
 
