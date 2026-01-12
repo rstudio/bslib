@@ -62,16 +62,20 @@ toolbar <- function(
 #'   details on how this affects the tooltip behavior).
 #' @param show_label Whether to show the label text. If `FALSE` (the default),
 #'   only the icon is shown (if provided). If `TRUE`, the label text is shown
-#'   alongside the icon.
+#'   alongside the icon. Note that `show_label` can be dynamically updated using
+#'   [update_toolbar_input_button()].
 #' @param tooltip Tooltip text to display when hovering over the input. Can be:
 #'   * `TRUE` (default when `show_label = FALSE`) - shows a tooltip with the
 #'     `label` text
 #'   * `FALSE` (default when `show_label = TRUE`) - no tooltip
-#'   * A character string - shows a tooltip with custom text Defaults to
-#'     `!show_label`.
+#'   * A character string - shows a tooltip with custom text
+#'
+#'   Defaults to `!show_label`. When a tooltip is created, it will have an ID of
+#'   `"{id}_tooltip"` which can be used to update the tooltip text dynamically
+#'   via [update_tooltip()].
 #' @param ... Additional attributes to pass to the button.
 #' @param disabled If `TRUE`, the button will not be clickable. Use
-#'   [shiny::updateActionButton()] to dynamically enable/disable the button.
+#'   [update_toolbar_input_button()] to dynamically enable/disable the button.
 #' @param border Whether to show a border around the button.
 #'
 #' @return Returns a button suitable for use in a toolbar.
@@ -208,6 +212,8 @@ toolbar_input_button <- function(
 #'         label = "Clicked!",
 #'         icon = icon("check")
 #'       )
+#'       # Update the tooltip text (tooltip ID is "{id}_tooltip")
+#'       update_tooltip("btn_tooltip", "Button was clicked!")
 #'     }
 #'   })
 #' }
