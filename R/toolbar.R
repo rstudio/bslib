@@ -71,7 +71,7 @@ toolbar <- function(
 #'   * A character string - shows a tooltip with custom text
 #'
 #'   Defaults to `!show_label`. When a tooltip is created, it will have an ID of
-#'   `"{id}_tooltip"` which can be used to update the tooltip text dynamically
+#'   `"{id}-tooltip"` which can be used to update the tooltip text dynamically
 #'   via [update_tooltip()].
 #' @param ... Additional attributes to pass to the button.
 #' @param disabled If `TRUE`, the button will not be clickable. Use
@@ -160,7 +160,7 @@ toolbar_input_button <- function(
     button <- tooltip(
       button,
       tooltip,
-      id = sprintf("%s_tooltip", id),
+      id = sprintf("%s-tooltip", id),
       placement = "bottom"
     )
   }
@@ -212,8 +212,8 @@ toolbar_input_button <- function(
 #'         label = "Clicked!",
 #'         icon = icon("check")
 #'       )
-#'       # Update the tooltip text (tooltip ID is "{id}_tooltip")
-#'       update_tooltip("btn_tooltip", "Button was clicked!")
+#'       # Update the tooltip text (tooltip ID is "{id}-tooltip")
+#'       update_tooltip("btn-tooltip", "Button was clicked!")
 #'     }
 #'   })
 #' }
@@ -304,6 +304,11 @@ toolbar_input_button_input_handler <- function(value, shinysession, name) {
 #' @inheritParams toolbar_input_button
 #' @inheritParams shiny::selectInput
 #'
+#' @details
+#' When a tooltip is created for the select input, it will have an ID of
+#' `"{id}-tooltip"` which can be used to update the tooltip text dynamically
+#' via [update_tooltip()].
+#'
 #' @return Returns a select input control suitable for use in a toolbar.
 #'
 #' @family Toolbar components
@@ -388,7 +393,7 @@ toolbar_input_select <- function(
     select_tag <- bslib::tooltip(
       select_tag,
       tooltip,
-      id = paste0(id, "-tooltip"),
+      id = sprintf("%s-tooltip", id),
       placement = "bottom"
     )
   }
@@ -452,6 +457,8 @@ toolbar_input_select <- function(
 #'         choices = c("X", "Y", "Z"),
 #'         selected = "Y"
 #'       )
+#'       # Update the tooltip text (tooltip ID is "{id}-tooltip")
+#'       update_tooltip("select-tooltip", "Choose your option")
 #'     }
 #'   })
 #' }
