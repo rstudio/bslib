@@ -1,10 +1,16 @@
 # bslib (development version)
 
+## Breaking changes
+
+* bslib now uses the `{brand.yml}` package for reading [brand.yml](https://posit-dev.github.io/brand.yml) files. This change improves compatibility with other tools that use brand.yml files, such as Quarto. The `{brand.yml}` package must be installed for `_brand.yml` files to be automatically discovered. (#1227)
+
 ## New features
 
 * Added a new `input_submit_textarea()` input element, which is similar to `shiny::textAreaInput()`, but includes a submit button to only submit the text changes to the server on click. This is especially useful when the input text change triggers a long-running operation and/or the user wants to type longer-form input and review it before submitting it. (#1204)
 
-* Added toast notifications based on [Bootstrap's Toast component](https://getbootstrap.com/docs/5.3/components/toasts/): Use `toast()` to create customizable toast objects, `show_toast()` to display a toast message, `hide_toast()` for manual dismissal, and `toast_header()` for structured headers with icons and status indicators. (#1246)
+* Added toast notifications based on [Bootstrap's Toast component](https://getbootstrap.com/docs/5.3/components/toasts/): Use `toast()` to create customizable toast objects, `show_toast()` to display a toast message, `hide_toast()` for manual dismissal, and `toast_header()` for structured headers with icons and status indicators. Try it with `shiny::runExample("toast", package = "bslib")`. (#1246)
+
+* Added a new `input_code_editor()` element that allows for light-weight code editing with syntax highlighting, using the [prism-code-editor](https://prism-code-editor.netlify.app/) library. The editor supports 20+ languages, more than a dozen themes, and automatic light/dark mode switching. Try it with `shiny::runExample("code-editor", package = "bslib")`. (#1274)
 
 * Added a new `toolbar()` component for creating Bootstrap toolbars that can contain buttons, text, and other elements. (#1247)
   * Added `toolbar_input_button()` for easily creating buttons to include in a `toolbar()`. (#1248)

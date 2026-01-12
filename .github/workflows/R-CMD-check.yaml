@@ -21,6 +21,8 @@ jobs:
       format-r-code: true
   R-CMD-check:
     uses: rstudio/shiny-workflows/.github/workflows/R-CMD-check.yaml@v1
+    with:
+      check-depends-only: false
   deploy:
     if: github.repository == 'rstudio/bslib' && github.event_name == 'push'
     runs-on: ubuntu-20.04

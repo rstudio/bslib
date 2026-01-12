@@ -42,6 +42,7 @@ Imports:
     rlang,
     sass (>= 0.4.9),
 Suggests:
+    brand.yml,
     bsicons,
     curl,
     fontawesome,
@@ -98,6 +99,7 @@ Collate:
     'files.R'
     'fill.R'
     'imports.R'
+    'input-code-editor.R'
     'input-dark-mode.R'
     'input-submit.R'
     'input-switch.R'
