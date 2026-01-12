@@ -179,9 +179,10 @@ toolbar_input_button <- function(
 #' is specifically designed for [toolbar_input_button()]. It allows you to
 #' update the button's label, icon, and disabled state from the server.
 #'
-#' Note that you cannot change `show_label`, `tooltip`, or `border` parameters
+#' Note that you cannot change the `tooltip` or `border` parameters
 #' after the button has been created, as these affect the button's structure
 #' and ARIA attributes.
+#' Please use [update_tooltip()] to update the text of the tooltip if one is present.
 #'
 #' @examplesIf interactive()
 #' library(shiny)
@@ -326,14 +327,14 @@ toolbar_input_select <- function(
   # Restore input for bookmarking
   selected <- shiny::restoreInput(id = id, default = selected)
 
-  choices <- normalize_choices(choices)
-
-  firstChoice <- asNamespace("shiny")[["firstChoice"]]
-  if (is.null(selected)) {
-    selected <- firstChoice(choices)
-  }
-
-  processed <- process_choices_selected(choices, selected, id)
+  # use_first_choice = TRUE for initial creation so that if the user does not
+  # provide an initial selected value, we select the first choice
+  processed <- process_choices_selected(
+    choices,
+    selected,
+    id,
+    use_first_choice = TRUE
+  )
 
   if (!is.null(processed$error)) {
     rlang::abort(processed$error)
@@ -343,7 +344,7 @@ toolbar_input_select <- function(
     id = id,
     class = "form-select form-select-sm",
     `data-shiny-no-bind-input` = NA,
-    HTML(processed$data$options)
+    HTML(processed$options)
   )
 
   # Add optional icon before the select
@@ -472,7 +473,12 @@ update_toolbar_input_select <- function(
   label_processed <- if (!is.null(label)) processDeps(label, session)
 
   # Process and validate choices and selected
-  processed <- process_choices_selected(choices, selected, id)
+  processed <- process_choices_selected(
+    choices,
+    selected,
+    id,
+    use_first_choice = FALSE
+  )
 
   if (!is.null(processed$error)) {
     rlang::warn(processed$error)
@@ -482,8 +488,8 @@ update_toolbar_input_select <- function(
     label = label_processed,
     showLabel = show_label,
     icon = icon_processed,
-    options = processed$data$options,
-    value = processed$data$value
+    options = processed$options,
+    value = processed$value
   ))
 
   session$sendInputMessage(id, message)
@@ -523,17 +529,31 @@ extract_choice_values <- function(choices_normalized) {
 
 # Helper function to process and validate choices and selected
 # Returns a list with:
-#   - data: list with 'options' (HTML) and 'value' (selected value), or NULL entries
+#   - options: HTML string for <option> elements (or NULL)
+#   - value: selected value as character (or NULL)
 #   - error: error message if validation failed (NULL if no error)
-process_choices_selected <- function(choices, selected, inputId) {
+# @param use_first_choice If TRUE and selected is NULL, use firstChoice().
+#   If FALSE, leave selected as NULL (for updates where we want to keep current value)
+process_choices_selected <- function(
+  choices,
+  selected,
+  inputId,
+  use_first_choice = TRUE
+) {
   if (is.null(choices) && is.null(selected)) {
-    return(list(data = list(options = NULL, value = NULL), error = NULL))
+    return(list(options = NULL, value = NULL, error = NULL))
   }
 
   # Normalize choices once if provided
   choices_normalized <- NULL
   if (!is.null(choices)) {
     choices_normalized <- normalize_choices(choices)
+  }
+
+  # If selected is NULL and choices are provided, optionally select the first choice
+  if (is.null(selected) && !is.null(choices_normalized) && use_first_choice) {
+    firstChoice <- asNamespace("shiny")[["firstChoice"]]
+    selected <- firstChoice(choices_normalized)
   }
 
   # Validate selected if provided
@@ -578,7 +598,8 @@ process_choices_selected <- function(choices, selected, inputId) {
   }
 
   list(
-    data = list(options = options_html, value = value),
+    options = options_html,
+    value = value,
     error = error_msg
   )
 }

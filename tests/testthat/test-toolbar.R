@@ -855,37 +855,42 @@ test_that("update_toolbar_input_select() keeps current value when choices change
 test_that("process_choices_selected() handles all cases correctly", {
   # Case 1: Valid selected value with choices
   result <- process_choices_selected(c("A", "B", "C"), "B", "test_id")
-  expect_equal(result$data$value, "B")
+  expect_equal(result$value, "B")
   expect_null(result$error)
 
   # Case 2: Invalid selected value with choices
   result <- process_choices_selected(c("A", "B", "C"), "D", "test_id")
-  expect_null(result$data$value)
+  expect_null(result$value)
   expect_match(result$error, "not in `choices`")
 
   # Case 3: selected is a vector (invalid)
   result <- process_choices_selected(c("A", "B", "C"), c("A", "B"), "test_id")
-  expect_null(result$data$value)
+  expect_null(result$value)
   expect_match(result$error, "single value")
 
   # Case 4: No selected, no choices
   result <- process_choices_selected(NULL, NULL, "test_id")
-  expect_null(result$data$value)
+  expect_null(result$value)
   expect_null(result$error)
 
-  # Case 5: No selected, has choices - keep current (NULL value)
-  result <- process_choices_selected(c("A", "B", "C"), NULL, "test_id")
-  expect_null(result$data$value)
+  # Case 5: No selected, has choices - selects first choice (use_first_choice = TRUE)
+  result <- process_choices_selected(c("A", "B", "C"), NULL, "test_id", use_first_choice = TRUE)
+  expect_equal(result$value, "A")
+  expect_null(result$error)
+
+  # Case 5b: No selected, has choices - keeps NULL (use_first_choice = FALSE, for updates)
+  result <- process_choices_selected(c("A", "B", "C"), NULL, "test_id", use_first_choice = FALSE)
+  expect_null(result$value)
   expect_null(result$error)
 
   # Case 6: Valid selected with named choices
   result <- process_choices_selected(c("Label A" = "val_a", "Label B" = "val_b"), "val_a", "test_id")
-  expect_equal(result$data$value, "val_a")
+  expect_equal(result$value, "val_a")
   expect_null(result$error)
 
   # Case 7: Invalid selected (using label instead of value)
   result <- process_choices_selected(c("Label A" = "val_a", "Label B" = "val_b"), "Label A", "test_id")
-  expect_null(result$data$value)
+  expect_null(result$value)
   expect_match(result$error, "not in `choices`")
 
   # Case 8: Valid selected with grouped choices
@@ -894,7 +899,7 @@ test_that("process_choices_selected() handles all cases correctly", {
     "B",
     "test_id"
   )
-  expect_equal(result$data$value, "B")
+  expect_equal(result$value, "B")
   expect_null(result$error)
 
   # Case 9: Invalid selected with grouped choices
@@ -903,12 +908,12 @@ test_that("process_choices_selected() handles all cases correctly", {
     "E",
     "test_id"
   )
-  expect_null(result$data$value)
+  expect_null(result$value)
   expect_match(result$error, "not in `choices`")
 
   # Case 10: Selected without choices (invalid)
   result <- process_choices_selected(NULL, "B", "test_id")
-  expect_null(result$data$value)
+  expect_null(result$value)
   expect_match(result$error, "cannot be set without `choices`")
 })
 
