@@ -2,6 +2,7 @@
 % Please edit documentation in R/toolbar.R
 \name{toolbar_input_button}
 \alias{toolbar_input_button}
+\alias{update_toolbar_input_button}
 \title{Add toolbar button input}
 \usage{
 toolbar_input_button(
@@ -13,6 +14,15 @@ toolbar_input_button(
   ...,
   disabled = FALSE,
   border = FALSE
+)
+
+update_toolbar_input_button(
+  id,
+  label = NULL,
+  show_label = NULL,
+  icon = NULL,
+  disabled = NULL,
+  session = get_current_session()
 )
 }
 \arguments{
@@ -27,29 +37,48 @@ will be visible.}
 
 \item{show_label}{Whether to show the label text. If \code{FALSE} (the default),
 only the icon is shown (if provided). If \code{TRUE}, the label text is shown
-alongside the icon.}
+alongside the icon. Note that \code{show_label} can be dynamically updated using
+\code{\link[=update_toolbar_input_button]{update_toolbar_input_button()}}.}
 
 \item{tooltip}{Tooltip text to display when hovering over the input. Can be:
 \itemize{
 \item \code{TRUE} (default when \code{show_label = FALSE}) - shows a tooltip with the
 \code{label} text
 \item \code{FALSE} (default when \code{show_label = TRUE}) - no tooltip
-\item A character string - shows a tooltip with custom text Defaults to
-\code{!show_label}.
-}}
+\item A character string - shows a tooltip with custom text
+}
+
+Defaults to \code{!show_label}. When a tooltip is created, it will have an ID of
+\code{"{id}-tooltip"} which can be used to update the tooltip text dynamically
+via \code{\link[=update_tooltip]{update_tooltip()}}.}
 
 \item{...}{Additional attributes to pass to the button.}
 
 \item{disabled}{If \code{TRUE}, the button will not be clickable. Use
-\code{\link[shiny:updateActionButton]{shiny::updateActionButton()}} to dynamically enable/disable the button.}
+\code{\link[=update_toolbar_input_button]{update_toolbar_input_button()}} to dynamically enable/disable the button.}
 
 \item{border}{Whether to show a border around the button.}
+
+\item{session}{A Shiny session object (the default should almost always be
+used).}
 }
 \value{
 Returns a button suitable for use in a toolbar.
 }
 \description{
 A button designed to fit well in small places such as in a \code{\link[=toolbar]{toolbar()}}.
+
+Change the value or appearance of a toolbar button input on the client.
+}
+\details{
+This update function works similarly to \code{\link[shiny:updateActionButton]{shiny::updateActionButton()}}, but
+is specifically designed for \code{\link[=toolbar_input_button]{toolbar_input_button()}}. It allows you to
+update the button's label, icon, and disabled state from the server.
+
+Note that you cannot change the \code{tooltip} or \code{border} parameters
+after the button has been created, as these affect the button's structure
+and ARIA attributes.
+Please use \code{\link[=update_tooltip]{update_tooltip()}} to update the text of the tooltip if one is present.
 }
 \examples{
 \dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
@@ -60,8 +89,42 @@ toolbar(
   toolbar_input_button(id = "edit", icon = icon("pencil"), label = "Edit", show_label = TRUE)
 )
 \dontshow{\}) # examplesIf}
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
+library(shiny)
+library(bslib)
+
+ui <- page_fluid(
+  toolbar(
+    align = "right",
+    toolbar_input_button("btn", label = "Click me", icon = icon("play"))
+  ),
+  verbatimTextOutput("count")
+)
+
+server <- function(input, output, session) {
+  output$count <- renderPrint({
+    input$btn
+  })
+
+  observeEvent(input$btn, {
+    if (input$btn == 1) {
+      update_toolbar_input_button(
+        "btn",
+        label = "Clicked!",
+        icon = icon("check")
+      )
+      # Update the tooltip text
+      update_tooltip("btn-tooltip", "Button was clicked!")
+    }
+  })
+}
+
+shinyApp(ui, server)
+\dontshow{\}) # examplesIf}
 }
 \seealso{
+\code{\link[=toolbar_input_button]{toolbar_input_button()}}, \code{\link[shiny:updateActionButton]{shiny::updateActionButton()}}
+
 Other Toolbar components: 
 \code{\link{toolbar}()},
 \code{\link{toolbar_divider}()},

@@ -304,7 +304,9 @@ test_that("toolbar_input_select() has proper label structure", {
   expect_equal(label_for, "select")
 
   # Find the label text span
-  label_spans <- tagQuery(label_elem)$find("span.bslib-toolbar-label")$selectedTags()
+  label_spans <- tagQuery(label_elem)$find(
+    "span.bslib-toolbar-label"
+  )$selectedTags()
   expect_true(length(label_spans) > 0)
 
   label_text_span <- label_spans[[1]]
@@ -712,4 +714,243 @@ test_that("bslib::selectOptions() matches shiny::selectOptions() output", {
     inputId = "test8"
   ))
   expect_equal(bslib_out8, shiny_out8)
+})
+
+# Tests for update functions #
+
+test_that("update_toolbar_input_select() validates label parameter", {
+  session <- list(sendInputMessage = function(id, message) {
+    stop("sendInputMessage should not be called")
+  })
+
+  # Empty string label should error (validation happens before session is used)
+  expect_snapshot(error = TRUE, {
+    update_toolbar_input_select("test_id", label = "", session = session)
+  })
+
+  # Whitespace-only label should error
+  expect_snapshot(error = TRUE, {
+    update_toolbar_input_select("test_id", label = "   ", session = session)
+  })
+
+  # Non-character label should error
+  expect_snapshot(error = TRUE, {
+    update_toolbar_input_select("test_id", label = 123, session = session)
+  })
+
+  # Multiple strings should error
+  expect_snapshot(error = TRUE, {
+    update_toolbar_input_select("test_id", label = c("A", "B"), session = session)
+  })
+})
+
+test_that("toolbar_input_select() validates selected is in choices", {
+  # Invalid selected value should error
+  expect_snapshot(error = TRUE, {
+    toolbar_input_select(
+      id = "test",
+      label = "Test",
+      choices = c("A", "B", "C"),
+      selected = "D",
+      tooltip = FALSE
+    )
+  })
+
+  # Valid selected value should not error
+  expect_no_error(
+    toolbar_input_select(
+      id = "test",
+      label = "Test",
+      choices = c("A", "B", "C"),
+      selected = "B",
+      tooltip = FALSE
+    )
+  )
+
+  # Works with named choices
+  expect_snapshot(error = TRUE, {
+    toolbar_input_select(
+      id = "test",
+      label = "Test",
+      choices = c("Label A" = "val_a", "Label B" = "val_b"),
+      selected = "Label A",  # Should use value, not label
+      tooltip = FALSE
+    )
+  })
+
+  # Works with grouped choices
+  expect_snapshot(error = TRUE, {
+    toolbar_input_select(
+      id = "test",
+      label = "Test",
+      choices = list(
+        "Group 1" = c("A", "B"),
+        "Group 2" = c("C", "D")
+      ),
+      selected = "E",
+      tooltip = FALSE
+    )
+  })
+})
+
+test_that("update_toolbar_input_select() validates selected is in choices", {
+  session <- list(
+    sendInputMessage = function(id, message) {
+      session$last_message <<- message
+    },
+    input = list()
+  )
+
+  # Invalid selected value should warn and not update
+  expect_snapshot({
+    update_toolbar_input_select(
+      "test_id",
+      choices = c("A", "B", "C"),
+      selected = "D",
+      session = session
+    )
+  })
+  expect_null(session$last_message$value)
+
+  # Valid selected value should not warn
+  expect_no_warning(
+    update_toolbar_input_select(
+      "test_id",
+      choices = c("A", "B", "C"),
+      selected = "B",
+      session = session
+    )
+  )
+  expect_equal(session$last_message$value, "B")  # Should set to B
+})
+
+test_that("update_toolbar_input_select() keeps current value when choices change", {
+  # Mock session with a current input value
+  session <- list(
+    sendInputMessage = function(id, message) {
+      # Capture the message to verify behavior
+      session$last_message <<- message
+    },
+    input = list(test_select = "B")
+  )
+
+  # Update choices - current value "B" is still valid, should be kept
+  update_toolbar_input_select(
+    "test_select",
+    choices = c("A", "B", "C"),
+    session = session
+  )
+  expect_null(session$last_message$value)
+
+  # Update choices - current value "B" is no longer valid, should keep current (don't update)
+  session$input$test_select <- "B"
+  update_toolbar_input_select(
+    "test_select",
+    choices = c("X", "Y", "Z"),
+    session = session
+  )
+  expect_null(session$last_message$value)
+})
+
+test_that("process_choices_selected() handles all cases correctly", {
+  # Case 1: Valid selected value with choices
+  result <- process_choices_selected(c("A", "B", "C"), "B", "test_id")
+  expect_equal(result$value, "B")
+  expect_null(result$error)
+
+  # Case 2: Invalid selected value with choices
+  result <- process_choices_selected(c("A", "B", "C"), "D", "test_id")
+  expect_null(result$value)
+  expect_match(result$error, "not in `choices`")
+
+  # Case 3: selected is a vector (invalid)
+  result <- process_choices_selected(c("A", "B", "C"), c("A", "B"), "test_id")
+  expect_null(result$value)
+  expect_match(result$error, "single value")
+
+  # Case 4: No selected, no choices
+  result <- process_choices_selected(NULL, NULL, "test_id")
+  expect_null(result$value)
+  expect_null(result$error)
+
+  # Case 5: No selected, has choices - selects first choice (use_first_choice = TRUE)
+  result <- process_choices_selected(c("A", "B", "C"), NULL, "test_id", use_first_choice = TRUE)
+  expect_equal(result$value, "A")
+  expect_null(result$error)
+
+  # Case 5b: No selected, has choices - keeps NULL (use_first_choice = FALSE, for updates)
+  result <- process_choices_selected(c("A", "B", "C"), NULL, "test_id", use_first_choice = FALSE)
+  expect_null(result$value)
+  expect_null(result$error)
+
+  # Case 6: Valid selected with named choices
+  result <- process_choices_selected(c("Label A" = "val_a", "Label B" = "val_b"), "val_a", "test_id")
+  expect_equal(result$value, "val_a")
+  expect_null(result$error)
+
+  # Case 7: Invalid selected (using label instead of value)
+  result <- process_choices_selected(c("Label A" = "val_a", "Label B" = "val_b"), "Label A", "test_id")
+  expect_null(result$value)
+  expect_match(result$error, "not in `choices`")
+
+  # Case 8: Valid selected with grouped choices
+  result <- process_choices_selected(
+    list("Group 1" = c("A", "B"), "Group 2" = c("C", "D")),
+    "B",
+    "test_id"
+  )
+  expect_equal(result$value, "B")
+  expect_null(result$error)
+
+  # Case 9: Invalid selected with grouped choices
+  result <- process_choices_selected(
+    list("Group 1" = c("A", "B"), "Group 2" = c("C", "D")),
+    "E",
+    "test_id"
+  )
+  expect_null(result$value)
+  expect_match(result$error, "not in `choices`")
+
+  # Case 10: Selected without choices (invalid)
+  result <- process_choices_selected(NULL, "B", "test_id")
+  expect_null(result$value)
+  expect_match(result$error, "cannot be set without `choices`")
+})
+
+test_that("update_toolbar_input_button() warns for blank label", {
+  # Note: We can't fully test these functions without a Shiny session,
+  # but we can test that the warning is issued before the session error occurs.
+
+  # Empty string label should warn
+  expect_warning(
+    expect_error(
+      update_toolbar_input_button(
+        "test_id",
+        label = ""
+      )
+    ),
+    "non-empty string label"
+  )
+
+  # Whitespace-only label should warn
+  expect_warning(
+    expect_error(
+      update_toolbar_input_button(
+        "test_id",
+        label = "   "
+      )
+    ),
+    "non-empty string label"
+  )
+
+  # Empty tag label should warn
+  expect_warning(
+    expect_error(
+      update_toolbar_input_button(
+        "test_id",
+        label = span("")
+      )
+    ),
+    "non-empty string label"
+  )
 })

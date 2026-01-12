@@ -62,16 +62,20 @@ toolbar <- function(
 #'   details on how this affects the tooltip behavior).
 #' @param show_label Whether to show the label text. If `FALSE` (the default),
 #'   only the icon is shown (if provided). If `TRUE`, the label text is shown
-#'   alongside the icon.
+#'   alongside the icon. Note that `show_label` can be dynamically updated using
+#'   [update_toolbar_input_button()].
 #' @param tooltip Tooltip text to display when hovering over the input. Can be:
 #'   * `TRUE` (default when `show_label = FALSE`) - shows a tooltip with the
 #'     `label` text
 #'   * `FALSE` (default when `show_label = TRUE`) - no tooltip
-#'   * A character string - shows a tooltip with custom text Defaults to
-#'     `!show_label`.
+#'   * A character string - shows a tooltip with custom text
+#'
+#'   Defaults to `!show_label`. When a tooltip is created, it will have an ID of
+#'   `"{id}-tooltip"` which can be used to update the tooltip text dynamically
+#'   via [update_tooltip()].
 #' @param ... Additional attributes to pass to the button.
 #' @param disabled If `TRUE`, the button will not be clickable. Use
-#'   [shiny::updateActionButton()] to dynamically enable/disable the button.
+#'   [update_toolbar_input_button()] to dynamically enable/disable the button.
 #' @param border Whether to show a border around the button.
 #'
 #' @return Returns a button suitable for use in a toolbar.
@@ -153,10 +157,104 @@ toolbar_input_button <- function(
   if (!is.null(tooltip)) {
     # Default placement is "bottom" for the toolbar case because otherwise the
     # tooltip ends up covering the neighboring buttons in the header/footer.
-    button <- tooltip(button, tooltip, placement = "bottom")
+    button <- tooltip(
+      button,
+      tooltip,
+      id = sprintf("%s-tooltip", id),
+      placement = "bottom"
+    )
   }
 
   button
+}
+
+#' Update toolbar button input
+#'
+#' @description
+#' Change the value or appearance of a toolbar button input on the client.
+#'
+#' @rdname toolbar_input_button
+#' @inheritParams toolbar_input_button
+#' @param session A Shiny session object (the default should almost always be
+#'   used).
+#'
+#' @details
+#' This update function works similarly to [shiny::updateActionButton()], but
+#' is specifically designed for [toolbar_input_button()]. It allows you to
+#' update the button's label, icon, and disabled state from the server.
+#'
+#' Note that you cannot change the `tooltip` or `border` parameters
+#' after the button has been created, as these affect the button's structure
+#' and ARIA attributes.
+#' Please use [update_tooltip()] to update the text of the tooltip if one is present.
+#'
+#' @examplesIf interactive()
+#' library(shiny)
+#' library(bslib)
+#'
+#' ui <- page_fluid(
+#'   toolbar(
+#'     align = "right",
+#'     toolbar_input_button("btn", label = "Click me", icon = icon("play"))
+#'   ),
+#'   verbatimTextOutput("count")
+#' )
+#'
+#' server <- function(input, output, session) {
+#'   output$count <- renderPrint({
+#'     input$btn
+#'   })
+#'
+#'   observeEvent(input$btn, {
+#'     if (input$btn == 1) {
+#'       update_toolbar_input_button(
+#'         "btn",
+#'         label = "Clicked!",
+#'         icon = icon("check")
+#'       )
+#'       # Update the tooltip text
+#'       update_tooltip("btn-tooltip", "Button was clicked!")
+#'     }
+#'   })
+#' }
+#'
+#' shinyApp(ui, server)
+#'
+#' @seealso [toolbar_input_button()], [shiny::updateActionButton()]
+#' @export
+update_toolbar_input_button <- function(
+  id,
+  label = NULL,
+  show_label = NULL,
+  icon = NULL,
+  disabled = NULL,
+  session = get_current_session()
+) {
+  label_text <- paste(unlist(find_characters(label)), collapse = " ")
+  if (!nzchar(trimws(label_text))) {
+    rlang::warn(
+      "Consider providing a non-empty string label for accessibility."
+    )
+  }
+
+  icon <- validateIcon(icon)
+  icon_processed <- if (!is.null(icon)) processDeps(icon, session)
+  label_processed <- if (!is.null(label)) processDeps(label, session)
+
+  message <- dropNulls(list(
+    label = label_processed,
+    showLabel = show_label,
+    icon = icon_processed,
+    disabled = disabled
+  ))
+
+  session$sendInputMessage(id, message)
+}
+
+toolbar_input_button_input_handler <- function(value, shinysession, name) {
+  # Treat like a standard action button for event handlers and input validation
+  class(value) <- c("shinyActionButtonValue", class(value))
+  value
 }
 
 #' Toolbar Input Select
@@ -206,6 +304,11 @@ toolbar_input_button <- function(
 #' @inheritParams toolbar_input_button
 #' @inheritParams shiny::selectInput
 #'
+#' @details
+#' When a tooltip is created for the select input, it will have an ID of
+#' `"{id}-tooltip"` which can be used to update the tooltip text dynamically
+#' via [update_tooltip()].
+#'
 #' @return Returns a select input control suitable for use in a toolbar.
 #'
 #' @family Toolbar components
@@ -235,28 +338,32 @@ toolbar_input_select <- function(
   # Restore input for bookmarking
   selected <- shiny::restoreInput(id = id, default = selected)
 
-  # Set selected to the first choice if no default or restored value
-  firstChoice <- asNamespace("shiny")[["firstChoice"]]
-  if (is.null(selected)) {
-    selected <- firstChoice(choices)
-  }
+  # use_first_choice = TRUE for initial creation so that if the user does not
+  # provide an initial selected value, we select the first choice
+  processed <- process_choices_selected(
+    choices,
+    selected,
+    id,
+    use_first_choice = TRUE
+  )
 
-  # Normalize choices using util function imported from Shiny
-  choicesWithNames <- asNamespace("shiny")[["choicesWithNames"]]
-  choices <- choicesWithNames(choices)
+  if (!is.null(processed$error)) {
+    rlang::abort(processed$error)
+  }
 
   select_tag <- tags$select(
     id = id,
     class = "form-select form-select-sm",
-    selectOptions(choices, selected, inputId = id)
+    `data-shiny-no-bind-input` = NA,
+    processed$options
   )
 
   # Add optional icon before the select
   icon_elem <- span(
     icon,
-    style = "pointer-events: none",
     class = "bslib-toolbar-icon",
     `aria-hidden` = "true",
+    style = "pointer-events: none",
     `role` = "none",
     tabindex = "-1"
   )
@@ -286,15 +393,226 @@ toolbar_input_select <- function(
     select_tag <- bslib::tooltip(
       select_tag,
       tooltip,
+      id = sprintf("%s-tooltip", id),
       placement = "bottom"
     )
   }
 
   div(
+    id = id,
     class = "bslib-toolbar-input-select shiny-input-container",
     !!!dots$attribs,
     label_elem,
     select_tag
+  )
+}
+
+#' Update toolbar select input
+#'
+#' @description
+#' Change the value or appearance of a toolbar select input. This update
+#' function works similarly to [shiny::updateSelectInput()], but is
+#' specifically designed for [toolbar_input_select()]. It allows you to update
+#' the select's label, icon, choices, selected value(s), and label visibility
+#' from the server.
+#'
+#' @rdname toolbar_input_select
+#' @inheritParams toolbar_input_select
+#' @param selected The new selected value. If `NULL`, the selection is not
+#'   changed.
+#' @param session A Shiny session object (the default should almost always be
+#'   used).
+#'
+#' @details
+#' Note that you cannot enable or disable the `tooltip` parameter after the
+#' select has been created, as it affects the structure and ARIA attributes.
+#' You can, however, use [update_tooltip()] to update the text of the tooltip.
+#'
+#' @examplesIf interactive()
+#' library(shiny)
+#' library(bslib)
+#'
+#' ui <- page_fluid(
+#'   toolbar(
+#'     align = "right",
+#'     toolbar_input_select(
+#'       "select",
+#'       label = "Choose",
+#'       choices = c("A", "B", "C")
+#'     )
+#'   ),
+#'   verbatimTextOutput("value")
+#' )
+#'
+#' server <- function(input, output, session) {
+#'   output$value <- renderPrint({
+#'     input$select
+#'   })
+#'
+#'   observeEvent(input$select, {
+#'     if (input$select == "A") {
+#'       update_toolbar_input_select(
+#'         "select",
+#'         label = "Pick one",
+#'         choices = c("X", "Y", "Z"),
+#'         selected = "Y"
+#'       )
+#'       # Update the tooltip text
+#'       update_tooltip("select-tooltip", "Choose your option")
+#'     }
+#'   })
+#' }
+#'
+#' shinyApp(ui, server)
+#'
+#' @seealso [toolbar_input_select()], [shiny::updateSelectInput()]
+#' @export
+update_toolbar_input_select <- function(
+  id,
+  label = NULL,
+  show_label = NULL,
+  choices = NULL,
+  selected = NULL,
+  icon = NULL,
+  session = get_current_session()
+) {
+  # Label can be null if there is no update, but if supplied it must be valid
+  if (!(is.null(label) || (rlang::is_string(label) && nzchar(trimws(label))))) {
+    rlang::abort("`label` must be a non-empty string.")
+  }
+  icon <- validateIcon(icon)
+  icon_processed <- if (!is.null(icon)) processDeps(icon, session)
+  label_processed <- if (!is.null(label)) processDeps(label, session)
+
+  # Process and validate choices and selected
+  processed <- process_choices_selected(
+    choices,
+    selected,
+    id,
+    use_first_choice = FALSE
+  )
+
+  if (!is.null(processed$error)) {
+    rlang::warn(processed$error)
+  }
+
+  message <- dropNulls(list(
+    label = label_processed,
+    showLabel = show_label,
+    icon = icon_processed,
+    options = processed$options,
+    value = processed$value
+  ))
+
+  session$sendInputMessage(id, message)
+}
+
+# Helper function to normalize choices using Shiny's choicesWithNames
+normalize_choices <- function(choices) {
+  choicesWithNames <- asNamespace("shiny")[["choicesWithNames"]]
+  choicesWithNames(choices)
+}
+
+# Helper function to extract all choice values from normalized choices
+# Note: expects choices to already be normalized via normalize_choices()
+extract_choice_values <- function(choices_normalized) {
+  # If it's a list of lists (grouped choices), flatten it and extract the values
+  if (
+    is.list(choices_normalized) &&
+      any(vapply(choices_normalized, is.list, logical(1)))
+  ) {
+    values <- unlist(
+      lapply(choices_normalized, function(group) {
+        if (is.list(group)) {
+          unname(group)
+        } else {
+          group
+        }
+      }),
+      use.names = FALSE
+    )
+  } else {
+    # Flat choices - extract values
+    values <- unname(choices_normalized)
+  }
+
+  as.character(values)
+}
+
+# Helper function to process and validate choices and selected
+# Returns a list with:
+#   - options: HTML string for <option> elements (or NULL)
+#   - value: selected value as character (or NULL)
+#   - error: error message if validation failed (NULL if no error)
+# @param use_first_choice If TRUE and selected is NULL, use firstChoice().
+#   If FALSE, leave selected as NULL (for updates where we want to keep current value)
+process_choices_selected <- function(
+  choices,
+  selected,
+  inputId,
+  use_first_choice = TRUE
+) {
+  if (is.null(choices) && is.null(selected)) {
+    return(list(options = NULL, value = NULL, error = NULL))
+  }
+
+  # Normalize choices once if provided
+  choices_normalized <- NULL
+  if (!is.null(choices)) {
+    choices_normalized <- normalize_choices(choices)
+  }
+
+  # If selected is NULL and choices are provided, optionally select the first choice
+  if (is.null(selected) && !is.null(choices_normalized) && use_first_choice) {
+    firstChoice <- asNamespace("shiny")[["firstChoice"]]
+    selected <- firstChoice(choices_normalized)
+  }
+
+  # Validate selected if provided
+  error_msg <- NULL
+  selected_validated <- selected
+
+  if (!is.null(selected)) {
+    if (length(selected) != 1) {
+      error_msg <- "`selected` must be a single value, not a vector."
+      selected_validated <- NULL
+    } else if (is.null(choices)) {
+      error_msg <- "`selected` cannot be set without `choices`."
+      selected_validated <- NULL
+    } else {
+      # Extract all valid choice values from normalized choices
+      choice_values <- extract_choice_values(choices_normalized)
+      if (!as.character(selected) %in% choice_values) {
+        error_msg <- sprintf(
+          "`selected` value '%s' is not in `choices`.",
+          as.character(selected)
+        )
+        selected_validated <- NULL
+      }
+    }
+  }
+
+  options_html <- NULL
+  value <- NULL
+
+  # Process choices into HTML options
+  if (!is.null(choices_normalized)) {
+    options_html <- HTML(as.character(selectOptions(
+      choices_normalized,
+      selected_validated,
+      inputId = inputId
+    )))
+  }
+
+  # Process selected value
+  if (!is.null(selected_validated)) {
+    value <- as.character(selected_validated)
+  }
+
+  list(
+    options = options_html,
+    value = value,
+    error = error_msg
   )
 }
 
