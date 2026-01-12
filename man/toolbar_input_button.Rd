@@ -71,9 +71,10 @@ This update function works similarly to \code{\link[shiny:updateActionButton]{sh
 is specifically designed for \code{\link[=toolbar_input_button]{toolbar_input_button()}}. It allows you to
 update the button's label, icon, and disabled state from the server.
 
-Note that you cannot change \code{show_label}, \code{tooltip}, or \code{border} parameters
+Note that you cannot change the \code{tooltip} or \code{border} parameters
 after the button has been created, as these affect the button's structure
 and ARIA attributes.
+Please use \code{\link[=update_tooltip]{update_tooltip()}} to update the text of the tooltip if one is present.
 }
 \examples{
 \dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}

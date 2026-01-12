@@ -558,15 +558,15 @@ process_choices_selected <- function(
 
   # Validate selected if provided
   error_msg <- NULL
-  validated_selected <- selected
+  selected_validated <- selected
 
   if (!is.null(selected)) {
     if (length(selected) != 1) {
       error_msg <- "`selected` must be a single value, not a vector."
-      validated_selected <- NULL
+      selected_validated <- NULL
     } else if (is.null(choices)) {
       error_msg <- "`selected` cannot be set without `choices`."
-      validated_selected <- NULL
+      selected_validated <- NULL
     } else {
       # Extract all valid choice values from normalized choices
       choice_values <- extract_choice_values(choices_normalized)
@@ -575,26 +575,26 @@ process_choices_selected <- function(
           "`selected` value '%s' is not in `choices`.",
           as.character(selected)
         )
-        validated_selected <- NULL
+        selected_validated <- NULL
       }
     }
   }
 
-  # Process choices into HTML options
   options_html <- NULL
+  value <- NULL
+
+  # Process choices into HTML options
   if (!is.null(choices_normalized)) {
     options_html <- as.character(selectOptions(
       choices_normalized,
-      validated_selected,
+      selected_validated,
       inputId = inputId
     ))
   }
 
   # Process selected value
-  value <- if (!is.null(validated_selected)) {
-    as.character(validated_selected)
-  } else {
-    NULL
+  if (!is.null(selected_validated)) {
+    value <- as.character(selected_validated)
   }
 
   list(
