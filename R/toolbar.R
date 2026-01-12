@@ -463,8 +463,7 @@ update_toolbar_input_select <- function(
   icon = NULL,
   session = get_current_session()
 ) {
-  # Label can be null if there is no update, but if it is supplied it must be
-  # valid
+  # Label can be null if there is no update, but if supplied it must be valid
   if (!(is.null(label) || (rlang::is_string(label) && nzchar(trimws(label))))) {
     rlang::abort("`label` must be a non-empty string.")
   }
