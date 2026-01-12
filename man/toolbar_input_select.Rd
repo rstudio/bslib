@@ -52,16 +52,20 @@ will be visible.}
 
 \item{show_label}{Whether to show the label text. If \code{FALSE} (the default),
 only the icon is shown (if provided). If \code{TRUE}, the label text is shown
-alongside the icon.}
+alongside the icon. Note that \code{show_label} can be dynamically updated using
+\code{\link[=update_toolbar_input_button]{update_toolbar_input_button()}}.}
 
 \item{tooltip}{Tooltip text to display when hovering over the input. Can be:
 \itemize{
 \item \code{TRUE} (default when \code{show_label = FALSE}) - shows a tooltip with the
 \code{label} text
 \item \code{FALSE} (default when \code{show_label = TRUE}) - no tooltip
-\item A character string - shows a tooltip with custom text Defaults to
-\code{!show_label}.
-}}
+\item A character string - shows a tooltip with custom text
+}
+
+Defaults to \code{!show_label}. When a tooltip is created, it will have an ID of
+\code{"{id}-tooltip"} which can be used to update the tooltip text dynamically
+via \code{\link[=update_tooltip]{update_tooltip()}}.}
 
 \item{session}{A Shiny session object (the default should almost always be
 used).}
@@ -80,6 +84,10 @@ the select's label, icon, choices, selected value(s), and label visibility
 from the server.
 }
 \details{
+When a tooltip is created for the select input, it will have an ID of
+\code{"{id}-tooltip"} which can be used to update the tooltip text dynamically
+via \code{\link[=update_tooltip]{update_tooltip()}}.
+
 Note that you cannot enable or disable the \code{tooltip} parameter after the
 select has been created, as it affects the structure and ARIA attributes.
 You can, however, use \code{\link[=update_tooltip]{update_tooltip()}} to update the text of the tooltip.
@@ -148,6 +156,8 @@ server <- function(input, output, session) {
         choices = c("X", "Y", "Z"),
         selected = "Y"
       )
+      # Update the tooltip text
+      update_tooltip("select-tooltip", "Choose your option")
     }
   })
 }

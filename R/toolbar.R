@@ -212,7 +212,7 @@ toolbar_input_button <- function(
 #'         label = "Clicked!",
 #'         icon = icon("check")
 #'       )
-#'       # Update the tooltip text (tooltip ID is "{id}-tooltip")
+#'       # Update the tooltip text
 #'       update_tooltip("btn-tooltip", "Button was clicked!")
 #'     }
 #'   })
@@ -457,7 +457,7 @@ toolbar_input_select <- function(
 #'         choices = c("X", "Y", "Z"),
 #'         selected = "Y"
 #'       )
-#'       # Update the tooltip text (tooltip ID is "{id}-tooltip")
+#'       # Update the tooltip text
 #'       update_tooltip("select-tooltip", "Choose your option")
 #'     }
 #'   })

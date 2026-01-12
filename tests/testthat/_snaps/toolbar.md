@@ -59,7 +59,7 @@
       show_raw_html(toolbar_input_button(id = "test_btn", label = "Click me", icon = shiny::icon(
         "star"), ))
     Output
-      <bslib-tooltip id="test_btn_tooltip" placement="bottom" bsOptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+      <bslib-tooltip id="test_btn-tooltip" placement="bottom" bsOptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
         <template>Click me</template>
         <button aria-labelledby="btn-label-4785" class="btn btn-default action-button bslib-toolbar-input-button btn-sm border-0" data-type="icon" id="test_btn" type="button">
           <span class="action-icon">
@@ -156,7 +156,7 @@
       show_raw_html(toolbar_input_button(id = "tooltip_default", label = "Help",
         icon = shiny::icon("question")))
     Output
-      <bslib-tooltip id="tooltip_default_tooltip" placement="bottom" bsOptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+      <bslib-tooltip id="tooltip_default-tooltip" placement="bottom" bsOptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
         <template>Help</template>
         <button aria-labelledby="btn-label-4785" class="btn btn-default action-button bslib-toolbar-input-button btn-sm border-0" data-type="icon" id="tooltip_default" type="button">
           <span class="action-icon">
@@ -193,7 +193,7 @@
       show_raw_html(toolbar_input_button(id = "tooltip_custom", label = "Help", icon = shiny::icon(
         "question"), tooltip = "Click for assistance"))
     Output
-      <bslib-tooltip id="tooltip_custom_tooltip" placement="bottom" bsOptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+      <bslib-tooltip id="tooltip_custom-tooltip" placement="bottom" bsOptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
         <template>Click for assistance</template>
         <button aria-labelledby="btn-label-4785" class="btn btn-default action-button bslib-toolbar-input-button btn-sm border-0" data-type="icon" id="tooltip_custom" type="button">
           <span class="action-icon">
@@ -213,7 +213,7 @@
       show_raw_html(toolbar_input_button(id = "both_label_tooltip", label = "Save",
         icon = shiny::icon("save"), show_label = TRUE, tooltip = "Save your work"))
     Output
-      <bslib-tooltip id="both_label_tooltip_tooltip" placement="bottom" bsOptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+      <bslib-tooltip id="both_label_tooltip-tooltip" placement="bottom" bsOptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
         <template>Save your work</template>
         <button aria-labelledby="btn-label-4785" class="btn btn-default action-button bslib-toolbar-input-button btn-sm border-0" data-type="both" id="both_label_tooltip" type="button">
           <span class="action-icon">

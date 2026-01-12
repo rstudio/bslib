@@ -37,21 +37,25 @@ will be visible.}
 
 \item{show_label}{Whether to show the label text. If \code{FALSE} (the default),
 only the icon is shown (if provided). If \code{TRUE}, the label text is shown
-alongside the icon.}
+alongside the icon. Note that \code{show_label} can be dynamically updated using
+\code{\link[=update_toolbar_input_button]{update_toolbar_input_button()}}.}
 
 \item{tooltip}{Tooltip text to display when hovering over the input. Can be:
 \itemize{
 \item \code{TRUE} (default when \code{show_label = FALSE}) - shows a tooltip with the
 \code{label} text
 \item \code{FALSE} (default when \code{show_label = TRUE}) - no tooltip
-\item A character string - shows a tooltip with custom text Defaults to
-\code{!show_label}.
-}}
+\item A character string - shows a tooltip with custom text
+}
+
+Defaults to \code{!show_label}. When a tooltip is created, it will have an ID of
+\code{"{id}-tooltip"} which can be used to update the tooltip text dynamically
+via \code{\link[=update_tooltip]{update_tooltip()}}.}
 
 \item{...}{Additional attributes to pass to the button.}
 
 \item{disabled}{If \code{TRUE}, the button will not be clickable. Use
-\code{\link[shiny:updateActionButton]{shiny::updateActionButton()}} to dynamically enable/disable the button.}
+\code{\link[=update_toolbar_input_button]{update_toolbar_input_button()}} to dynamically enable/disable the button.}
 
 \item{border}{Whether to show a border around the button.}
 
@@ -109,6 +113,8 @@ server <- function(input, output, session) {
         label = "Clicked!",
         icon = icon("check")
       )
+      # Update the tooltip text
+      update_tooltip("btn-tooltip", "Button was clicked!")
     }
   })
 }
