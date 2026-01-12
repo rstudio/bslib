@@ -355,7 +355,7 @@ toolbar_input_select <- function(
     id = id,
     class = "form-select form-select-sm",
     `data-shiny-no-bind-input` = NA,
-    HTML(processed$options)
+    processed$options
   )
 
   # Add optional icon before the select
@@ -597,11 +597,11 @@ process_choices_selected <- function(
 
   # Process choices into HTML options
   if (!is.null(choices_normalized)) {
-    options_html <- as.character(selectOptions(
+    options_html <- HTML(as.character(selectOptions(
       choices_normalized,
       selected_validated,
       inputId = inputId
-    ))
+    )))
   }
 
   # Process selected value
