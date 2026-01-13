@@ -758,20 +758,11 @@ buildNavItem <- function(divTag, tabsetId, index) {
   divTag <- tagAppendAttributes(divTag, class = if (active) "active")
   divTag$attribs$id <- id
   divTag$attribs$title <- NULL
-
-  # Check if this is a hidden nav item (title is NULL)
-  is_hidden <- is.null(title)
-
   list(
     divTag = divTag,
     liTag = tagAddRenderHook(
       liTag(id, title, value, attr(divTag, "_shiny_icon")),
       function(x) {
-        # Don't add nav-item or nav-link classes to hidden items
-        if (is_hidden) {
-          return(x)
-        }
-
         if (isTRUE(getCurrentThemeVersion() >= 4)) {
           tagQuery(x)$addClass("nav-item")$find("a")$addClass(
             c("nav-link", if (active) "active")
@@ -785,15 +776,12 @@ buildNavItem <- function(divTag, tabsetId, index) {
 }
 
 liTag <- function(id, title, value, icon) {
-  # When title is NULL (i.e., nav_panel_hidden()), the nav item should be hidden
-  # and disabled to prevent keyboard navigation per Bootstrap docs:
+  # When title is NULL (i.e., nav_panel_hidden()), add disabled attribute to
+  # prevent keyboard navigation per Bootstrap docs:
   # https://getbootstrap.com/docs/5.3/components/navs-tabs#javascript-behavior
   is_hidden <- is.null(title)
 
   tags$li(
-    # Use data attribute to permanently mark hidden items
-    # This persists even when Shiny's showTab() manipulates the DOM
-    `data-bslib-nav-hidden` = if (is_hidden) NA,
     tags$a(
       href = paste0("#", id),
       `data-toggle` = "tab",

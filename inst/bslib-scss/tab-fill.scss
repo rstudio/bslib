@@ -17,30 +17,8 @@
   }
 }
 
-// Ensure nav_panel_hidden() items are never visible in the nav container
-// and never take up space, even when programmatically shown with nav_show().
-// Using data attribute ensures it persists even when Shiny manipulates the DOM.
-// We need to be extremely aggressive to override Shiny's showTab() behavior.
-li[data-bslib-nav-hidden] {
-  // Remove from layout entirely
+// Ensure hidden/disabled nav-links remain hidden even when active
+// This prevents nav_panel_hidden() from being visible when it becomes the active tab
+.nav-link[disabled] {
   display: none !important;
-  // Ensure it takes no space even if display is somehow overridden
-  position: absolute !important;
-  left: -9999px !important;
-  width: 0 !important;
-  height: 0 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  border: 0 !important;
-  overflow: hidden !important;
-  visibility: hidden !important;
-  pointer-events: none !important;
-  // Prevent flexbox/grid from counting it
-  flex: 0 0 0 !important;
-  flex-basis: 0 !important;
-  flex-grow: 0 !important;
-  flex-shrink: 0 !important;
-  // Prevent grid from counting it
-  grid-column: 0 !important;
-  grid-row: 0 !important;
 }
