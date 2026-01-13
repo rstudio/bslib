@@ -758,11 +758,20 @@ buildNavItem <- function(divTag, tabsetId, index) {
   divTag <- tagAppendAttributes(divTag, class = if (active) "active")
   divTag$attribs$id <- id
   divTag$attribs$title <- NULL
+
+  # Check if this is a hidden nav item (title is NULL)
+  is_hidden <- is.null(title)
+
   list(
     divTag = divTag,
     liTag = tagAddRenderHook(
       liTag(id, title, value, attr(divTag, "_shiny_icon")),
       function(x) {
+        # Don't add nav-item or nav-link classes to hidden items
+        if (is_hidden) {
+          return(x)
+        }
+
         if (isTRUE(getCurrentThemeVersion() >= 4)) {
           tagQuery(x)$addClass("nav-item")$find("a")$addClass(
             c("nav-link", if (active) "active")
@@ -782,7 +791,9 @@ liTag <- function(id, title, value, icon) {
   is_hidden <- is.null(title)
 
   tags$li(
-    style = if (is_hidden) "display: none;",
+    # Use data attribute to permanently mark hidden items
+    # This persists even when Shiny's showTab() manipulates the DOM
+    `data-bslib-nav-hidden` = if (is_hidden) NA,
     tags$a(
       href = paste0("#", id),
       `data-toggle` = "tab",
