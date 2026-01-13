@@ -99,6 +99,7 @@ Collate:
     'files.R'
     'fill.R'
     'imports.R'
+    'input-code-editor.R'
     'input-dark-mode.R'
     'input-submit.R'
     'input-switch.R'

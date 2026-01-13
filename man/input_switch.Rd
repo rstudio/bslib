@@ -65,6 +65,7 @@ shinyApp(ui, server)
 }
 \seealso{
 Other input controls: 
+\code{\link{input_code_editor}()},
 \code{\link{input_dark_mode}()}
 }
 \concept{input controls}
