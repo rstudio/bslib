@@ -740,7 +740,11 @@ test_that("update_toolbar_input_select() validates label parameter", {
 
   # Multiple strings should error
   expect_snapshot(error = TRUE, {
-    update_toolbar_input_select("test_id", label = c("A", "B"), session = session)
+    update_toolbar_input_select(
+      "test_id",
+      label = c("A", "B"),
+      session = session
+    )
   })
 })
 
@@ -773,7 +777,7 @@ test_that("toolbar_input_select() validates selected is in choices", {
       id = "test",
       label = "Test",
       choices = c("Label A" = "val_a", "Label B" = "val_b"),
-      selected = "Label A",  # Should use value, not label
+      selected = "Label A", # Should use value, not label
       tooltip = FALSE
     )
   })
@@ -821,7 +825,7 @@ test_that("update_toolbar_input_select() validates selected is in choices", {
       session = session
     )
   )
-  expect_equal(session$last_message$value, "B")  # Should set to B
+  expect_equal(session$last_message$value, "B") # Should set to B
 })
 
 test_that("update_toolbar_input_select() keeps current value when choices change", {
@@ -874,22 +878,40 @@ test_that("process_choices_selected() handles all cases correctly", {
   expect_null(result$error)
 
   # Case 5: No selected, has choices - selects first choice (use_first_choice = TRUE)
-  result <- process_choices_selected(c("A", "B", "C"), NULL, "test_id", use_first_choice = TRUE)
+  result <- process_choices_selected(
+    c("A", "B", "C"),
+    NULL,
+    "test_id",
+    use_first_choice = TRUE
+  )
   expect_equal(result$value, "A")
   expect_null(result$error)
 
   # Case 5b: No selected, has choices - keeps NULL (use_first_choice = FALSE, for updates)
-  result <- process_choices_selected(c("A", "B", "C"), NULL, "test_id", use_first_choice = FALSE)
+  result <- process_choices_selected(
+    c("A", "B", "C"),
+    NULL,
+    "test_id",
+    use_first_choice = FALSE
+  )
   expect_null(result$value)
   expect_null(result$error)
 
   # Case 6: Valid selected with named choices
-  result <- process_choices_selected(c("Label A" = "val_a", "Label B" = "val_b"), "val_a", "test_id")
+  result <- process_choices_selected(
+    c("Label A" = "val_a", "Label B" = "val_b"),
+    "val_a",
+    "test_id"
+  )
   expect_equal(result$value, "val_a")
   expect_null(result$error)
 
   # Case 7: Invalid selected (using label instead of value)
-  result <- process_choices_selected(c("Label A" = "val_a", "Label B" = "val_b"), "Label A", "test_id")
+  result <- process_choices_selected(
+    c("Label A" = "val_a", "Label B" = "val_b"),
+    "Label A",
+    "test_id"
+  )
   expect_null(result$value)
   expect_match(result$error, "not in `choices`")
 
