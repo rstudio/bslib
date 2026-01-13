@@ -1582,6 +1582,146 @@
     }
   });
 
+  // srcts/src/components/toolbarInputButton.ts
+  var _clickCount2, _clickListeners2, BslibToolbarInputButtonBinding;
+  var init_toolbarInputButton = __esm({
+    "srcts/src/components/toolbarInputButton.ts"() {
+      "use strict";
+      init_utils();
+      BslibToolbarInputButtonBinding = class extends InputBinding {
+        constructor() {
+          super(...arguments);
+          __privateAdd(this, _clickCount2, /* @__PURE__ */ new WeakMap());
+          __privateAdd(this, _clickListeners2, /* @__PURE__ */ new WeakMap());
+        }
+        find(scope) {
+          return $(scope).find(".bslib-toolbar-input-button");
+        }
+        getValue(el) {
+          var _a;
+          return (_a = __privateGet(this, _clickCount2).get(el)) != null ? _a : 0;
+        }
+        getType() {
+          return "bslib.toolbar.button";
+        }
+        subscribe(el, callback) {
+          if (__privateGet(this, _clickListeners2).has(el)) {
+            this.unsubscribe(el);
+          }
+          const eventListener = () => {
+            var _a;
+            __privateGet(this, _clickCount2).set(el, ((_a = __privateGet(this, _clickCount2).get(el)) != null ? _a : 0) + 1);
+            callback(true);
+          };
+          __privateGet(this, _clickListeners2).set(el, eventListener);
+          el.addEventListener("click", eventListener);
+        }
+        unsubscribe(el) {
+          const listener = __privateGet(this, _clickListeners2).get(el);
+          if (listener) {
+            el.removeEventListener("click", listener);
+          }
+        }
+        receiveMessage(el, message) {
+          return __async(this, null, function* () {
+            if (hasDefinedProperty(message, "disabled")) {
+              el.disabled = message.disabled;
+            }
+            if (hasDefinedProperty(message, "label") && message.label !== void 0) {
+              const labelEl = el.querySelector(".bslib-toolbar-label");
+              yield shinyRenderContent(labelEl, message.label);
+            }
+            if (hasDefinedProperty(message, "showLabel")) {
+              const labelEl = el.querySelector(".bslib-toolbar-label");
+              if (message.showLabel === false) {
+                labelEl.setAttribute("hidden", "");
+                el.setAttribute("data-type", "icon");
+              } else {
+                labelEl.removeAttribute("hidden");
+                el.setAttribute("data-type", "both");
+              }
+            }
+            if (hasDefinedProperty(message, "icon") && message.icon !== void 0) {
+              const iconEl = el.querySelector(".bslib-toolbar-icon");
+              yield shinyRenderContent(iconEl, message.icon);
+            }
+          });
+        }
+      };
+      _clickCount2 = new WeakMap();
+      _clickListeners2 = new WeakMap();
+      registerBinding(BslibToolbarInputButtonBinding, "toolbar-input-button");
+    }
+  });
+
+  // srcts/src/components/toolbarInputSelect.ts
+  var BslibToolbarInputSelectBinding;
+  var init_toolbarInputSelect = __esm({
+    "srcts/src/components/toolbarInputSelect.ts"() {
+      "use strict";
+      init_utils();
+      BslibToolbarInputSelectBinding = class extends InputBinding {
+        find(scope) {
+          return $(scope).find(".bslib-toolbar-input-select");
+        }
+        getId(el) {
+          return el.id || "";
+        }
+        getValue(el) {
+          const selectEl = el.querySelector("select");
+          return selectEl == null ? void 0 : selectEl.value;
+        }
+        subscribe(el, callback) {
+          const selectEl = el.querySelector("select");
+          if (selectEl) {
+            $(selectEl).on("change.bslibToolbarInputSelect", () => {
+              callback(false);
+            });
+          }
+        }
+        unsubscribe(el) {
+          const selectEl = el.querySelector("select");
+          if (selectEl) {
+            $(selectEl).off(".bslibToolbarInputSelect");
+          }
+        }
+        receiveMessage(el, message) {
+          return __async(this, null, function* () {
+            const selectEl = el.querySelector("select");
+            if (hasDefinedProperty(message, "label") && message.label !== void 0) {
+              const labelEl = el.querySelector(".bslib-toolbar-label");
+              yield shinyRenderContent(labelEl, message.label);
+            }
+            if (hasDefinedProperty(message, "showLabel")) {
+              const labelEl = el.querySelector(".bslib-toolbar-label");
+              if (message.showLabel === false) {
+                labelEl.classList.add("visually-hidden");
+              } else {
+                labelEl.classList.remove("visually-hidden");
+              }
+            }
+            if (hasDefinedProperty(message, "icon") && message.icon !== void 0) {
+              const iconEl = el.querySelector(".bslib-toolbar-icon");
+              yield shinyRenderContent(iconEl, message.icon);
+            }
+            if (hasDefinedProperty(message, "options") && selectEl) {
+              if (message.options) {
+                selectEl.innerHTML = message.options;
+              }
+            }
+            if (hasDefinedProperty(message, "value") && selectEl) {
+              if (message.value !== void 0) {
+                selectEl.value = message.value;
+                $(selectEl).trigger("change");
+              }
+            }
+          });
+        }
+      };
+      registerBinding(BslibToolbarInputSelectBinding, "toolbar-input-select");
+    }
+  });
+
   // srcts/src/components/submitTextArea.ts
   function updateDisabledState(el) {
     const btn = findSubmitButton(el);
@@ -2097,6 +2237,8 @@
       init_card();
       init_sidebar();
       init_taskButton();
+      init_toolbarInputButton();
+      init_toolbarInputSelect();
       init_submitTextArea();
       init_toast();
       init_utils();
