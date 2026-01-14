@@ -777,8 +777,7 @@ buildNavItem <- function(divTag, tabsetId, index) {
 
 liTag <- function(id, title, value, icon) {
   # When title is NULL (i.e., nav_panel_hidden()), add disabled attribute to
-  # prevent keyboard navigation per Bootstrap docs:
-  # https://getbootstrap.com/docs/5.3/components/navs-tabs#javascript-behavior
+  # prevent keyboard navigation
   is_hidden <- is.null(title)
 
   tags$li(
