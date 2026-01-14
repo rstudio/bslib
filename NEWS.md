@@ -30,7 +30,7 @@
 
 * `sidebar_toggle()` is now officially deprecated in favor of `toggle_sidebar()`. (#1235)
 
-* Fixed an issue where `nav_panel_hidden()` could create navs that were stil keyboard-discoverable.(#1264)
+* Fixed an issue where `nav_panel_hidden()` could create navs that were still keyboard-discoverable. (#1264)
 
 # bslib 0.9.0
 
