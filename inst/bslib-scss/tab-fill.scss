@@ -22,3 +22,8 @@
 .nav-link[disabled] {
   display: none !important;
 }
+
+// This does the same for BS3
+.nav-pills>li>a[disabled] {
+  display: none !important;
+}
