@@ -18,15 +18,18 @@ divider line.}
 Defaults to \code{"1rem"} for sensible fixed spacing.}
 }
 \description{
-\code{toolbar_divider()} creates a visual divider line with customizable width
-and spacing between toolbar elements. \code{toolbar_spacer()} creates empty space
-that expands to push adjacent toolbar elements apart as much as possible.
+\code{toolbar_divider()} creates a visual divider line with customizable and fixed
+width and spacing between toolbar elements. \code{toolbar_spacer()} creates empty
+space that expands to push adjacent toolbar elements apart as much as
+possible.
 }
 \section{Functions}{
 \itemize{
-\item \code{toolbar_divider()}: Create a dividing line between toolbar elements.
+\item \code{toolbar_divider()}: Create a dividing line and fixed space between
+toolbar elements.
 
-\item \code{toolbar_spacer()}: Create empty space between toolbar elements.
+\item \code{toolbar_spacer()}: Create empty, expanding space between toolbar
+elements.
 
 }}
 \examples{

@@ -691,9 +691,10 @@ selectOptions <- function(
 #' Toolbar: Add a divider or spacer to a toolbar
 #'
 #' @description
-#' `toolbar_divider()` creates a visual divider line with customizable width
-#' and spacing between toolbar elements. `toolbar_spacer()` creates empty space
-#' that expands to push adjacent toolbar elements apart as much as possible.
+#' `toolbar_divider()` creates a visual divider line with customizable and fixed
+#' width and spacing between toolbar elements. `toolbar_spacer()` creates empty
+#' space that expands to push adjacent toolbar elements apart as much as
+#' possible.
 #'
 #' @param width A CSS length unit specifying the width of the divider line.
 #'   Defaults to `"2px"` for a sensible dividing line. Pass `0px` for no
@@ -721,7 +722,8 @@ selectOptions <- function(
 #' )
 #'
 #' @family Toolbar components
-#' @describeIn toolbar_divider Create a dividing line between toolbar elements.
+#' @describeIn toolbar_divider Create a dividing line and fixed space between
+#'   toolbar elements.
 #' @export
 toolbar_divider <- function(..., width = NULL, gap = NULL) {
   rlang::check_dots_empty()
@@ -740,7 +742,8 @@ toolbar_divider <- function(..., width = NULL, gap = NULL) {
   )
 }
 
-#' @describeIn toolbar_divider Create empty space between toolbar elements.
+#' @describeIn toolbar_divider Create empty, expanding space between toolbar
+#'   elements.
 #' @export
 toolbar_spacer <- function() {
   div(class = "bslib-toolbar-spacer")
