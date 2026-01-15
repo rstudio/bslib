@@ -8,6 +8,7 @@
   // Icon size is controlled by font-size
   --_toolbar-btn-size: var(--bslib-toolbar-btn-size, 1.75rem);
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 0;
 
