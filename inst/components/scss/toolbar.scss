@@ -118,6 +118,11 @@
   }
 }
 
+/* Support using toolbars in shiny input labels */
+label:has(> .bslib-toolbar) {
+  width: 100%;
+}
+
 
 /* Toolbar Select Input */
 .bslib-toolbar-input-select {

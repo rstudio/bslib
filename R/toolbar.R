@@ -4,6 +4,28 @@
 #' A toolbar which can contain buttons, inputs, and other UI elements in a small
 #' form suitable for inclusion in card headers, footers, and other small places.
 #'
+#' @section Toolbars in labels:
+#'
+#' You can use toolbars in the labels of other Shiny inputs to add a composite
+#' input with additional buttons or controls. The following example uses a
+#' `toolbar()` in the label of a [shiny::numericInput()] to add increment and
+#' decrement buttons next to the label:
+#'
+#' ```r
+#' shiny::numericInput(
+#'   "quantity",
+#'   label = toolbar(
+#'     "Quantity",
+#'     toolbar_spacer(), # push buttons to the right
+#'     toolbar_input_button("decrement", "Less", shiny::icon("minus")),
+#'     toolbar_input_button("increment", "More", shiny::icon("plus"))
+#'   ),
+#'   value = 1,
+#'   min = 0,
+#'   max = 100
+#' )
+#' ```
+#'
 #' @examplesIf rlang::is_interactive()
 #' toolbar(
 #'   align = "right",

@@ -2,9 +2,12 @@
 % Please edit documentation in R/toolbar.R
 \name{toolbar_divider}
 \alias{toolbar_divider}
-\title{Toolbar: Add a divider to a toolbar}
+\alias{toolbar_spacer}
+\title{Toolbar: Add a divider or spacer to a toolbar}
 \usage{
 toolbar_divider(..., width = NULL, gap = NULL)
+
+toolbar_spacer()
 }
 \arguments{
 \item{width}{A CSS length unit specifying the width of the divider line.
@@ -16,8 +19,16 @@ Defaults to \code{"1rem"} for sensible fixed spacing.}
 }
 \description{
 \code{toolbar_divider()} creates a visual divider line with customizable width
-and spacing between toolbar elements.
+and spacing between toolbar elements. \code{toolbar_spacer()} creates empty space
+that expands to push adjacent toolbar elements apart as much as possible.
 }
+\section{Functions}{
+\itemize{
+\item \code{toolbar_divider()}: Create a dividing line between toolbar elements.
+
+\item \code{toolbar_spacer()}: Create empty space between toolbar elements.
+
+}}
 \examples{
 \dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
 toolbar(
@@ -30,6 +41,12 @@ toolbar(
   toolbar_input_button(id = "a", label = "A"),
   toolbar_divider(width = "5px", gap = "20px"),
   toolbar_input_button(id = "b", label = "B")
+)
+
+toolbar(
+  toolbar_input_button(id = "previous", label = "Previous"),
+  toolbar_spacer(),
+  toolbar_input_button(id = "next", label = "Next")
 )
 \dontshow{\}) # examplesIf}
 }
