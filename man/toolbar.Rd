@@ -21,6 +21,11 @@ Returns a toolbar element.
 \description{
 A toolbar which can contain buttons, inputs, and other UI elements in a small
 form suitable for inclusion in card headers, footers, and other small places.
+
+bslib includes a complete example of toolbars and the many ways they can be used:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{shiny::runExample("toolbar", package = "bslib")
+}\if{html}{\out{</div>}}
 }
 \examples{
 \dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
@@ -28,7 +33,14 @@ toolbar(
   align = "right",
   toolbar_input_button(id = "see", icon = icon("eye"), label = "View"),
   toolbar_input_button(id = "save", icon = icon("save"), label = "Save"),
-  toolbar_input_button(id = "edit", icon = icon("pencil"), label = "Edit")
+  toolbar_input_button(id = "edit", icon = icon("pencil"), label = "Edit"),
+  toolbar_divider(),
+  toolbar_input_select(
+    id = "select",
+    label = "Choose option",
+    choices = c("Option 1", "Option 2", "Option 3"),
+    selected = "Option 2"
+  )
 )
 \dontshow{\}) # examplesIf}
 }

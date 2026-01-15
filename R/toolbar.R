@@ -15,7 +15,7 @@
 #'   align = "right",
 #'   toolbar_input_button(id = "see", icon = icon("eye"), label = "View"),
 #'   toolbar_input_button(id = "save", icon = icon("save"), label = "Save"),
-#'   toolbar_input_button(id = "edit", icon = icon("pencil"), label = "Edit")h,
+#'   toolbar_input_button(id = "edit", icon = icon("pencil"), label = "Edit"),
 #'   toolbar_divider(),
 #'   toolbar_input_select(
 #'     id = "select",

@@ -84,9 +84,30 @@ Please use \code{\link[=update_tooltip]{update_tooltip()}} to update the text of
 \dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
 toolbar(
   align = "right",
-  toolbar_input_button(id = "see", icon = icon("eye"), label = "See"),
-  toolbar_input_button(id = "save", label = "Save"),
-  toolbar_input_button(id = "edit", icon = icon("pencil"), label = "Edit", show_label = TRUE)
+  toolbar_input_button(
+    id = "see",
+    icon = icon("eye"),
+    label = "See",
+    tooltip = FALSE
+  ),
+  toolbar_input_button(
+    id = "save",
+    label = "Save",
+    disabled = TRUE
+  ),
+  toolbar_input_button(
+    id = "edit",
+    icon = icon("pencil"),
+    label = "Edit",
+    show_label = TRUE
+  ),
+  toolbar_input_button(
+    id = "share",
+    icon = icon("share"),
+    label = "Share",
+    tooltip = "Share this!",
+    border = TRUE
+  )
 )
 \dontshow{\}) # examplesIf}
 \dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
