@@ -3,11 +3,55 @@
 \name{toolbar}
 \alias{toolbar}
 \alias{toolbar_divider}
+\alias{toolbar_input_button}
+\alias{update_toolbar_input_button}
+\alias{toolbar_input_select}
+\alias{update_toolbar_input_select}
 \title{Toolbar component}
 \usage{
-toolbar(..., align = c("right", "left"), gap = NULL)
+toolbar(..., align = c("right", "left"), gap = NULL, width = "100\%")
 
 toolbar_divider(..., width = NULL, gap = NULL)
+toolbar_input_button(
+  id,
+  label,
+  icon = NULL,
+  show_label = is.null(icon),
+  tooltip = !show_label,
+  ...,
+  disabled = FALSE,
+  border = FALSE
+)
+
+update_toolbar_input_button(
+  id,
+  label = NULL,
+  show_label = NULL,
+  icon = NULL,
+  disabled = NULL,
+  session = get_current_session()
+)
+
+toolbar_input_select(
+  id,
+  label,
+  choices,
+  ...,
+  selected = NULL,
+  icon = NULL,
+  show_label = FALSE,
+  tooltip = !show_label
+)
+
+update_toolbar_input_select(
+  id,
+  label = NULL,
+  show_label = NULL,
+  choices = NULL,
+  selected = NULL,
+  icon = NULL,
+  session = get_current_session()
+)
 }
 \arguments{
 \item{...}{UI elements for the toolbar.}
@@ -15,12 +59,58 @@ toolbar_divider(..., width = NULL, gap = NULL)
 \item{align}{Determines if toolbar should be aligned to the \code{"right"} or
 \code{"left"}.}
 
-\item{gap}{A CSS length unit defining the spacing around the divider.
-Defaults to \code{"1rem"} for sensible fixed spacing.}
+\item{gap}{A CSS length unit defining the gap (i.e., spacing) between
+elements in the toolbar. Defaults to \code{0} (no gap).}
+
+\item{width}{CSS width of the toolbar. Default is \code{"100\%"}.}
 
 \item{width}{A CSS length unit specifying the width of the divider line.
 Defaults to \code{"2px"} for a sensible dividing line. Pass \verb{0px} for no
 divider line.}
+\item{id}{The input ID.}
+
+\item{label}{The input label. By default, \code{label} is not shown but is used by
+\code{tooltip}. Set \code{show_label = TRUE} to show the label (see \code{tooltip} for
+details on how this affects the tooltip behavior).}
+
+\item{icon}{An icon. If provided without \code{show_label = TRUE}, only the icon
+will be visible.}
+
+\item{show_label}{Whether to show the label text. If \code{FALSE} (the default),
+only the icon is shown (if provided). If \code{TRUE}, the label text is shown
+alongside the icon. Note that \code{show_label} can be dynamically updated using
+\code{\link[=update_toolbar_input_button]{update_toolbar_input_button()}}.}
+
+\item{tooltip}{Tooltip text to display when hovering over the input. Can be:
+\itemize{
+\item \code{TRUE} (default when \code{show_label = FALSE}) - shows a tooltip with the
+\code{label} text
+\item \code{FALSE} (default when \code{show_label = TRUE}) - no tooltip
+\item A character string - shows a tooltip with custom text
+}
+
+Defaults to \code{!show_label}. When a tooltip is created, it will have an ID of
+\code{"{id}-tooltip"} which can be used to update the tooltip text dynamically
+via \code{\link[=update_tooltip]{update_tooltip()}}.}
+
+\item{disabled}{If \code{TRUE}, the button will not be clickable. Use
+\code{\link[=update_toolbar_input_button]{update_toolbar_input_button()}} to dynamically enable/disable the button.}
+
+\item{border}{Whether to show a border around the button.}
+
+\item{session}{A Shiny session object (the default should almost always be
+used).}
+
+\item{choices}{List of values to select from. If elements of the list are
+named, then that name --- rather than the value --- is displayed to the
+user. It's also possible to group related inputs by providing a named list
+whose elements are (either named or unnamed) lists, vectors, or factors. In
+this case, the outermost names will be used as the group labels (leveraging
+the \verb{<optgroup>} HTML tag) for the elements in the respective sublist. See
+the example section for a small demo of this feature.}
+
+\item{selected}{The new selected value. If \code{NULL}, the selection is not
+changed.}
 }
 \value{
 Returns a toolbar element.
@@ -36,14 +126,56 @@ bslib includes a complete example of toolbars and the many ways they can be used
 
 \code{toolbar_divider()} creates a visual divider line with customizable width
 and spacing between toolbar elements.
+A button designed to fit well in small places such as in a \code{\link[=toolbar]{toolbar()}}.
+
+Change the value or appearance of a toolbar button input on the client.
+
+Create a select list input control that can be used to choose a single
+item from a list of values, suitable for use within a \code{\link[=toolbar]{toolbar()}}.
+
+Change the value or appearance of a toolbar select input. This update
+function works similarly to \code{\link[shiny:updateSelectInput]{shiny::updateSelectInput()}}, but is
+specifically designed for \code{\link[=toolbar_input_select]{toolbar_input_select()}}. It allows you to update
+the select's label, icon, choices, selected value(s), and label visibility
+from the server.
 }
 \section{Functions}{
 \itemize{
 \item \code{toolbar()}: Create a toolbar.
 
 \item \code{toolbar_divider()}: Add a divider to a toolbar.
+\item \code{toolbar_input_button()}: Create a toolbar button.
+
+\item \code{update_toolbar_input_button()}: Update a toolbar button.
+
+\item \code{toolbar_input_select()}: Create a toolbar select input.
+
+\item \code{update_toolbar_input_select()}: Update a toolbar select input.
 
 }}
+\section{Toolbars in labels}{
+
+
+You can use toolbars in the labels of other Shiny inputs to add a composite
+input with additional buttons or controls. The following example uses a
+\code{toolbar()} in the label of a \code{\link[shiny:numericInput]{shiny::numericInput()}} to add increment and
+decrement buttons next to the label:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{shiny::numericInput(
+  "quantity",
+  label = toolbar(
+    "Quantity",
+    toolbar_spacer(), # push buttons to the right
+    toolbar_input_button("decrement", "Less", shiny::icon("minus")),
+    toolbar_input_button("increment", "More", shiny::icon("plus"))
+  ),
+  value = 1,
+  min = 0,
+  max = 100
+)
+}\if{html}{\out{</div>}}
+}
+
 \examples{
 \dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
 toolbar(
@@ -73,6 +205,168 @@ toolbar(
   toolbar_input_button(id = "b", label = "B")
 )
 \dontshow{\}) # examplesIf}
+  align = "right",
+  toolbar_input_button(
+    id = "see",
+    icon = icon("eye"),
+    label = "See",
+    tooltip = FALSE
+  ),
+  toolbar_input_button(
+    id = "save",
+    label = "Save",
+    disabled = TRUE
+  ),
+  toolbar_input_button(
+    id = "edit",
+    icon = icon("pencil"),
+    label = "Edit",
+    show_label = TRUE
+  ),
+  toolbar_input_button(
+    id = "share",
+    icon = icon("share"),
+    label = "Share",
+    tooltip = "Share this!",
+    border = TRUE
+  )
+)
+\dontshow{\}) # examplesIf}
+\dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
+library(shiny)
+library(bslib)
+
+ui <- page_fluid(
+  card(
+    card_header(
+      "Toolbar Demo",
+      toolbar(
+        align = "right",
+        toolbar_input_button("btn", label = "Click me", icon = icon("play")),
+        toolbar_input_button(
+          "task",
+          label = "Do a Task",
+          icon = icon("play-circle"),
+          show_label = TRUE
+        )
+      )
+    ),
+    card_body(
+      verbatimTextOutput("count")
+    )
+  )
+)
+
+server <- function(input, output, session) {
+  output$count <- renderPrint({
+    input$btn
+  })
+
+  observeEvent(input$btn, {
+    update_toolbar_input_button(
+      "btn",
+      label = "Clicked!",
+      icon = icon("check")
+    )
+    # Update the tooltip text
+    update_tooltip("btn-tooltip", "Button was clicked!")
+  })
+
+  # Handle task button - toggle between states
+  observeEvent(input$task, {
+    if (input$task \%\% 2 == 1) {
+      # Show task is in progress
+      update_toolbar_input_button(
+        "task",
+        label = "Task Running...",
+        icon = icon("spinner"),
+        session = session
+      )
+    } else {
+      # Reset to original
+      update_toolbar_input_button(
+        "task",
+        label = "Do a Task",
+        icon = icon("play-circle"),
+        session = session
+      )
+    }
+  })
+}
+
+shinyApp(ui, server)
+\dontshow{\}) # examplesIf}
+\dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
+toolbar(
+  align = "right",
+  toolbar_input_select(
+    id = "select",
+    label = "Choose option",
+    choices = c("Option 1", "Option 2", "Option 3"),
+    selected = "Option 2"
+  )
+)
+
+# With custom tooltip
+toolbar(
+  align = "right",
+  toolbar_input_select(
+    id = "select",
+    label = "Choose option",
+    choices = c("Option 1", "Option 2", "Option 3"),
+    tooltip = "Select your preferred option from the list"
+  )
+)
+
+# With icon and tooltip
+toolbar(
+  align = "right",
+  toolbar_input_select(
+    id = "select",
+    label = "Choose option",
+    choices = c("Option 1", "Option 2", "Option 3"),
+    icon = shiny::icon("filter"),
+    tooltip = "Filter the data"
+  )
+)
+\dontshow{\}) # examplesIf}
+\dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
+library(shiny)
+library(bslib)
+
+ui <- page_fluid(
+  toolbar(
+    align = "right",
+    toolbar_input_select(
+      "select",
+      label = "Choose",
+      choices = c("A", "B", "C")
+    )
+  ),
+  verbatimTextOutput("value")
+)
+
+server <- function(input, output, session) {
+  output$value <- renderPrint({
+    input$select
+  })
+
+  observeEvent(input$select, {
+    if (input$select == "A") {
+      update_toolbar_input_select(
+        "select",
+        label = "Pick one",
+        choices = c("X", "Y", "Z"),
+        selected = "Y"
+      )
+      # Update the tooltip text
+      update_tooltip("select-tooltip", "Choose your option")
+    }
+  })
+}
+
+shinyApp(ui, server)
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \url{toolbar_input_button}, \url{toolbar_input_select},
@@ -87,5 +381,30 @@ Other toolbar components:
 Other toolbar components: 
 \code{\link{toolbar_input_button}()},
 \code{\link{toolbar_input_select}()}
+\code{\link[=update_toolbar_input_button]{update_toolbar_input_button()}} to update a toolbar button, \code{\link[=toolbar]{toolbar()}} to
+create a toolbar, \code{\link[=toolbar_input_select]{toolbar_input_select()}} to create a toolbar select input.
+
+\code{\link[=toolbar_input_button]{toolbar_input_button()}} to create a toolbar button, \code{\link[=toolbar]{toolbar()}} to
+create a toolbar
+
+\code{\link[=update_toolbar_input_select]{update_toolbar_input_select()}} to update a toolbar select input,
+\code{\link[=toolbar]{toolbar()}} to create a toolbar, \code{\link[=toolbar_input_button]{toolbar_input_button()}} to create a toolbar button.
+
+\code{\link[=toolbar_input_select]{toolbar_input_select()}} to create a toolbar select input, \code{\link[=toolbar]{toolbar()}} to create a toolbar.
+
+Other toolbar components: 
+\code{\link{toolbar_divider}()}
+
+Other toolbar components: 
+\code{\link{toolbar_divider}()}
+
+Other toolbar components: 
+\code{\link{toolbar_divider}()}
+
+Other toolbar components: 
+\code{\link{toolbar_divider}()}
+
+Other toolbar components: 
+\code{\link{toolbar_divider}()}
 }
 \concept{toolbar components}

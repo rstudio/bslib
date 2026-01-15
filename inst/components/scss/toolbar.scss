@@ -99,6 +99,10 @@
     }
   }
 
+  .bslib-toolbar-spacer {
+    margin-left: auto;
+  }
+
   /* ---- Adjustments to other elements ---- */
 
   // Ensures uniformity of font sizing in elements and sub-elements (e.g., input select)
@@ -112,6 +116,11 @@
     width: auto;
     align-self: center;
   }
+}
+
+/* Support using toolbars in shiny input labels */
+label:has(> .bslib-toolbar) {
+  width: 100%;
 }
 
 
