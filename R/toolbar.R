@@ -4,12 +4,25 @@
 #' A toolbar which can contain buttons, inputs, and other UI elements in a small
 #' form suitable for inclusion in card headers, footers, and other small places.
 #'
+#' bslib includes a complete example of toolbars and the many ways they can be used:
+#'
+#' ```r
+#' shiny::runExample("toolbar", package = "bslib")
+#' ```
+#'
 #' @examplesIf rlang::is_interactive()
 #' toolbar(
 #'   align = "right",
 #'   toolbar_input_button(id = "see", icon = icon("eye"), label = "View"),
 #'   toolbar_input_button(id = "save", icon = icon("save"), label = "Save"),
-#'   toolbar_input_button(id = "edit", icon = icon("pencil"), label = "Edit")
+#'   toolbar_input_button(id = "edit", icon = icon("pencil"), label = "Edit")h,
+#'   toolbar_divider(),
+#'   toolbar_input_select(
+#'     id = "select",
+#'     label = "Choose option",
+#'     choices = c("Option 1", "Option 2", "Option 3"),
+#'     selected = "Option 2"
+#'   )
 #' )
 #'
 #' @param ... UI elements for the toolbar.
@@ -49,9 +62,30 @@ toolbar <- function(
 #' @examplesIf rlang::is_interactive()
 #' toolbar(
 #'   align = "right",
-#'   toolbar_input_button(id = "see", icon = icon("eye"), label = "See"),
-#'   toolbar_input_button(id = "save", label = "Save"),
-#'   toolbar_input_button(id = "edit", icon = icon("pencil"), label = "Edit", show_label = TRUE)
+#'   toolbar_input_button(
+#'     id = "see",
+#'     icon = icon("eye"),
+#'     label = "See",
+#'     tooltip = FALSE
+#'   ),
+#'   toolbar_input_button(
+#'     id = "save",
+#'     label = "Save",
+#'     disabled = TRUE
+#'   ),
+#'   toolbar_input_button(
+#'     id = "edit",
+#'     icon = icon("pencil"),
+#'     label = "Edit",
+#'     show_label = TRUE
+#'   ),
+#'   toolbar_input_button(
+#'     id = "share",
+#'     icon = icon("share"),
+#'     label = "Share",
+#'     tooltip = "Share this!",
+#'     border = TRUE
+#'   )
 #' )
 #'
 #' @param id The input ID.
