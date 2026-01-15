@@ -39,6 +39,8 @@
 #'   `"left"`.
 #' @param gap A CSS length unit defining the gap (i.e., spacing) between
 #'   elements in the toolbar. Defaults to `0` (no gap).
+#' @param width CSS width of the toolbar. Default is `"100%"`.
+#'
 #' @return Returns a toolbar element.
 #'
 #' @family Toolbar components
@@ -46,15 +48,17 @@
 toolbar <- function(
   ...,
   align = c("right", "left"),
-  gap = NULL
+  gap = NULL,
+  width = "100%"
 ) {
   align <- rlang::arg_match(align)
   gap <- validateCssUnit(gap)
+  width <- validateCssUnit(width)
 
   tag <- div(
     class = "bslib-toolbar bslib-gap-spacing",
     "data-align" = align,
-    style = css(gap = gap),
+    style = css(gap = gap, width = width),
     ...,
     component_dependencies()
   )
