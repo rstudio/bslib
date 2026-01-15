@@ -117,7 +117,7 @@ toolbar <- function(
 #'
 #' @return Returns a button suitable for use in a toolbar.
 #'
-#' @describeIn toolbar Create a toolbar button.
+#' @describeIn toolbar_input_button Create a toolbar button.
 #' @seealso [update_toolbar_input_button()] to update a toolbar button, [toolbar()] to
 #'   create a toolbar, [toolbar_input_select()] to create a toolbar select input.
 #' @family toolbar components
@@ -212,8 +212,6 @@ toolbar_input_button <- function(
 #' @description
 #' Change the value or appearance of a toolbar button input on the client.
 #'
-#' @describeIn toolbar Update a toolbar button.
-#' @inheritParams toolbar_input_button
 #' @param session A Shiny session object (the default should almost always be
 #'   used).
 #'
@@ -293,6 +291,7 @@ toolbar_input_button <- function(
 #'
 #' @seealso [toolbar_input_button()] to create a toolbar button, [toolbar()] to
 #'   create a toolbar
+#' @describeIn toolbar_input_button Update a toolbar button.
 #' @family toolbar components
 #' @export
 update_toolbar_input_button <- function(
@@ -384,9 +383,9 @@ toolbar_input_button_input_handler <- function(value, shinysession, name) {
 #'
 #' @return Returns a select input control suitable for use in a toolbar.
 #'
+#' @describeIn toolbar_input_select Create a toolbar select input.
 #' @seealso [update_toolbar_input_select()] to update a toolbar select input,
 #'   [toolbar()] to create a toolbar, [toolbar_input_button()] to create a toolbar button.
-#' @describeIn toolbar Create a toolbar select input.
 #' @family toolbar components
 #' @export
 toolbar_input_select <- function(
@@ -492,7 +491,7 @@ toolbar_input_select <- function(
 #' the select's label, icon, choices, selected value(s), and label visibility
 #' from the server.
 #'
-#' @describeIn toolbar Update a toolbar select input.
+#' @describeIn toolbar_input_select Update a toolbar select input.
 #' @inheritParams toolbar_input_select
 #' @param selected The new selected value. If `NULL`, the selection is not
 #'   changed.
