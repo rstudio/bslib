@@ -56,9 +56,7 @@
 #'
 #' @return Returns a toolbar element.
 #'
-#' @seealso [toolbar_input_button](), [toolbar_input_select](),
-#'   [toolbar_divider]() for other Toolbar components.
-#' @describeIn toolbar Create a toolbar.
+#' @seealso [card_header()] for using toolbars in card headers/footers
 #' @family toolbar components
 #' @export
 toolbar <- function(
@@ -83,40 +81,124 @@ toolbar <- function(
   as_fragment(tag)
 }
 
-#' Add toolbar button input
+#' Add a toolbar input button
 #'
 #' @description
 #' A button designed to fit well in small places such as in a [toolbar()].
 #'
+#' @section Updating toolbar buttons:
+#'   You can dynamically update the appearance and enabled/disabled state
+#'   of a toolbar button on the client side using `update_toolbar_input_button()`.
+#'   This function works similarly to [shiny::updateActionButton()].
+#'
+#'   Note that you cannot change the `tooltip` or `border` parameters after the
+#'   button has been created, as these affect the button's structure and ARIA
+#'   attributes.
+#'   Please use [update_tooltip()] to update the text of the tooltip if one is
+#'   present.
+#'
+#'   For example:
+#'   ```r
+#'   library(shiny)
+#'   library(bslib)
+#'
+#'   ui <- page_fluid(
+#'     card(
+#'       card_header(
+#'         "Toolbar Demo",
+#'         toolbar(
+#'           align = "right",
+#'           toolbar_input_button("btn", label = "Click me", icon = icon("play")),
+#'           toolbar_input_button(
+#'             "task",
+#'             label = "Do a Task",
+#'             icon = icon("play-circle"),
+#'             show_label = TRUE
+#'           )
+#'         )
+#'       ),
+#'       card_body(
+#'         verbatimTextOutput("count")
+#'       )
+#'     )
+#'   )
+#'
+#'   server <- function(input, output, session) {
+#'     output$count <- renderPrint({
+#'       input$btn
+#'     })
+#'
+#'     observeEvent(input$btn, {
+#'       update_toolbar_input_button(
+#'         "btn",
+#'         label = "Clicked!",
+#'         icon = icon("check")
+#'       )
+#'       # Update the tooltip text
+#'       update_tooltip("btn-tooltip", "Button was clicked!")
+#'     })
+#'
+#'     # Handle task button - toggle between states
+#'     observeEvent(input$task, {
+#'       if (input$task %% 2 == 1) {
+#'         # Show task is in progress
+#'         update_toolbar_input_button(
+#'           "task",
+#'           label = "Task Running...",
+#'           icon = icon("spinner")
+#'         )
+#'       } else {
+#'         # Reset to original
+#'         update_toolbar_input_button(
+#'           "task",
+#'           label = "Do a Task",
+#'           icon = icon("play-circle"),
+#'           session = session
+#'         )
+#'       }
+#'     })
+#' }
+#'
+#' shinyApp(ui, server)
+#' ```
+#'
 #' @examplesIf rlang::is_interactive()
 #' toolbar(
 #'   align = "right",
-#'   toolbar_input_button(
-#'     id = "see",
-#'     icon = icon("eye"),
-#'     label = "See",
-#'     tooltip = FALSE
-#'   ),
-#'   toolbar_input_button(
-#'     id = "save",
-#'     label = "Save",
-#'     disabled = TRUE
-#'   ),
-#'   toolbar_input_button(
-#'     id = "edit",
-#'     icon = icon("pencil"),
-#'     label = "Edit",
-#'     show_label = TRUE
-#'   ),
-#'   toolbar_input_button(
-#'     id = "share",
-#'     icon = icon("share"),
-#'     label = "Share",
-#'     tooltip = "Share this!",
-#'     border = TRUE
+#'   toolbar_input_button(id = "view", icon = icon("eye"), label = "View"),
+#'   toolbar_input_button(id = "save", icon = icon("save"), label = "Save")
+#' )
+#'
+#' library(shiny)
+#' library(bslib)
+#'
+#' ui <- page_fixed(
+#'   card(
+#'     class = "mt-5",
+#'     card_header(
+#'       toolbar(
+#'         align = "right",
+#'         toolbar_input_button(id = "play", icon = icon("play"), label = "Play")
+#'       )
+#'     ),
+#'     "The card body..."
 #'   )
 #' )
 #'
+#' server <- function(input, output) {
+#'   observeEvent(input$play, {
+#'     update_toolbar_input_button(
+#'       "play",
+#'       label = "Playing!",
+#'       icon = icon("check")
+#'     )
+#'     # Update the tooltip text
+#'     update_tooltip("play-tooltip", "Play was clicked!")
+#'   })
+#' }
+#'
+#' shinyApp(ui, server)
+
 #' @param id The input ID.
 #' @param icon An icon. If provided without `show_label = TRUE`, only the icon
 #'   will be visible.
@@ -144,8 +226,6 @@ toolbar <- function(
 #' @return Returns a button suitable for use in a toolbar.
 #'
 #' @describeIn toolbar_input_button Create a toolbar button.
-#' @seealso [update_toolbar_input_button()] to update a toolbar button, [toolbar()] to
-#'   create a toolbar, [toolbar_input_select()] to create a toolbar select input.
 #' @family toolbar components
 #' @export
 toolbar_input_button <- function(
@@ -233,90 +313,9 @@ toolbar_input_button <- function(
   button
 }
 
-#' Update toolbar button input
-#'
-#' @description
-#' Change the value or appearance of a toolbar button input on the client.
-#'
 #' @param session A Shiny session object (the default should almost always be
 #'   used).
 #'
-#' @details
-#' This update function works similarly to [shiny::updateActionButton()], but
-#' is specifically designed for [toolbar_input_button()]. It allows you to
-#' update the button's label, icon, and disabled state from the server.
-#'
-#' Note that you cannot change the `tooltip` or `border` parameters
-#' after the button has been created, as these affect the button's structure
-#' and ARIA attributes.
-#' Please use [update_tooltip()] to update the text of the tooltip if one is present.
-#'
-#' @examplesIf rlang::is_interactive()
-#' library(shiny)
-#' library(bslib)
-#'
-#' ui <- page_fluid(
-#'   card(
-#'     card_header(
-#'       "Toolbar Demo",
-#'       toolbar(
-#'         align = "right",
-#'         toolbar_input_button("btn", label = "Click me", icon = icon("play")),
-#'         toolbar_input_button(
-#'           "task",
-#'           label = "Do a Task",
-#'           icon = icon("play-circle"),
-#'           show_label = TRUE
-#'         )
-#'       )
-#'     ),
-#'     card_body(
-#'       verbatimTextOutput("count")
-#'     )
-#'   )
-#' )
-#'
-#' server <- function(input, output, session) {
-#'   output$count <- renderPrint({
-#'     input$btn
-#'   })
-#'
-#'   observeEvent(input$btn, {
-#'     update_toolbar_input_button(
-#'       "btn",
-#'       label = "Clicked!",
-#'       icon = icon("check")
-#'     )
-#'     # Update the tooltip text
-#'     update_tooltip("btn-tooltip", "Button was clicked!")
-#'   })
-#'
-#'   # Handle task button - toggle between states
-#'   observeEvent(input$task, {
-#'     if (input$task %% 2 == 1) {
-#'       # Show task is in progress
-#'       update_toolbar_input_button(
-#'         "task",
-#'         label = "Task Running...",
-#'         icon = icon("spinner"),
-#'         session = session
-#'       )
-#'     } else {
-#'       # Reset to original
-#'       update_toolbar_input_button(
-#'         "task",
-#'         label = "Do a Task",
-#'         icon = icon("play-circle"),
-#'         session = session
-#'       )
-#'     }
-#'   })
-#' }
-#'
-#' shinyApp(ui, server)
-#'
-#' @seealso [toolbar_input_button()] to create a toolbar button, [toolbar()] to
-#'   create a toolbar
 #' @describeIn toolbar_input_button Update a toolbar button.
 #' @family toolbar components
 #' @export
@@ -410,8 +409,6 @@ toolbar_input_button_input_handler <- function(value, shinysession, name) {
 #' @return Returns a select input control suitable for use in a toolbar.
 #'
 #' @describeIn toolbar_input_select Create a toolbar select input.
-#' @seealso [update_toolbar_input_select()] to update a toolbar select input,
-#'   [toolbar()] to create a toolbar, [toolbar_input_button()] to create a toolbar button.
 #' @family toolbar components
 #' @export
 toolbar_input_select <- function(
@@ -517,7 +514,6 @@ toolbar_input_select <- function(
 #' the select's label, icon, choices, selected value(s), and label visibility
 #' from the server.
 #'
-#' @describeIn toolbar_input_select Update a toolbar select input.
 #' @inheritParams toolbar_input_select
 #' @param selected The new selected value. If `NULL`, the selection is not
 #'   changed.
@@ -567,7 +563,7 @@ toolbar_input_select <- function(
 #' shinyApp(ui, server)
 #'
 #' @family toolbar components
-#' @seealso [toolbar_input_select()] to create a toolbar select input, [toolbar()] to create a toolbar.
+#' @describeIn toolbar_input_select Update a toolbar select input.
 #' @export
 update_toolbar_input_select <- function(
   id,
@@ -820,6 +816,7 @@ toolbar_divider <- function(..., width = NULL, gap = NULL) {
 
 #' @describeIn toolbar_divider Create empty, expanding space between toolbar
 #'   elements.
+#' @family toolbar components
 #' @export
 toolbar_spacer <- function() {
   div(class = "bslib-toolbar-spacer")

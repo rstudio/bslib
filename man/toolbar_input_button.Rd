@@ -3,7 +3,7 @@
 \name{toolbar_input_button}
 \alias{toolbar_input_button}
 \alias{update_toolbar_input_button}
-\title{Add toolbar button input}
+\title{Add a toolbar input button}
 \usage{
 toolbar_input_button(
   id,
@@ -67,18 +67,6 @@ Returns a button suitable for use in a toolbar.
 }
 \description{
 A button designed to fit well in small places such as in a \code{\link[=toolbar]{toolbar()}}.
-
-Change the value or appearance of a toolbar button input on the client.
-}
-\details{
-This update function works similarly to \code{\link[shiny:updateActionButton]{shiny::updateActionButton()}}, but
-is specifically designed for \code{\link[=toolbar_input_button]{toolbar_input_button()}}. It allows you to
-update the button's label, icon, and disabled state from the server.
-
-Note that you cannot change the \code{tooltip} or \code{border} parameters
-after the button has been created, as these affect the button's structure
-and ARIA attributes.
-Please use \code{\link[=update_tooltip]{update_tooltip()}} to update the text of the tooltip if one is present.
 }
 \section{Functions}{
 \itemize{
@@ -87,38 +75,21 @@ Please use \code{\link[=update_tooltip]{update_tooltip()}} to update the text of
 \item \code{update_toolbar_input_button()}: Update a toolbar button.
 
 }}
-\examples{
-\dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
-toolbar(
-  align = "right",
-  toolbar_input_button(
-    id = "see",
-    icon = icon("eye"),
-    label = "See",
-    tooltip = FALSE
-  ),
-  toolbar_input_button(
-    id = "save",
-    label = "Save",
-    disabled = TRUE
-  ),
-  toolbar_input_button(
-    id = "edit",
-    icon = icon("pencil"),
-    label = "Edit",
-    show_label = TRUE
-  ),
-  toolbar_input_button(
-    id = "share",
-    icon = icon("share"),
-    label = "Share",
-    tooltip = "Share this!",
-    border = TRUE
-  )
-)
-\dontshow{\}) # examplesIf}
-\dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
-library(shiny)
+\section{Updating toolbar buttons}{
+
+You can dynamically update the appearance and enabled/disabled state
+of a toolbar button on the client side using \code{update_toolbar_input_button()}.
+This function works similarly to \code{\link[shiny:updateActionButton]{shiny::updateActionButton()}}.
+
+Note that you cannot change the \code{tooltip} or \code{border} parameters after the
+button has been created, as these affect the button's structure and ARIA
+attributes.
+Please use \code{\link[=update_tooltip]{update_tooltip()}} to update the text of the tooltip if one is
+present.
+
+For example:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{library(shiny)
 library(bslib)
 
 ui <- page_fluid(
@@ -142,12 +113,12 @@ ui <- page_fluid(
   )
 )
 
-server <- function(input, output, session) {
-  output$count <- renderPrint({
+server <- function(input, output, session) \{
+  output$count <- renderPrint(\{
     input$btn
-  })
+  \})
 
-  observeEvent(input$btn, {
+  observeEvent(input$btn, \{
     update_toolbar_input_button(
       "btn",
       label = "Clicked!",
@@ -155,19 +126,18 @@ server <- function(input, output, session) {
     )
     # Update the tooltip text
     update_tooltip("btn-tooltip", "Button was clicked!")
-  })
+  \})
 
   # Handle task button - toggle between states
-  observeEvent(input$task, {
-    if (input$task \%\% 2 == 1) {
+  observeEvent(input$task, \{
+    if (input$task \%\% 2 == 1) \{
       # Show task is in progress
       update_toolbar_input_button(
         "task",
         label = "Task Running...",
-        icon = icon("spinner"),
-        session = session
+        icon = icon("spinner")
       )
-    } else {
+    \} else \{
       # Reset to original
       update_toolbar_input_button(
         "task",
@@ -175,7 +145,47 @@ server <- function(input, output, session) {
         icon = icon("play-circle"),
         session = session
       )
-    }
+    \}
+  \})
+\}
+
+shinyApp(ui, server)
+}\if{html}{\out{</div>}}
+}
+
+\examples{
+\dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
+toolbar(
+  align = "right",
+  toolbar_input_button(id = "view", icon = icon("eye"), label = "View"),
+  toolbar_input_button(id = "save", icon = icon("save"), label = "Save")
+)
+
+library(shiny)
+library(bslib)
+
+ui <- page_fixed(
+  card(
+    class = "mt-5",
+    card_header(
+      toolbar(
+        align = "right",
+        toolbar_input_button(id = "play", icon = icon("play"), label = "Play")
+      )
+    ),
+    "The card body..."
+  )
+)
+
+server <- function(input, output) {
+  observeEvent(input$play, {
+    update_toolbar_input_button(
+      "play",
+      label = "Playing!",
+      icon = icon("check")
+    )
+    # Update the tooltip text
+    update_tooltip("play-tooltip", "Play was clicked!")
   })
 }
 
@@ -183,18 +193,14 @@ shinyApp(ui, server)
 \dontshow{\}) # examplesIf}
 }
 \seealso{
-\code{\link[=update_toolbar_input_button]{update_toolbar_input_button()}} to update a toolbar button, \code{\link[=toolbar]{toolbar()}} to
-create a toolbar, \code{\link[=toolbar_input_select]{toolbar_input_select()}} to create a toolbar select input.
-
-\code{\link[=toolbar_input_button]{toolbar_input_button()}} to create a toolbar button, \code{\link[=toolbar]{toolbar()}} to
-create a toolbar
-
 Other toolbar components: 
 \code{\link{toolbar}()},
+\code{\link{toolbar_divider}()},
 \code{\link{toolbar_input_select}()}
 
 Other toolbar components: 
 \code{\link{toolbar}()},
+\code{\link{toolbar_divider}()},
 \code{\link{toolbar_input_select}()}
 }
 \concept{toolbar components}

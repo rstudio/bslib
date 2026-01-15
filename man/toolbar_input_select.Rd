@@ -173,17 +173,14 @@ shinyApp(ui, server)
 \dontshow{\}) # examplesIf}
 }
 \seealso{
-\code{\link[=update_toolbar_input_select]{update_toolbar_input_select()}} to update a toolbar select input,
-\code{\link[=toolbar]{toolbar()}} to create a toolbar, \code{\link[=toolbar_input_button]{toolbar_input_button()}} to create a toolbar button.
-
-\code{\link[=toolbar_input_select]{toolbar_input_select()}} to create a toolbar select input, \code{\link[=toolbar]{toolbar()}} to create a toolbar.
-
 Other toolbar components: 
 \code{\link{toolbar}()},
+\code{\link{toolbar_divider}()},
 \code{\link{toolbar_input_button}()}
 
 Other toolbar components: 
 \code{\link{toolbar}()},
+\code{\link{toolbar_divider}()},
 \code{\link{toolbar_input_button}()}
 }
 \concept{toolbar components}

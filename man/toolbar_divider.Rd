@@ -55,6 +55,13 @@ toolbar(
 }
 \seealso{
 Other toolbar components: 
-\code{\link{toolbar}()}
+\code{\link{toolbar}()},
+\code{\link{toolbar_input_button}()},
+\code{\link{toolbar_input_select}()}
+
+Other toolbar components: 
+\code{\link{toolbar}()},
+\code{\link{toolbar_input_button}()},
+\code{\link{toolbar_input_select}()}
 }
 \concept{toolbar components}
