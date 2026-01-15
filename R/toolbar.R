@@ -122,7 +122,6 @@ toolbar <- function(
 #'   create a toolbar, [toolbar_input_select()] to create a toolbar select input.
 #' @family toolbar components
 #' @export
-
 toolbar_input_button <- function(
   id,
   label,
