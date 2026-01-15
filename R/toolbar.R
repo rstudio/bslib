@@ -10,6 +10,28 @@
 #' shiny::runExample("toolbar", package = "bslib")
 #' ```
 #'
+#' @section Toolbars in labels:
+#'
+#' You can use toolbars in the labels of other Shiny inputs to add a composite
+#' input with additional buttons or controls. The following example uses a
+#' `toolbar()` in the label of a [shiny::numericInput()] to add increment and
+#' decrement buttons next to the label:
+#'
+#' ```r
+#' shiny::numericInput(
+#'   "quantity",
+#'   label = toolbar(
+#'     "Quantity",
+#'     toolbar_spacer(), # push buttons to the right
+#'     toolbar_input_button("decrement", "Less", shiny::icon("minus")),
+#'     toolbar_input_button("increment", "More", shiny::icon("plus"))
+#'   ),
+#'   value = 1,
+#'   min = 0,
+#'   max = 100
+#' )
+#' ```
+#'
 #' @examplesIf rlang::is_interactive()
 #' toolbar(
 #'   align = "right",
@@ -30,6 +52,8 @@
 #'   `"left"`.
 #' @param gap A CSS length unit defining the gap (i.e., spacing) between
 #'   elements in the toolbar. Defaults to `0` (no gap).
+#' @param width CSS width of the toolbar. Default is `"100%"`.
+#'
 #' @return Returns a toolbar element.
 #'
 #' @seealso [toolbar_input_button](), [toolbar_input_select](),
@@ -40,15 +64,17 @@
 toolbar <- function(
   ...,
   align = c("right", "left"),
-  gap = NULL
+  gap = NULL,
+  width = "100%"
 ) {
   align <- rlang::arg_match(align)
   gap <- validateCssUnit(gap)
+  width <- validateCssUnit(width)
 
   tag <- div(
     class = "bslib-toolbar bslib-gap-spacing",
     "data-align" = align,
-    style = css(gap = gap),
+    style = css(gap = gap, width = width),
     ...,
     component_dependencies()
   )
@@ -739,11 +765,13 @@ selectOptions <- function(
   HTML(paste(html, collapse = "\n"))
 }
 
-#' Toolbar: Add a divider to a toolbar
+#' Toolbar: Add a divider or spacer to a toolbar
 #'
 #' @description
-#' `toolbar_divider()` creates a visual divider line with customizable width
-#' and spacing between toolbar elements.
+#' `toolbar_divider()` creates a visual divider line with customizable and fixed
+#' width and spacing between toolbar elements. `toolbar_spacer()` creates empty
+#' space that expands to push adjacent toolbar elements apart as much as
+#' possible.
 #'
 #' @param width A CSS length unit specifying the width of the divider line.
 #'   Defaults to `"2px"` for a sensible dividing line. Pass `0px` for no
@@ -764,9 +792,15 @@ selectOptions <- function(
 #'   toolbar_input_button(id = "b", label = "B")
 #' )
 #'
+#' toolbar(
+#'   toolbar_input_button(id = "previous", label = "Previous"),
+#'   toolbar_spacer(),
+#'   toolbar_input_button(id = "next", label = "Next")
+#' )
+#'
 #' @family toolbar components
-#' @describeIn toolbar Add a divider to a toolbar.
-#' @seealso [toolbar()] to create a toolbar, [toolbar_input_button()] to create a toolbar button, [toolbar_input_select()] to create a toolbar select input.
+#' @describeIn toolbar_divider Create a dividing line and fixed space between
+#'   toolbar elements.
 #' @export
 toolbar_divider <- function(..., width = NULL, gap = NULL) {
   rlang::check_dots_empty()
@@ -783,4 +817,11 @@ toolbar_divider <- function(..., width = NULL, gap = NULL) {
     ),
     `aria-hidden` = "true"
   )
+}
+
+#' @describeIn toolbar_divider Create empty, expanding space between toolbar
+#'   elements.
+#' @export
+toolbar_spacer <- function() {
+  div(class = "bslib-toolbar-spacer")
 }

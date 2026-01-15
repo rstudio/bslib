@@ -6,10 +6,9 @@
 \alias{update_toolbar_input_button}
 \alias{toolbar_input_select}
 \alias{update_toolbar_input_select}
-\alias{toolbar_divider}
 \title{Toolbar component}
 \usage{
-toolbar(..., align = c("right", "left"), gap = NULL)
+toolbar(..., align = c("right", "left"), gap = NULL, width = "100\%")
 
 toolbar_input_button(
   id,
@@ -51,8 +50,6 @@ update_toolbar_input_select(
   icon = NULL,
   session = get_current_session()
 )
-
-toolbar_divider(..., width = NULL, gap = NULL)
 }
 \arguments{
 \item{...}{Additional named arguments passed as attributes to the outer
@@ -61,8 +58,10 @@ container div.}
 \item{align}{Determines if toolbar should be aligned to the \code{"right"} or
 \code{"left"}.}
 
-\item{gap}{A CSS length unit defining the spacing around the divider.
-Defaults to \code{"1rem"} for sensible fixed spacing.}
+\item{gap}{A CSS length unit defining the gap (i.e., spacing) between
+elements in the toolbar. Defaults to \code{0} (no gap).}
+
+\item{width}{CSS width of the toolbar. Default is \code{"100\%"}.}
 
 \item{id}{The input ID.}
 
@@ -108,10 +107,6 @@ the example section for a small demo of this feature.}
 
 \item{selected}{The new selected value. If \code{NULL}, the selection is not
 changed.}
-
-\item{width}{A CSS length unit specifying the width of the divider line.
-Defaults to \code{"2px"} for a sensible dividing line. Pass \verb{0px} for no
-divider line.}
 }
 \value{
 Returns a toolbar element.
@@ -141,9 +136,6 @@ function works similarly to \code{\link[shiny:updateSelectInput]{shiny::updateSe
 specifically designed for \code{\link[=toolbar_input_select]{toolbar_input_select()}}. It allows you to update
 the select's label, icon, choices, selected value(s), and label visibility
 from the server.
-
-\code{toolbar_divider()} creates a visual divider line with customizable width
-and spacing between toolbar elements.
 }
 \details{
 This update function works similarly to \code{\link[shiny:updateActionButton]{shiny::updateActionButton()}}, but
@@ -175,9 +167,30 @@ You can, however, use \code{\link[=update_tooltip]{update_tooltip()}} to update 
 
 \item \code{update_toolbar_input_select()}: Update a toolbar select input.
 
-\item \code{toolbar_divider()}: Add a divider to a toolbar.
-
 }}
+\section{Toolbars in labels}{
+
+
+You can use toolbars in the labels of other Shiny inputs to add a composite
+input with additional buttons or controls. The following example uses a
+\code{toolbar()} in the label of a \code{\link[shiny:numericInput]{shiny::numericInput()}} to add increment and
+decrement buttons next to the label:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{shiny::numericInput(
+  "quantity",
+  label = toolbar(
+    "Quantity",
+    toolbar_spacer(), # push buttons to the right
+    toolbar_input_button("decrement", "Less", shiny::icon("minus")),
+    toolbar_input_button("increment", "More", shiny::icon("plus"))
+  ),
+  value = 1,
+  min = 0,
+  max = 100
+)
+}\if{html}{\out{</div>}}
+}
+
 \examples{
 \dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
 toolbar(
@@ -358,19 +371,6 @@ server <- function(input, output, session) {
 
 shinyApp(ui, server)
 \dontshow{\}) # examplesIf}
-\dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
-toolbar(
-  toolbar_input_button(id = "left1", label = "Left"),
-  toolbar_divider(),
-  toolbar_input_button(id = "right1", label = "Right")
-)
-
-toolbar(
-  toolbar_input_button(id = "a", label = "A"),
-  toolbar_divider(width = "5px", gap = "20px"),
-  toolbar_input_button(id = "b", label = "B")
-)
-\dontshow{\}) # examplesIf}
 }
 \seealso{
 \url{toolbar_input_button}, \url{toolbar_input_select},
@@ -387,6 +387,19 @@ create a toolbar
 
 \code{\link[=toolbar_input_select]{toolbar_input_select()}} to create a toolbar select input, \code{\link[=toolbar]{toolbar()}} to create a toolbar.
 
-\code{\link[=toolbar]{toolbar()}} to create a toolbar, \code{\link[=toolbar_input_button]{toolbar_input_button()}} to create a toolbar button, \code{\link[=toolbar_input_select]{toolbar_input_select()}} to create a toolbar select input.
+Other toolbar components: 
+\code{\link{toolbar_divider}()}
+
+Other toolbar components: 
+\code{\link{toolbar_divider}()}
+
+Other toolbar components: 
+\code{\link{toolbar_divider}()}
+
+Other toolbar components: 
+\code{\link{toolbar_divider}()}
+
+Other toolbar components: 
+\code{\link{toolbar_divider}()}
 }
 \concept{toolbar components}
