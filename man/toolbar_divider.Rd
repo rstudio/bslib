@@ -54,9 +54,7 @@ toolbar(
 \dontshow{\}) # examplesIf}
 }
 \seealso{
-Other Toolbar components: 
-\code{\link{toolbar}()},
-\code{\link{toolbar_input_button}()},
-\code{\link{toolbar_input_select}()}
+Other toolbar components: 
+\code{\link{toolbar}()}
 }
-\concept{Toolbar components}
+\concept{toolbar components}
