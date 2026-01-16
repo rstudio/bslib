@@ -52,6 +52,120 @@ decrement buttons next to the label:
 }\if{html}{\out{</div>}}
 }
 
+\section{Cookbook}{
+
+
+Card headers are a common place you might want to use toolbars. Toolbars
+allow you to clearly show that a selection of inputs pertain to that
+particular card. For example, this card uses multiple
+\code{toolbar_input_select()} for filtering and sorting, along with toolbar
+buttons.
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{card(
+  full_screen = TRUE,
+  card_header(
+    "Sales Data",
+    toolbar(
+      align = "right",
+      toolbar_input_select(
+        id = "filter",
+        label = "Filter",
+        choices = c("All", "Active", "Inactive"),
+        icon = icon("filter")
+      ),
+      toolbar_input_select(
+        id = "sort",
+        label = "Sort by",
+        choices = c("Date", "Amount", "Customer"),
+        icon = icon("sort")
+      ),
+      toolbar_divider(),
+      toolbar_input_button(
+        id = "refresh",
+        label = "Refresh",
+        icon = icon("arrows-rotate")
+      ),
+      toolbar_input_button(
+        id = "export",
+        label = "Export",
+        icon = icon("download"),
+        show_label = TRUE
+      )
+    )
+  ),
+  card_body(
+    tableOutput("sales_table")
+  )
+)
+}\if{html}{\out{</div>}}
+
+Card footers are another common place to use toolbars. Footer toolbars are
+particularly useful for actions like downloading or sharing.
+For example:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{card(
+  card_header(
+    "Card Header",
+  ),
+  card_body(
+    "Share fun stuff"
+  ),
+  card_footer(
+    toolbar(
+      align = "right",
+      toolbar_input_button(
+        id = "share_data",
+        label = "Share",
+        icon = icon("share-nodes"),
+        show_label = TRUE,
+        border = TRUE
+      )
+    )
+  )
+)
+}\if{html}{\out{</div>}}
+
+You may also want to use toolbars in other places, such as inside input
+labels. For example:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{card(
+  card_header(
+    "Text Editor Example"
+  ),
+  card_body(
+    textAreaInput(
+      "editor",
+      label = toolbar(
+        "Comment",
+        toolbar_spacer(),
+        toolbar_input_button(
+          "bold",
+          label = "Bold",
+          icon = icon("bold")
+        ),
+        toolbar_input_button(
+          "italic",
+          label = "Italic",
+          icon = icon("italic")
+        ),
+        toolbar_input_button(
+          "link",
+          label = "Link",
+          icon = icon("link")
+        )
+      ),
+      value = "",
+      rows = 5,
+      placeholder = "Type your comment here..."
+    ),
+    tags$hr(),
+    tags$h6("Preview:"),
+    verbatimTextOutput("preview")
+  )
+)
+}\if{html}{\out{</div>}}
+}
+
 \examples{
 \dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
 toolbar(

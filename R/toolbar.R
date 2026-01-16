@@ -78,17 +78,16 @@
 #' )
 #' ````
 #' Card footers are another common place to use toolbars. Footer toolbars are
-#' particularly useful for actions like downloading or sharing. 
+#' particularly useful for actions like downloading or sharing.
 #' For example:
-#' 
+#'
 #' ```r
 #' card(
-#'   full_screen = TRUE,
 #'   card_header(
-#'     "Sales Data",
+#'     "Card Header",
 #'   ),
 #'   card_body(
-#'     tableOutput("sales_table")
+#'     "Share fun stuff"
 #'   ),
 #'   card_footer(
 #'     toolbar(
@@ -104,8 +103,45 @@
 #'   )
 #' )
 #' ```
-#'
-#'
+#' You may also want to use toolbars in other places, such as inside input
+#' labels. For example:
+#' ```r
+#' card(
+#'   card_header(
+#'     "Text Editor Example"
+#'   ),
+#'   card_body(
+#'     textAreaInput(
+#'       "editor",
+#'       label = toolbar(
+#'         "Comment",
+#'         toolbar_spacer(),
+#'         toolbar_input_button(
+#'           "bold",
+#'           label = "Bold",
+#'           icon = icon("bold")
+#'         ),
+#'         toolbar_input_button(
+#'           "italic",
+#'           label = "Italic",
+#'           icon = icon("italic")
+#'         ),
+#'         toolbar_input_button(
+#'           "link",
+#'           label = "Link",
+#'           icon = icon("link")
+#'         )
+#'       ),
+#'       value = "",
+#'       rows = 5,
+#'       placeholder = "Type your comment here..."
+#'     ),
+#'     tags$hr(),
+#'     tags$h6("Preview:"),
+#'     verbatimTextOutput("preview")
+#'   )
+#' )
+#' ```
 #'
 #' @examplesIf rlang::is_interactive()
 #' toolbar(
