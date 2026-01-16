@@ -55,8 +55,6 @@ navbar:
           href: articles/cards/index.html
         - text: Sidebars
           href: articles/sidebars/index.html
-        - text: Toolbars
-          href: reference/toolbar.html
         - text: Value Boxes
           href: articles/value-boxes/index.html
         - text: Tooltips & Popovers
@@ -156,6 +154,12 @@ reference:
   contents:
     - card
     - as.card_item
+- subtitle: Toolbars
+  desc: |
+    Toolbars are compact containers for buttons, inputs, and other UI elements.
+    They are particularly useful in card headers and footers, or anywhere you need
+    a clean, horizontal layout of controls.
+  contents:
     - toolbar
     - toolbar_input_button
     - toolbar_input_select
