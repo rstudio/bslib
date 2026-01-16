@@ -6,6 +6,7 @@ import {
   shinyRenderContent,
 } from "./_utils";
 import type { HtmlDep } from "./_utils";
+import type { BslibTooltip } from "./webcomponents/tooltip";
 
 type ToolbarInputSelectMessage = {
   label?: string | { html: string; deps: HtmlDep[] };
@@ -38,6 +39,7 @@ class BslibToolbarInputSelectBinding extends InputBinding {
     const selectEl = el.querySelector("select");
     if (selectEl) {
       $(selectEl).on("change.bslibToolbarInputSelect", () => {
+        this.#hideTooltip(el);
         callback(false);
       });
     }
@@ -91,6 +93,13 @@ class BslibToolbarInputSelectBinding extends InputBinding {
         // Trigger change event to notify Shiny of the value change
         $(selectEl).trigger("change");
       }
+    }
+  }
+
+  #hideTooltip(el: HTMLElement) {
+    const tooltipEl = el.closest("bslib-tooltip") as BslibTooltip | null;
+    if (tooltipEl) {
+      tooltipEl.hide();
     }
   }
 }

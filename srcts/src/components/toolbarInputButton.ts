@@ -5,6 +5,7 @@ import {
   shinyRenderContent,
 } from "./_utils";
 import type { HtmlDep } from "./_utils";
+import type { BslibTooltip } from "./webcomponents/tooltip";
 
 type ToolbarInputButtonMessage = {
   label?: string | { html: string; deps: HtmlDep[] };
@@ -41,6 +42,7 @@ class BslibToolbarInputButtonBinding extends InputBinding {
 
     const eventListener = (/*event: Event*/) => {
       this.#clickCount.set(el, (this.#clickCount.get(el) ?? 0) + 1);
+      this.#hideTooltip(el);
       callback(true);
     };
     this.#clickListeners.set(el, eventListener);
@@ -56,7 +58,7 @@ class BslibToolbarInputButtonBinding extends InputBinding {
 
   async receiveMessage(el: HTMLElement, message: ToolbarInputButtonMessage) {
     // Update disabled state
-    if (hasDefinedProperty(message, "disabled")) {
+    if (hasDefinedProperty(message, "disabled") && message.disabled) {
       (el as HTMLButtonElement).disabled = message.disabled;
     }
 
@@ -82,6 +84,13 @@ class BslibToolbarInputButtonBinding extends InputBinding {
     if (hasDefinedProperty(message, "icon") && message.icon !== undefined) {
       const iconEl = el.querySelector(".bslib-toolbar-icon") as HTMLElement;
       await shinyRenderContent(iconEl, message.icon);
+    }
+  }
+
+  #hideTooltip(el: HTMLElement) {
+    const tooltipEl = el.closest("bslib-tooltip") as BslibTooltip | null;
+    if (tooltipEl) {
+      tooltipEl.hide();
     }
   }
 }

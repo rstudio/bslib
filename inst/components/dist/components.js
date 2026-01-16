@@ -1583,7 +1583,7 @@
   });
 
   // srcts/src/components/toolbarInputButton.ts
-  var _clickCount2, _clickListeners2, BslibToolbarInputButtonBinding;
+  var _clickCount2, _clickListeners2, _hideTooltip, hideTooltip_fn, BslibToolbarInputButtonBinding;
   var init_toolbarInputButton = __esm({
     "srcts/src/components/toolbarInputButton.ts"() {
       "use strict";
@@ -1591,6 +1591,7 @@
       BslibToolbarInputButtonBinding = class extends InputBinding {
         constructor() {
           super(...arguments);
+          __privateAdd(this, _hideTooltip);
           __privateAdd(this, _clickCount2, /* @__PURE__ */ new WeakMap());
           __privateAdd(this, _clickListeners2, /* @__PURE__ */ new WeakMap());
         }
@@ -1611,6 +1612,7 @@
           const eventListener = () => {
             var _a;
             __privateGet(this, _clickCount2).set(el, ((_a = __privateGet(this, _clickCount2).get(el)) != null ? _a : 0) + 1);
+            __privateMethod(this, _hideTooltip, hideTooltip_fn).call(this, el);
             callback(true);
           };
           __privateGet(this, _clickListeners2).set(el, eventListener);
@@ -1624,7 +1626,7 @@
         }
         receiveMessage(el, message) {
           return __async(this, null, function* () {
-            if (hasDefinedProperty(message, "disabled")) {
+            if (hasDefinedProperty(message, "disabled") && message.disabled) {
               el.disabled = message.disabled;
             }
             if (hasDefinedProperty(message, "label") && message.label !== void 0) {
@@ -1650,17 +1652,28 @@
       };
       _clickCount2 = new WeakMap();
       _clickListeners2 = new WeakMap();
+      _hideTooltip = new WeakSet();
+      hideTooltip_fn = function(el) {
+        const tooltipEl = el.closest("bslib-tooltip");
+        if (tooltipEl) {
+          tooltipEl.hide();
+        }
+      };
       registerBinding(BslibToolbarInputButtonBinding, "toolbar-input-button");
     }
   });
 
   // srcts/src/components/toolbarInputSelect.ts
-  var BslibToolbarInputSelectBinding;
+  var _hideTooltip2, hideTooltip_fn2, BslibToolbarInputSelectBinding;
   var init_toolbarInputSelect = __esm({
     "srcts/src/components/toolbarInputSelect.ts"() {
       "use strict";
       init_utils();
       BslibToolbarInputSelectBinding = class extends InputBinding {
+        constructor() {
+          super(...arguments);
+          __privateAdd(this, _hideTooltip2);
+        }
         find(scope) {
           return $(scope).find(".bslib-toolbar-input-select");
         }
@@ -1675,6 +1688,7 @@
           const selectEl = el.querySelector("select");
           if (selectEl) {
             $(selectEl).on("change.bslibToolbarInputSelect", () => {
+              __privateMethod(this, _hideTooltip2, hideTooltip_fn2).call(this, el);
               callback(false);
             });
           }
@@ -1716,6 +1730,13 @@
               }
             }
           });
+        }
+      };
+      _hideTooltip2 = new WeakSet();
+      hideTooltip_fn2 = function(el) {
+        const tooltipEl = el.closest("bslib-tooltip");
+        if (tooltipEl) {
+          tooltipEl.hide();
         }
       };
       registerBinding(BslibToolbarInputSelectBinding, "toolbar-input-select");
