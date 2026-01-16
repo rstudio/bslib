@@ -55,11 +55,16 @@ ui <- page_navbar(
           toolbar(
             align = "right",
             toolbar_input_button(
-              id = "share_data",
-              label = "Share",
-              icon = icon("share-nodes"),
-              show_label = TRUE,
-              border = TRUE
+              id = "update_filter_btn",
+              label = "Update Filter Choices",
+              icon = icon("wand-magic-sparkles"),
+              show_label = TRUE
+            ),
+            toolbar_input_button(
+              id = "update_export_btn",
+              label = "Update Export Button",
+              icon = icon("wand-magic-sparkles"),
+              show_label = TRUE
             )
           )
         )
@@ -77,11 +82,49 @@ ui <- page_navbar(
               choices = c("Today", "Week", "Month", "Year"),
               selected = "Week",
               show_label = TRUE
+            ),
+            toolbar_divider(),
+            toolbar_input_button(
+              id = "stats_refresh",
+              label = "Refresh",
+              icon = icon("arrows-rotate")
             )
           )
         ),
         card_body(
+          numericInput(
+            "stats_threshold",
+            label = toolbar(
+              "Sales Threshold",
+              toolbar_spacer(),
+              toolbar_input_button(
+                "threshold_decrease",
+                label = "Decrease",
+                icon = icon("minus")
+              ),
+              toolbar_input_button(
+                "threshold_increase",
+                label = "Increase",
+                icon = icon("plus")
+              )
+            ),
+            value = 1000,
+            min = 0,
+            max = 10000,
+            step = 100
+          ),
           verbatimTextOutput("stats")
+        ),
+        card_footer(
+          toolbar(
+            align = "left",
+            toolbar_input_select(
+              id = "stats_comparison",
+              label = "Compare to",
+              choices = c("Previous Period", "Last Year", "Budget"),
+              show_label = TRUE
+            )
+          )
         )
       )
     ),
@@ -290,6 +333,23 @@ server <- function(input, output, session) {
   chart_type <- reactiveVal("line")
   chart_color <- reactiveVal("#0d6efd")
 
+  # Threshold increment/decrement buttons
+  observeEvent(input$threshold_increase, {
+    updateNumericInput(
+      session,
+      "stats_threshold",
+      value = input$stats_threshold + 100
+    )
+  })
+
+  observeEvent(input$threshold_decrease, {
+    updateNumericInput(
+      session,
+      "stats_threshold",
+      value = input$stats_threshold - 100
+    )
+  })
+
   # Filter and sort sales data
   filtered_sales <- reactive({
     data <- sales_data
@@ -407,6 +467,36 @@ server <- function(input, output, session) {
   # Data refresh button
   observeEvent(input$refresh, {
     showNotification("Data refreshed!", type = "message", duration = 2)
+  })
+
+  # Update filter select button - changes icon, label, and choices
+  observeEvent(input$update_filter_btn, {
+    update_toolbar_input_select(
+      "filter",
+      label = "Status",
+      icon = icon("circle-check"),
+      choices = c("All", "Approved", "Pending", "Rejected"),
+      selected = "All"
+    )
+    showNotification(
+      "Filter updated with new icon, label, and choices!",
+      type = "message",
+      duration = 3
+    )
+  })
+
+  # Update export button - changes icon and label
+  observeEvent(input$update_export_btn, {
+    update_toolbar_input_button(
+      "export",
+      label = "Download CSV",
+      icon = icon("file-csv")
+    )
+    showNotification(
+      "Export button updated with new icon and label!",
+      type = "message",
+      duration = 3
+    )
   })
 
   # Data refresh button

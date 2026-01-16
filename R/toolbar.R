@@ -32,6 +32,81 @@
 #' )
 #' ```
 #'
+#' @section Cookbook:
+#'
+#' Card headers are a common place you might want to use toolbars. Toolbars
+#' allow you to clearly show that a selection of inputs pertain to that
+#' particular card. For example, this card uses multiple
+#' `toolbar_input_select()` for filtering and sorting, along with toolbar
+#' buttons.
+#' ```r
+#' card(
+#'   full_screen = TRUE,
+#'   card_header(
+#'     "Sales Data",
+#'     toolbar(
+#'       align = "right",
+#'       toolbar_input_select(
+#'         id = "filter",
+#'         label = "Filter",
+#'         choices = c("All", "Active", "Inactive"),
+#'         icon = icon("filter")
+#'       ),
+#'       toolbar_input_select(
+#'         id = "sort",
+#'         label = "Sort by",
+#'         choices = c("Date", "Amount", "Customer"),
+#'         icon = icon("sort")
+#'       ),
+#'       toolbar_divider(),
+#'       toolbar_input_button(
+#'         id = "refresh",
+#'         label = "Refresh",
+#'         icon = icon("arrows-rotate")
+#'       ),
+#'       toolbar_input_button(
+#'         id = "export",
+#'         label = "Export",
+#'         icon = icon("download"),
+#'         show_label = TRUE
+#'       )
+#'     )
+#'   ),
+#'   card_body(
+#'     tableOutput("sales_table")
+#'   )
+#' )
+#' ````
+#' Card footers are another common place to use toolbars. Footer toolbars are
+#' particularly useful for actions like downloading or sharing. 
+#' For example:
+#' 
+#' ```r
+#' card(
+#'   full_screen = TRUE,
+#'   card_header(
+#'     "Sales Data",
+#'   ),
+#'   card_body(
+#'     tableOutput("sales_table")
+#'   ),
+#'   card_footer(
+#'     toolbar(
+#'       align = "right",
+#'       toolbar_input_button(
+#'         id = "share_data",
+#'         label = "Share",
+#'         icon = icon("share-nodes"),
+#'         show_label = TRUE,
+#'         border = TRUE
+#'       )
+#'     )
+#'   )
+#' )
+#' ```
+#'
+#'
+#'
 #' @examplesIf rlang::is_interactive()
 #' toolbar(
 #'   align = "right",
@@ -52,7 +127,7 @@
 #'   `"left"`.
 #' @param gap A CSS length unit defining the gap (i.e., spacing) between
 #'   elements in the toolbar. Defaults to `0` (no gap).
-#' @param width CSS width of the toolbar. Default is `"100%"`.
+#' @param width CSS width of the toolbar. Default is `auto`.
 #'
 #' @return Returns a toolbar element.
 #'
@@ -63,7 +138,7 @@ toolbar <- function(
   ...,
   align = c("right", "left"),
   gap = NULL,
-  width = "100%"
+  width = "auto"
 ) {
   align <- rlang::arg_match(align)
   gap <- validateCssUnit(gap)
@@ -357,8 +432,64 @@ toolbar_input_button_input_handler <- function(value, shinysession, name) {
 #' Toolbar Input Select
 #'
 #' @description
-#' Create a select list input control that can be used to choose a single
-#' item from a list of values, suitable for use within a [toolbar()].
+#' Create a select input control that can be used to choose a single item from
+#' a list of values, suitable for use within a [toolbar()].
+#'
+#' @section Updating toolbar select inputs:
+#'   You can update the appearance and choices of a toolbar select input. This
+#'   function works similarly to [shiny::updateSelectInput()], but is specifically
+#'   designed for `toolbar_input_select()`. It allows you to update the select's
+#'   label, icon, choices, selected value, and label visibility from the server.
+#'
+#'   Note that you cannot enable or disable the `tooltip` parameter after the
+#'   select has been created, only update the text of the tooltip.
+#'   When a tooltip is created for the select input, it will have an ID of
+#'   `"{id}-tooltip"` which can be used to update the tooltip text dynamically
+#'   via [update_tooltip()].
+#'
+#' For example:
+#' ```r
+#' library(shiny)
+#' library(bslib)
+#'
+#' ui <- page_fluid(
+#'   toolbar(
+#'     align = "right",
+#'     toolbar_input_select(
+#'       "select",
+#'       label = "Choose",
+#'       icon = bsicons::bs_icon("filter"),
+#'       choices = c("A", "B", "C")
+#'     ),
+#'     toolbar_input_button(
+#'       "change_choices",
+#'       label = "Change Choices",
+#'       show_label = TRUE,
+#'       icon = bsicons::bs_icon("arrow-repeat")
+#'     )
+#'   ),
+#'   verbatimTextOutput("value")
+#' )
+#'
+#' server <- function(input, output, session) {
+#'   output$value <- renderPrint({
+#'     input$select
+#'   })
+#'
+#'   observeEvent(input$change_choices, {
+#'     update_toolbar_input_select(
+#'       "select",
+#'       label = "Pick one",
+#'       choices = c("hi", "hello", "hey"),
+#'       selected = "hello"
+#'     )
+#'     # Update the tooltip text
+#'     update_tooltip("select-tooltip", "Choose your NEW option")
+#'   })
+#' }
+#'
+#' shinyApp(ui, server)
+#' ```
 #'
 #' @examplesIf rlang::is_interactive()
 #' toolbar(
@@ -371,31 +502,10 @@ toolbar_input_button_input_handler <- function(value, shinysession, name) {
 #'   )
 #' )
 #'
-#' # With custom tooltip
-#' toolbar(
-#'   align = "right",
-#'   toolbar_input_select(
-#'     id = "select",
-#'     label = "Choose option",
-#'     choices = c("Option 1", "Option 2", "Option 3"),
-#'     tooltip = "Select your preferred option from the list"
-#'   )
-#' )
-#'
-#' # With icon and tooltip
-#' toolbar(
-#'   align = "right",
-#'   toolbar_input_select(
-#'     id = "select",
-#'     label = "Choose option",
-#'     choices = c("Option 1", "Option 2", "Option 3"),
-#'     icon = shiny::icon("filter"),
-#'     tooltip = "Filter the data"
-#'   )
-#' )
-#'
-#' @param selected The initially selected value. If not provided, the first
-#'   choice will be selected by default.
+#' @param selected The initially selected value. If not provided on input creation, the
+#'   first choice will be selected by default.
+#'   If provided in `update_toolbar_input_select()` with a new set of
+#'   `choices`, it will replace the currently selected value.
 #' @param ... Additional named arguments passed as attributes to the outer
 #'   container div.
 #' @inheritParams toolbar_input_button
@@ -505,62 +615,8 @@ toolbar_input_select <- function(
   )
 }
 
-#' Update toolbar select input
-#'
-#' @description
-#' Change the value or appearance of a toolbar select input. This update
-#' function works similarly to [shiny::updateSelectInput()], but is
-#' specifically designed for [toolbar_input_select()]. It allows you to update
-#' the select's label, icon, choices, selected value(s), and label visibility
-#' from the server.
-#'
-#' @inheritParams toolbar_input_select
-#' @param selected The new selected value. If `NULL`, the selection is not
-#'   changed.
 #' @param session A Shiny session object (the default should almost always be
 #'   used).
-#'
-#' @details
-#' Note that you cannot enable or disable the `tooltip` parameter after the
-#' select has been created, as it affects the structure and ARIA attributes.
-#' You can, however, use [update_tooltip()] to update the text of the tooltip.
-#'
-#' @examplesIf rlang::is_interactive()
-#' library(shiny)
-#' library(bslib)
-#'
-#' ui <- page_fluid(
-#'   toolbar(
-#'     align = "right",
-#'     toolbar_input_select(
-#'       "select",
-#'       label = "Choose",
-#'       choices = c("A", "B", "C")
-#'     )
-#'   ),
-#'   verbatimTextOutput("value")
-#' )
-#'
-#' server <- function(input, output, session) {
-#'   output$value <- renderPrint({
-#'     input$select
-#'   })
-#'
-#'   observeEvent(input$select, {
-#'     if (input$select == "A") {
-#'       update_toolbar_input_select(
-#'         "select",
-#'         label = "Pick one",
-#'         choices = c("X", "Y", "Z"),
-#'         selected = "Y"
-#'       )
-#'       # Update the tooltip text
-#'       update_tooltip("select-tooltip", "Choose your option")
-#'     }
-#'   })
-#' }
-#'
-#' shinyApp(ui, server)
 #'
 #' @family toolbar components
 #' @describeIn toolbar_input_select Update a toolbar select input.

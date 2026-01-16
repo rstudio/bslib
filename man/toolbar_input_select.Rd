@@ -44,8 +44,10 @@ the example section for a small demo of this feature.}
 \item{...}{Additional named arguments passed as attributes to the outer
 container div.}
 
-\item{selected}{The new selected value. If \code{NULL}, the selection is not
-changed.}
+\item{selected}{The initially selected value. If not provided on input creation, the
+first choice will be selected by default.
+If provided in \code{update_toolbar_input_select()} with a new set of
+\code{choices}, it will replace the currently selected value.}
 
 \item{icon}{An icon. If provided without \code{show_label = TRUE}, only the icon
 will be visible.}
@@ -74,23 +76,13 @@ used).}
 Returns a select input control suitable for use in a toolbar.
 }
 \description{
-Create a select list input control that can be used to choose a single
-item from a list of values, suitable for use within a \code{\link[=toolbar]{toolbar()}}.
-
-Change the value or appearance of a toolbar select input. This update
-function works similarly to \code{\link[shiny:updateSelectInput]{shiny::updateSelectInput()}}, but is
-specifically designed for \code{\link[=toolbar_input_select]{toolbar_input_select()}}. It allows you to update
-the select's label, icon, choices, selected value(s), and label visibility
-from the server.
+Create a select input control that can be used to choose a single item from
+a list of values, suitable for use within a \code{\link[=toolbar]{toolbar()}}.
 }
 \details{
 When a tooltip is created for the select input, it will have an ID of
 \code{"{id}-tooltip"} which can be used to update the tooltip text dynamically
 via \code{\link[=update_tooltip]{update_tooltip()}}.
-
-Note that you cannot enable or disable the \code{tooltip} parameter after the
-select has been created, as it affects the structure and ARIA attributes.
-You can, however, use \code{\link[=update_tooltip]{update_tooltip()}} to update the text of the tooltip.
 }
 \section{Functions}{
 \itemize{
@@ -99,6 +91,64 @@ You can, however, use \code{\link[=update_tooltip]{update_tooltip()}} to update 
 \item \code{update_toolbar_input_select()}: Update a toolbar select input.
 
 }}
+\section{Updating toolbar select inputs}{
+
+You can update the appearance and choices of a toolbar select input. This
+function works similarly to \code{\link[shiny:updateSelectInput]{shiny::updateSelectInput()}}, but is specifically
+designed for \code{toolbar_input_select()}. It allows you to update the select's
+label, icon, choices, selected value, and label visibility from the server.
+
+Note that you cannot enable or disable the \code{tooltip} parameter after the
+select has been created, only update the text of the tooltip.
+When a tooltip is created for the select input, it will have an ID of
+\code{"{id}-tooltip"} which can be used to update the tooltip text dynamically
+via \code{\link[=update_tooltip]{update_tooltip()}}.
+
+For example:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{library(shiny)
+library(bslib)
+
+ui <- page_fluid(
+  toolbar(
+    align = "right",
+    toolbar_input_select(
+      "select",
+      label = "Choose",
+      icon = bsicons::bs_icon("filter"),
+      choices = c("A", "B", "C")
+    ),
+    toolbar_input_button(
+      "change_choices",
+      label = "Change Choices",
+      show_label = TRUE,
+      icon = bsicons::bs_icon("arrow-repeat")
+    )
+  ),
+  verbatimTextOutput("value")
+)
+
+server <- function(input, output, session) \{
+  output$value <- renderPrint(\{
+    input$select
+  \})
+
+  observeEvent(input$change_choices, \{
+    update_toolbar_input_select(
+      "select",
+      label = "Pick one",
+      choices = c("hi", "hello", "hey"),
+      selected = "hello"
+    )
+    # Update the tooltip text
+    update_tooltip("select-tooltip", "Choose your NEW option")
+  \})
+\}
+
+shinyApp(ui, server)
+}\if{html}{\out{</div>}}
+}
+
 \examples{
 \dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
 toolbar(
@@ -110,66 +160,6 @@ toolbar(
     selected = "Option 2"
   )
 )
-
-# With custom tooltip
-toolbar(
-  align = "right",
-  toolbar_input_select(
-    id = "select",
-    label = "Choose option",
-    choices = c("Option 1", "Option 2", "Option 3"),
-    tooltip = "Select your preferred option from the list"
-  )
-)
-
-# With icon and tooltip
-toolbar(
-  align = "right",
-  toolbar_input_select(
-    id = "select",
-    label = "Choose option",
-    choices = c("Option 1", "Option 2", "Option 3"),
-    icon = shiny::icon("filter"),
-    tooltip = "Filter the data"
-  )
-)
-\dontshow{\}) # examplesIf}
-\dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
-library(shiny)
-library(bslib)
-
-ui <- page_fluid(
-  toolbar(
-    align = "right",
-    toolbar_input_select(
-      "select",
-      label = "Choose",
-      choices = c("A", "B", "C")
-    )
-  ),
-  verbatimTextOutput("value")
-)
-
-server <- function(input, output, session) {
-  output$value <- renderPrint({
-    input$select
-  })
-
-  observeEvent(input$select, {
-    if (input$select == "A") {
-      update_toolbar_input_select(
-        "select",
-        label = "Pick one",
-        choices = c("X", "Y", "Z"),
-        selected = "Y"
-      )
-      # Update the tooltip text
-      update_tooltip("select-tooltip", "Choose your option")
-    }
-  })
-}
-
-shinyApp(ui, server)
 \dontshow{\}) # examplesIf}
 }
 \seealso{

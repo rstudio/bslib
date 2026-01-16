@@ -4,7 +4,7 @@
 \alias{toolbar}
 \title{Toolbar component}
 \usage{
-toolbar(..., align = c("right", "left"), gap = NULL, width = "100\%")
+toolbar(..., align = c("right", "left"), gap = NULL, width = "auto")
 }
 \arguments{
 \item{...}{UI elements for the toolbar.}
@@ -15,7 +15,7 @@ toolbar(..., align = c("right", "left"), gap = NULL, width = "100\%")
 \item{gap}{A CSS length unit defining the gap (i.e., spacing) between
 elements in the toolbar. Defaults to \code{0} (no gap).}
 
-\item{width}{CSS width of the toolbar. Default is \code{"100\%"}.}
+\item{width}{CSS width of the toolbar. Default is \code{auto}.}
 }
 \value{
 Returns a toolbar element.
