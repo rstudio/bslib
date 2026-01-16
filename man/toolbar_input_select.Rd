@@ -167,10 +167,5 @@ Other toolbar components:
 \code{\link{toolbar}()},
 \code{\link{toolbar_divider}()},
 \code{\link{toolbar_input_button}()}
-
-Other toolbar components: 
-\code{\link{toolbar}()},
-\code{\link{toolbar_divider}()},
-\code{\link{toolbar_input_button}()}
 }
 \concept{toolbar components}

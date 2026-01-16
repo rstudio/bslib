@@ -154,6 +154,10 @@ reference:
   contents:
     - card
     - as.card_item
+    - toolbar
+    - toolbar_input_button
+    - toolbar_input_select
+    - toolbar_divider
 - subtitle: Value box
   desc: |
     Value boxes are a special type of card that highlight a single piece of

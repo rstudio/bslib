@@ -433,7 +433,6 @@ toolbar_input_button <- function(
 #'   used).
 #'
 #' @describeIn toolbar_input_button Update a toolbar button.
-#' @family toolbar components
 #' @export
 update_toolbar_input_button <- function(
   id,
@@ -659,7 +658,6 @@ toolbar_input_select <- function(
 #' @param session A Shiny session object (the default should almost always be
 #'   used).
 #'
-#' @family toolbar components
 #' @describeIn toolbar_input_select Update a toolbar select input.
 #' @export
 update_toolbar_input_select <- function(
@@ -916,7 +914,6 @@ toolbar_divider <- function(..., width = NULL, gap = NULL) {
 #'   toolbar needs `width: 100%` (which is automatically applied when the toolbar
 #'   is a direct child of a label element). If the spacer doesn't appear to work,
 #'   you may need to set `width = "100%"` explicitly on the [toolbar()].
-#' @family toolbar components
 #' @export
 toolbar_spacer <- function() {
   div(class = "bslib-toolbar-spacer")
