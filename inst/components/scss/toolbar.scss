@@ -33,7 +33,7 @@
     line-height: 1; // Override Bootstrap's line-height to avoid too much vertical space
     height: var(--_toolbar-btn-size); // Keep square icon and label + icon button heights consistent
 
-    &.btn-default {
+    &.btn-default:not(.btn-primary):not(.btn-secondary):not(.btn-success):not(.btn-danger):not(.btn-warning):not(.btn-info):not(.btn-light):not(.btn-dark) {
       background-color: transparent !important;
       background-image: none !important;
       color: currentColor !important;
