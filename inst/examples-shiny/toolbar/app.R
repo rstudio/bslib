@@ -228,7 +228,7 @@ ui <- page_navbar(
           input_submit_textarea(
             "chat_input",
             placeholder = "Type your message here... (Cmd/Ctrl + Enter to send)",
-            toolbar = list(
+            toolbar = toolbar(
               toolbar_input_button(
                 "attach_file",
                 icon = icon("paperclip"),
@@ -376,7 +376,11 @@ ui <- page_navbar(
 server <- function(input, output, session) {
   # Chat messages storage
   chat_messages <- reactiveVal(list(
-    list(text = "Welcome to customer support! How can we help you today?", from = "Agent", time = Sys.time())
+    list(
+      text = "Welcome to customer support! How can we help you today?",
+      from = "Agent",
+      time = Sys.time()
+    )
   ))
 
   # Sample data - larger dataset for filtering/sorting
