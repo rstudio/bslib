@@ -251,7 +251,7 @@ toolbar <- function(
 #'         icon = icon("check")
 #'       )
 #'       # Update the tooltip text
-#'       update_tooltip("btn-tooltip", "Button was clicked!")
+#'       update_tooltip("btn_tooltip", "Button was clicked!")
 #'     })
 #'
 #'     # Handle task button - toggle between states
@@ -309,7 +309,7 @@ toolbar <- function(
 #'       icon = icon("check")
 #'     )
 #'     # Update the tooltip text
-#'     update_tooltip("play-tooltip", "Play was clicked!")
+#'     update_tooltip("play_tooltip", "Play was clicked!")
 #'   })
 #' }
 #'
@@ -332,7 +332,7 @@ toolbar <- function(
 #'   * A character string - shows a tooltip with custom text
 #'
 #'   Defaults to `!show_label`. When a tooltip is created, it will have an ID of
-#'   `"{id}-tooltip"` which can be used to update the tooltip text dynamically
+#'   `"{id}_tooltip"` which can be used to update the tooltip text dynamically
 #'   via [update_tooltip()].
 #' @param ... Additional attributes to pass to the button.
 #' @param disabled If `TRUE`, the button will not be clickable. Use
@@ -421,7 +421,7 @@ toolbar_input_button <- function(
     button <- tooltip(
       button,
       tooltip,
-      id = sprintf("%s-tooltip", id),
+      id = sprintf("%s_tooltip", id),
       placement = "bottom"
     )
   }
@@ -484,7 +484,7 @@ toolbar_input_button_input_handler <- function(value, shinysession, name) {
 #'   Note that you cannot enable or disable the `tooltip` parameter after the
 #'   select has been created, only update the text of the tooltip.
 #'   When a tooltip is created for the select input, it will have an ID of
-#'   `"{id}-tooltip"` which can be used to update the tooltip text dynamically
+#'   `"{id}_tooltip"` which can be used to update the tooltip text dynamically
 #'   via [update_tooltip()].
 #'
 #' For example:
@@ -524,7 +524,7 @@ toolbar_input_button_input_handler <- function(value, shinysession, name) {
 #'       selected = "hello"
 #'     )
 #'     # Update the tooltip text
-#'     update_tooltip("select-tooltip", "Choose your NEW option")
+#'     update_tooltip("select_tooltip", "Choose your NEW option")
 #'   })
 #' }
 #'
@@ -553,7 +553,7 @@ toolbar_input_button_input_handler <- function(value, shinysession, name) {
 #'
 #' @details
 #' When a tooltip is created for the select input, it will have an ID of
-#' `"{id}-tooltip"` which can be used to update the tooltip text dynamically
+#' `"{id}_tooltip"` which can be used to update the tooltip text dynamically
 #' via [update_tooltip()].
 #'
 #' @return Returns a select input control suitable for use in a toolbar.
@@ -641,7 +641,7 @@ toolbar_input_select <- function(
     select_tag <- bslib::tooltip(
       select_tag,
       tooltip,
-      id = sprintf("%s-tooltip", id),
+      id = sprintf("%s_tooltip", id),
       placement = "bottom"
     )
   }

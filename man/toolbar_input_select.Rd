@@ -66,7 +66,7 @@ alongside the icon. Note that \code{show_label} can be dynamically updated using
 }
 
 Defaults to \code{!show_label}. When a tooltip is created, it will have an ID of
-\code{"{id}-tooltip"} which can be used to update the tooltip text dynamically
+\code{"{id}_tooltip"} which can be used to update the tooltip text dynamically
 via \code{\link[=update_tooltip]{update_tooltip()}}.}
 
 \item{session}{A Shiny session object (the default should almost always be
@@ -81,7 +81,7 @@ a list of values, suitable for use within a \code{\link[=toolbar]{toolbar()}}.
 }
 \details{
 When a tooltip is created for the select input, it will have an ID of
-\code{"{id}-tooltip"} which can be used to update the tooltip text dynamically
+\code{"{id}_tooltip"} which can be used to update the tooltip text dynamically
 via \code{\link[=update_tooltip]{update_tooltip()}}.
 }
 \section{Functions}{
@@ -101,7 +101,7 @@ label, icon, choices, selected value, and label visibility from the server.
 Note that you cannot enable or disable the \code{tooltip} parameter after the
 select has been created, only update the text of the tooltip.
 When a tooltip is created for the select input, it will have an ID of
-\code{"{id}-tooltip"} which can be used to update the tooltip text dynamically
+\code{"{id}_tooltip"} which can be used to update the tooltip text dynamically
 via \code{\link[=update_tooltip]{update_tooltip()}}.
 
 For example:
@@ -141,7 +141,7 @@ server <- function(input, output, session) \{
       selected = "hello"
     )
     # Update the tooltip text
-    update_tooltip("select-tooltip", "Choose your NEW option")
+    update_tooltip("select_tooltip", "Choose your NEW option")
   \})
 \}
 

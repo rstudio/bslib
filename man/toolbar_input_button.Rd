@@ -49,7 +49,7 @@ alongside the icon. Note that \code{show_label} can be dynamically updated using
 }
 
 Defaults to \code{!show_label}. When a tooltip is created, it will have an ID of
-\code{"{id}-tooltip"} which can be used to update the tooltip text dynamically
+\code{"{id}_tooltip"} which can be used to update the tooltip text dynamically
 via \code{\link[=update_tooltip]{update_tooltip()}}.}
 
 \item{...}{Additional attributes to pass to the button.}
@@ -125,7 +125,7 @@ server <- function(input, output, session) \{
       icon = icon("check")
     )
     # Update the tooltip text
-    update_tooltip("btn-tooltip", "Button was clicked!")
+    update_tooltip("btn_tooltip", "Button was clicked!")
   \})
 
   # Handle task button - toggle between states
@@ -185,7 +185,7 @@ server <- function(input, output) {
       icon = icon("check")
     )
     # Update the tooltip text
-    update_tooltip("play-tooltip", "Play was clicked!")
+    update_tooltip("play_tooltip", "Play was clicked!")
   })
 }
 
