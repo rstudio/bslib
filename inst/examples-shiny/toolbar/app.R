@@ -214,6 +214,46 @@ ui <- page_navbar(
   ),
 
   nav_panel(
+    "Chat",
+    layout_columns(
+      col_widths = 12,
+      card(
+        full_screen = TRUE,
+        card_header("Customer Support Chat"),
+        card_body(
+          min_height = "400px",
+          uiOutput("chat_messages")
+        ),
+        card_footer(
+          input_submit_textarea(
+            "chat_input",
+            placeholder = "Type your message here... (Cmd/Ctrl + Enter to send)",
+            toolbar = list(
+              toolbar_input_button(
+                "attach_file",
+                icon = icon("paperclip"),
+                label = "Attach"
+              ),
+              toolbar_input_button(
+                "emoji",
+                icon = icon("face-smile"),
+                label = "Emoji"
+              ),
+              toolbar_divider(),
+              toolbar_input_select(
+                "message_format",
+                label = "Format",
+                choices = c("Plain", "Markdown", "HTML"),
+                icon = icon("code")
+              )
+            )
+          )
+        )
+      )
+    )
+  ),
+
+  nav_panel(
     "Reports",
     layout_columns(
       col_widths = 12,
@@ -334,6 +374,11 @@ ui <- page_navbar(
 )
 
 server <- function(input, output, session) {
+  # Chat messages storage
+  chat_messages <- reactiveVal(list(
+    list(text = "Welcome to customer support! How can we help you today?", from = "Agent", time = Sys.time())
+  ))
+
   # Sample data - larger dataset for filtering/sorting
   set.seed(123)
   sales_data <- data.frame(
@@ -351,6 +396,95 @@ server <- function(input, output, session) {
   # Chart type and color reactive values
   chart_type <- reactiveVal("line")
   chart_color <- reactiveVal("#0d6efd")
+
+  # Chat message rendering
+  output$chat_messages <- renderUI({
+    messages <- chat_messages()
+
+    tags$div(
+      style = "display: flex; flex-direction: column; gap: 12px; padding: 15px;",
+      lapply(messages, function(msg) {
+        align <- if (msg$from == "You") "flex-end" else "flex-start"
+        bg_color <- if (msg$from == "You") "#0d6efd" else "#6c757d"
+        text_color <- "white"
+
+        tags$div(
+          style = sprintf("display: flex; justify-content: %s;", align),
+          tags$div(
+            style = sprintf(
+              "max-width: 70%%; padding: 10px 15px; border-radius: 12px; background-color: %s; color: %s;",
+              bg_color, text_color
+            ),
+            tags$div(
+              style = "font-weight: 500; font-size: 0.85em; margin-bottom: 4px;",
+              msg$from
+            ),
+            tags$div(msg$text),
+            tags$div(
+              style = "font-size: 0.75em; margin-top: 4px; opacity: 0.8;",
+              format(msg$time, "%I:%M %p")
+            )
+          )
+        )
+      })
+    )
+  })
+
+  # Handle chat message submission
+  observeEvent(input$chat_input, {
+    req(nchar(input$chat_input) > 0)
+
+    # Add user message
+    current_messages <- chat_messages()
+    current_messages <- c(
+      current_messages,
+      list(list(text = input$chat_input, from = "You", time = Sys.time()))
+    )
+
+    # Simulate agent response
+    agent_responses <- c(
+      "I understand your concern. Let me help you with that.",
+      "That's a great question! Here's what I found...",
+      "Thank you for reaching out. I'll look into this right away.",
+      "I appreciate your patience. Let me check our records.",
+      "Got it! I'll process that for you now."
+    )
+
+    current_messages <- c(
+      current_messages,
+      list(list(
+        text = sample(agent_responses, 1),
+        from = "Agent",
+        time = Sys.time() + 2
+      ))
+    )
+
+    chat_messages(current_messages)
+
+    # Clear the input
+    update_submit_textarea("chat_input", value = "", focus = TRUE)
+  })
+
+  # Chat toolbar buttons
+  observeEvent(input$attach_file, {
+    show_toast(
+      toast(
+        "File attachment feature would open here",
+        type = "info",
+        duration_s = 2
+      )
+    )
+  })
+
+  observeEvent(input$emoji, {
+    show_toast(
+      toast(
+        "Emoji picker would open here",
+        type = "info",
+        duration_s = 2
+      )
+    )
+  })
 
   # Threshold increment/decrement buttons
   observeEvent(input$threshold_increase, {
