@@ -55,6 +55,8 @@ navbar:
           href: articles/cards/index.html
         - text: Sidebars
           href: articles/sidebars/index.html
+        - text: Toolbars
+          href: reference/toolbar.html
         - text: Value Boxes
           href: articles/value-boxes/index.html
         - text: Tooltips & Popovers
