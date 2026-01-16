@@ -4,7 +4,7 @@
 \alias{toolbar}
 \title{Toolbar component}
 \usage{
-toolbar(..., align = c("right", "left"), gap = NULL, width = "auto")
+toolbar(..., align = c("right", "left"), gap = NULL, width = NULL)
 }
 \arguments{
 \item{...}{UI elements for the toolbar.}
@@ -15,7 +15,12 @@ toolbar(..., align = c("right", "left"), gap = NULL, width = "auto")
 \item{gap}{A CSS length unit defining the gap (i.e., spacing) between
 elements in the toolbar. Defaults to \code{0} (no gap).}
 
-\item{width}{CSS width of the toolbar. Default is \code{auto}.}
+\item{width}{CSS width of the toolbar. Defaults to \code{NULL}, which will
+automatically set \verb{width: 100\%} when the toolbar is a direct child of a
+label element (e.g., when used in input labels). For \code{\link[=toolbar_spacer]{toolbar_spacer()}} to
+push elements effectively, the toolbar needs \verb{width: 100\%} to expand and
+create space. Set this explicitly if you need to control the width in other
+contexts.}
 }
 \value{
 Returns a toolbar element.

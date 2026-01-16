@@ -163,7 +163,12 @@
 #'   `"left"`.
 #' @param gap A CSS length unit defining the gap (i.e., spacing) between
 #'   elements in the toolbar. Defaults to `0` (no gap).
-#' @param width CSS width of the toolbar. Default is `auto`.
+#' @param width CSS width of the toolbar. Defaults to `NULL`, which will
+#'   automatically set `width: 100%` when the toolbar is a direct child of a
+#'   label element (e.g., when used in input labels). For [toolbar_spacer()] to
+#'   push elements effectively, the toolbar needs `width: 100%` to expand and
+#'   create space. Set this explicitly if you need to control the width in other
+#'   contexts.
 #'
 #' @return Returns a toolbar element.
 #'
@@ -174,7 +179,7 @@ toolbar <- function(
   ...,
   align = c("right", "left"),
   gap = NULL,
-  width = "auto"
+  width = NULL
 ) {
   align <- rlang::arg_match(align)
   gap <- validateCssUnit(gap)
@@ -907,7 +912,10 @@ toolbar_divider <- function(..., width = NULL, gap = NULL) {
 }
 
 #' @describeIn toolbar_divider Create empty, expanding space between toolbar
-#'   elements.
+#'   elements. Note that for the spacer to push elements effectively, the parent
+#'   toolbar needs `width: 100%` (which is automatically applied when the toolbar
+#'   is a direct child of a label element). If the spacer doesn't appear to work,
+#'   you may need to set `width = "100%"` explicitly on the [toolbar()].
 #' @family toolbar components
 #' @export
 toolbar_spacer <- function() {

@@ -29,7 +29,10 @@ possible.
 toolbar elements.
 
 \item \code{toolbar_spacer()}: Create empty, expanding space between toolbar
-elements.
+elements. Note that for the spacer to push elements effectively, the parent
+toolbar needs \verb{width: 100\%} (which is automatically applied when the toolbar
+is a direct child of a label element). If the spacer doesn't appear to work,
+you may need to set \code{width = "100\%"} explicitly on the \code{\link[=toolbar]{toolbar()}}.
 
 }}
 \examples{

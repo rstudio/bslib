@@ -3,7 +3,7 @@
     Code
       show_raw_html(toolbar("Item 1", "Item 2"))
     Output
-      <div class="bslib-toolbar bslib-gap-spacing" data-align="right" style="width:auto;">
+      <div class="bslib-toolbar bslib-gap-spacing" data-align="right">
         Item 1
         Item 2
       </div>
@@ -13,7 +13,7 @@
     Code
       show_raw_html(toolbar("Item 1", "Item 2", gap = "10px"))
     Output
-      <div class="bslib-toolbar bslib-gap-spacing" data-align="right" style="gap:10px;width:auto;">
+      <div class="bslib-toolbar bslib-gap-spacing" data-align="right" style="gap:10px;">
         Item 1
         Item 2
       </div>
@@ -23,7 +23,7 @@
     Code
       show_raw_html(toolbar("Item 1", "Item 2", align = "left"))
     Output
-      <div class="bslib-toolbar bslib-gap-spacing" data-align="left" style="width:auto;">
+      <div class="bslib-toolbar bslib-gap-spacing" data-align="left">
         Item 1
         Item 2
       </div>
@@ -33,7 +33,7 @@
     Code
       show_raw_html(toolbar("Item 1", "Item 2", align = "right"))
     Output
-      <div class="bslib-toolbar bslib-gap-spacing" data-align="right" style="width:auto;">
+      <div class="bslib-toolbar bslib-gap-spacing" data-align="right">
         Item 1
         Item 2
       </div>

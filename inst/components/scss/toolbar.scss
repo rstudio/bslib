@@ -123,6 +123,11 @@ label:has(> .bslib-toolbar) {
   width: 100%;
 }
 
+/* Set toolbar width to 100% when it's a direct child of a label */
+label > .bslib-toolbar {
+  width: 100%;
+}
+
 
 /* Toolbar Select Input */
 .bslib-toolbar-input-select {
