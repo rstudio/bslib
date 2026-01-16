@@ -417,7 +417,8 @@ server <- function(input, output, session) {
           tags$div(
             style = sprintf(
               "max-width: 70%%; padding: 10px 15px; border-radius: 12px; background-color: %s; color: %s;",
-              bg_color, text_color
+              bg_color,
+              text_color
             ),
             tags$div(
               style = "font-weight: 500; font-size: 0.85em; margin-bottom: 4px;",
