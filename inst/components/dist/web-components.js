@@ -990,30 +990,33 @@
     receiveMessage(el, data) {
       const method = data.method;
       if (method === "toggle") {
-        this._toggle(data.value);
+        this.toggle(data.value);
       } else if (method === "update") {
         this._updateTitle(data.title);
       } else {
         throw new Error(`Unknown method ${method}`);
       }
     }
-    _toggle(x2) {
+    toggle(x2) {
       if (x2 === "toggle" || x2 === void 0) {
         x2 = this.visible ? "hide" : "show";
       }
       if (x2 === "hide") {
-        this.bsTooltip.hide();
+        this.hide();
       }
       if (x2 === "show") {
-        this._show();
+        this.show();
       }
     }
     // No-op if the tooltip is already visible or if the trigger element is not visible
     // (in either case the tooltip likely won't be positioned correctly)
-    _show() {
+    show() {
       if (!this.visible && this.visibleTrigger) {
         this.bsTooltip.show();
       }
+    }
+    hide() {
+      this.bsTooltip.hide();
     }
     _updateTitle(title) {
       if (!title)
@@ -1037,7 +1040,7 @@
           return;
         entries.forEach((entry) => {
           if (!entry.isIntersecting)
-            this.bsTooltip.hide();
+            this.hide();
         });
       };
       return new IntersectionObserver(handler);

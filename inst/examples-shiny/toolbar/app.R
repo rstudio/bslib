@@ -40,6 +40,7 @@ ui <- page_navbar(
               id = "export",
               label = "Export",
               icon = icon("download"),
+              class = "btn-primary",
               show_label = TRUE
             )
           )
@@ -140,21 +141,34 @@ ui <- page_navbar(
           toolbar(
             align = "right",
             toolbar_input_button(
-              id = "chart_line",
-              label = "Line",
-              icon = icon("chart-line"),
-              border = TRUE
-            ),
-            toolbar_input_button(
-              id = "chart_bar",
+              id = "chart_type",
               label = "Bar",
-              icon = icon("chart-bar")
+              icon = icon("chart-bar"),
+              tooltip = "Switch to Bar Chart"
             ),
             toolbar_divider(),
-            toolbar_input_button(
-              id = "chart_settings",
-              label = "Settings",
-              icon = icon("sliders")
+            popover(
+              toolbar_input_button(
+                id = "chart_settings",
+                label = "Settings",
+                icon = icon("sliders"),
+                tooltip = FALSE,
+                show_label = FALSE,
+                title = "Settings"
+              ),
+              radioButtons(
+                "color_scheme",
+                "Color Scheme",
+                choices = c(
+                  "Blue" = "#0d6efd",
+                  "Green" = "#198754",
+                  "Purple" = "#6f42c1",
+                  "Orange" = "#fd7e14",
+                  "Red" = "#dc3545"
+                ),
+                selected = "#0d6efd",
+                inline = TRUE
+              )
             )
           )
         ),
@@ -215,6 +229,7 @@ ui <- page_navbar(
               id = "new_report",
               label = "New",
               icon = icon("file"),
+              class = "btn-outline-success",
               show_label = TRUE
             ),
             toolbar_input_button(
@@ -239,6 +254,7 @@ ui <- page_navbar(
               label = "Share",
               icon = icon("share-nodes"),
               show_label = TRUE,
+              class = "btn-outline-primary",
               border = TRUE
             )
           )
@@ -293,18 +309,21 @@ ui <- page_navbar(
               id = "add_chart",
               label = "Add Chart",
               icon = icon("chart-column"),
+              class = "btn-info",
               show_label = TRUE
             ),
             toolbar_input_button(
               id = "add_table",
               label = "Add Table",
               icon = icon("table"),
+              class = "btn-warning",
               show_label = TRUE
             ),
             toolbar_input_button(
               id = "add_text",
               label = "Add Text",
               icon = icon("paragraph"),
+              class = "btn-danger",
               show_label = TRUE
             )
           )
@@ -450,23 +469,30 @@ server <- function(input, output, session) {
   })
 
   # Chart type toggle buttons
-  observeEvent(input$chart_line, {
-    chart_type("line")
-    # Update button borders
-    updateActionButton(session, "chart_line", icon = icon("chart-line"))
-    updateActionButton(session, "chart_bar", icon = icon("chart-bar"))
-  })
+  observeEvent(input$chart_type, {
+    new_type <- if (input$chart_type %% 2 == 0) "line" else "bar"
+    chart_type(new_type)
 
-  observeEvent(input$chart_bar, {
-    chart_type("bar")
-    # Update button borders
-    updateActionButton(session, "chart_bar", icon = icon("chart-bar"))
-    updateActionButton(session, "chart_line", icon = icon("chart-line"))
+    update_toolbar_input_button(
+      "chart_type",
+      label = if (new_type == "line") "Bar Chart" else "Line Chart",
+      icon = if (new_type == "line") icon("chart-bar") else icon("chart-line")
+    )
+    update_tooltip(
+      "chart_type-tooltip",
+      paste("Switch to", if (new_type == "line") "Bar Chart" else "Line Chart")
+    )
   })
 
   # Data refresh button
   observeEvent(input$refresh, {
-    showNotification("Data refreshed!", type = "message", duration = 2)
+    show_toast(
+      toast(
+        "Data refreshed!",
+        type = "info",
+        duration_s = 2
+      )
+    )
   })
 
   # Update filter select button - changes icon, label, and choices
@@ -478,10 +504,12 @@ server <- function(input, output, session) {
       choices = c("All", "Approved", "Pending", "Rejected"),
       selected = "All"
     )
-    showNotification(
-      "Filter updated with new icon, label, and choices!",
-      type = "message",
-      duration = 3
+    show_toast(
+      toast(
+        "Filter updated with new icon, label, and choices!",
+        type = "success",
+        duration_s = 3
+      )
     )
   })
 
@@ -492,132 +520,171 @@ server <- function(input, output, session) {
       label = "Download CSV",
       icon = icon("file-csv")
     )
-    showNotification(
-      "Export button updated with new icon and label!",
-      type = "message",
-      duration = 3
+    show_toast(
+      toast(
+        "Export button updated with new icon and label!",
+        type = "success",
+        duration_s = 3
+      )
     )
   })
 
   # Data refresh button
   observeEvent(input$share_data, {
-    showNotification(
-      "Magical sharing button clicked!",
-      type = "message",
-      duration = 2
+    show_toast(
+      toast(
+        "Magical sharing button clicked!",
+        type = "info",
+        duration_s = 2
+      )
     )
   })
 
   observeEvent(input$export, {
-    showNotification("Exporting data to CSV...", type = "message", duration = 2)
+    show_toast(
+      toast(
+        "Exporting data to CSV...",
+        type = "info",
+        duration_s = 2
+      )
+    )
   })
 
   # Pagination
   observeEvent(input$prev_page, {
-    showNotification("Previous page", type = "message", duration = 1)
+    show_toast(
+      toast(
+        "Previous page",
+        type = "info",
+        duration_s = 1
+      )
+    )
   })
 
   observeEvent(input$next_page, {
-    showNotification("Next page", type = "message", duration = 1)
-  })
-
-  # Chart settings modal
-  observeEvent(input$chart_settings, {
-    showModal(modalDialog(
-      title = "Chart Settings",
-      radioButtons(
-        "modal_color_scheme",
-        "Color Scheme",
-        choices = c(
-          "Blue" = "#0d6efd",
-          "Green" = "#198754",
-          "Purple" = "#6f42c1",
-          "Orange" = "#fd7e14",
-          "Red" = "#dc3545"
-        ),
-        selected = chart_color()
-      ),
-      footer = tagList(
-        modalButton("Cancel"),
-        actionButton("apply_settings", "Apply", class = "btn-primary")
+    show_toast(
+      toast(
+        "Next page",
+        type = "info",
+        duration_s = 1
       )
-    ))
+    )
   })
 
-  # Apply settings from modal
-  observeEvent(input$apply_settings, {
-    chart_color(input$modal_color_scheme)
-    removeModal()
-    showNotification("Chart settings applied!", type = "message", duration = 2)
+  # Apply settings from popover
+  observe({
+    chart_color(input$color_scheme)
   })
 
   # Activity feed controls
   observeEvent(input$activity_refresh, {
-    showNotification("Activity refreshed!", type = "message", duration = 2)
+    show_toast(
+      toast(
+        "Activity refreshed!",
+        type = "info",
+        duration_s = 2
+      )
+    )
   })
 
   observeEvent(input$activity_filter, {
-    showNotification(
-      "Opening activity filter...",
-      type = "message",
-      duration = 2
+    show_toast(
+      toast(
+        "Opening activity filter...",
+        type = "info",
+        duration_s = 2
+      )
     )
   })
 
   observeEvent(input$view_all, {
-    showNotification(
-      "Opening full activity log...",
-      type = "message",
-      duration = 2
+    show_toast(
+      toast(
+        "Opening full activity log...",
+        type = "info",
+        duration_s = 2
+      )
     )
   })
 
   # Report builder
   observeEvent(input$new_report, {
-    showNotification("Creating new report...", type = "message", duration = 2)
+    show_toast(
+      toast(
+        "Creating new report...",
+        type = "info",
+        duration_s = 2
+      )
+    )
   })
 
   observeEvent(input$open_report, {
-    showNotification("Opening report...", type = "message", duration = 2)
+    show_toast(
+      toast(
+        "Opening report...",
+        type = "info",
+        duration_s = 2
+      )
+    )
   })
 
   observeEvent(input$save_report, {
-    showNotification("Report saved!", type = "message", duration = 2)
+    show_toast(
+      toast(
+        "Report saved!",
+        type = "success",
+        duration_s = 2
+      )
+    )
   })
 
   observeEvent(input$print_report, {
-    showNotification("Printing report...", type = "message", duration = 2)
+    show_toast(
+      toast(
+        "Printing report...",
+        type = "info",
+        duration_s = 2
+      )
+    )
   })
 
   observeEvent(input$share_report, {
-    showNotification(
-      "This is where you'd add logic to share the report.",
-      type = "message",
-      duration = 2
+    show_toast(
+      toast(
+        "This is where you'd add logic to share the report.",
+        type = "info",
+        duration_s = 2
+      )
     )
   })
 
   observeEvent(input$add_chart, {
-    showNotification(
-      "Adding chart to report...",
-      type = "message",
-      duration = 2
+    show_toast(
+      toast(
+        "Adding chart to report...",
+        type = "info",
+        duration_s = 2
+      )
     )
   })
 
   observeEvent(input$add_table, {
-    showNotification(
-      "Adding table to report...",
-      type = "message",
-      duration = 2
+    show_toast(
+      toast(
+        "Adding table to report...",
+        type = "info",
+        duration_s = 2
+      )
     )
   })
 
   observeEvent(input$add_text, {
-    showNotification(
-      "Adding text block to report...",
-      type = "message",
-      duration = 2
+    show_toast(
+      toast(
+        "Adding text block to report...",
+        type = "info",
+        duration_s = 2
+      )
     )
   })
 
