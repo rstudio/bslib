@@ -376,7 +376,11 @@ ui <- page_navbar(
 server <- function(input, output, session) {
   # Chat messages storage
   chat_messages <- reactiveVal(list(
-    list(text = "Welcome to customer support! How can we help you today?", from = "Agent", time = Sys.time())
+    list(
+      text = "Welcome to customer support! How can we help you today?",
+      from = "Agent",
+      time = Sys.time()
+    )
   ))
 
   # Sample data - larger dataset for filtering/sorting
@@ -413,7 +417,8 @@ server <- function(input, output, session) {
           tags$div(
             style = sprintf(
               "max-width: 70%%; padding: 10px 15px; border-radius: 12px; background-color: %s; color: %s;",
-              bg_color, text_color
+              bg_color,
+              text_color
             ),
             tags$div(
               style = "font-weight: 500; font-size: 0.85em; margin-bottom: 4px;",
