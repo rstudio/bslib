@@ -10,6 +10,9 @@ toolbar_divider(..., width = NULL, gap = NULL)
 toolbar_spacer()
 }
 \arguments{
+\item{...}{Ignored, reserved for future use and to require named arguments
+in \code{toolbar_divier()}.}
+
 \item{width}{A CSS length unit specifying the width of the divider line.
 Defaults to \code{"2px"} for a sensible dividing line. Pass \verb{0px} for no
 divider line.}

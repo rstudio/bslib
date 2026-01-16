@@ -870,6 +870,8 @@ selectOptions <- function(
 #'   divider line.
 #' @param gap A CSS length unit defining the spacing around the divider.
 #'   Defaults to `"1rem"` for sensible fixed spacing.
+#' @param ... Ignored, reserved for future use and to require named arguments
+#'   in `toolbar_divier()`.
 #'
 #' @examplesIf rlang::is_interactive()
 #' toolbar(
