@@ -11,7 +11,7 @@ toolbar_spacer()
 }
 \arguments{
 \item{...}{Ignored, reserved for future use and to require named arguments
-in \code{toolbar_divier()}.}
+in \code{\link[=toolbar_divider]{toolbar_divider()}}.}
 
 \item{width}{A CSS length unit specifying the width of the divider line.
 Defaults to \code{"2px"} for a sensible dividing line. Pass \verb{0px} for no
@@ -21,8 +21,8 @@ divider line.}
 Defaults to \code{"1rem"} for sensible fixed spacing.}
 }
 \description{
-\code{toolbar_divider()} creates a visual divider line with customizable and fixed
-width and spacing between toolbar elements. \code{toolbar_spacer()} creates empty
+\code{\link[=toolbar_divider]{toolbar_divider()}} creates a visual divider line with customizable and fixed
+width and spacing between toolbar elements. \code{\link[=toolbar_spacer]{toolbar_spacer()}} creates empty
 space that expands to push adjacent toolbar elements apart as much as
 possible.
 }

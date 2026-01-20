@@ -10,35 +10,16 @@
 #' shiny::runExample("toolbar", package = "bslib")
 #' ```
 #'
-#' @section Toolbars in labels:
-#'
-#' You can use toolbars in the labels of other Shiny inputs to add a composite
-#' input with additional buttons or controls. The following example uses a
-#' `toolbar()` in the label of a [shiny::numericInput()] to add increment and
-#' decrement buttons next to the label:
-#'
-#' ```r
-#' shiny::numericInput(
-#'   "quantity",
-#'   label = toolbar(
-#'     "Quantity",
-#'     toolbar_spacer(), # push buttons to the right
-#'     toolbar_input_button("decrement", "Less", shiny::icon("minus")),
-#'     toolbar_input_button("increment", "More", shiny::icon("plus"))
-#'   ),
-#'   value = 1,
-#'   min = 0,
-#'   max = 100
-#' )
-#' ```
-#'
 #' @section Cookbook:
 #'
-#' Card headers are a common place you might want to use toolbars. Toolbars
+#' ## Card headers & Footers
+#'
+#' Card headers and footers are a common places you might want to use toolbars. Toolbars
 #' allow you to clearly show that a selection of inputs pertain to that
 #' particular card. For example, this card uses multiple
-#' `toolbar_input_select()` for filtering and sorting, along with toolbar
+#' [toolbar_input_select()] for filtering and sorting, along with toolbar
 #' buttons.
+#'
 #' ```r
 #' card(
 #'   full_screen = TRUE,
@@ -73,21 +54,7 @@
 #'     )
 #'   ),
 #'   card_body(
-#'     tableOutput("sales_table")
-#'   )
-#' )
-#' ````
-#' Card footers are another common place to use toolbars. Footer toolbars are
-#' particularly useful for actions like downloading or sharing.
-#' For example:
-#'
-#' ```r
-#' card(
-#'   card_header(
-#'     "Card Header",
-#'   ),
-#'   card_body(
-#'     "Share fun stuff"
+#'     h3("Card Body Here"),
 #'   ),
 #'   card_footer(
 #'     toolbar(
@@ -103,60 +70,163 @@
 #'   )
 #' )
 #' ```
-#' You may also want to use toolbars in other places, such as inside input
-#' labels. For example:
+#'
+#' ## Toolbars in labels
+#'
+#' You can use toolbars in the labels of other Shiny inputs to add a composite
+#' input with additional buttons or controls. The following example uses a
+#' [toolbar()] in the label of a [shiny::numericInput()] to add increment and
+#' decrement buttons next to the label:
+#'
 #' ```r
-#' card(
-#'   card_header(
-#'     "Text Editor Example"
+#' shiny::numericInput(
+#'   "quantity",
+#'   label = toolbar(
+#'     "Quantity",
+#'     toolbar_spacer(), # push buttons to the right
+#'     toolbar_input_button("decrement", "Less", icon("minus")),
+#'     toolbar_input_button("increment", "More", icon("plus"))
 #'   ),
-#'   card_body(
-#'     textAreaInput(
-#'       "editor",
-#'       label = toolbar(
-#'         "Comment",
-#'         toolbar_spacer(),
-#'         toolbar_input_button(
-#'           "bold",
-#'           label = "Bold",
-#'           icon = icon("bold")
-#'         ),
-#'         toolbar_input_button(
-#'           "italic",
-#'           label = "Italic",
-#'           icon = icon("italic")
-#'         ),
-#'         toolbar_input_button(
-#'           "link",
-#'           label = "Link",
-#'           icon = icon("link")
-#'         )
-#'       ),
-#'       value = "",
-#'       rows = 5,
-#'       placeholder = "Type your comment here..."
-#'     ),
-#'     tags$hr(),
-#'     tags$h6("Preview:"),
-#'     verbatimTextOutput("preview")
+#'   value = 1,
+#'   min = 0,
+#'   max = 100
+#' )
+#' ```
+#'
+#' ## Toolbars in text area inputs
+#'
+#' You can also use toolbars in the labels of text area inputs. For example,
+#' this text editor uses a toolbar with formatting buttons:
+#'
+#' ```r
+#' textAreaInput(
+#'   "editor",
+#'   label = toolbar(
+#'     "Comment",
+#'     toolbar_spacer(),
+#'     toolbar_input_button("bold", label = "Bold", icon = icon("bold")),
+#'     toolbar_input_button("italic", label = "Italic", icon = icon("italic")),
+#'     toolbar_input_button("link", label = "Link", icon = icon("link"))
+#'   ),
+#'   value = "",
+#'   rows = 5,
+#'   placeholder = "Type your comment here..."
+#' )
+#' ```
+#'
+#' ## Toolbars with input_submit_textarea()
+#'
+#' The [input_submit_textarea()] function from bslib allows you to create a
+#' text area input with a submit button and an optional toolbar. Here is an
+#' example of using a toolbar with formatting buttons and options:
+#'
+#' ```r
+#' input_submit_textarea(
+#'   "message",
+#'   placeholder = "Type a message...",
+#'   toolbar = toolbar(
+#'     toolbar_input_button("attach", icon = icon("paperclip"), label = "Attach"),
+#'     toolbar_input_button("emoji", icon = icon("face-smile"), label = "Emoji"),
+#'     toolbar_divider(),
+#'     toolbar_input_select(
+#'       "format",
+#'       label = "Format",
+#'       choices = c("Plain", "Markdown", "HTML"),
+#'       icon = icon("code")
+#'     )
 #'   )
 #' )
 #' ```
 #'
+#'
 #' @examplesIf rlang::is_interactive()
+#' # Minimal toolbar example
 #' toolbar(
-#'   align = "right",
-#'   toolbar_input_button(id = "see", icon = icon("eye"), label = "View"),
+#'   toolbar_input_button(id = "view", icon = icon("eye"), label = "View"),
 #'   toolbar_input_button(id = "save", icon = icon("save"), label = "Save"),
-#'   toolbar_input_button(id = "edit", icon = icon("pencil"), label = "Edit"),
 #'   toolbar_divider(),
 #'   toolbar_input_select(
-#'     id = "select",
-#'     label = "Choose option",
-#'     choices = c("Option 1", "Option 2", "Option 3"),
-#'     selected = "Option 2"
+#'     id = "filter",
+#'     label = "Filter",
+#'     choices = c("All", "Active", "Inactive")
 #'   )
 #' )
+#'
+#' # Toolbar with text input
+#' library(shiny)
+#' library(bslib)
+#'
+#' ui <- page_fluid(
+#'   numericInput(
+#'     "quantity",
+#'     label = toolbar(
+#'       "Quantity",
+#'       toolbar_spacer(),
+#'       toolbar_input_button("decrement", "Less", icon("minus")),
+#'       toolbar_input_button("increment", "More", icon("plus"))
+#'     ),
+#'     value = 5,
+#'     min = 0,
+#'     max = 100
+#'   ),
+#'   verbatimTextOutput("value")
+#' )
+#'
+#' server <- function(input, output, session) {
+#'   output$value <- renderText({
+#'     paste("Current value:", input$quantity)
+#'   })
+#'
+#'   observeEvent(input$increment, {
+#'     updateNumericInput(session, "quantity", value = input$quantity + 1)
+#'   })
+#'
+#'   observeEvent(input$decrement, {
+#'     updateNumericInput(session, "quantity", value = input$quantity - 1)
+#'   })
+#' }
+#'
+#' shinyApp(ui, server)
+#'
+#' # Toolbar with input_submit_textarea()
+#' library(shiny)
+#' library(bslib)
+#'
+#' ui <- page_fluid(
+#'   input_submit_textarea(
+#'     "message",
+#'     placeholder = "Type a message...",
+#'     toolbar = toolbar(
+#'       toolbar_input_button("attach", icon = icon("paperclip"), label = "Attach"),
+#'       toolbar_input_button("emoji", icon = icon("face-smile"), label = "Emoji"),
+#'       toolbar_divider(),
+#'       toolbar_input_select(
+#'         "format",
+#'         label = "Format",
+#'         choices = c("Plain", "Markdown", "HTML"),
+#'         icon = icon("code")
+#'       )
+#'     )
+#'   ),
+#'   verbatimTextOutput("output")
+#' )
+#'
+#' server <- function(input, output, session) {
+#'   output$output <- renderText({
+#'     req(input$message)
+#'     paste("You said:", input$message)
+#'   })
+#'
+#'   observeEvent(input$attach, {
+#'     showNotification("Attach clicked!", duration = 2)
+#'   })
+#'
+#'   observeEvent(input$emoji, {
+#'     showNotification("Emoji clicked!", duration = 2)
+#'   })
+#' }
+#'
+#' shinyApp(ui, server)
 #'
 #' @param ... UI elements for the toolbar.
 #' @param align Determines if toolbar should be aligned to the `"right"` or
@@ -203,117 +273,89 @@ toolbar <- function(
 #' A button designed to fit well in small places such as in a [toolbar()].
 #'
 #' @section Updating toolbar buttons:
-#'   You can dynamically update the appearance and enabled/disabled state
-#'   of a toolbar button on the client side using `update_toolbar_input_button()`.
-#'   This function works similarly to [shiny::updateActionButton()].
 #'
-#'   Note that you cannot change the `tooltip` or `border` parameters after the
-#'   button has been created, as these affect the button's structure and ARIA
-#'   attributes.
-#'   Please use [update_tooltip()] to update the text of the tooltip if one is
-#'   present.
+#' You can dynamically update the appearance and enabled/disabled state
+#' of a toolbar button on the client side using [update_toolbar_input_button()].
+#' This function works similarly to [shiny::updateActionButton()].
 #'
-#'   For example:
-#'   ```r
-#'   library(shiny)
-#'   library(bslib)
+#' Note that you cannot change the `tooltip` or `border` parameters after the
+#' button has been created, as these affect the button's structure and ARIA
+#' attributes.
+#' Please use [update_tooltip()] to update the text of the tooltip if one is
+#' present.
 #'
-#'   ui <- page_fluid(
-#'     card(
-#'       card_header(
-#'         "Toolbar Demo",
-#'         toolbar(
-#'           align = "right",
-#'           toolbar_input_button("btn", label = "Click me", icon = icon("play")),
-#'           toolbar_input_button(
-#'             "task",
-#'             label = "Do a Task",
-#'             icon = icon("play-circle"),
-#'             show_label = TRUE
-#'           )
-#'         )
-#'       ),
-#'       card_body(
-#'         verbatimTextOutput("count")
-#'       )
-#'     )
-#'   )
+#' For example:
 #'
-#'   server <- function(input, output, session) {
-#'     output$count <- renderPrint({
-#'       input$btn
-#'     })
+#' ```r
+#' library(shiny)
+#' library(bslib)
 #'
-#'     observeEvent(input$btn, {
-#'       update_toolbar_input_button(
-#'         "btn",
-#'         label = "Clicked!",
-#'         icon = icon("check")
-#'       )
-#'       # Update the tooltip text
-#'       update_tooltip("btn_tooltip", "Button was clicked!")
-#'     })
-#'
-#'     # Handle task button - toggle between states
-#'     observeEvent(input$task, {
-#'       if (input$task %% 2 == 1) {
-#'         # Show task is in progress
-#'         update_toolbar_input_button(
-#'           "task",
-#'           label = "Task Running...",
-#'           icon = icon("spinner")
-#'         )
-#'       } else {
-#'         # Reset to original
-#'         update_toolbar_input_button(
+#' ui <- page_fluid(
+#'   card(
+#'     card_header(
+#'       "Toolbar Demo",
+#'       toolbar(
+#'         align = "right",
+#'         toolbar_input_button("btn", label = "Click me", icon = icon("play")),
+#'         toolbar_input_button(
 #'           "task",
 #'           label = "Do a Task",
 #'           icon = icon("play-circle"),
-#'           session = session
+#'           show_label = TRUE
 #'         )
-#'       }
-#'     })
+#'       )
+#'     ),
+#'     card_body(
+#'       verbatimTextOutput("count")
+#'     )
+#'   )
+#' )
+#'
+#' server <- function(input, output, session) {
+#'   output$count <- renderPrint({
+#'     input$btn
+#'   })
+#'
+#'   observeEvent(input$btn, {
+#'     update_toolbar_input_button(
+#'       "btn",
+#'       label = "Clicked!",
+#'       icon = icon("check")
+#'     )
+#'     # Update the tooltip text
+#'     update_tooltip("btn_tooltip", "Button was clicked!")
+#'   })
+#'
+#'   # Handle task button - toggle between states
+#'   observeEvent(input$task, {
+#'     if (input$task %% 2 == 1) {
+#'       # Show task is in progress
+#'       update_toolbar_input_button(
+#'         "task",
+#'         label = "Task Running...",
+#'         icon = icon("spinner")
+#'       )
+#'     } else {
+#'       # Reset to original
+#'       update_toolbar_input_button(
+#'         "task",
+#'         label = "Do a Task",
+#'         icon = icon("play-circle"),
+#'         session = session
+#'       )
+#'     }
+#'   })
 #' }
 #'
 #' shinyApp(ui, server)
 #' ```
 #'
 #' @examplesIf rlang::is_interactive()
+#' # Basic toolbar button
 #' toolbar(
-#'   align = "right",
 #'   toolbar_input_button(id = "view", icon = icon("eye"), label = "View"),
 #'   toolbar_input_button(id = "save", icon = icon("save"), label = "Save")
 #' )
-#'
-#' library(shiny)
-#' library(bslib)
-#'
-#' ui <- page_fixed(
-#'   card(
-#'     class = "mt-5",
-#'     card_header(
-#'       toolbar(
-#'         align = "right",
-#'         toolbar_input_button(id = "play", icon = icon("play"), label = "Play")
-#'       )
-#'     ),
-#'     "The card body..."
-#'   )
-#' )
-#'
-#' server <- function(input, output) {
-#'   observeEvent(input$play, {
-#'     update_toolbar_input_button(
-#'       "play",
-#'       label = "Playing!",
-#'       icon = icon("check")
-#'     )
-#'     # Update the tooltip text
-#'     update_tooltip("play_tooltip", "Play was clicked!")
-#'   })
-#' }
-#'
-#' shinyApp(ui, server)
 
 #' @param id The input ID.
 #' @param icon An icon. If provided without `show_label = TRUE`, only the icon
@@ -476,18 +518,20 @@ toolbar_input_button_input_handler <- function(value, shinysession, name) {
 #' a list of values, suitable for use within a [toolbar()].
 #'
 #' @section Updating toolbar select inputs:
-#'   You can update the appearance and choices of a toolbar select input. This
-#'   function works similarly to [shiny::updateSelectInput()], but is specifically
-#'   designed for `toolbar_input_select()`. It allows you to update the select's
-#'   label, icon, choices, selected value, and label visibility from the server.
 #'
-#'   Note that you cannot enable or disable the `tooltip` parameter after the
-#'   select has been created, only update the text of the tooltip.
-#'   When a tooltip is created for the select input, it will have an ID of
-#'   `"{id}_tooltip"` which can be used to update the tooltip text dynamically
-#'   via [update_tooltip()].
+#' You can update the appearance and choices of a toolbar select input. This
+#' function works similarly to [shiny::updateSelectInput()], but is specifically
+#' designed for [toolbar_input_select()]. It allows you to update the select's
+#' label, icon, choices, selected value, and label visibility from the server.
+#'
+#' Note that you cannot enable or disable the `tooltip` parameter after the
+#' select has been created, only update the text of the tooltip.
+#' When a tooltip is created for the select input, it will have an ID of
+#' `"{id}_tooltip"` which can be used to update the tooltip text dynamically
+#' via [update_tooltip()].
 #'
 #' For example:
+#'
 #' ```r
 #' library(shiny)
 #' library(bslib)
@@ -858,8 +902,8 @@ selectOptions <- function(
 #' Toolbar: Add a divider or spacer to a toolbar
 #'
 #' @description
-#' `toolbar_divider()` creates a visual divider line with customizable and fixed
-#' width and spacing between toolbar elements. `toolbar_spacer()` creates empty
+#' [toolbar_divider()] creates a visual divider line with customizable and fixed
+#' width and spacing between toolbar elements. [toolbar_spacer()] creates empty
 #' space that expands to push adjacent toolbar elements apart as much as
 #' possible.
 #'
@@ -869,7 +913,7 @@ selectOptions <- function(
 #' @param gap A CSS length unit defining the spacing around the divider.
 #'   Defaults to `"1rem"` for sensible fixed spacing.
 #' @param ... Ignored, reserved for future use and to require named arguments
-#'   in `toolbar_divier()`.
+#'   in [toolbar_divider()].
 #'
 #' @examplesIf rlang::is_interactive()
 #' toolbar(

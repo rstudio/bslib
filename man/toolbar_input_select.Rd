@@ -93,9 +93,10 @@ via \code{\link[=update_tooltip]{update_tooltip()}}.
 }}
 \section{Updating toolbar select inputs}{
 
+
 You can update the appearance and choices of a toolbar select input. This
 function works similarly to \code{\link[shiny:updateSelectInput]{shiny::updateSelectInput()}}, but is specifically
-designed for \code{toolbar_input_select()}. It allows you to update the select's
+designed for \code{\link[=toolbar_input_select]{toolbar_input_select()}}. It allows you to update the select's
 label, icon, choices, selected value, and label visibility from the server.
 
 Note that you cannot enable or disable the \code{tooltip} parameter after the

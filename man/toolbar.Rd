@@ -34,36 +34,14 @@ bslib includes a complete example of toolbars and the many ways they can be used
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{shiny::runExample("toolbar", package = "bslib")
 }\if{html}{\out{</div>}}
 }
-\section{Toolbars in labels}{
-
-
-You can use toolbars in the labels of other Shiny inputs to add a composite
-input with additional buttons or controls. The following example uses a
-\code{toolbar()} in the label of a \code{\link[shiny:numericInput]{shiny::numericInput()}} to add increment and
-decrement buttons next to the label:
-
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{shiny::numericInput(
-  "quantity",
-  label = toolbar(
-    "Quantity",
-    toolbar_spacer(), # push buttons to the right
-    toolbar_input_button("decrement", "Less", shiny::icon("minus")),
-    toolbar_input_button("increment", "More", shiny::icon("plus"))
-  ),
-  value = 1,
-  min = 0,
-  max = 100
-)
-}\if{html}{\out{</div>}}
-}
-
 \section{Cookbook}{
 
+\subsection{Card headers & Footers}{
 
-Card headers are a common place you might want to use toolbars. Toolbars
+Card headers and footers are a common places you might want to use toolbars. Toolbars
 allow you to clearly show that a selection of inputs pertain to that
 particular card. For example, this card uses multiple
-\code{toolbar_input_select()} for filtering and sorting, along with toolbar
+\code{\link[=toolbar_input_select]{toolbar_input_select()}} for filtering and sorting, along with toolbar
 buttons.
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{card(
@@ -99,21 +77,7 @@ buttons.
     )
   ),
   card_body(
-    tableOutput("sales_table")
-  )
-)
-}\if{html}{\out{</div>}}
-
-Card footers are another common place to use toolbars. Footer toolbars are
-particularly useful for actions like downloading or sharing.
-For example:
-
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{card(
-  card_header(
-    "Card Header",
-  ),
-  card_body(
-    "Share fun stuff"
+    h3("Card Body Here"),
   ),
   card_footer(
     toolbar(
@@ -129,63 +93,165 @@ For example:
   )
 )
 }\if{html}{\out{</div>}}
+}
 
-You may also want to use toolbars in other places, such as inside input
-labels. For example:
+\subsection{Toolbars in labels}{
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{card(
-  card_header(
-    "Text Editor Example"
+You can use toolbars in the labels of other Shiny inputs to add a composite
+input with additional buttons or controls. The following example uses a
+\code{\link[=toolbar]{toolbar()}} in the label of a \code{\link[shiny:numericInput]{shiny::numericInput()}} to add increment and
+decrement buttons next to the label:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{shiny::numericInput(
+  "quantity",
+  label = toolbar(
+    "Quantity",
+    toolbar_spacer(), # push buttons to the right
+    toolbar_input_button("decrement", "Less", icon("minus")),
+    toolbar_input_button("increment", "More", icon("plus"))
   ),
-  card_body(
-    textAreaInput(
-      "editor",
-      label = toolbar(
-        "Comment",
-        toolbar_spacer(),
-        toolbar_input_button(
-          "bold",
-          label = "Bold",
-          icon = icon("bold")
-        ),
-        toolbar_input_button(
-          "italic",
-          label = "Italic",
-          icon = icon("italic")
-        ),
-        toolbar_input_button(
-          "link",
-          label = "Link",
-          icon = icon("link")
-        )
-      ),
-      value = "",
-      rows = 5,
-      placeholder = "Type your comment here..."
-    ),
-    tags$hr(),
-    tags$h6("Preview:"),
-    verbatimTextOutput("preview")
-  )
+  value = 1,
+  min = 0,
+  max = 100
 )
 }\if{html}{\out{</div>}}
 }
 
-\examples{
-\dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
-toolbar(
-  align = "right",
-  toolbar_input_button(id = "see", icon = icon("eye"), label = "View"),
-  toolbar_input_button(id = "save", icon = icon("save"), label = "Save"),
-  toolbar_input_button(id = "edit", icon = icon("pencil"), label = "Edit"),
-  toolbar_divider(),
-  toolbar_input_select(
-    id = "select",
-    label = "Choose option",
-    choices = c("Option 1", "Option 2", "Option 3"),
-    selected = "Option 2"
+\subsection{Toolbars in text area inputs}{
+
+You can also use toolbars in the labels of text area inputs. For example,
+this text editor uses a toolbar with formatting buttons:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{textAreaInput(
+  "editor",
+  label = toolbar(
+    "Comment",
+    toolbar_spacer(),
+    toolbar_input_button("bold", label = "Bold", icon = icon("bold")),
+    toolbar_input_button("italic", label = "Italic", icon = icon("italic")),
+    toolbar_input_button("link", label = "Link", icon = icon("link"))
+  ),
+  value = "",
+  rows = 5,
+  placeholder = "Type your comment here..."
+)
+}\if{html}{\out{</div>}}
+}
+
+\subsection{Toolbars with input_submit_textarea()}{
+
+The \code{\link[=input_submit_textarea]{input_submit_textarea()}} function from bslib allows you to create a
+text area input with a submit button and an optional toolbar. Here is an
+example of using a toolbar with formatting buttons and options:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{input_submit_textarea(
+  "message",
+  placeholder = "Type a message...",
+  toolbar = toolbar(
+    toolbar_input_button("attach", icon = icon("paperclip"), label = "Attach"),
+    toolbar_input_button("emoji", icon = icon("face-smile"), label = "Emoji"),
+    toolbar_divider(),
+    toolbar_input_select(
+      "format",
+      label = "Format",
+      choices = c("Plain", "Markdown", "HTML"),
+      icon = icon("code")
+    )
   )
 )
+}\if{html}{\out{</div>}}
+}
+}
+
+\examples{
+\dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
+# Minimal toolbar example
+toolbar(
+  toolbar_input_button(id = "view", icon = icon("eye"), label = "View"),
+  toolbar_input_button(id = "save", icon = icon("save"), label = "Save"),
+  toolbar_divider(),
+  toolbar_input_select(
+    id = "filter",
+    label = "Filter",
+    choices = c("All", "Active", "Inactive")
+  )
+)
+
+# Toolbar with text input
+library(shiny)
+library(bslib)
+
+ui <- page_fluid(
+  numericInput(
+    "quantity",
+    label = toolbar(
+      "Quantity",
+      toolbar_spacer(),
+      toolbar_input_button("decrement", "Less", icon("minus")),
+      toolbar_input_button("increment", "More", icon("plus"))
+    ),
+    value = 5,
+    min = 0,
+    max = 100
+  ),
+  verbatimTextOutput("value")
+)
+
+server <- function(input, output, session) {
+  output$value <- renderText({
+    paste("Current value:", input$quantity)
+  })
+
+  observeEvent(input$increment, {
+    updateNumericInput(session, "quantity", value = input$quantity + 1)
+  })
+
+  observeEvent(input$decrement, {
+    updateNumericInput(session, "quantity", value = input$quantity - 1)
+  })
+}
+
+shinyApp(ui, server)
+
+# Toolbar with input_submit_textarea()
+library(shiny)
+library(bslib)
+
+ui <- page_fluid(
+  input_submit_textarea(
+    "message",
+    placeholder = "Type a message...",
+    toolbar = toolbar(
+      toolbar_input_button("attach", icon = icon("paperclip"), label = "Attach"),
+      toolbar_input_button("emoji", icon = icon("face-smile"), label = "Emoji"),
+      toolbar_divider(),
+      toolbar_input_select(
+        "format",
+        label = "Format",
+        choices = c("Plain", "Markdown", "HTML"),
+        icon = icon("code")
+      )
+    )
+  ),
+  verbatimTextOutput("output")
+)
+
+server <- function(input, output, session) {
+  output$output <- renderText({
+    req(input$message)
+    paste("You said:", input$message)
+  })
+
+  observeEvent(input$attach, {
+    showNotification("Attach clicked!", duration = 2)
+  })
+
+  observeEvent(input$emoji, {
+    showNotification("Emoji clicked!", duration = 2)
+  })
+}
+
+shinyApp(ui, server)
 \dontshow{\}) # examplesIf}
 }
 \seealso{

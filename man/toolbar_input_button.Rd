@@ -77,8 +77,9 @@ A button designed to fit well in small places such as in a \code{\link[=toolbar]
 }}
 \section{Updating toolbar buttons}{
 
+
 You can dynamically update the appearance and enabled/disabled state
-of a toolbar button on the client side using \code{update_toolbar_input_button()}.
+of a toolbar button on the client side using \code{\link[=update_toolbar_input_button]{update_toolbar_input_button()}}.
 This function works similarly to \code{\link[shiny:updateActionButton]{shiny::updateActionButton()}}.
 
 Note that you cannot change the \code{tooltip} or \code{border} parameters after the
@@ -155,41 +156,11 @@ shinyApp(ui, server)
 
 \examples{
 \dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
+# Basic toolbar button
 toolbar(
-  align = "right",
   toolbar_input_button(id = "view", icon = icon("eye"), label = "View"),
   toolbar_input_button(id = "save", icon = icon("save"), label = "Save")
 )
-
-library(shiny)
-library(bslib)
-
-ui <- page_fixed(
-  card(
-    class = "mt-5",
-    card_header(
-      toolbar(
-        align = "right",
-        toolbar_input_button(id = "play", icon = icon("play"), label = "Play")
-      )
-    ),
-    "The card body..."
-  )
-)
-
-server <- function(input, output) {
-  observeEvent(input$play, {
-    update_toolbar_input_button(
-      "play",
-      label = "Playing!",
-      icon = icon("check")
-    )
-    # Update the tooltip text
-    update_tooltip("play_tooltip", "Play was clicked!")
-  })
-}
-
-shinyApp(ui, server)
 \dontshow{\}) # examplesIf}
 }
 \seealso{
