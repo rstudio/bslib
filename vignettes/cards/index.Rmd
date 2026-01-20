@@ -195,6 +195,49 @@ As you'll learn more about in [filling layouts](../filling), a **fill item** los
 :::
 
 
+## Toolbars
+
+Toolbars are compact containers for buttons, inputs, and other UI elements that work particularly well in card headers and footers. They provide a clean way to organize controls related to the card's content, allowing you to clearly show that a selection of inputs pertain to that particular card.
+
+See the [toolbar reference documentation](../reference/toolbar.html) for more examples and run `shiny::runExample("toolbar", package = "bslib")` for a complete interactive demo.
+
+::: {.row .mt-3}
+::: col-md-6
+```{r toolbar-card, eval=FALSE}
+card(
+  full_screen = TRUE,
+  card_header(
+    "Sales Data",
+    toolbar(
+      align = "right",
+      toolbar_input_select(
+        id = "filter",
+        label = "Filter",
+        choices = c("All", "Active", "Inactive"),
+        icon = icon("filter")
+      ),
+      toolbar_input_button(
+        id = "refresh",
+        label = "Refresh",
+        icon = icon("arrows-rotate")
+      )
+    )
+  ),
+  card_body(
+    min_height = 200,
+    plotly_widget
+  )
+)
+```
+:::
+
+::: col-md-6
+```{r ref.label="toolbar-card", echo=FALSE}
+```
+:::
+:::
+
+
 ## Multiple `card_body()`
 
 A `card()` can have multiple `card_body()`s, which is especially useful for:
