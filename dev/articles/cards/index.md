@@ -550,9 +550,9 @@ navset_card_tab(
 
 HTML Widgets
 
-- [Plotly](#tab-6664-1)
-- [Leaflet](#tab-6664-2)
-- [](#tab-6664-3)
+- [Plotly](#tab-8149-1)
+- [Leaflet](#tab-8149-2)
+- [](#tab-8149-3)
 
 ##### A plotly plot
 
