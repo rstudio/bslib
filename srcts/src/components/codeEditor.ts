@@ -118,7 +118,7 @@ type CodeEditorReceiveMessageData = {
  */
 export class BslibCodeEditor
   extends HTMLElement
-  implements CustomElementInputGetValue<string>
+  implements CustomElementInputGetValue<string | void>
 {
   static tagName = "bslib-code-editor";
   static isShinyInput = true;
@@ -293,7 +293,10 @@ export class BslibCodeEditor
   onChangeCallback: (x: boolean) => void = () => {};
 
   /** Returns the current editor content for Shiny. */
-  getValue(): string {
+  getValue(): string | void {
+    if (!this.prismEditor) {
+      return;
+    }
     return this.value;
   }
 
