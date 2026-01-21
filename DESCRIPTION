@@ -30,6 +30,7 @@ Depends:
     R (>= 2.10)
 Imports:
     base64enc,
+    brand.yml,
     cachem,
     fastmap (>= 1.1.1),
     grDevices,
@@ -42,7 +43,6 @@ Imports:
     rlang,
     sass (>= 0.4.9)
 Suggests:
-    brand.yml,
     bsicons,
     curl,
     fontawesome,
