@@ -1,18 +1,41 @@
-# PKbioanalysis (0.3.0)
+# OmopViewer (0.6.0)
 
-* GitHub: <https://github.com/OmarAshkar/PKbioanalysis>
-* Email: <mailto:omar.i.elashkar@gmail.com>
-* GitHub mirror: <https://github.com/cran/PKbioanalysis>
+* GitHub: <https://github.com/ohdsi/OmopViewer>
+* Email: <mailto:marti.catalasabate@ndorms.ox.ac.uk>
+* GitHub mirror: <https://github.com/cran/OmopViewer>
 
-Run `revdepcheck::cloud_details(, "PKbioanalysis")` for more info
+Run `revdepcheck::cloud_details(, "OmopViewer")` for more info
 
 ## Newly broken
 
-*   checking whether package ‘PKbioanalysis’ can be installed ... WARNING
+*   checking tests ... ERROR
      ```
-     Found the following significant warnings:
-       Warning: replacing previous import ‘bslib::show_toast’ by ‘shinyWidgets::show_toast’ when loading ‘PKbioanalysis’
-     See ‘/tmp/workdir/PKbioanalysis/new/PKbioanalysis.Rcheck/00install.out’ for details.
+     ...
+       [ FAIL 1 | WARN 0 | SKIP 6 | PASS 65 ]
+       
+       ══ Skipped tests (6) ═══════════════════════════════════════════════════════════
+       • On CRAN (5): 'test-packagesSupported.R:2:3', 'test-appStatic.R:1:1',
+         'test-appStatic.R:37:1', 'test-appStatic.R:51:1', 'test-appStatic.R:71:3'
+       • manual test (1): 'test-functions.R:3:3'
+       
+       ══ Failed tests ════════════════════════════════════════════════════════════════
+       ── Error ('test-appStatic.R:183:3'): theme ─────────────────────────────────────
+       <rlib_error_package_not_found/rlang_error/error/condition>
+       Error in `brand_resolve(brand)`: The package "brand.yml" is required.
+       Backtrace:
+           ▆
+        1. ├─testthat::expect_identical(...) at test-appStatic.R:183:3
+        2. │ └─testthat::quasi_label(enquo(object), label)
+        3. │   └─rlang::eval_bare(expr, quo_get_env(quo))
+        4. └─bslib::bs_theme(brand = validateTheme(NULL))
+        5.   ├─bslib:::brand_resolve(brand)
+        6.   └─bslib:::brand_resolve.list(brand)
+        7.     └─rlang::check_installed("brand.yml")
+       
+       [ FAIL 1 | WARN 0 | SKIP 6 | PASS 65 ]
+       Error:
+       ! Test failures.
+       Execution halted
      ```
 
 # qrlabelr (0.2.0)
