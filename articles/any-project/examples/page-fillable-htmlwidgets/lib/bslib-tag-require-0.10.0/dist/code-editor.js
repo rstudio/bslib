@@ -214,6 +214,9 @@ var _BslibCodeEditor = class extends HTMLElement {
   }
   /** Returns the current editor content for Shiny. */
   getValue() {
+    if (!this.prismEditor) {
+      return;
+    }
     return this.value;
   }
   /** Initializes the editor when the element is added to the DOM. */

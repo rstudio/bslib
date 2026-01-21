@@ -93,6 +93,11 @@
   [`toggle_sidebar()`](https://rstudio.github.io/bslib/reference/sidebar.md).
   ([\#1235](https://github.com/rstudio/bslib/issues/1235))
 
+- Fixed an issue where
+  [`nav_panel_hidden()`](https://rstudio.github.io/bslib/reference/nav-items.md)
+  could create navs that were still keyboard-discoverable.
+  ([\#1264](https://github.com/rstudio/bslib/issues/1264))
+
 ## bslib 0.9.0
 
 CRAN release: 2025-01-30
