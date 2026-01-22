@@ -207,7 +207,7 @@ See the [toolbar reference documentation](../reference/toolbar.html) for more ex
 card(
   full_screen = TRUE,
   card_header(
-    "Sales Data",
+    "Card with a toolbar",
     toolbar(
       align = "right",
       toolbar_input_select(
