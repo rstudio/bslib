@@ -12,13 +12,13 @@
 #'
 #' @section Cookbook:
 #'
-#' ## Card headers & Footers
+#' ## Toolbars in Card Headers and Footers
 #'
 #' Card headers and footers are a common places you might want to use toolbars. Toolbars
 #' allow you to clearly show that a selection of inputs pertain to that
 #' particular card. For example, this card uses multiple
 #' [toolbar_input_select()] for filtering and sorting, along with toolbar
-#' buttons.
+#' buttons and a "share" button in the toolbar in the card footer.
 #'
 #' ```r
 #' card(
@@ -93,8 +93,6 @@
 #' )
 #' ```
 #'
-#' ## Toolbars in text area inputs
-#'
 #' You can also use toolbars in the labels of text area inputs. For example,
 #' this text editor uses a toolbar with formatting buttons:
 #'
@@ -113,8 +111,6 @@
 #'   placeholder = "Type your comment here..."
 #' )
 #' ```
-#'
-#' ## Toolbars with input_submit_textarea()
 #'
 #' The [input_submit_textarea()] function from bslib allows you to create a
 #' text area input with a submit button and an optional toolbar. Here is an

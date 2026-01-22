@@ -36,13 +36,13 @@ bslib includes a complete example of toolbars and the many ways they can be used
 }
 \section{Cookbook}{
 
-\subsection{Card headers & Footers}{
+\subsection{Toolbars in Card Headers and Footers}{
 
 Card headers and footers are a common places you might want to use toolbars. Toolbars
 allow you to clearly show that a selection of inputs pertain to that
 particular card. For example, this card uses multiple
 \code{\link[=toolbar_input_select]{toolbar_input_select()}} for filtering and sorting, along with toolbar
-buttons.
+buttons and a "share" button in the toolbar in the card footer.
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{card(
   full_screen = TRUE,
@@ -115,9 +115,6 @@ decrement buttons next to the label:
   max = 100
 )
 }\if{html}{\out{</div>}}
-}
-
-\subsection{Toolbars in text area inputs}{
 
 You can also use toolbars in the labels of text area inputs. For example,
 this text editor uses a toolbar with formatting buttons:
@@ -136,9 +133,6 @@ this text editor uses a toolbar with formatting buttons:
   placeholder = "Type your comment here..."
 )
 }\if{html}{\out{</div>}}
-}
-
-\subsection{Toolbars with input_submit_textarea()}{
 
 The \code{\link[=input_submit_textarea]{input_submit_textarea()}} function from bslib allows you to create a
 text area input with a submit button and an optional toolbar. Here is an
