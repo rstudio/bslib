@@ -215,11 +215,6 @@ card(
         label = "Filter",
         choices = c("All", "Active", "Inactive"),
         icon = icon("filter")
-      ),
-      toolbar_input_button(
-        id = "refresh",
-        label = "Refresh",
-        icon = icon("arrows-rotate")
       )
     )
   ),
