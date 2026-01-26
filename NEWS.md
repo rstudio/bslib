@@ -1,8 +1,8 @@
-# bslib (development version)
+# bslib 0.10.0
 
 ## Breaking changes
 
-* bslib now uses the `{brand.yml}` package for reading [brand.yml](https://posit-dev.github.io/brand.yml) files. This change improves compatibility with other tools that use brand.yml files, such as Quarto. The `{brand.yml}` package must be installed for `_brand.yml` files to be automatically discovered. (#1227)
+* bslib now uses the `{brand.yml}` package for reading [brand.yml](https://posit-dev.github.io/brand-yml/) files. This change improves compatibility with other tools that use brand.yml files, such as Quarto. The `{brand.yml}` package must be installed for `_brand.yml` files to be automatically discovered. (#1227)
 
 ## New features
 
