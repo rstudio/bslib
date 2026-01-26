@@ -776,6 +776,10 @@ buildNavItem <- function(divTag, tabsetId, index) {
 }
 
 liTag <- function(id, title, value, icon) {
+  # When title is NULL (i.e., nav_panel_hidden()), add disabled attribute to
+  # prevent keyboard navigation
+  is_hidden <- is.null(title)
+
   tags$li(
     tags$a(
       href = paste0("#", id),
@@ -783,6 +787,7 @@ liTag <- function(id, title, value, icon) {
       # data-bs-* is for BS5+
       `data-bs-toggle` = "tab",
       `data-value` = value,
+      disabled = if (is_hidden) NA,
       icon,
       title
     )
