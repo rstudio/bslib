@@ -10,6 +10,7 @@
 #'   object in a [htmltools::div()] or [htmltools::span()].
 #' @param ... UI elements for the tooltip. Character strings are [automatically
 #'   escaped][htmltools::htmlEscape()] unless marked as [htmltools::HTML()].
+#'   Tooltip content should expand on, not contradict element labels.
 #' @param id A character string. Required to re-actively respond to the
 #'   visibility of the tooltip (via the `input[[id]]` value) and/or update the
 #'   visibility/contents of the tooltip.

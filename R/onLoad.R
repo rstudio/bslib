@@ -32,5 +32,10 @@ setup_input_handlers <- function() {
     input_task_button_input_handler,
     force = TRUE
   )
+  shiny::registerInputHandler(
+    "bslib.toolbar.button",
+    toolbar_input_button_input_handler,
+    force = TRUE
+  )
   TRUE
 }

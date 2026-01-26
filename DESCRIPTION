@@ -53,7 +53,7 @@ Suggests:
     magrittr,
     rappdirs,
     rmarkdown (>= 2.7),
-    shiny (>= 1.11.1),
+    shiny (>= 1.11.1.9000),
     testthat,
     thematic,
     tools,
@@ -118,6 +118,7 @@ Collate:
     'sidebar.R'
     'staticimports.R'
     'toast.R'
+    'toolbar.R'
     'tooltip.R'
     'utils-deps.R'
     'utils-shiny.R'

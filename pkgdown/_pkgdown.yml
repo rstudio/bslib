@@ -154,6 +154,16 @@ reference:
   contents:
     - card
     - as.card_item
+- subtitle: Toolbars
+  desc: |
+    Toolbars are compact containers for buttons, inputs, and other UI elements.
+    They are particularly useful in card headers and footers, or anywhere you need
+    a clean, horizontal layout of controls.
+  contents:
+    - toolbar
+    - toolbar_input_button
+    - toolbar_input_select
+    - toolbar_divider
 - subtitle: Value box
   desc: |
     Value boxes are a special type of card that highlight a single piece of

@@ -194,7 +194,7 @@ export class BslibTooltip extends BslibElement {
   receiveMessage(el: HTMLElement, data: MessageData): void {
     const method = data.method;
     if (method === "toggle") {
-      this._toggle(data.value);
+      this.toggle(data.value);
     } else if (method === "update") {
       this._updateTitle(data.title);
     } else {
@@ -202,24 +202,28 @@ export class BslibTooltip extends BslibElement {
     }
   }
 
-  private _toggle(x?: ToggleMessage["value"]): void {
+  toggle(x?: ToggleMessage["value"]): void {
     if (x === "toggle" || x === undefined) {
       x = this.visible ? "hide" : "show";
     }
     if (x === "hide") {
-      this.bsTooltip.hide();
+      this.hide();
     }
     if (x === "show") {
-      this._show();
+      this.show();
     }
   }
 
   // No-op if the tooltip is already visible or if the trigger element is not visible
   // (in either case the tooltip likely won't be positioned correctly)
-  private _show(): void {
+  show(): void {
     if (!this.visible && this.visibleTrigger) {
       this.bsTooltip.show();
     }
+  }
+
+  hide(): void {
+    this.bsTooltip.hide();
   }
 
   private _updateTitle(title: UpdateMessage["title"]): void {
@@ -243,7 +247,7 @@ export class BslibTooltip extends BslibElement {
     const handler = (entries: IntersectionObserverEntry[]) => {
       if (!this.visible) return;
       entries.forEach((entry) => {
-        if (!entry.isIntersecting) this.bsTooltip.hide();
+        if (!entry.isIntersecting) this.hide();
       });
     };
     return new IntersectionObserver(handler);
