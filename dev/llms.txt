@@ -219,6 +219,24 @@ You can even create [tabbed card interfaces](#navigation) with the
   [`is.card_item()`](https://rstudio.github.io/bslib/dev/reference/card_body.md)
   : Card items
 
+### Toolbars
+
+Toolbars are compact containers for buttons, inputs, and other UI
+elements. They are particularly useful in card headers and footers, or
+anywhere you need a clean, horizontal layout of controls.
+
+- [`toolbar()`](https://rstudio.github.io/bslib/dev/reference/toolbar.md)
+  : Toolbar component
+- [`toolbar_input_button()`](https://rstudio.github.io/bslib/dev/reference/toolbar_input_button.md)
+  [`update_toolbar_input_button()`](https://rstudio.github.io/bslib/dev/reference/toolbar_input_button.md)
+  : Add a toolbar input button
+- [`toolbar_input_select()`](https://rstudio.github.io/bslib/dev/reference/toolbar_input_select.md)
+  [`update_toolbar_input_select()`](https://rstudio.github.io/bslib/dev/reference/toolbar_input_select.md)
+  : Toolbar Input Select
+- [`toolbar_divider()`](https://rstudio.github.io/bslib/dev/reference/toolbar_divider.md)
+  [`toolbar_spacer()`](https://rstudio.github.io/bslib/dev/reference/toolbar_divider.md)
+  : Toolbar: Add a divider or spacer to a toolbar
+
 ### Value box
 
 Value boxes are a special type of card that highlight a single piece of

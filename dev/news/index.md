@@ -2,12 +2,16 @@
 
 ## bslib (development version)
 
+## bslib 0.10.0
+
+CRAN release: 2026-01-26
+
 ### Breaking changes
 
 - bslib now uses the
   [brand.yml](https://posit-dev.github.io/brand-yml/pkg/r/) package for
-  reading [brand.yml](https://posit-dev.github.io/brand.yml) files. This
-  change improves compatibility with other tools that use brand.yml
+  reading [brand.yml](https://posit-dev.github.io/brand-yml/) files.
+  This change improves compatibility with other tools that use brand.yml
   files, such as Quarto. The
   [brand.yml](https://posit-dev.github.io/brand-yml/pkg/r/) package must
   be installed for `_brand.yml` files to be automatically discovered.
@@ -47,6 +51,40 @@
   automatic light/dark mode switching. Try it with
   `shiny::runExample("code-editor", package = "bslib")`.
   ([\#1274](https://github.com/rstudio/bslib/issues/1274))
+
+- Added a new
+  [`toolbar()`](https://rstudio.github.io/bslib/dev/reference/toolbar.md)
+  component for creating Bootstrap toolbars that can contain buttons,
+  text, and other elements.
+  ([\#1247](https://github.com/rstudio/bslib/issues/1247))
+
+  - Added
+    [`toolbar_input_button()`](https://rstudio.github.io/bslib/dev/reference/toolbar_input_button.md)
+    for easily creating buttons to include in a
+    [`toolbar()`](https://rstudio.github.io/bslib/dev/reference/toolbar.md).
+    ([\#1248](https://github.com/rstudio/bslib/issues/1248))
+  - Added
+    [`toolbar_input_select()`](https://rstudio.github.io/bslib/dev/reference/toolbar_input_select.md),
+    a select input designed for use within a
+    [`toolbar()`](https://rstudio.github.io/bslib/dev/reference/toolbar.md).
+    ([\#1249](https://github.com/rstudio/bslib/issues/1249))
+  - Added
+    [`update_toolbar_input_select()`](https://rstudio.github.io/bslib/dev/reference/toolbar_input_select.md)
+    for updating the choices, icon, label, and selected value of a
+    [`toolbar_input_select()`](https://rstudio.github.io/bslib/dev/reference/toolbar_input_select.md)
+    from the server.
+    ([\#1266](https://github.com/rstudio/bslib/issues/1266))
+  - Added
+    [`update_toolbar_input_button()`](https://rstudio.github.io/bslib/dev/reference/toolbar_input_button.md)
+    for updating the label, icon, and disabled state of a
+    [`toolbar_input_button()`](https://rstudio.github.io/bslib/dev/reference/toolbar_input_button.md)
+    from the server.
+    ([\#1266](https://github.com/rstudio/bslib/issues/1266))
+  - Added
+    [`toolbar_divider()`](https://rstudio.github.io/bslib/dev/reference/toolbar_divider.md)
+    for adding visual dividers with customizable width and spacing
+    between toolbar elements.
+    ([\#1259](https://github.com/rstudio/bslib/issues/1259))
 
 ### Improvements and bug fixes
 

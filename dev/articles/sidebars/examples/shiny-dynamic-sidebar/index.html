@@ -7,14 +7,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <link href="lib/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet" />
 <script src="lib/bootstrap-5.3.1/bootstrap.bundle.min.js"></script>
-<script src="lib/bs3compat-0.9.0.9002/transition.js"></script>
-<script src="lib/bs3compat-0.9.0.9002/tabs.js"></script>
-<script src="lib/bs3compat-0.9.0.9002/bs3compat.js"></script>
+<script src="lib/bs3compat-0.10.0.9000/transition.js"></script>
+<script src="lib/bs3compat-0.10.0.9000/tabs.js"></script>
+<script src="lib/bs3compat-0.10.0.9000/bs3compat.js"></script>
 <link href="lib/htmltools-fill-0.5.9.9000/fill.css" rel="stylesheet" />
-<script src="lib/bslib-component-js-0.9.0.9002/components.min.js"></script>
-<script src="lib/bslib-component-js-0.9.0.9002/web-components.min.js" type="module"></script>
-<link href="lib/bslib-component-css-0.9.0.9002/components.css" rel="stylesheet" />
-<script src="lib/bslib-tag-require-0.9.0.9002/tag-require.js"></script>
+<script src="lib/bslib-component-js-0.10.0.9000/components.min.js"></script>
+<script src="lib/bslib-component-js-0.10.0.9000/web-components.min.js" type="module"></script>
+<link href="lib/bslib-component-css-0.10.0.9000/components.css" rel="stylesheet" />
+<script src="lib/bslib-tag-require-0.10.0.9000/tag-require.js"></script>
   <title>Conditional sidebar</title>
   <style>html { height: 100%; }</style>
   <style>.html-widget { height: 250px !important; } .modebar-container { display: none; }</style>
@@ -25,12 +25,12 @@
       <div class="navbar-header">
         <span class="navbar-brand">Conditional sidebar</span>
       </div>
-      <ul class="nav navbar-nav nav-underline shiny-tab-input" id="nav" data-tabsetid="7410">
+      <ul class="nav navbar-nav nav-underline shiny-tab-input" id="nav" data-tabsetid="1415">
         <li class="nav-item">
-          <a href="#tab-7410-1" data-toggle="tab" data-bs-toggle="tab" data-value="Page 1" class="nav-link active">Page 1</a>
+          <a href="#tab-1415-1" data-toggle="tab" data-bs-toggle="tab" data-value="Page 1" class="nav-link active">Page 1</a>
         </li>
         <li class="nav-item">
-          <a href="#tab-7410-2" data-toggle="tab" data-bs-toggle="tab" data-value="Page 2" class="nav-link">Page 2</a>
+          <a href="#tab-1415-2" data-toggle="tab" data-bs-toggle="tab" data-value="Page 2" class="nav-link">Page 2</a>
         </li>
       </ul>
     </div>
@@ -39,9 +39,9 @@
     <div class="bslib-sidebar-layout bslib-mb-spacing html-fill-item" data-bslib-sidebar-border="false" data-bslib-sidebar-border-radius="false" data-bslib-sidebar-init="TRUE" data-collapsible-desktop="true" data-collapsible-mobile="true" data-open-desktop="open" data-open-mobile="open" data-require-bs-caller="layout_sidebar()" data-require-bs-version="5" style="--_sidebar-width:250px;">
       <div class="main bslib-gap-spacing html-fill-container">
         <main class="bslib-page-main bslib-gap-spacing html-fill-item html-fill-container">
-          <div class="tab-content html-fill-item html-fill-container" data-tabsetid="7410">
-            <div class="tab-pane active html-fill-item html-fill-container bslib-gap-spacing" data-value="Page 1" id="tab-7410-1" style="--bslib-navbar-margin:0;">Page 1 contents</div>
-            <div class="tab-pane html-fill-item html-fill-container bslib-gap-spacing" data-value="Page 2" id="tab-7410-2" style="--bslib-navbar-margin:0;">Page 2 contents</div>
+          <div class="tab-content html-fill-item html-fill-container" data-tabsetid="1415">
+            <div class="tab-pane active html-fill-item html-fill-container bslib-gap-spacing" data-value="Page 1" id="tab-1415-1" style="--bslib-navbar-margin:0;">Page 1 contents</div>
+            <div class="tab-pane html-fill-item html-fill-container bslib-gap-spacing" data-value="Page 2" id="tab-1415-2" style="--bslib-navbar-margin:0;">Page 2 contents</div>
           </div>
           <script>
 var $page1,$page2;
@@ -59,13 +59,13 @@ $('#nav').on('shown.bs.tab', function(ev) {
 </script>
         </main>
       </div>
-      <aside id="bslib-sidebar-2638" class="sidebar">
+      <aside id="bslib-sidebar-8493" class="sidebar">
         <div class="sidebar-content bslib-gap-spacing">
           <div class="shiny-panel-conditional" data-display-if="input.nav === &#39;Page 1&#39;" data-ns-prefix="">Page 1 sidebar</div>
           <div class="shiny-panel-conditional" data-display-if="input.nav === &#39;Page 2&#39;" data-ns-prefix="">Page 2 sidebar</div>
         </div>
       </aside>
-      <button class="collapse-toggle" type="button" title="Toggle sidebar" aria-expanded="true" aria-controls="bslib-sidebar-2638"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="bi bi-chevron-left collapse-icon" style="height:;width:;fill:currentColor;vertical-align:-0.125em;" aria-hidden="true" role="img" ><path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path></svg></button>
+      <button class="collapse-toggle" type="button" title="Toggle sidebar" aria-expanded="true" aria-controls="bslib-sidebar-8493"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="bi bi-chevron-left collapse-icon" style="height:;width:;fill:currentColor;vertical-align:-0.125em;" aria-hidden="true" role="img" ><path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path></svg></button>
       <script data-bslib-sidebar-init>bslib.Sidebar.initCollapsibleAll()</script>
     </div>
   </div>

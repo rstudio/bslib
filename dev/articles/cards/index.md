@@ -280,6 +280,51 @@ to allow the additional element to carry the potential to fill from the
 [`card_body()`](https://rstudio.github.io/bslib/dev/reference/card_body.md)
 down to the fill item.
 
+## Toolbars
+
+Toolbars are compact containers for buttons, inputs, and other UI
+elements that work particularly well in card headers and footers. They
+provide a clean way to organize controls related to the card’s content,
+allowing you to clearly show that a selection of inputs pertain to that
+particular card.
+
+See the [toolbar reference
+documentation](https://rstudio.github.io/bslib/dev/articles/reference/toolbar.md)
+for more examples and run
+`shiny::runExample("toolbar", package = "bslib")` for a complete
+interactive demo.
+
+``` r
+
+card(
+  full_screen = TRUE,
+  card_header(
+    "Card with a toolbar",
+    toolbar(
+      align = "right",
+      toolbar_input_select(
+        id = "filter",
+        label = "Filter",
+        choices = c("All", "Active", "Inactive"),
+        icon = icon("filter")
+      )
+    )
+  ),
+  card_body(
+    min_height = 200,
+    plotly_widget
+  )
+)
+```
+
+Card with a toolbar
+
+Filter Filter All Active Inactive
+
+Expand
+
+![](data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdib3g9IjAgMCAyNCAyNCIgc3R5bGU9ImhlaWdodDoxZW07d2lkdGg6MWVtO2ZpbGw6Y3VycmVudENvbG9yOyIgYXJpYS1oaWRkZW49InRydWUiIHJvbGU9ImltZyI+PHBhdGggZD0iTTIwIDVDMjAgNC40IDE5LjYgNCAxOSA0SDEzQzEyLjQgNCAxMiAzLjYgMTIgM0MxMiAyLjQgMTIuNCAyIDEzIDJIMjFDMjEuNiAyIDIyIDIuNCAyMiAzVjExQzIyIDExLjYgMjEuNiAxMiAyMSAxMkMyMC40IDEyIDIwIDExLjYgMjAgMTFWNVpNNCAxOUM0IDE5LjYgNC40IDIwIDUgMjBIMTFDMTEuNiAyMCAxMiAyMC40IDEyIDIxQzEyIDIxLjYgMTEuNiAyMiAxMSAyMkgzQzIuNCAyMiAyIDIxLjYgMiAyMVYxM0MyIDEyLjQgMi40IDEyIDMgMTJDMy42IDEyIDQgMTIuNCA0IDEzVjE5WiIgLz48L3N2Zz4=)
+
 ## Multiple `card_body()`
 
 A [`card()`](https://rstudio.github.io/bslib/dev/reference/card.md) can
@@ -550,9 +595,9 @@ navset_card_tab(
 
 HTML Widgets
 
-- [Plotly](#tab-8324-1)
-- [Leaflet](#tab-8324-2)
-- [](#tab-8324-3)
+- [Plotly](#tab-2176-1)
+- [Leaflet](#tab-2176-2)
+- [](#tab-2176-3)
 
 ##### A plotly plot
 

@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">bslib</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.9.0.9002</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.10.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -75,18 +75,29 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="bslib-development-version">bslib (development version)<a class="anchor" aria-label="anchor" href="#bslib-development-version"></a></h2>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.10.0" id="bslib-0100">bslib 0.10.0<a class="anchor" aria-label="anchor" href="#bslib-0100"></a></h2><p class="text-muted">CRAN release: 2026-01-26</p>
 <div class="section level3">
-<h3 id="breaking-changes-development-version">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-development-version"></a></h3>
-<ul><li>bslib now uses the <a href="https://posit-dev.github.io/brand-yml/pkg/r/" class="external-link">brand.yml</a> package for reading <a href="https://posit-dev.github.io/brand.yml" class="external-link">brand.yml</a> files. This change improves compatibility with other tools that use brand.yml files, such as Quarto. The <a href="https://posit-dev.github.io/brand-yml/pkg/r/" class="external-link">brand.yml</a> package must be installed for <code>_brand.yml</code> files to be automatically discovered. (<a href="https://github.com/rstudio/bslib/issues/1227" class="external-link">#1227</a>)</li>
+<h3 id="breaking-changes-0-10-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-10-0"></a></h3>
+<ul><li>bslib now uses the <a href="https://posit-dev.github.io/brand-yml/pkg/r/" class="external-link">brand.yml</a> package for reading <a href="https://posit-dev.github.io/brand-yml/" class="external-link">brand.yml</a> files. This change improves compatibility with other tools that use brand.yml files, such as Quarto. The <a href="https://posit-dev.github.io/brand-yml/pkg/r/" class="external-link">brand.yml</a> package must be installed for <code>_brand.yml</code> files to be automatically discovered. (<a href="https://github.com/rstudio/bslib/issues/1227" class="external-link">#1227</a>)</li>
 </ul></div>
 <div class="section level3">
-<h3 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
+<h3 id="new-features-0-10-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-10-0"></a></h3>
 <ul><li><p>Added a new <code><a href="../reference/input_submit_textarea.html">input_submit_textarea()</a></code> input element, which is similar to <code><a href="https://rdrr.io/pkg/shiny/man/textAreaInput.html" class="external-link">shiny::textAreaInput()</a></code>, but includes a submit button to only submit the text changes to the server on click. This is especially useful when the input text change triggers a long-running operation and/or the user wants to type longer-form input and review it before submitting it. (<a href="https://github.com/rstudio/bslib/issues/1204" class="external-link">#1204</a>)</p></li>
 <li><p>Added toast notifications based on <a href="https://getbootstrap.com/docs/5.3/components/toasts/" class="external-link">Bootstrap’s Toast component</a>: Use <code><a href="../reference/toast.html">toast()</a></code> to create customizable toast objects, <code><a href="../reference/show_toast.html">show_toast()</a></code> to display a toast message, <code><a href="../reference/show_toast.html">hide_toast()</a></code> for manual dismissal, and <code><a href="../reference/toast.html">toast_header()</a></code> for structured headers with icons and status indicators. Try it with <code>shiny::runExample("toast", package = "bslib")</code>. (<a href="https://github.com/rstudio/bslib/issues/1246" class="external-link">#1246</a>)</p></li>
 <li><p>Added a new <code><a href="../reference/input_code_editor.html">input_code_editor()</a></code> element that allows for light-weight code editing with syntax highlighting, using the <a href="https://prism-code-editor.netlify.app/" class="external-link">prism-code-editor</a> library. The editor supports 20+ languages, more than a dozen themes, and automatic light/dark mode switching. Try it with <code>shiny::runExample("code-editor", package = "bslib")</code>. (<a href="https://github.com/rstudio/bslib/issues/1274" class="external-link">#1274</a>)</p></li>
+<li>
+<p>Added a new <code><a href="../reference/toolbar.html">toolbar()</a></code> component for creating Bootstrap toolbars that can contain buttons, text, and other elements. (<a href="https://github.com/rstudio/bslib/issues/1247" class="external-link">#1247</a>)</p>
+<ul><li>Added <code><a href="../reference/toolbar_input_button.html">toolbar_input_button()</a></code> for easily creating buttons to include in a <code><a href="../reference/toolbar.html">toolbar()</a></code>. (<a href="https://github.com/rstudio/bslib/issues/1248" class="external-link">#1248</a>)</li>
+<li>Added <code><a href="../reference/toolbar_input_select.html">toolbar_input_select()</a></code>, a select input designed for use within a <code><a href="../reference/toolbar.html">toolbar()</a></code>. (<a href="https://github.com/rstudio/bslib/issues/1249" class="external-link">#1249</a>)</li>
+<li>Added <code><a href="../reference/toolbar_input_select.html">update_toolbar_input_select()</a></code> for updating the choices, icon, label, and selected value of a <code><a href="../reference/toolbar_input_select.html">toolbar_input_select()</a></code> from the server. (<a href="https://github.com/rstudio/bslib/issues/1266" class="external-link">#1266</a>)</li>
+<li>Added <code><a href="../reference/toolbar_input_button.html">update_toolbar_input_button()</a></code> for updating the label, icon, and disabled state of a <code><a href="../reference/toolbar_input_button.html">toolbar_input_button()</a></code> from the server. (<a href="https://github.com/rstudio/bslib/issues/1266" class="external-link">#1266</a>)</li>
+<li>Added <code><a href="../reference/toolbar_divider.html">toolbar_divider()</a></code> for adding visual dividers with customizable width and spacing between toolbar elements. (<a href="https://github.com/rstudio/bslib/issues/1259" class="external-link">#1259</a>)</li>
+</ul></li>
 </ul></div>
 <div class="section level3">
-<h3 id="improvements-and-bug-fixes-development-version">Improvements and bug fixes<a class="anchor" aria-label="anchor" href="#improvements-and-bug-fixes-development-version"></a></h3>
+<h3 id="improvements-and-bug-fixes-0-10-0">Improvements and bug fixes<a class="anchor" aria-label="anchor" href="#improvements-and-bug-fixes-0-10-0"></a></h3>
 <ul><li><p><code><a href="../reference/card_body.html">card_header()</a></code> is now flex by default and gains a <code>gap</code> argument to better support complex header layouts. (<a href="https://github.com/rstudio/bslib/issues/1253" class="external-link">#1253</a>)</p></li>
 <li><p><code><a href="../reference/bs_theme_dependencies.html">bs_theme_dependencies()</a></code> now avoids unnecessarily copying internal package files to R’s temporary directory more than once when preparing precompiled theme dependencies (e.g. for a standard <code><a href="../reference/bs_theme.html">bs_theme()</a></code> theme). (<a href="https://github.com/rstudio/bslib/issues/1184" class="external-link">#1184</a>)</p></li>
 <li><p>Fixed an issue where the <code>&lt;main&gt;</code> areas of <code><a href="../reference/page_sidebar.html">page_sidebar()</a></code> and <code><a href="../reference/page_navbar.html">page_navbar()</a></code> (with a <code>sidebar</code>) were made to be a fillable containers even when <code>fillable = FALSE</code>. (<a href="https://github.com/rstudio/bslib/issues/1188" class="external-link">#1188</a>)</p></li>
