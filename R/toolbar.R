@@ -960,3 +960,128 @@ toolbar_divider <- function(..., width = NULL, gap = NULL) {
 toolbar_spacer <- function() {
   div(class = "bslib-toolbar-spacer")
 }
+
+
+#' Toolbar Input Switch
+#'
+#' @description
+#' Create a switch input control suitable for use within a [toolbar()]. This is
+#' a convenience wrapper around [input_switch()] with sensible defaults for
+#' toolbar contexts.
+#'
+#' @section Updating toolbar switches:
+#'
+#' You can dynamically update a toolbar switch using [update_toolbar_input_switch()],
+#' which is a convenience wrapper around [update_switch()]. This allows you to
+#' update the switch's label and value from the server.
+#'
+#' For example:
+#'
+#' ```r
+#' library(shiny)
+#' library(bslib)
+#'
+#' ui <- page_fluid(
+#'   card(
+#'     card_header(
+#'       "Settings",
+#'       toolbar(
+#'         align = "right",
+#'         toolbar_input_switch(
+#'           id = "auto_save",
+#'           label = "Auto-save",
+#'           value = FALSE
+#'         )
+#'       )
+#'     ),
+#'     card_body(
+#'       actionButton("toggle", "Toggle Auto-save"),
+#'       verbatimTextOutput("status")
+#'     )
+#'   )
+#' )
+#'
+#' server <- function(input, output, session) {
+#'   output$status <- renderPrint({
+#'     list(auto_save = input$auto_save)
+#'   })
+#'
+#'   observeEvent(input$toggle, {
+#'     update_toolbar_input_switch(
+#'       "auto_save",
+#'       value = !input$auto_save
+#'     )
+#'   })
+#' }
+#'
+#' shinyApp(ui, server)
+#' ```
+#'
+#' @examplesIf rlang::is_interactive()
+#' # Basic toolbar with switches
+#' toolbar(
+#'   align = "right",
+#'   toolbar_input_switch(id = "notifications", label = "Notifications", value = TRUE),
+#'   toolbar_divider(),
+#'   toolbar_input_switch(id = "dark_mode", label = "Dark Mode", value = FALSE)
+#' )
+#'
+#' # Switch in card header
+#' card(
+#'   card_header(
+#'     "Chart Options",
+#'     toolbar(
+#'       align = "right",
+#'       toolbar_input_switch(id = "show_legend", label = "Show Legend", value = TRUE),
+#'       toolbar_input_switch(id = "show_grid", label = "Show Grid", value = TRUE)
+#'     )
+#'   ),
+#'   card_body("Chart content here")
+#' )
+#'
+#' # Switch with toolbar_spacer for alignment
+#' toolbar(
+#'   width = "100%",
+#'   "Enable feature",
+#'   toolbar_spacer(),
+#'   toolbar_input_switch(id = "feature", label = "Enable feature", value = FALSE)
+#' )
+#'
+#' @inheritParams input_switch
+#'
+#' @return Returns a switch input suitable for use in a toolbar.
+#'
+#' @describeIn toolbar_input_switch Create a toolbar switch input.
+#' @family toolbar components
+#' @export
+toolbar_input_switch <- function(
+  id,
+  label = NULL,
+  value = FALSE
+) {
+  input_switch(
+    id = id,
+    label = label,
+    value = value,
+    width = NULL
+  )
+}
+
+#' @param session A Shiny session object (the default should almost always be
+#'   used).
+#'
+#' @describeIn toolbar_input_switch Update a toolbar switch input.
+#' @export
+update_toolbar_input_switch <- function(
+  id,
+  label = NULL,
+  value = NULL,
+  session = get_current_session()
+) {
+  update_switch(
+    id = id,
+    label = label,
+    value = value,
+    session = session
+  )
+}

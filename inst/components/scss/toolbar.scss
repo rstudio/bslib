@@ -203,3 +203,27 @@ label > .bslib-toolbar {
     margin-left: 0.15rem;
   }
 }
+
+
+  /* ---- Toolbar Input Switch ---- */
+
+  .form-group.shiny-input-container:has(.form-switch) {
+    width: auto; // Overrides default width which adds unnecessary space
+  }
+
+  .bslib-input-switch.form-check {
+    margin-bottom: 0; // Remove extra form check to ensure alignment with other items
+    margin-inline: 0.5rem; // Spacing so it's not crunched against other toolbar items
+    display: flex; // Use flexbox to control alignment
+    align-items: center; // Vertically center the checkbox and label
+
+    // Match button label styling - Bootstrap buttons default to font-weight: 500
+    .form-check-label {
+      font-weight: 500; // Match Bootstrap button default font-weight
+      line-height: 1; // Match button line-height for consistent vertical alignment
+      padding-left: 0.25rem; // Add space between switch and label
+      padding-top: 0; // Remove any default padding that might affect alignment
+      margin-bottom: 0; // Remove any default margin
+    }
+  }
+
