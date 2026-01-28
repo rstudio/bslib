@@ -63,6 +63,7 @@ toolbar(
 Other toolbar components: 
 \code{\link{toolbar}()},
 \code{\link{toolbar_input_button}()},
-\code{\link{toolbar_input_select}()}
+\code{\link{toolbar_input_select}()},
+\code{\link{toolbar_input_switch}()}
 }
 \concept{toolbar components}

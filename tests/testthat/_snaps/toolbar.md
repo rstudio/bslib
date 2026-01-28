@@ -461,3 +461,217 @@
       Warning:
       `selected` value 'D' is not in `choices`.
 
+# toolbar_input_switch() basic functionality
+
+    Code
+      show_raw_html(switch1)
+    Output
+      <div class="form-group shiny-input-container" data-require-bs-version="5" data-require-bs-caller="input_switch()">
+        <div class="bslib-input-switch form-switch form-check">
+          <input id="test_switch" class="form-check-input" type="checkbox" role="switch" checked/>
+          <label class="form-check-label" for="test_switch">
+            <span>Enable feature</span>
+          </label>
+        </div>
+      </div>
+
+# toolbar_input_switch() with default value
+
+    Code
+      show_raw_html(switch_default)
+    Output
+      <div class="form-group shiny-input-container" data-require-bs-version="5" data-require-bs-caller="input_switch()">
+        <div class="bslib-input-switch form-switch form-check">
+          <input id="switch_default" class="form-check-input" type="checkbox" role="switch"/>
+          <label class="form-check-label" for="switch_default">
+            <span>Default switch</span>
+          </label>
+        </div>
+      </div>
+
+---
+
+    Code
+      show_raw_html(switch_true)
+    Output
+      <div class="form-group shiny-input-container" data-require-bs-version="5" data-require-bs-caller="input_switch()">
+        <div class="bslib-input-switch form-switch form-check">
+          <input id="switch_true" class="form-check-input" type="checkbox" role="switch" checked/>
+          <label class="form-check-label" for="switch_true">
+            <span>Enabled switch</span>
+          </label>
+        </div>
+      </div>
+
+# toolbar_input_switch() with NULL label
+
+    Code
+      show_raw_html(switch_no_label)
+    Output
+      <div class="form-group shiny-input-container" data-require-bs-version="5" data-require-bs-caller="input_switch()">
+        <div class="bslib-input-switch form-switch form-check">
+          <input id="no_label" class="form-check-input" type="checkbox" role="switch"/>
+          <label class="form-check-label" for="no_label">
+            <span></span>
+          </label>
+        </div>
+      </div>
+
+# toolbar_input_switch() markup variations
+
+    Code
+      show_raw_html(toolbar_input_switch(id = "simple", label = "Simple Switch"))
+    Output
+      <div class="form-group shiny-input-container" data-require-bs-version="5" data-require-bs-caller="input_switch()">
+        <div class="bslib-input-switch form-switch form-check">
+          <input id="simple" class="form-check-input" type="checkbox" role="switch"/>
+          <label class="form-check-label" for="simple">
+            <span>Simple Switch</span>
+          </label>
+        </div>
+      </div>
+
+---
+
+    Code
+      show_raw_html(toolbar_input_switch(id = "enabled", label = "Enabled Switch",
+        value = TRUE))
+    Output
+      <div class="form-group shiny-input-container" data-require-bs-version="5" data-require-bs-caller="input_switch()">
+        <div class="bslib-input-switch form-switch form-check">
+          <input id="enabled" class="form-check-input" type="checkbox" role="switch" checked/>
+          <label class="form-check-label" for="enabled">
+            <span>Enabled Switch</span>
+          </label>
+        </div>
+      </div>
+
+---
+
+    Code
+      show_raw_html(toolbar_input_switch(id = "disabled", label = "Disabled Switch",
+        value = FALSE))
+    Output
+      <div class="form-group shiny-input-container" data-require-bs-version="5" data-require-bs-caller="input_switch()">
+        <div class="bslib-input-switch form-switch form-check">
+          <input id="disabled" class="form-check-input" type="checkbox" role="switch"/>
+          <label class="form-check-label" for="disabled">
+            <span>Disabled Switch</span>
+          </label>
+        </div>
+      </div>
+
+# toolbar_input_switch() in toolbar context
+
+    Code
+      show_raw_html(tb)
+    Output
+      <div class="bslib-toolbar bslib-gap-spacing" data-align="right">
+        <div class="form-group shiny-input-container" data-require-bs-version="5" data-require-bs-caller="input_switch()">
+          <div class="bslib-input-switch form-switch form-check">
+            <input id="switch1" class="form-check-input" type="checkbox" role="switch" checked/>
+            <label class="form-check-label" for="switch1">
+              <span>Feature 1</span>
+            </label>
+          </div>
+        </div>
+        <div class="bslib-toolbar-divider" aria-hidden="true"></div>
+        <div class="form-group shiny-input-container" data-require-bs-version="5" data-require-bs-caller="input_switch()">
+          <div class="bslib-input-switch form-switch form-check">
+            <input id="switch2" class="form-check-input" type="checkbox" role="switch"/>
+            <label class="form-check-label" for="switch2">
+              <span>Feature 2</span>
+            </label>
+          </div>
+        </div>
+        <button aria-labelledby="btn-label-4785" class="btn btn-default action-button bslib-toolbar-input-button btn-sm border-0" data-type="label" id="submit" type="button">
+          <span class="action-icon">
+            <span class="bslib-toolbar-icon" aria-hidden="true" style="pointer-events: none"></span>
+          </span>
+          <span class="action-label">
+            <span id="btn-label-4785" class="bslib-toolbar-label">Submit</span>
+          </span>
+        </button>
+      </div>
+
+# toolbar_input_switch() integration with card headers
+
+    Code
+      show_raw_html(card_with_switch)
+    Output
+      <div class="card bslib-card bslib-mb-spacing html-fill-item html-fill-container" data-bslib-card-init data-require-bs-caller="card()" data-require-bs-version="5">
+        <div class="card-header bslib-gap-spacing">
+          Settings
+          <div class="bslib-toolbar bslib-gap-spacing" data-align="right">
+            <div class="form-group shiny-input-container" data-require-bs-version="5" data-require-bs-caller="input_switch()">
+              <div class="bslib-input-switch form-switch form-check">
+                <input id="auto_save" class="form-check-input" type="checkbox" role="switch" checked/>
+                <label class="form-check-label" for="auto_save">
+                  <span>Auto-save</span>
+                </label>
+              </div>
+            </div>
+            <div class="form-group shiny-input-container" data-require-bs-version="5" data-require-bs-caller="input_switch()">
+              <div class="bslib-input-switch form-switch form-check">
+                <input id="notifications" class="form-check-input" type="checkbox" role="switch"/>
+                <label class="form-check-label" for="notifications">
+                  <span>Notifications</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body bslib-gap-spacing html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto;">Content</div>
+        <script data-bslib-card-init>bslib.Card.initializeAllCards();</script>
+      </div>
+
+# toolbar_input_switch() with toolbar_spacer
+
+    Code
+      show_raw_html(tb_spacer)
+    Output
+      <div class="bslib-toolbar bslib-gap-spacing" data-align="right" style="width:100%;">
+        Enable feature
+        <div class="bslib-toolbar-spacer"></div>
+        <div class="form-group shiny-input-container" data-require-bs-version="5" data-require-bs-caller="input_switch()">
+          <div class="bslib-input-switch form-switch form-check">
+            <input id="feature" class="form-check-input" type="checkbox" role="switch"/>
+            <label class="form-check-label" for="feature">
+              <span>Enable feature</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+# toolbar_input_switch() multiple switches in sequence
+
+    Code
+      show_raw_html(tb_multi)
+    Output
+      <div class="bslib-toolbar bslib-gap-spacing" data-align="right">
+        <div class="form-group shiny-input-container" data-require-bs-version="5" data-require-bs-caller="input_switch()">
+          <div class="bslib-input-switch form-switch form-check">
+            <input id="opt1" class="form-check-input" type="checkbox" role="switch" checked/>
+            <label class="form-check-label" for="opt1">
+              <span>Option 1</span>
+            </label>
+          </div>
+        </div>
+        <div class="form-group shiny-input-container" data-require-bs-version="5" data-require-bs-caller="input_switch()">
+          <div class="bslib-input-switch form-switch form-check">
+            <input id="opt2" class="form-check-input" type="checkbox" role="switch" checked/>
+            <label class="form-check-label" for="opt2">
+              <span>Option 2</span>
+            </label>
+          </div>
+        </div>
+        <div class="form-group shiny-input-container" data-require-bs-version="5" data-require-bs-caller="input_switch()">
+          <div class="bslib-input-switch form-switch form-check">
+            <input id="opt3" class="form-check-input" type="checkbox" role="switch"/>
+            <label class="form-check-label" for="opt3">
+              <span>Option 3</span>
+            </label>
+          </div>
+        </div>
+      </div>
+

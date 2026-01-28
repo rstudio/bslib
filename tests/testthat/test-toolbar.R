@@ -976,3 +976,275 @@ test_that("update_toolbar_input_button() warns for blank label", {
     "non-empty string label"
   )
 })
+
+# Tests for toolbar_input_switch() #
+
+test_that("toolbar_input_switch() basic functionality", {
+  # Basic switch with all parameters
+  switch1 <- toolbar_input_switch(
+    id = "test_switch",
+    label = "Enable feature",
+    value = TRUE
+  )
+
+  expect_snapshot_html(switch1)
+
+  # Check that it's a switch input
+  switch_tag <- as.tags(switch1)
+  expect_match(
+    htmltools::tagGetAttribute(
+      tagQuery(switch_tag)$find("input")$selectedTags()[[1]],
+      "type"
+    ),
+    "checkbox"
+  )
+
+  # Verify it has form-switch class
+  expect_match(
+    htmltools::tagGetAttribute(
+      tagQuery(switch_tag)$find(".form-check")$selectedTags()[[1]],
+      "class"
+    ),
+    "form-switch"
+  )
+})
+
+test_that("toolbar_input_switch() with default value", {
+  # Default value should be FALSE
+  switch_default <- toolbar_input_switch(
+    id = "switch_default",
+    label = "Default switch"
+  )
+
+  expect_snapshot_html(switch_default)
+
+  # Value TRUE
+  switch_true <- toolbar_input_switch(
+    id = "switch_true",
+    label = "Enabled switch",
+    value = TRUE
+  )
+
+  expect_snapshot_html(switch_true)
+})
+
+test_that("toolbar_input_switch() with NULL label", {
+  # NULL label should work (delegated to input_switch)
+  switch_no_label <- toolbar_input_switch(
+    id = "no_label",
+    label = NULL,
+    value = FALSE
+  )
+
+  expect_snapshot_html(switch_no_label)
+})
+
+test_that("toolbar_input_switch() passes through to input_switch correctly", {
+  # Verify that toolbar_input_switch produces same output as input_switch
+  # with width = NULL
+
+  switch_toolbar <- as.character(as.tags(
+    toolbar_input_switch(
+      id = "test",
+      label = "Test",
+      value = TRUE
+    )
+  ))
+
+  switch_regular <- as.character(as.tags(
+    input_switch(
+      id = "test",
+      label = "Test",
+      value = TRUE,
+      width = NULL
+    )
+  ))
+
+  expect_equal(switch_toolbar, switch_regular)
+})
+
+test_that("toolbar_input_switch() markup variations", {
+  # Simple switch
+  expect_snapshot_html(
+    toolbar_input_switch(
+      id = "simple",
+      label = "Simple Switch"
+    )
+  )
+
+  # Switch with TRUE value
+  expect_snapshot_html(
+    toolbar_input_switch(
+      id = "enabled",
+      label = "Enabled Switch",
+      value = TRUE
+    )
+  )
+
+  # Switch with FALSE value (explicit)
+  expect_snapshot_html(
+    toolbar_input_switch(
+      id = "disabled",
+      label = "Disabled Switch",
+      value = FALSE
+    )
+  )
+})
+
+test_that("toolbar_input_switch() in toolbar context", {
+  # Switch in a toolbar with other inputs
+  tb <- toolbar(
+    align = "right",
+    toolbar_input_switch(
+      id = "switch1",
+      label = "Feature 1",
+      value = TRUE
+    ),
+    toolbar_divider(),
+    toolbar_input_switch(
+      id = "switch2",
+      label = "Feature 2",
+      value = FALSE
+    ),
+    toolbar_input_button(
+      id = "submit",
+      label = "Submit",
+      show_label = TRUE
+    )
+  )
+
+  expect_snapshot_html(tb)
+
+  # Check that switches are present
+  tb_html <- as.character(as.tags(tb))
+  expect_match(tb_html, "switch1")
+  expect_match(tb_html, "switch2")
+  expect_match(tb_html, "form-switch")
+})
+
+test_that("toolbar_input_switch() integration with card headers", {
+  # Switch in card header toolbar (common use case)
+  card_with_switch <- card(
+    card_header(
+      "Settings",
+      toolbar(
+        align = "right",
+        toolbar_input_switch(
+          id = "auto_save",
+          label = "Auto-save",
+          value = TRUE
+        ),
+        toolbar_input_switch(
+          id = "notifications",
+          label = "Notifications",
+          value = FALSE
+        )
+      )
+    ),
+    card_body("Content")
+  )
+
+  expect_snapshot_html(card_with_switch)
+})
+
+test_that("toolbar_input_switch() with toolbar_spacer", {
+  # Common pattern: label on left, switch on right
+  tb_spacer <- toolbar(
+    width = "100%",
+    "Enable feature",
+    toolbar_spacer(),
+    toolbar_input_switch(
+      id = "feature",
+      label = "Enable feature",
+      value = FALSE
+    )
+  )
+
+  expect_snapshot_html(tb_spacer)
+})
+
+test_that("toolbar_input_switch() multiple switches in sequence", {
+  # Multiple switches without dividers
+  tb_multi <- toolbar(
+    align = "right",
+    toolbar_input_switch(id = "opt1", label = "Option 1", value = TRUE),
+    toolbar_input_switch(id = "opt2", label = "Option 2", value = TRUE),
+    toolbar_input_switch(id = "opt3", label = "Option 3", value = FALSE)
+  )
+
+  expect_snapshot_html(tb_multi)
+
+  # Verify all three switches are present
+  tb_html <- as.character(as.tags(tb_multi))
+  expect_match(tb_html, "opt1")
+  expect_match(tb_html, "opt2")
+  expect_match(tb_html, "opt3")
+})
+
+# Tests for update_toolbar_input_switch() #
+
+test_that("update_toolbar_input_switch() calls update_switch correctly", {
+  # Mock session to capture the message
+  session <- list(
+    sendInputMessage = function(id, message) {
+      session$last_id <<- id
+      session$last_message <<- message
+    },
+    ns = function(id) id
+  )
+
+  # Update with all parameters
+  update_toolbar_input_switch(
+    "test_switch",
+    label = "New Label",
+    value = TRUE,
+    session = session
+  )
+
+  expect_equal(session$last_id, "test_switch")
+  expect_equal(session$last_message$label, "New Label")
+  expect_equal(session$last_message$value, TRUE)
+})
+
+test_that("update_toolbar_input_switch() handles NULL values", {
+  session <- list(
+    sendInputMessage = function(id, message) {
+      session$last_message <<- message
+    },
+    ns = function(id) id
+  )
+
+  # Update with only value
+  update_toolbar_input_switch(
+    "test_switch",
+    value = FALSE,
+    session = session
+  )
+
+  expect_null(session$last_message$label)
+  expect_equal(session$last_message$value, FALSE)
+
+  # Update with only label
+  update_toolbar_input_switch(
+    "test_switch",
+    label = "Only Label",
+    session = session
+  )
+
+  expect_equal(session$last_message$label, "Only Label")
+  expect_null(session$last_message$value)
+})
+
+test_that("update_toolbar_input_switch() works with default session", {
+  # This test verifies that get_current_session() is used as default
+  # We can't test the actual function call without a running Shiny app,
+  # but we can verify the function signature accepts no session argument
+  expect_no_error(
+    formals(update_toolbar_input_switch)$session
+  )
+
+  # Verify default value is get_current_session()
+  default_session <- formals(update_toolbar_input_switch)$session
+  expect_true(is.call(default_session))
+  expect_equal(as.character(default_session[[1]]), "get_current_session")
+})
