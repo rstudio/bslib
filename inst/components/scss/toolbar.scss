@@ -78,6 +78,10 @@
       justify-content: center;
       line-height: 1; // Remove excess line-height
       margin: 0; // Remove any default margins
+
+      svg, img {
+        margin: 0 !important; // Override inline styles from libraries like faicons
+      }
     }
   }
 
