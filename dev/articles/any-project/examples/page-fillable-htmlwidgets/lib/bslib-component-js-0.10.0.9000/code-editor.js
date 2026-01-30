@@ -1,4 +1,4 @@
-/*! bslib 0.10.0 | (c) 2012-2026 RStudio, PBC. | License: MIT + file LICENSE */
+/*! bslib 0.10.0.9000 | (c) 2012-2026 RStudio, PBC. | License: MIT + file LICENSE */
 var __accessCheck = (obj, member, msg) => {
   if (!member.has(obj))
     throw TypeError("Cannot " + msg);
