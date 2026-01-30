@@ -57,8 +57,6 @@
   .bslib-toolbar-icon.action-icon {
     svg, img {
       margin: 0 !important;
-      align-items: center;
-
     }
   }
 
@@ -205,9 +203,11 @@ label > .bslib-toolbar {
   label.control-label {
     font-weight: 600;
     margin-bottom: 0;
+    display: inline-flex;
   }
 
   .bslib-toolbar-label {
     margin-left: 0.15rem;
+
   }
 }
