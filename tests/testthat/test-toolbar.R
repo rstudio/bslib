@@ -976,3 +976,49 @@ test_that("update_toolbar_input_button() warns for blank label", {
     "non-empty string label"
   )
 })
+
+test_that("update_toolbar_input_button() can disable and reenable button", {
+  # Mock session that captures sendInputMessage calls
+  session <- list(
+    sendInputMessage = function(id, message) {
+      session$last_id <<- id
+      session$last_message <<- message
+    }
+  )
+
+  # Test disabling a button
+  update_toolbar_input_button(
+    "test_btn",
+    label = "Test Button",
+    disabled = TRUE,
+    session = session
+  )
+
+  expect_equal(session$last_id, "test_btn")
+  expect_equal(session$last_message$disabled, TRUE)
+
+  # Test re-enabling a button
+  update_toolbar_input_button(
+    "test_btn",
+    label = "Test Button",
+    disabled = FALSE,
+    session = session
+  )
+
+  expect_equal(session$last_id, "test_btn")
+  expect_equal(session$last_message$disabled, FALSE)
+
+  # Test updating multiple properties including disabled state
+  update_toolbar_input_button(
+    "test_btn",
+    label = "Updated",
+    icon = shiny::icon("check"),
+    disabled = TRUE,
+    session = session
+  )
+
+  expect_equal(session$last_id, "test_btn")
+  expect_equal(session$last_message$disabled, TRUE)
+  expect_true(!is.null(session$last_message$label))
+  expect_true(!is.null(session$last_message$icon))
+})
