@@ -58,7 +58,7 @@ class BslibToolbarInputButtonBinding extends InputBinding {
 
   async receiveMessage(el: HTMLElement, message: ToolbarInputButtonMessage) {
     // Update disabled state
-    if (hasDefinedProperty(message, "disabled") && message.disabled) {
+    if (hasDefinedProperty(message, "disabled")) {
       (el as HTMLButtonElement).disabled = message.disabled;
     }
 
