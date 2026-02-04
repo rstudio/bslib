@@ -1626,7 +1626,7 @@
         }
         receiveMessage(el, message) {
           return __async(this, null, function* () {
-            if (hasDefinedProperty(message, "disabled") && message.disabled) {
+            if (hasDefinedProperty(message, "disabled")) {
               el.disabled = message.disabled;
             }
             if (hasDefinedProperty(message, "label") && message.label !== void 0) {
