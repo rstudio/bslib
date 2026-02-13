@@ -1,9 +1,9 @@
 diff --git a/inst/lib/bsw5/dist/minty/_bootswatch.scss b/inst/lib/bsw5/dist/minty/_bootswatch.scss
-index 7f27462..5fc5795 100644
+index a961860..0e5b466 100644
 --- a/inst/lib/bsw5/dist/minty/_bootswatch.scss
 +++ b/inst/lib/bsw5/dist/minty/_bootswatch.scss
-@@ -27,57 +27,6 @@ $web-font-path: "https://fonts.googleapis.com/css2?family=Montserrat:wght@400;50
- 
+@@ -19,57 +19,6 @@
+
  .btn {
    font-family: $headings-font-family;
 -
@@ -58,19 +58,19 @@ index 7f27462..5fc5795 100644
 -    color: $light;
 -  }
  }
- 
- // Forms
+
+ // Tables
 diff --git a/inst/lib/bsw5/dist/minty/_variables.scss b/inst/lib/bsw5/dist/minty/_variables.scss
-index b1337d9..13dcaaf 100755
+index 0144d48..794327a 100755
 --- a/inst/lib/bsw5/dist/minty/_variables.scss
 +++ b/inst/lib/bsw5/dist/minty/_variables.scss
-@@ -43,7 +43,8 @@ $min-contrast-ratio:   1.45 !default;
- 
+@@ -43,7 +43,8 @@
+
  // Body
- 
+
 -$body-color:                $gray-600 !default;
 +$body-color:                $gray-700 !default;
 +$color-contrast-dark:       $body-color !default; // Prefer $body-color over $black inside color-contrast()
- 
+
  // Components
- 
+

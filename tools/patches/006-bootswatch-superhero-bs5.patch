@@ -1,12 +1,12 @@
 diff --git a/inst/lib/bsw5/dist/superhero/_variables.scss b/inst/lib/bsw5/dist/superhero/_variables.scss
-index 604a4124..fb5a2582 100755
+index 5d31cb17..92c8e66b 100755
 --- a/inst/lib/bsw5/dist/superhero/_variables.scss
 +++ b/inst/lib/bsw5/dist/superhero/_variables.scss
-@@ -30,23 +30,28 @@ $green:   #5cb85c !default;
+@@ -30,23 +30,28 @@
  $teal:    #20c997 !default;
  $cyan:    #5bc0de !default;
  
-+ // Body
++// Body
 +$body-bg: #0f2537 !default;
 +$body-color: $gray-100 !default;
 +
@@ -40,7 +40,7 @@ index 604a4124..fb5a2582 100755
  // Components
  
  $border-radius:               0 !default;
-@@ -58,25 +63,25 @@ $border-radius-sm:            0 !default;
+@@ -58,26 +63,26 @@
  // stylelint-disable-next-line value-keyword-case
  $font-family-sans-serif:      Lato, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
  
@@ -49,6 +49,7 @@ index 604a4124..fb5a2582 100755
  
  // Tables
  
+ $table-color:                 initial !default;
 -$table-accent-bg:             rgba($white, .05) !default;
 -$table-hover-bg:              rgba($white, .075) !default;
 -$table-border-color:          rgba($black, .15) !default;
@@ -74,7 +75,7 @@ index 604a4124..fb5a2582 100755
  
  $input-color:                       $gray-900 !default;
  $input-border-color:                transparent !default;
-@@ -85,12 +90,12 @@ $input-border-width:                0 !default;
+@@ -85,12 +90,12 @@
  $input-placeholder-color:               $gray-500 !default;
  
  $input-group-addon-color:           $body-color !default;
@@ -89,7 +90,7 @@ index 604a4124..fb5a2582 100755
  $form-check-input-border:                 none !default;
  
  $form-file-button-color:          $input-group-addon-color !default;
-@@ -101,8 +106,8 @@ $form-floating-label-opacity:     1 !default;
+@@ -101,8 +106,8 @@
  
  // Dropdowns
  
@@ -100,15 +101,19 @@ index 604a4124..fb5a2582 100755
  $dropdown-link-color:               $body-color !default;
  $dropdown-link-hover-color:         $dropdown-link-color !default;
  $dropdown-link-hover-bg:            $table-hover-bg !default;
-@@ -110,21 +115,21 @@ $dropdown-link-hover-bg:            $table-hover-bg !default;
+@@ -112,24 +117,24 @@
  // Navs
  
  $nav-link-disabled-color:           rgba(255, 255, 255, .4) !default;
 -$nav-tabs-border-color:             $gray-600 !default;
 +$nav-tabs-border-color:             body-mix(80%) !default;
+ $nav-tabs-link-hover-border-color:  $nav-tabs-border-color !default;
  $nav-tabs-link-active-color:        $body-color !default;
 -$nav-tabs-link-active-border-color: $gray-600 !default;
 +$nav-tabs-link-active-border-color: body-mix(80%) !default;
+ 
+-$nav-underline-link-active-color:   $white !default;
++$nav-underline-link-active-color:   $contrast-bg !default;
  
  // Navbar
  
@@ -129,7 +134,7 @@ index 604a4124..fb5a2582 100755
  $pagination-hover-bg:               $nav-link-disabled-color !default;
  $pagination-hover-border-color:     $pagination-border-color !default;
  $pagination-disabled-color:         $nav-link-disabled-color !default;
-@@ -134,7 +139,7 @@ $pagination-disabled-border-color:  $pagination-border-color !default;
+@@ -139,7 +144,7 @@
  // Cards
  
  $card-cap-bg:                       $table-hover-bg !default;
@@ -138,7 +143,7 @@ index 604a4124..fb5a2582 100755
  $card-inner-border-radius:          0 !default;
  
  // Accordion
-@@ -148,12 +153,12 @@ $accordion-button-active-color:           $body-color !default;
+@@ -153,12 +158,12 @@
  
  // Popovers
  
@@ -153,7 +158,7 @@ index 604a4124..fb5a2582 100755
  $toast-border-color:                rgba(0, 0, 0, .2) !default;
  $toast-header-color:                $body-color !default;
  $toast-header-background-color:     $toast-background-color !default;
-@@ -161,34 +166,34 @@ $toast-header-border-color:         $toast-border-color !default;
+@@ -166,34 +171,34 @@
  
  // Modals
  
