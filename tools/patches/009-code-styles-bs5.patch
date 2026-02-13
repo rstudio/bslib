@@ -1,8 +1,7 @@
 diff --git a/inst/lib/bs5/scss/_reboot.scss b/inst/lib/bs5/scss/_reboot.scss
-index 9ba1f30..320b963 100644
 --- a/inst/lib/bs5/scss/_reboot.scss
 +++ b/inst/lib/bs5/scss/_reboot.scss
-@@ -302,9 +302,14 @@ pre {
+@@ -298,9 +298,14 @@ pre {
    overflow: auto; // 3
    @include font-size($code-font-size);
    color: $pre-color;
@@ -10,14 +9,14 @@ index 9ba1f30..320b963 100644
 +  padding: $spacer / 2;
 +  border: $border-width solid var(--#{$prefix}border-color, $border-color);
 +  @include border-radius($border-radius);
- 
+
    // Account for some code outputs that place code tags in pre tags
    code {
 +    background-color: transparent;
      @include font-size(inherit);
      color: inherit;
      word-break: normal;
-@@ -314,6 +319,9 @@ pre {
+@@ -310,6 +315,9 @@ pre {
  code {
    @include font-size($code-font-size);
    color: var(--#{$prefix}code-color);
@@ -25,15 +24,14 @@ index 9ba1f30..320b963 100644
 +  @include border-radius($border-radius);
 +  padding: $spacer/8 $spacer/4;
    word-wrap: break-word;
- 
+
    // Streamline the style when inside anchors to avoid broken underline and more
 diff --git a/inst/lib/bs5/scss/_variables.scss b/inst/lib/bs5/scss/_variables.scss
-index 30485106..9ff2f56c 100644
 --- a/inst/lib/bs5/scss/_variables.scss
 +++ b/inst/lib/bs5/scss/_variables.scss
-@@ -1621,7 +1621,11 @@ $offcanvas-backdrop-opacity:        $modal-backdrop-opacity !default;
+@@ -1739,7 +1739,11 @@ $offcanvas-backdrop-opacity:        $modal-backdrop-opacity !default;
  // Code
- 
+
  $code-font-size:                    $small-font-size !default;
 -$code-color:                        $pink !default;
 +// Amount intentionally matches mixture amount of shiny::inputPanel()
@@ -41,13 +39,15 @@ index 30485106..9ff2f56c 100644
 +$code-bg:                           RGBA(var(--#{$prefix}emphasis-color-rgb, 0,0,0), 0.04) !default;
 +$code-color:                        RGB(var(--#{$prefix}emphasis-color-rgb, 0,0,0)) !default;
 +$code-color-dark:                   RGB(var(--#{$prefix}emphasis-color-rgb, 0,0,0)) !default;
- 
+
  $kbd-padding-y:                     .1875rem !default;
  $kbd-padding-x:                     .375rem !default;
-@@ -1630,4 +1633,5 @@ $kbd-color:                         var(--#{$prefix}body-bg) !default;
+@@ -1748,6 +1752,7 @@ $kbd-color:                         var(--#{$prefix}body-bg) !default;
  $kbd-bg:                            var(--#{$prefix}body-color) !default;
  $nested-kbd-font-weight:            null !default; // Deprecated in v5.2.0, removing in v6
- 
+
 -$pre-color:                         null !default;
 +$pre-bg:                            $code-bg  !default;
 +$pre-color:                         $code-color !default;
+
+ @import "variables-dark"; // TODO: can be removed safely in v6, only here to avoid breaking changes in v5.3
