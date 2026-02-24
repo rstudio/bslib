@@ -28,10 +28,16 @@
 
   // Keep labels and icons centered in the button
   .bslib-toolbar-input-button {
+    display: flex; // Use flex layout to prevent inline baseline issues
     align-items: center;
     justify-content: center;
     line-height: 1; // Override Bootstrap's line-height to avoid too much vertical space
     height: var(--_toolbar-btn-size); // Keep square icon and label + icon button heights consistent
+
+    // Override shiny's .action-button .action-icon+.action-label margin rule for toolbar buttons
+    .action-icon + .action-label {
+      margin-left: 0;
+    }
 
     &.btn-default:not(.btn-primary):not(.btn-secondary):not(.btn-success):not(.btn-danger):not(.btn-warning):not(.btn-info):not(.btn-light):not(.btn-dark) {
       background-color: transparent !important;
