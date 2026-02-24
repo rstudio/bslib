@@ -2,6 +2,14 @@
 
 ## bslib (development version)
 
+### Improvements and bug fixes
+
+- The brand.yml example app
+  (`shiny::runExample("brand.yml", package = "bslib")`) now uses
+  `brand_pluck()` and `brand_has()` from
+  [brand.yml](https://posit-dev.github.io/brand-yml/pkg/r/).
+  ([\#1288](https://github.com/rstudio/bslib/issues/1288))
+
 ## bslib 0.10.0
 
 CRAN release: 2026-01-26
