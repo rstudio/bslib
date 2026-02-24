@@ -1,5 +1,9 @@
 # bslib (development version)
 
+## Improvements and bug fixes
+
+* use `brand_pluck()` and `brand_has()` from `{brand.yml}` in `shiny::runExample("brand.yml", package = "bslib")`. (#1288)
+
 # bslib 0.10.0
 
 ## Breaking changes
