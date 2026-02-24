@@ -26,9 +26,13 @@
 
   /* ---- Toolbar Input Buttons ---- */
 
+  // Force flex display when button is inside toolbar
+  .bslib-toolbar-input-button {
+    display: flex;
+  }
+
   // Keep labels and icons centered in the button
   .bslib-toolbar-input-button {
-    display: flex; // Use flex layout to prevent inline baseline issues
     align-items: center;
     justify-content: center;
     line-height: 1; // Override Bootstrap's line-height to avoid too much vertical space
