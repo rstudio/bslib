@@ -72,9 +72,9 @@
     aspect-ratio: 1;
     line-height: 1 !important; // Ensure no line-height interference
 
-    // Hide the empty action-label span entirely to prevent it from affecting layout
+    // Remove padding on hidden label to keep icon centered
     .action-label {
-      display: none;
+      padding-left: 0;
     }
 
     // Ensure icon is centered
