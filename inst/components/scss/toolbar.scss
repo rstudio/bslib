@@ -72,9 +72,11 @@
     aspect-ratio: 1;
     line-height: 1 !important; // Ensure no line-height interference
 
-    // Remove padding on hidden label to keep icon centered
+    // Remove padding and margin on hidden label to keep icon centered
+    // The margin-left override is needed to counteract shiny's .action-button .action-icon+.action-label rule
     .action-label {
       padding-left: 0;
+      margin-left: 0 !important;
     }
 
     // Ensure icon is centered
