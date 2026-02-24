@@ -185,6 +185,7 @@ The tab name and the content of each tab are specified in the \code{nav_panel()}
 and \code{navset_tab()} creates the tabbed navigation around these two tabs.
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{library(htmltools)
+#> Warning: package 'htmltools' was built under R version 4.5.2
 
 navset_tab(
   nav_panel(title = "One", p("First tab content.")),
