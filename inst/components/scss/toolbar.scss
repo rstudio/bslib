@@ -71,6 +71,7 @@
   .bslib-toolbar-input-button[data-type="icon"] {
     aspect-ratio: 1;
     line-height: 1 !important; // Ensure no line-height interference
+    display: flex !important; // Force flex layout to prevent inline baseline issues
 
     // Remove padding on hidden label to keep icon centered
     .action-label {
