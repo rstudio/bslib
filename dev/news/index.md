@@ -4,6 +4,11 @@
 
 ### Improvements and bug fixes
 
+- Fixed
+  [`toolbar_input_button()`](https://rstudio.github.io/bslib/dev/reference/toolbar_input_button.md)
+  alignment and spacing issues.
+  ([\#1290](https://github.com/rstudio/bslib/issues/1290))
+
 - The brand.yml example app
   (`shiny::runExample("brand.yml", package = "bslib")`) now uses
   `brand_pluck()` and `brand_has()` from
