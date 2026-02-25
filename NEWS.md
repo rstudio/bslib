@@ -47,6 +47,8 @@
 
 * Fixed an issue where `nav_panel_hidden()` could create navs that were still keyboard-discoverable. (#1264)
 
+* Copy files without inheriting read/write/execute permissions fixing issues when using bslib on immutable operating systems. (#1281)
+
 # bslib 0.9.0
 
 ## Breaking changes

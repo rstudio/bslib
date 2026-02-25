@@ -385,12 +385,13 @@ with_dir("inst/lib", {
     Sys.glob(file.path(src, "*.css"))
   )
   core_files <- core_files[!grepl(theme_js_pattern, basename(core_files))]
-  file.copy(core_files, dest)
+  file.copy(core_files, dest, copy.mode = FALSE)
 
   # Copy utils
   file.copy(
     Sys.glob(file.path(src, "utils", "*.js")),
-    file.path(dest, "utils")
+    file.path(dest, "utils"),
+    copy.mode = FALSE
   )
 
   # Copy languages (only bundled)
@@ -399,13 +400,15 @@ with_dir("inst/lib", {
   bundled_languages <- bundled_languages[file.exists(bundled_languages)]
   file.copy(
     bundled_languages,
-    file.path(dest, "languages")
+    file.path(dest, "languages"),
+    copy.mode = FALSE
   )
 
   # Copy prism grammars (only bundled)
   file.copy(
     file.path(src, "prism", "languages", bundled_lang_files),
-    file.path(dest, "prism", "languages")
+    file.path(dest, "prism", "languages"),
+    copy.mode = FALSE
   )
 
   # Copy extensions
@@ -416,11 +419,12 @@ with_dir("inst/lib", {
   )
   # Copy top-level extension files
   ext_js <- ext_files[grepl("\\.js$", ext_files)]
-  file.copy(ext_js, file.path(dest, "extensions"))
+  file.copy(ext_js, file.path(dest, "extensions"), copy.mode = FALSE)
   # Copy copyButton extension folder
   file.copy(
     Sys.glob(file.path(src, "extensions", "copyButton", "*")),
-    file.path(dest, "extensions", "copyButton")
+    file.path(dest, "extensions", "copyButton"),
+    copy.mode = FALSE
   )
 
   # ============================================================================
@@ -506,7 +510,8 @@ with_dir("inst/lib", {
   # Copy themes
   file.copy(
     Sys.glob(file.path(src, "themes", "*.css")),
-    file.path(dest, "themes")
+    file.path(dest, "themes"),
+    copy.mode = FALSE
   )
 
   # Scope theme CSS files to support multiple editors with different themes.
@@ -740,7 +745,7 @@ invisible(
     if (!dir.exists(dest_dir)) {
       dir.create(dest_dir)
     }
-    file.copy(tmp_css, dest_dir)
+    file.copy(tmp_css, dest_dir, copy.mode = FALSE)
 
     # Also save the BS5+ Sass code used to generate the pre-compiled CSS.
     # This is primarily here to help Quarto more easily replicate bs_theme()'s Sass.
@@ -752,7 +757,11 @@ invisible(
       )
       writeLines(theme_sass, file.path(dest_dir, "bootstrap.scss"))
       # Sanity check that we we can compile by moving file to home dir
-      file.copy(file.path(dest_dir, "bootstrap.scss"), "bootstrap.scss")
+      file.copy(
+        file.path(dest_dir, "bootstrap.scss"),
+        "bootstrap.scss",
+        copy.mode = FALSE
+      )
       on.exit(unlink("bootstrap.scss"), add = TRUE)
       testthat::expect_error(sass(sass_file("bootstrap.scss")), NA)
     }
