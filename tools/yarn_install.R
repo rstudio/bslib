@@ -340,6 +340,7 @@ with_dir("inst/lib", {
     "python",
     "julia",
     "sql",
+    "ggsql",
     # Web/Frontend
     "javascript",
     "typescript",
