@@ -25,12 +25,22 @@ OUTPUT_JS <- file.path(LANGUAGES_DIR, "ggsql.js")
 # "\\b(word1|word2|word3)\\b" or "\\b(?i:word1|word2)\\b"
 extract_words <- function(match_pattern) {
   # Try non-capture group with flags first: \b(?i:word1|word2)\b
-  m <- regmatches(match_pattern, regexec("\\\\b\\(\\?[a-z]*:([^)]+)\\)\\\\b", match_pattern))[[1]]
-  if (length(m) == 2) return(strsplit(m[2], "\\|")[[1]])
+  m <- regmatches(
+    match_pattern,
+    regexec("\\\\b\\(\\?[a-z]*:([^)]+)\\)\\\\b", match_pattern)
+  )[[1]]
+  if (length(m) == 2) {
+    return(strsplit(m[2], "\\|")[[1]])
+  }
 
   # Try capture group: \b(word1|word2)\b
-  m <- regmatches(match_pattern, regexec("\\\\b\\(([^)]+)\\)\\\\b", match_pattern))[[1]]
-  if (length(m) == 2) return(strsplit(m[2], "\\|")[[1]])
+  m <- regmatches(
+    match_pattern,
+    regexec("\\\\b\\(([^)]+)\\)\\\\b", match_pattern)
+  )[[1]]
+  if (length(m) == 2) {
+    return(strsplit(m[2], "\\|")[[1]])
+  }
 
   NULL
 }
@@ -38,8 +48,13 @@ extract_words <- function(match_pattern) {
 # Extract word alternatives from a function pattern like
 # "(?i)\\b(func1|func2)\\b\\s*\\("
 extract_function_words <- function(match_pattern) {
-  m <- regmatches(match_pattern, regexec("\\\\b\\(([^)]+)\\)\\\\b\\\\s\\*\\\\\\(", match_pattern))[[1]]
-  if (length(m) == 2) return(strsplit(m[2], "\\|")[[1]])
+  m <- regmatches(
+    match_pattern,
+    regexec("\\\\b\\(([^)]+)\\)\\\\b\\\\s\\*\\\\\\(", match_pattern)
+  )[[1]]
+  if (length(m) == 2) {
+    return(strsplit(m[2], "\\|")[[1]])
+  }
   NULL
 }
 
@@ -59,7 +74,9 @@ format_function_regex <- function(words, flags = "i") {
 extract_import_path <- function(sql_js_path) {
   lines <- readLines(sql_js_path, n = 1)
   m <- regmatches(lines, regexec('"([^"]+index-[^"]+\\.js)"', lines))[[1]]
-  if (length(m) < 2) stop("Could not extract import path from ", sql_js_path)
+  if (length(m) < 2) {
+    stop("Could not extract import path from ", sql_js_path)
+  }
   m[2]
 }
 
