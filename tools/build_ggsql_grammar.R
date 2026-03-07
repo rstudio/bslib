@@ -78,29 +78,27 @@ main <- function() {
   message("Using import path: ", import_path)
 
   # -- Extract ggsql clause keywords --
-  # These come from the begin captures of clause patterns + FILTER from common-clause-patterns
-  clause_keywords <- c(
-    "VISUALISE", "VISUALIZE",  # visualise-clause
-    "DRAW",                     # draw-clause
-    "SCALE",                    # scale-clause
-    "FACET",                    # facet-clause
-    "PROJECT",                  # project-clause
-    "LABEL",                    # label-clause
-    "THEME"                     # theme-clause
-  )
-  # From common-clause-patterns keyword.other matches
-  common_kw_patterns <- repo[["common-clause-patterns"]]$patterns
-  for (p in common_kw_patterns) {
-    if (identical(p$name, "keyword.other.ggsql")) {
-      words <- extract_words(p$match)
+  # Collect from: begin captures of clause patterns + keyword.other matches
+  clause_keywords <- character(0)
+
+  # Clause names come from the `begin` regex of each *-clause pattern
+  clause_names <- grep("-clause$", names(repo), value = TRUE)
+  for (clause_name in clause_names) {
+    clause <- repo[[clause_name]]
+    if (!is.null(clause$begin)) {
+      words <- extract_words(clause$begin)
       if (!is.null(words)) clause_keywords <- c(clause_keywords, words)
     }
   }
-  # Also from scale-clause keyword.other
-  for (p in repo[["scale-clause"]]$patterns) {
-    if (identical(p$name, "keyword.other.ggsql")) {
-      words <- extract_words(p$match)
-      if (!is.null(words)) clause_keywords <- c(clause_keywords, words)
+
+  # Also collect keyword.other.ggsql from all clause patterns and common-clause-patterns
+  keyword_sources <- c("common-clause-patterns", clause_names)
+  for (src in keyword_sources) {
+    for (p in repo[[src]]$patterns) {
+      if (identical(p$name, "keyword.other.ggsql")) {
+        words <- extract_words(p$match)
+        if (!is.null(words)) clause_keywords <- c(clause_keywords, words)
+      }
     }
   }
   clause_keywords <- unique(clause_keywords)
