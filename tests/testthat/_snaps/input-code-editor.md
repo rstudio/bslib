@@ -12,7 +12,7 @@
       input_code_editor("test", language = "fortran")
     Condition
       Error in `input_code_editor()`:
-      ! `language` must be one of "r", "python", "julia", "sql", "javascript", "typescript", "markup", "css", "scss", "sass", "json", "markdown", "yaml", "xml", "toml", "ini", "bash", "docker", "latex", "cpp", "rust", "diff", "md", "html", "plain", "plaintext", "text", or "txt", not "fortran".
+      ! `language` must be one of "r", "python", "julia", "sql", "ggsql", "javascript", "typescript", "markup", "css", "scss", "sass", "json", "markdown", "yaml", "xml", "toml", "ini", "bash", "docker", "latex", "cpp", "rust", "diff", "md", "html", "plain", "plaintext", "text", or "txt", not "fortran".
 
 # input_code_editor validates theme names
 
@@ -33,7 +33,7 @@
       input_code_editor("test", language = "fortran")
     Condition
       Error in `input_code_editor()`:
-      ! `language` must be one of "r", "python", "julia", "sql", "javascript", "typescript", "markup", "css", "scss", "sass", "json", "markdown", "yaml", "xml", "toml", "ini", "bash", "docker", "latex", "cpp", "rust", "diff", "md", "html", "plain", "plaintext", "text", or "txt", not "fortran".
+      ! `language` must be one of "r", "python", "julia", "sql", "ggsql", "javascript", "typescript", "markup", "css", "scss", "sass", "json", "markdown", "yaml", "xml", "toml", "ini", "bash", "docker", "latex", "cpp", "rust", "diff", "md", "html", "plain", "plaintext", "text", or "txt", not "fortran".
 
 # update_code_editor validates inputs
 
@@ -41,7 +41,7 @@
       update_code_editor("test", language = "fortran", session = NULL)
     Condition
       Error in `update_code_editor()`:
-      ! `language` must be one of "r", "python", "julia", "sql", "javascript", "typescript", "markup", "css", "scss", "sass", "json", "markdown", "yaml", "xml", "toml", "ini", "bash", "docker", "latex", "cpp", "rust", "diff", "md", "html", "plain", "plaintext", "text", or "txt", not "fortran".
+      ! `language` must be one of "r", "python", "julia", "sql", "ggsql", "javascript", "typescript", "markup", "css", "scss", "sass", "json", "markdown", "yaml", "xml", "toml", "ini", "bash", "docker", "latex", "cpp", "rust", "diff", "md", "html", "plain", "plaintext", "text", or "txt", not "fortran".
 
 ---
 
