@@ -2,6 +2,8 @@
 
 ## Improvements and bug fixes
 
+* `input_code_editor()` now supports `language = "ggsql"` for syntax highlighting of ggsql queries. (#1291)
+
 * Fixed `toolbar_input_button()` alignment and spacing issues. (#1290)
 
 * The brand.yml example app (`shiny::runExample("brand.yml", package = "bslib")`) now uses `brand_pluck()` and `brand_has()` from `{brand.yml}`. (#1288)
