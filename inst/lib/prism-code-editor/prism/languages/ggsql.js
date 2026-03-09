@@ -25,7 +25,7 @@ ggsql["ggsql-keyword"] = {
 
 // Geom types
 ggsql["ggsql-geom"] = {
-  pattern: /\b(?:point|line|path|bar|col|area|tile|polygon|ribbon|histogram|density|smooth|boxplot|violin|text|label|segment|arrow|hline|vline|abline|errorbar)\b/,
+  pattern: /\b(?:point|line|path|bar|col|area|tile|polygon|ribbon|histogram|density|smooth|boxplot|violin|text|label|segment|arrow|rule|linear|errorbar)\b/,
   alias: "builtin",
 };
 
