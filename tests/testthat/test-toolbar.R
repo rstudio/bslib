@@ -1022,3 +1022,105 @@ test_that("update_toolbar_input_button() can disable and reenable button", {
   expect_true(!is.null(session$last_message$label))
   expect_true(!is.null(session$last_message$icon))
 })
+
+# Tests for toolbar_download_button() #
+test_that("toolbar_download_button() basic structure", {
+  # Icon-only (default)
+  btn <- toolbar_download_button(outputId = "dl_test")
+  # Button is wrapped in tooltip by default, use tagQuery to extract it
+  btn_tag <- tagQuery(as.tags(btn))$find("a")$selectedTags()[[1]]
+
+  expect_match(htmltools::tagGetAttribute(btn_tag, "class"), "bslib-toolbar-download-button")
+  expect_match(htmltools::tagGetAttribute(btn_tag, "class"), "shiny-download-link")
+  expect_match(htmltools::tagGetAttribute(btn_tag, "class"), "btn-sm")
+  expect_match(htmltools::tagGetAttribute(btn_tag, "data-type"), "icon")
+
+  expect_snapshot_html(
+    toolbar_download_button(outputId = "dl_icon_only")
+  )
+})
+
+test_that("toolbar_download_button() with show_label", {
+  btn <- toolbar_download_button(
+    outputId = "dl_test",
+    label = "Download CSV",
+    show_label = TRUE
+  )
+  expect_match(htmltools::tagGetAttribute(btn, "data-type"), "both")
+
+  expect_snapshot_html(
+    toolbar_download_button(
+      outputId = "dl_with_label",
+      label = "Download",
+      show_label = TRUE
+    )
+  )
+})
+
+test_that("toolbar_download_button() disabled parameter", {
+  expect_snapshot_html(
+    toolbar_download_button(
+      outputId = "dl_disabled",
+      disabled = TRUE,
+      show_label = TRUE
+    )
+  )
+
+  # Check disabled attributes
+  btn <- toolbar_download_button(outputId = "dl_test", disabled = TRUE, show_label = TRUE)
+  expect_match(htmltools::tagGetAttribute(btn, "class"), "disabled")
+  expect_equal(htmltools::tagGetAttribute(btn, "aria-disabled"), "true")
+  expect_equal(htmltools::tagGetAttribute(btn, "tabindex"), "-1")
+})
+
+test_that("toolbar_download_button() border parameter", {
+  expect_snapshot_html(
+    toolbar_download_button(
+      outputId = "dl_no_border",
+      border = FALSE,
+      show_label = TRUE
+    )
+  )
+
+  expect_snapshot_html(
+    toolbar_download_button(
+      outputId = "dl_with_border",
+      border = TRUE,
+      show_label = TRUE
+    )
+  )
+})
+
+test_that("toolbar_download_button() tooltip parameter", {
+  # Default: icon-only has tooltip
+  expect_snapshot_html(
+    toolbar_download_button(
+      outputId = "dl_tooltip_default"
+    )
+  )
+
+  # Explicit tooltip = FALSE
+  expect_snapshot_html(
+    toolbar_download_button(
+      outputId = "dl_no_tooltip",
+      tooltip = FALSE
+    )
+  )
+
+  # Custom tooltip text
+  expect_snapshot_html(
+    toolbar_download_button(
+      outputId = "dl_custom_tooltip",
+      tooltip = "Download the data"
+    )
+  )
+})
+
+test_that("toolbar_download_button() custom icon", {
+  expect_snapshot_html(
+    toolbar_download_button(
+      outputId = "dl_custom_icon",
+      icon = shiny::icon("file-csv")
+    )
+  )
+})
