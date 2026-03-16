@@ -61,6 +61,42 @@
     }
   }
 
+  /* ---- Toolbar Download Buttons ---- */
+
+  .bslib-toolbar-download-button {
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    height: var(--_toolbar-btn-size);
+    display: flex;
+    text-decoration: none; // Remove link underline
+
+    .action-icon,
+    .action-label {
+      margin: 0;
+    }
+
+    // Match hover/focus styles from input button
+    &:not(.disabled) {
+      &:hover {
+        background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.08) !important;
+      }
+      &:active {
+        background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.16) !important;
+      }
+      &:focus-within {
+        background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.12) !important;
+        box-shadow: 0 0 0 0.25rem rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.25) !important;
+      }
+    }
+
+    // Disabled state
+    &.disabled {
+      opacity: 0.65;
+      pointer-events: none;
+    }
+  }
+
   .bslib-toolbar-icon.action-icon {
     svg, img {
       margin: 0 !important;
@@ -68,21 +104,24 @@
   }
 
   // Remove the left padding on label-only buttons so the text is centered
-  .bslib-toolbar-input-button[data-type="label"] {
+  .bslib-toolbar-input-button[data-type="label"],
+  .bslib-toolbar-download-button[data-type="label"] {
     .action-label {
       padding-left: 0;
     }
   }
 
   // Add spacing between icon and label in buttons with both
-  .bslib-toolbar-input-button[data-type="both"] {
+  .bslib-toolbar-input-button[data-type="both"],
+  .bslib-toolbar-download-button[data-type="both"] {
     .action-icon {
       margin-right: 0.35rem;
     }
   }
 
   // Square icon-only buttons
-  .bslib-toolbar-input-button[data-type="icon"] {
+  .bslib-toolbar-input-button[data-type="icon"],
+  .bslib-toolbar-download-button[data-type="icon"] {
     aspect-ratio: 1;
     line-height: 1 !important; // Ensure no line-height interference
 

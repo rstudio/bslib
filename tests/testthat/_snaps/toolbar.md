@@ -384,3 +384,164 @@
       Warning:
       `selected` value 'D' is not in `choices`.
 
+# toolbar_download_button() basic structure
+
+    Code
+      show_raw_html(toolbar_download_button(outputId = "dl_icon_only"))
+    Output
+      <bslib-tooltip id="dl_icon_only_tooltip" placement="bottom" bsOptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+        <template>Download</template>
+        <a aria-labelledby="btn-label-4785" class="bslib-toolbar-download-button btn btn-sm shiny-download-link border-0" data-type="icon" download href="" id="dl_icon_only" target="_blank">
+          <span class="action-icon">
+            <span class="bslib-toolbar-icon" aria-hidden="true" style="pointer-events: none">
+              <i class="fas fa-download" role="presentation" aria-label="download icon"></i>
+            </span>
+          </span>
+          <span class="action-label">
+            <span id="btn-label-4785" class="bslib-toolbar-label" hidden>Download</span>
+          </span>
+        </a>
+      </bslib-tooltip>
+
+# toolbar_download_button() with show_label
+
+    Code
+      show_raw_html(toolbar_download_button(outputId = "dl_with_label", label = "Download",
+        show_label = TRUE))
+    Output
+      <a aria-labelledby="btn-label-4785" class="bslib-toolbar-download-button btn btn-sm shiny-download-link border-0" data-type="both" download href="" id="dl_with_label" target="_blank">
+        <span class="action-icon">
+          <span class="bslib-toolbar-icon" aria-hidden="true" style="pointer-events: none">
+            <i class="fas fa-download" role="presentation" aria-label="download icon"></i>
+          </span>
+        </span>
+        <span class="action-label">
+          <span id="btn-label-4785" class="bslib-toolbar-label">Download</span>
+        </span>
+      </a>
+
+# toolbar_download_button() disabled parameter
+
+    Code
+      show_raw_html(toolbar_download_button(outputId = "dl_disabled", disabled = TRUE,
+        show_label = TRUE))
+    Output
+      <a aria-disabled="true" aria-labelledby="btn-label-4785" class="bslib-toolbar-download-button btn btn-sm shiny-download-link border-0 disabled" data-type="both" download href="" id="dl_disabled" tabindex="-1" target="_blank">
+        <span class="action-icon">
+          <span class="bslib-toolbar-icon" aria-hidden="true" style="pointer-events: none">
+            <i class="fas fa-download" role="presentation" aria-label="download icon"></i>
+          </span>
+        </span>
+        <span class="action-label">
+          <span id="btn-label-4785" class="bslib-toolbar-label">Download</span>
+        </span>
+      </a>
+
+# toolbar_download_button() border parameter
+
+    Code
+      show_raw_html(toolbar_download_button(outputId = "dl_no_border", border = FALSE,
+        show_label = TRUE))
+    Output
+      <a aria-labelledby="btn-label-4785" class="bslib-toolbar-download-button btn btn-sm shiny-download-link border-0" data-type="both" download href="" id="dl_no_border" target="_blank">
+        <span class="action-icon">
+          <span class="bslib-toolbar-icon" aria-hidden="true" style="pointer-events: none">
+            <i class="fas fa-download" role="presentation" aria-label="download icon"></i>
+          </span>
+        </span>
+        <span class="action-label">
+          <span id="btn-label-4785" class="bslib-toolbar-label">Download</span>
+        </span>
+      </a>
+
+---
+
+    Code
+      show_raw_html(toolbar_download_button(outputId = "dl_with_border", border = TRUE,
+        show_label = TRUE))
+    Output
+      <a aria-labelledby="btn-label-4785" class="bslib-toolbar-download-button btn btn-sm shiny-download-link border-1" data-type="both" download href="" id="dl_with_border" target="_blank">
+        <span class="action-icon">
+          <span class="bslib-toolbar-icon" aria-hidden="true" style="pointer-events: none">
+            <i class="fas fa-download" role="presentation" aria-label="download icon"></i>
+          </span>
+        </span>
+        <span class="action-label">
+          <span id="btn-label-4785" class="bslib-toolbar-label">Download</span>
+        </span>
+      </a>
+
+# toolbar_download_button() tooltip parameter
+
+    Code
+      show_raw_html(toolbar_download_button(outputId = "dl_tooltip_default"))
+    Output
+      <bslib-tooltip id="dl_tooltip_default_tooltip" placement="bottom" bsOptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+        <template>Download</template>
+        <a aria-labelledby="btn-label-4785" class="bslib-toolbar-download-button btn btn-sm shiny-download-link border-0" data-type="icon" download href="" id="dl_tooltip_default" target="_blank">
+          <span class="action-icon">
+            <span class="bslib-toolbar-icon" aria-hidden="true" style="pointer-events: none">
+              <i class="fas fa-download" role="presentation" aria-label="download icon"></i>
+            </span>
+          </span>
+          <span class="action-label">
+            <span id="btn-label-4785" class="bslib-toolbar-label" hidden>Download</span>
+          </span>
+        </a>
+      </bslib-tooltip>
+
+---
+
+    Code
+      show_raw_html(toolbar_download_button(outputId = "dl_no_tooltip", tooltip = FALSE))
+    Output
+      <a aria-labelledby="btn-label-4785" class="bslib-toolbar-download-button btn btn-sm shiny-download-link border-0" data-type="icon" download href="" id="dl_no_tooltip" target="_blank">
+        <span class="action-icon">
+          <span class="bslib-toolbar-icon" aria-hidden="true" style="pointer-events: none">
+            <i class="fas fa-download" role="presentation" aria-label="download icon"></i>
+          </span>
+        </span>
+        <span class="action-label">
+          <span id="btn-label-4785" class="bslib-toolbar-label" hidden>Download</span>
+        </span>
+      </a>
+
+---
+
+    Code
+      show_raw_html(toolbar_download_button(outputId = "dl_custom_tooltip", tooltip = "Download the data"))
+    Output
+      <bslib-tooltip id="dl_custom_tooltip_tooltip" placement="bottom" bsOptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+        <template>Download the data</template>
+        <a aria-labelledby="btn-label-4785" class="bslib-toolbar-download-button btn btn-sm shiny-download-link border-0" data-type="icon" download href="" id="dl_custom_tooltip" target="_blank">
+          <span class="action-icon">
+            <span class="bslib-toolbar-icon" aria-hidden="true" style="pointer-events: none">
+              <i class="fas fa-download" role="presentation" aria-label="download icon"></i>
+            </span>
+          </span>
+          <span class="action-label">
+            <span id="btn-label-4785" class="bslib-toolbar-label" hidden>Download</span>
+          </span>
+        </a>
+      </bslib-tooltip>
+
+# toolbar_download_button() custom icon
+
+    Code
+      show_raw_html(toolbar_download_button(outputId = "dl_custom_icon", icon = shiny::icon(
+        "file-csv")))
+    Output
+      <bslib-tooltip id="dl_custom_icon_tooltip" placement="bottom" bsOptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+        <template>Download</template>
+        <a aria-labelledby="btn-label-4785" class="bslib-toolbar-download-button btn btn-sm shiny-download-link border-0" data-type="icon" download href="" id="dl_custom_icon" target="_blank">
+          <span class="action-icon">
+            <span class="bslib-toolbar-icon" aria-hidden="true" style="pointer-events: none">
+              <i class="fas fa-file-csv" role="presentation" aria-label="file-csv icon"></i>
+            </span>
+          </span>
+          <span class="action-label">
+            <span id="btn-label-4785" class="bslib-toolbar-label" hidden>Download</span>
+          </span>
+        </a>
+      </bslib-tooltip>
+
