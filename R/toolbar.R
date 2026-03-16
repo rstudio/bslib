@@ -960,3 +960,136 @@ toolbar_divider <- function(..., width = NULL, gap = NULL) {
 toolbar_spacer <- function() {
   div(class = "bslib-toolbar-spacer")
 }
+
+#' Toolbar Download Button
+#'
+#' @description
+#' A download button designed to fit well in small places such as in a [toolbar()].
+#'
+#' @param outputId The download output ID (connects to [shiny::downloadHandler()] in server).
+#' @param label The button label. By default, `label` is not shown but is used by
+#'   `tooltip`. Set `show_label = TRUE` to show the label.
+#' @param icon An icon. Defaults to `shiny::icon("download")`.
+#' @param show_label Whether to show the label text. If `FALSE` (the default),
+#'   only the icon is shown. If `TRUE`, the label text is shown alongside the icon.
+#' @param tooltip Tooltip text to display when hovering. Can be:
+#'   * `TRUE` (default when `show_label = FALSE`) - shows tooltip with `label` text
+#'   * `FALSE` (default when `show_label = TRUE`) - no tooltip
+#'   * A character string - shows tooltip with custom text
+#' @param ... Additional attributes passed to the `<a>` tag.
+#' @param disabled If `TRUE`, the button will not be clickable. Since `<a>` tags
+#'   have no native disabled attribute, this adds `class="disabled"`,
+#'   `aria-disabled="true"`, and `tabindex="-1"`.
+#' @param border Whether to show a border around the button.
+#'
+#' @return Returns a download button suitable for use in a toolbar.
+#'
+#' @family toolbar components
+#' @export
+toolbar_download_button <- function(
+  outputId,
+  label = "Download",
+  icon = shiny::icon("download"),
+  show_label = FALSE,
+  tooltip = !show_label,
+  ...,
+  disabled = FALSE,
+  border = FALSE
+) {
+  btn_type <-
+    if (is.null(icon)) {
+      if (!show_label) {
+        rlang::abort(
+          "If `show_label` is FALSE, `icon` must be provided."
+        )
+      }
+      "label"
+    } else {
+      if (show_label) "both" else "icon"
+    }
+
+  # Validate that label has text for accessibility
+  label_text <- paste(unlist(find_characters(label)), collapse = " ")
+  # Verifies the label contains non-empty text
+  if (!nzchar(trimws(label_text))) {
+    warning(
+      "Consider providing a non-empty string label for accessibility."
+    )
+  }
+
+  label_id <- paste0("btn-label-", p_randomInt(1000, 10000))
+
+  # We hide the label visually if `!show_label` but keep the label field for
+  # use with `aria-labelledby`. This ensures that ARIA will always use the
+  # label text.
+  label_elem <- span(
+    class = "action-label",
+    span(
+      id = label_id,
+      class = "bslib-toolbar-label",
+      hidden = if (!show_label) NA else NULL,
+      label
+    )
+  )
+
+  # And we wrap the icon to ensure that it is always treated as decorative
+  icon_elem <- span(
+    class = "action-icon",
+    span(
+      class = "bslib-toolbar-icon",
+      `aria-hidden` = "true",
+      style = "pointer-events: none",
+      icon
+    )
+  )
+
+  button <- tags$a(
+    id = outputId,
+    class = "bslib-toolbar-download-button btn btn-sm shiny-download-link",
+    class = if (!border) "border-0" else "border-1",
+    class = if (disabled) "disabled",
+    href = "",
+    target = "_blank",
+    download = NA,
+    `data-type` = btn_type,
+    `aria-labelledby` = label_id,
+    `aria-disabled` = if (disabled) "true" else NULL,
+    tabindex = if (disabled) "-1" else NULL,
+    icon_elem,
+    label_elem,
+    ...
+  )
+
+  # If tooltip is literally TRUE, use the label as the tooltip text.
+  if (isTRUE(tooltip)) {
+    tooltip <- label
+  }
+  if (isFALSE(tooltip)) {
+    tooltip <- NULL
+  }
+  if (!is.null(tooltip)) {
+    # Default placement is "bottom" for the toolbar case because otherwise the
+    # tooltip ends up covering the neighboring buttons in the header/footer.
+    button <- tooltip(
+      button,
+      tooltip,
+      id = sprintf("%s_tooltip", outputId),
+      placement = "bottom"
+    )
+  }
+
+  button
+}
+
+#' @param session A Shiny session object.
+#'
+#' @describeIn toolbar_download_button Update a toolbar download button.
+#' @export
+update_toolbar_download_button <- function(
+  outputId,
+  disabled = NULL,
+  session = get_current_session()
+) {
+  message <- dropNulls(list(disabled = disabled))
+  session$sendInputMessage(outputId, message)
+}
