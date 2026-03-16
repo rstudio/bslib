@@ -253,6 +253,7 @@ shinyApp(ui, server)
 
 Other toolbar components: 
 \code{\link{toolbar_divider}()},
+\code{\link{toolbar_download_button}()},
 \code{\link{toolbar_input_button}()},
 \code{\link{toolbar_input_select}()}
 }
