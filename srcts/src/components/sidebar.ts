@@ -190,6 +190,8 @@ class Sidebar {
     RESIZE_HANDLE: "bslib-sidebar-resize-handle",
     // eslint-disable-next-line @typescript-eslint/naming-convention
     RESIZING: "sidebar-resizing",
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    HANDLE_ACTIVE: "handle-active",
   };
 
   /**
@@ -322,6 +324,14 @@ class Sidebar {
   private _attachResizeEventListeners(handle: HTMLDivElement): void {
     // Mouse events
     handle.addEventListener("mousedown", this._onResizeStart.bind(this));
+    handle.addEventListener(
+      "mousemove",
+      this._onResizeHandlePointerMove.bind(this)
+    );
+    handle.addEventListener(
+      "mouseleave",
+      this._onResizeHandlePointerLeave.bind(this)
+    );
     document.addEventListener("mousemove", this._onResizeMove.bind(this));
     document.addEventListener("mouseup", this._onResizeEnd.bind(this));
 
@@ -371,6 +381,10 @@ class Sidebar {
    */
   private _onResizeStart(event: MouseEvent | TouchEvent): void {
     if (!this._shouldEnableResize()) return;
+
+    // Fine pointers (mouse) must cross the handle midpoint before grabbing,
+    // so that clicks on the sidebar scrollbar don't start a resize.
+    if (!("touches" in event) && !this.resizeHandleActivated) return;
 
     event.preventDefault();
 
@@ -437,6 +451,9 @@ class Sidebar {
     document.documentElement.removeAttribute(
       `data-bslib-${Sidebar.classes.RESIZING}`
     );
+
+    // Reset handle activation state
+    this._deactivateResizeHandle();
 
     // Dispatch resize end event
     Sidebar.shinyResizeObserver.flush();
@@ -522,6 +539,91 @@ class Sidebar {
    */
   private _isRightSidebar(): boolean {
     return this.layout.container.classList.contains("sidebar-right");
+  }
+
+  /**
+   * Whether the resize handle has been activated by the mouse crossing the
+   * sidebar's outer edge. This prevents clicks on the sidebar scrollbar
+   * (which overlaps the handle) from starting a resize.
+   * @private
+   */
+  private resizeHandleActivated = false;
+
+  /**
+   * The clientX where the handle was activated, used to detect when the mouse
+   * reverses direction back past this point (which dismisses the handle).
+   * @private
+   */
+  private resizeHandleEngagementX = 0;
+
+  /**
+   * The peak displacement from the engagement point, used to detect direction
+   * reversal past the engagement point.
+   * @private
+   */
+  private resizeHandlePeakDx = 0;
+
+  /**
+   * Track mouse movement over the resize handle to detect when the cursor
+   * crosses the sidebar's outer edge, which activates the handle for grabbing.
+   * After activation, dismisses if the mouse reverses back past the
+   * engagement point.
+   * @private
+   * @param {MouseEvent} event
+   */
+  private _onResizeHandlePointerMove(event: MouseEvent): void {
+    if (this.resizeState.isResizing) return;
+
+    const handle = this.layout.resizeHandle;
+    if (!handle) return;
+
+    if (!this.resizeHandleActivated) {
+      const sidebarRect = this.layout.sidebar.getBoundingClientRect();
+      const midpoint = this._isRightSidebar()
+        ? sidebarRect.left
+        : sidebarRect.right;
+
+      if (Math.abs(event.clientX - midpoint) <= 2) {
+        this.resizeHandleActivated = true;
+        this.resizeHandleEngagementX = event.clientX;
+        this.resizeHandlePeakDx = 0;
+        handle.classList.add(Sidebar.classes.HANDLE_ACTIVE);
+      }
+      return;
+    }
+
+    const dx = event.clientX - this.resizeHandleEngagementX;
+
+    if (Math.abs(dx) > Math.abs(this.resizeHandlePeakDx)) {
+      this.resizeHandlePeakDx = dx;
+    }
+
+    // Dismiss if mouse reversed direction back past the engagement point
+    if (
+      Math.abs(this.resizeHandlePeakDx) > 3 &&
+      Math.sign(dx) !== Math.sign(this.resizeHandlePeakDx)
+    ) {
+      this._deactivateResizeHandle();
+    }
+  }
+
+  /**
+   * Remove the active state from the resize handle.
+   * @private
+   */
+  private _deactivateResizeHandle(): void {
+    this.resizeHandleActivated = false;
+    this.resizeHandlePeakDx = 0;
+    this.layout.resizeHandle?.classList.remove(Sidebar.classes.HANDLE_ACTIVE);
+  }
+
+  /**
+   * Reset resize handle activation when the mouse leaves the handle.
+   * @private
+   */
+  private _onResizeHandlePointerLeave(): void {
+    if (this.resizeState.isResizing) return;
+    this._deactivateResizeHandle();
   }
 
   /**
