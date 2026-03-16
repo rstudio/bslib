@@ -1663,6 +1663,41 @@
     }
   });
 
+  // srcts/src/components/toolbarDownloadButton.ts
+  var BslibToolbarDownloadButtonBinding;
+  var init_toolbarDownloadButton = __esm({
+    "srcts/src/components/toolbarDownloadButton.ts"() {
+      "use strict";
+      init_utils();
+      BslibToolbarDownloadButtonBinding = class extends InputBinding {
+        find(scope) {
+          return $(scope).find(".bslib-toolbar-download-button");
+        }
+        getValue() {
+          return null;
+        }
+        subscribe() {
+        }
+        unsubscribe() {
+        }
+        receiveMessage(el, message) {
+          if (hasDefinedProperty(message, "disabled")) {
+            if (message.disabled) {
+              el.classList.add("disabled");
+              el.setAttribute("aria-disabled", "true");
+              el.setAttribute("tabindex", "-1");
+            } else {
+              el.classList.remove("disabled");
+              el.removeAttribute("aria-disabled");
+              el.removeAttribute("tabindex");
+            }
+          }
+        }
+      };
+      registerBinding(BslibToolbarDownloadButtonBinding, "toolbar-download-button");
+    }
+  });
+
   // srcts/src/components/toolbarInputSelect.ts
   var _hideTooltip2, hideTooltip_fn2, BslibToolbarInputSelectBinding;
   var init_toolbarInputSelect = __esm({
@@ -2259,6 +2294,7 @@
       init_sidebar();
       init_taskButton();
       init_toolbarInputButton();
+      init_toolbarDownloadButton();
       init_toolbarInputSelect();
       init_submitTextArea();
       init_toast();
