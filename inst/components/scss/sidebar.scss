@@ -411,6 +411,11 @@ $bslib-sidebar-column-sidebar: Min(calc(100% - var(--_padding-icon)), var(--_sid
     }
   }
 
+  // Hide resize handle when sidebar is not resizable
+  > .sidebar:not([data-resizable]) ~ .bslib-sidebar-resize-handle {
+    display: none;
+  }
+
   // Hide resize handle during transitions and when collapsed
   &.transitioning,
   &.sidebar-collapsed {

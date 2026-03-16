@@ -279,6 +279,8 @@ class Sidebar {
    * @private
    */
   private _initResizeHandle(): void {
+    if (!this.layout.sidebar.hasAttribute("data-resizable")) return;
+
     if (!this.layout.resizeHandle) {
       const handle = this._createResizeHandle();
       // Insert handle into the layout container

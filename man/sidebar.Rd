@@ -19,7 +19,8 @@ sidebar(
   max_height_mobile = NULL,
   gap = NULL,
   padding = NULL,
-  fillable = FALSE
+  fillable = FALSE,
+  resizable = TRUE
 )
 
 layout_sidebar(
@@ -109,6 +110,10 @@ respectively.}
 
 \item{fillable}{Whether or not the \code{main} content area should be considered a
 fillable (i.e., flexbox) container.}
+
+\item{resizable}{Whether the sidebar can be resized by dragging its edge.
+When \code{TRUE} (the default), a resize handle is added to the sidebar that
+allows users to adjust the sidebar width on desktop (wide screen sizes).}
 
 \item{sidebar}{A \code{\link[=sidebar]{sidebar()}} object.}
 

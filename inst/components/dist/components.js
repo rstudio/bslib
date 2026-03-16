@@ -1056,6 +1056,8 @@
          * @private
          */
         _initResizeHandle() {
+          if (!this.layout.sidebar.hasAttribute("data-resizable"))
+            return;
           if (!this.layout.resizeHandle) {
             const handle = this._createResizeHandle();
             this.layout.container.appendChild(handle);
