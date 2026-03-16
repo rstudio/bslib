@@ -1030,8 +1030,14 @@ test_that("toolbar_download_button() basic structure", {
   # Button is wrapped in tooltip by default, use tagQuery to extract it
   btn_tag <- tagQuery(as.tags(btn))$find("a")$selectedTags()[[1]]
 
-  expect_match(htmltools::tagGetAttribute(btn_tag, "class"), "bslib-toolbar-download-button")
-  expect_match(htmltools::tagGetAttribute(btn_tag, "class"), "shiny-download-link")
+  expect_match(
+    htmltools::tagGetAttribute(btn_tag, "class"),
+    "bslib-toolbar-download-button"
+  )
+  expect_match(
+    htmltools::tagGetAttribute(btn_tag, "class"),
+    "shiny-download-link"
+  )
   expect_match(htmltools::tagGetAttribute(btn_tag, "class"), "btn-sm")
   expect_match(htmltools::tagGetAttribute(btn_tag, "data-type"), "icon")
 
@@ -1067,7 +1073,11 @@ test_that("toolbar_download_button() disabled parameter", {
   )
 
   # Check disabled attributes
-  btn <- toolbar_download_button(outputId = "dl_test", disabled = TRUE, show_label = TRUE)
+  btn <- toolbar_download_button(
+    outputId = "dl_test",
+    disabled = TRUE,
+    show_label = TRUE
+  )
   expect_match(htmltools::tagGetAttribute(btn, "class"), "disabled")
   expect_equal(htmltools::tagGetAttribute(btn, "aria-disabled"), "true")
   expect_equal(htmltools::tagGetAttribute(btn, "tabindex"), "-1")
