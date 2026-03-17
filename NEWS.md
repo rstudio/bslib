@@ -1,5 +1,9 @@
 # bslib (development version)
 
+## New features
+
+* Added `toolbar_download_button()` and `update_toolbar_download_button()` for adding a download button to a `toolbar()`, styled consistently with other toolbar inputs. (#1292)
+
 ## Improvements and bug fixes
 
 * Fixed `toolbar_input_button()` alignment and spacing issues. (#1290)

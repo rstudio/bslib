@@ -99,7 +99,7 @@
       show_raw_html(toolbar_input_button(id = "with_border", label = "With Border",
         border = TRUE, show_label = TRUE))
     Output
-      <button aria-labelledby="btn-label-4785" class="btn btn-default action-button bslib-toolbar-input-button btn-sm border-1" data-type="label" id="with_border" type="button"><span class="action-icon"><span class="bslib-toolbar-icon" aria-hidden="true" style="pointer-events: none"></span></span><span class="action-label"><span id="btn-label-4785" class="bslib-toolbar-label">With Border</span></span></button>
+      <button aria-labelledby="btn-label-4785" class="btn btn-default action-button bslib-toolbar-input-button btn-sm border" data-type="label" id="with_border" type="button"><span class="action-icon"><span class="bslib-toolbar-icon" aria-hidden="true" style="pointer-events: none"></span></span><span class="action-label"><span id="btn-label-4785" class="bslib-toolbar-label">With Border</span></span></button>
 
 # toolbar_input_button() tooltip parameter
 
@@ -391,7 +391,7 @@
     Output
       <bslib-tooltip id="dl_icon_only_tooltip" placement="bottom" bsOptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
         <template>Download</template>
-        <a aria-labelledby="btn-label-4785" class="bslib-toolbar-download-button btn btn-sm shiny-download-link border-0" data-type="icon" download href="" id="dl_icon_only" target="_blank">
+        <a aria-labelledby="btn-label-4785" class="bslib-toolbar-download-button btn btn-sm shiny-download-link border-0" data-type="icon" download href="" id="dl_icon_only" rel="noopener noreferrer" target="_blank">
           <span class="action-icon">
             <span class="bslib-toolbar-icon" aria-hidden="true" style="pointer-events: none">
               <i class="fas fa-download" role="presentation" aria-label="download icon"></i>
@@ -409,7 +409,7 @@
       show_raw_html(toolbar_download_button(outputId = "dl_with_label", label = "Download",
         show_label = TRUE))
     Output
-      <a aria-labelledby="btn-label-4785" class="bslib-toolbar-download-button btn btn-sm shiny-download-link border-0" data-type="both" download href="" id="dl_with_label" target="_blank">
+      <a aria-labelledby="btn-label-4785" class="bslib-toolbar-download-button btn btn-sm shiny-download-link border-0" data-type="both" download href="" id="dl_with_label" rel="noopener noreferrer" target="_blank">
         <span class="action-icon">
           <span class="bslib-toolbar-icon" aria-hidden="true" style="pointer-events: none">
             <i class="fas fa-download" role="presentation" aria-label="download icon"></i>
@@ -426,7 +426,7 @@
       show_raw_html(toolbar_download_button(outputId = "dl_disabled", disabled = TRUE,
         show_label = TRUE))
     Output
-      <a aria-disabled="true" aria-labelledby="btn-label-4785" class="bslib-toolbar-download-button btn btn-sm shiny-download-link border-0 disabled" data-type="both" download href="" id="dl_disabled" tabindex="-1" target="_blank">
+      <a aria-disabled="true" aria-labelledby="btn-label-4785" class="bslib-toolbar-download-button btn btn-sm shiny-download-link border-0 disabled" data-type="both" download href="" id="dl_disabled" rel="noopener noreferrer" tabindex="-1" target="_blank">
         <span class="action-icon">
           <span class="bslib-toolbar-icon" aria-hidden="true" style="pointer-events: none">
             <i class="fas fa-download" role="presentation" aria-label="download icon"></i>
@@ -443,7 +443,7 @@
       show_raw_html(toolbar_download_button(outputId = "dl_no_border", border = FALSE,
         show_label = TRUE))
     Output
-      <a aria-labelledby="btn-label-4785" class="bslib-toolbar-download-button btn btn-sm shiny-download-link border-0" data-type="both" download href="" id="dl_no_border" target="_blank">
+      <a aria-labelledby="btn-label-4785" class="bslib-toolbar-download-button btn btn-sm shiny-download-link border-0" data-type="both" download href="" id="dl_no_border" rel="noopener noreferrer" target="_blank">
         <span class="action-icon">
           <span class="bslib-toolbar-icon" aria-hidden="true" style="pointer-events: none">
             <i class="fas fa-download" role="presentation" aria-label="download icon"></i>
@@ -460,7 +460,7 @@
       show_raw_html(toolbar_download_button(outputId = "dl_with_border", border = TRUE,
         show_label = TRUE))
     Output
-      <a aria-labelledby="btn-label-4785" class="bslib-toolbar-download-button btn btn-sm shiny-download-link border-1" data-type="both" download href="" id="dl_with_border" target="_blank">
+      <a aria-labelledby="btn-label-4785" class="bslib-toolbar-download-button btn btn-sm shiny-download-link border" data-type="both" download href="" id="dl_with_border" rel="noopener noreferrer" target="_blank">
         <span class="action-icon">
           <span class="bslib-toolbar-icon" aria-hidden="true" style="pointer-events: none">
             <i class="fas fa-download" role="presentation" aria-label="download icon"></i>
@@ -478,7 +478,7 @@
     Output
       <bslib-tooltip id="dl_tooltip_default_tooltip" placement="bottom" bsOptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
         <template>Download</template>
-        <a aria-labelledby="btn-label-4785" class="bslib-toolbar-download-button btn btn-sm shiny-download-link border-0" data-type="icon" download href="" id="dl_tooltip_default" target="_blank">
+        <a aria-labelledby="btn-label-4785" class="bslib-toolbar-download-button btn btn-sm shiny-download-link border-0" data-type="icon" download href="" id="dl_tooltip_default" rel="noopener noreferrer" target="_blank">
           <span class="action-icon">
             <span class="bslib-toolbar-icon" aria-hidden="true" style="pointer-events: none">
               <i class="fas fa-download" role="presentation" aria-label="download icon"></i>
@@ -495,7 +495,7 @@
     Code
       show_raw_html(toolbar_download_button(outputId = "dl_no_tooltip", tooltip = FALSE))
     Output
-      <a aria-labelledby="btn-label-4785" class="bslib-toolbar-download-button btn btn-sm shiny-download-link border-0" data-type="icon" download href="" id="dl_no_tooltip" target="_blank">
+      <a aria-labelledby="btn-label-4785" class="bslib-toolbar-download-button btn btn-sm shiny-download-link border-0" data-type="icon" download href="" id="dl_no_tooltip" rel="noopener noreferrer" target="_blank">
         <span class="action-icon">
           <span class="bslib-toolbar-icon" aria-hidden="true" style="pointer-events: none">
             <i class="fas fa-download" role="presentation" aria-label="download icon"></i>
@@ -513,7 +513,7 @@
     Output
       <bslib-tooltip id="dl_custom_tooltip_tooltip" placement="bottom" bsOptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
         <template>Download the data</template>
-        <a aria-labelledby="btn-label-4785" class="bslib-toolbar-download-button btn btn-sm shiny-download-link border-0" data-type="icon" download href="" id="dl_custom_tooltip" target="_blank">
+        <a aria-labelledby="btn-label-4785" class="bslib-toolbar-download-button btn btn-sm shiny-download-link border-0" data-type="icon" download href="" id="dl_custom_tooltip" rel="noopener noreferrer" target="_blank">
           <span class="action-icon">
             <span class="bslib-toolbar-icon" aria-hidden="true" style="pointer-events: none">
               <i class="fas fa-download" role="presentation" aria-label="download icon"></i>
@@ -533,7 +533,7 @@
     Output
       <bslib-tooltip id="dl_custom_icon_tooltip" placement="bottom" bsOptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
         <template>Download</template>
-        <a aria-labelledby="btn-label-4785" class="bslib-toolbar-download-button btn btn-sm shiny-download-link border-0" data-type="icon" download href="" id="dl_custom_icon" target="_blank">
+        <a aria-labelledby="btn-label-4785" class="bslib-toolbar-download-button btn btn-sm shiny-download-link border-0" data-type="icon" download href="" id="dl_custom_icon" rel="noopener noreferrer" target="_blank">
           <span class="action-icon">
             <span class="bslib-toolbar-icon" aria-hidden="true" style="pointer-events: none">
               <i class="fas fa-file-csv" role="presentation" aria-label="file-csv icon"></i>
