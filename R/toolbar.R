@@ -440,7 +440,7 @@ toolbar_input_button <- function(
     icon = icon_elem,
     disabled = disabled,
     class = "bslib-toolbar-input-button btn-sm",
-    class = if (!border) "border-0" else "border-1",
+    class = if (!border) "border-0" else "border",
     "data-type" = btn_type,
     "aria-labelledby" = label_id,
     ...
@@ -984,6 +984,18 @@ toolbar_spacer <- function() {
 #'
 #' @return Returns a download button suitable for use in a toolbar.
 #'
+#' @examplesIf rlang::is_interactive()
+#' # Download button in a card toolbar
+#' card(
+#'   card_header(
+#'     "Flower Data",
+#'     toolbar(
+#'       align = "right",
+#'       toolbar_download_button("download_data", label = "Download")
+#'     )
+#'   )
+#' )
+#'
 #' @family toolbar components
 #' @export
 toolbar_download_button <- function(
@@ -1046,10 +1058,11 @@ toolbar_download_button <- function(
   button <- tags$a(
     id = outputId,
     class = "bslib-toolbar-download-button btn btn-sm shiny-download-link",
-    class = if (!border) "border-0" else "border-1",
+    class = if (!border) "border-0" else "border",
     class = if (disabled) "disabled",
     href = "",
     target = "_blank",
+    rel = "noopener noreferrer",
     download = NA,
     `data-type` = btn_type,
     `aria-labelledby` = label_id,

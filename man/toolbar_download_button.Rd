@@ -61,8 +61,22 @@ A download button designed to fit well in small places such as in a \code{\link[
 \item \code{update_toolbar_download_button()}: Update a toolbar download button.
 
 }}
+\examples{
+\dontshow{if (rlang::is_interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+# Download button in a card toolbar
+card(
+  card_header(
+    "Flower Data",
+    toolbar(
+      align = "right",
+      toolbar_download_button("download_data", label = "Download")
+    )
+  )
+)
+\dontshow{\}) # examplesIf}
+}
 \seealso{
-Other toolbar components: 
+Other toolbar components:
 \code{\link{toolbar}()},
 \code{\link{toolbar_divider}()},
 \code{\link{toolbar_input_button}()},
