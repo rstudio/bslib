@@ -920,6 +920,25 @@
             }
           };
           /**
+           * Whether the resize handle has been activated by the mouse crossing the
+           * sidebar's outer edge. This prevents clicks on the sidebar scrollbar
+           * (which overlaps the handle) from starting a resize.
+           * @private
+           */
+          this.resizeHandleActivated = false;
+          /**
+           * The clientX where the handle was activated, used to detect when the mouse
+           * reverses direction back past this point (which dismisses the handle).
+           * @private
+           */
+          this.resizeHandleEngagementX = 0;
+          /**
+           * The peak displacement from the engagement point, used to detect direction
+           * reversal past the engagement point.
+           * @private
+           */
+          this.resizeHandlePeakDx = 0;
+          /**
            * The current window size, either `"desktop"` or `"mobile"`.
            * @private
            * @type {SidebarWindowSize | ""}
@@ -1037,6 +1056,8 @@
          * @private
          */
         _initResizeHandle() {
+          if (!this.layout.sidebar.hasAttribute("data-resizable"))
+            return;
           if (!this.layout.resizeHandle) {
             const handle = this._createResizeHandle();
             this.layout.container.appendChild(handle);
@@ -1073,6 +1094,14 @@
          */
         _attachResizeEventListeners(handle) {
           handle.addEventListener("mousedown", this._onResizeStart.bind(this));
+          handle.addEventListener(
+            "mousemove",
+            this._onResizeHandlePointerMove.bind(this)
+          );
+          handle.addEventListener(
+            "mouseleave",
+            this._onResizeHandlePointerLeave.bind(this)
+          );
           document.addEventListener("mousemove", this._onResizeMove.bind(this));
           document.addEventListener("mouseup", this._onResizeEnd.bind(this));
           handle.addEventListener("touchstart", this._onResizeStart.bind(this), {
@@ -1114,6 +1143,8 @@
          */
         _onResizeStart(event) {
           if (!this._shouldEnableResize())
+            return;
+          if (!("touches" in event) && !this.resizeHandleActivated)
             return;
           event.preventDefault();
           const clientX = "touches" in event ? event.touches[0].clientX : event.clientX;
@@ -1158,6 +1189,7 @@
           document.documentElement.removeAttribute(
             `data-bslib-${_Sidebar.classes.RESIZING}`
           );
+          this._deactivateResizeHandle();
           _Sidebar.shinyResizeObserver.flush();
           this._dispatchResizeEvent("end", this._getCurrentSidebarWidth());
         }
@@ -1229,6 +1261,58 @@
          */
         _isRightSidebar() {
           return this.layout.container.classList.contains("sidebar-right");
+        }
+        /**
+         * Track mouse movement over the resize handle to detect when the cursor
+         * crosses the sidebar's outer edge, which activates the handle for grabbing.
+         * After activation, dismisses if the mouse reverses back past the
+         * engagement point.
+         * @private
+         * @param {MouseEvent} event
+         */
+        _onResizeHandlePointerMove(event) {
+          if (this.resizeState.isResizing)
+            return;
+          const handle = this.layout.resizeHandle;
+          if (!handle)
+            return;
+          if (!this.resizeHandleActivated) {
+            const sidebarRect = this.layout.sidebar.getBoundingClientRect();
+            const midpoint = this._isRightSidebar() ? sidebarRect.left : sidebarRect.right;
+            if (Math.abs(event.clientX - midpoint) <= 2) {
+              this.resizeHandleActivated = true;
+              this.resizeHandleEngagementX = event.clientX;
+              this.resizeHandlePeakDx = 0;
+              handle.classList.add(_Sidebar.classes.HANDLE_ACTIVE);
+            }
+            return;
+          }
+          const dx = event.clientX - this.resizeHandleEngagementX;
+          if (Math.abs(dx) > Math.abs(this.resizeHandlePeakDx)) {
+            this.resizeHandlePeakDx = dx;
+          }
+          if (Math.abs(this.resizeHandlePeakDx) > 3 && Math.sign(dx) !== Math.sign(this.resizeHandlePeakDx)) {
+            this._deactivateResizeHandle();
+          }
+        }
+        /**
+         * Remove the active state from the resize handle.
+         * @private
+         */
+        _deactivateResizeHandle() {
+          var _a;
+          this.resizeHandleActivated = false;
+          this.resizeHandlePeakDx = 0;
+          (_a = this.layout.resizeHandle) == null ? void 0 : _a.classList.remove(_Sidebar.classes.HANDLE_ACTIVE);
+        }
+        /**
+         * Reset resize handle activation when the mouse leaves the handle.
+         * @private
+         */
+        _onResizeHandlePointerLeave() {
+          if (this.resizeState.isResizing)
+            return;
+          this._deactivateResizeHandle();
         }
         /**
          * Update resize handle availability based on current state.
@@ -1458,7 +1542,9 @@
         // eslint-disable-next-line @typescript-eslint/naming-convention
         RESIZE_HANDLE: "bslib-sidebar-resize-handle",
         // eslint-disable-next-line @typescript-eslint/naming-convention
-        RESIZING: "sidebar-resizing"
+        RESIZING: "sidebar-resizing",
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        HANDLE_ACTIVE: "handle-active"
       };
       /**
        * If sidebars are initialized before the DOM is ready, we re-schedule the

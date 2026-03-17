@@ -141,7 +141,8 @@ on the bslib website to learn more.</p>
 <span>  max_height_mobile <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  gap <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  padding <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  fillable <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  fillable <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  resizable <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">layout_sidebar</span><span class="op">(</span></span>
@@ -253,6 +254,12 @@ respectively.</p></dd>
 <dt id="arg-fillable">fillable<a class="anchor" aria-label="anchor" href="#arg-fillable"></a></dt>
 <dd><p>Whether or not the <code>main</code> content area should be considered a
 fillable (i.e., flexbox) container.</p></dd>
+
+
+<dt id="arg-resizable">resizable<a class="anchor" aria-label="anchor" href="#arg-resizable"></a></dt>
+<dd><p>Whether the sidebar can be resized by dragging its edge.
+When <code>TRUE</code> (the default), a resize handle is added to the sidebar that
+allows users to adjust the sidebar width on desktop (wide screen sizes).</p></dd>
 
 
 <dt id="arg-sidebar">sidebar<a class="anchor" aria-label="anchor" href="#arg-sidebar"></a></dt>

@@ -4,6 +4,15 @@
 
 ### Improvements and bug fixes
 
+- Improved the sidebar resize handle to avoid conflicts with the
+  sidebar’s native scrollbar and to better support touch devices.
+  ([\#1299](https://github.com/rstudio/bslib/issues/1299))
+
+- [`sidebar()`](https://rstudio.github.io/bslib/dev/reference/sidebar.md)
+  gains a `resizable` argument (default `TRUE`) to control whether the
+  sidebar can be resized by dragging its edge on desktop (wide screen
+  sizes). ([\#1299](https://github.com/rstudio/bslib/issues/1299))
+
 - Fixed
   [`toolbar_input_button()`](https://rstudio.github.io/bslib/dev/reference/toolbar_input_button.md)
   alignment and spacing issues.

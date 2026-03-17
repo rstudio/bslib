@@ -49,7 +49,8 @@ sidebar(
   max_height_mobile = NULL,
   gap = NULL,
   padding = NULL,
-  fillable = FALSE
+  fillable = FALSE,
+  resizable = TRUE
 )
 
 layout_sidebar(
@@ -177,6 +178,12 @@ toggle_sidebar(id, open = NULL, session = get_current_session())
 
   Whether or not the `main` content area should be considered a fillable
   (i.e., flexbox) container.
+
+- resizable:
+
+  Whether the sidebar can be resized by dragging its edge. When `TRUE`
+  (the default), a resize handle is added to the sidebar that allows
+  users to adjust the sidebar width on desktop (wide screen sizes).
 
 - sidebar:
 
