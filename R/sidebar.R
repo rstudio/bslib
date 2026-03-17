@@ -87,6 +87,9 @@
 #' @param fillable Whether or not the sidebar should be considered a fillable
 #'   container. When `TRUE`, the sidebar and its content can use `fill` to
 #'   consume available vertical space.
+#' @param resizable Whether the sidebar can be resized by dragging its edge.
+#'   When `TRUE` (the default), a resize handle is added to the sidebar that
+#'   allows users to adjust the sidebar width on desktop (wide screen sizes).
 #'
 #' @export
 sidebar <- function(
@@ -102,7 +105,8 @@ sidebar <- function(
   max_height_mobile = NULL,
   gap = NULL,
   padding = NULL,
-  fillable = FALSE
+  fillable = FALSE,
+  resizable = TRUE
 ) {
   position <- rlang::arg_match(position)
   gap <- validateCssUnit(gap)
@@ -150,6 +154,7 @@ sidebar <- function(
     max_height_mobile = max_height_mobile,
     color = list(bg = bg, fg = fg),
     fillable = fillable,
+    resizable = resizable,
     attributes = dots$attribs,
     children = dots$children
   )
@@ -220,6 +225,7 @@ as.tags.bslib_sidebar <- function(x, ...) {
     id = x$id,
     class = c("sidebar", x$class),
     hidden = if (hidden_initially) NA,
+    `data-resizable` = if (isTRUE(x$resizable)) NA,
     if (isTRUE(x$fillable)) as_fillable_container(),
     tags$div(
       class = "sidebar-content bslib-gap-spacing",

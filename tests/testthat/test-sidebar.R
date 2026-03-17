@@ -131,6 +131,25 @@ test_that("sidebar() - warns if `max_height_mobile` used with `open != 'always'"
   )
 })
 
+test_that("sidebar() - adds data-resizable attribute by default", {
+  sb_default <- as.tags(sidebar(open = "open"))
+  expect_identical(
+    htmltools::tagGetAttribute(sb_default[[1]], "data-resizable"),
+    NA
+  )
+
+  sb_true <- as.tags(sidebar(open = "open", resizable = TRUE))
+  expect_identical(
+    htmltools::tagGetAttribute(sb_true[[1]], "data-resizable"),
+    NA
+  )
+
+  sb_false <- as.tags(sidebar(open = "open", resizable = FALSE))
+  expect_null(
+    htmltools::tagGetAttribute(sb_false[[1]], "data-resizable")
+  )
+})
+
 test_that("layout_sidebar() - errors with unexpected border, border_radius input values", {
   expect_error(
     layout_sidebar(sidebar(), border = "1px solid blue")
