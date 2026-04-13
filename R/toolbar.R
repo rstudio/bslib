@@ -1103,6 +1103,6 @@ update_toolbar_download_button <- function(
   disabled = NULL,
   session = get_current_session()
 ) {
-  message <- dropNulls(list(disabled = disabled))
-  session$sendInputMessage(outputId, message)
+  message <- dropNulls(list(id = outputId, disabled = disabled))
+  session$sendCustomMessage("bslib.toolbar-download-button", message)
 }
