@@ -1,36 +1,21 @@
-import { InputBinding, registerBinding, hasDefinedProperty } from "./_utils";
+import { shinyAddCustomMessageHandlers } from "./_shinyAddCustomMessageHandlers";
 
 type ToolbarDownloadButtonMessage = {
+  id: string;
   disabled?: boolean;
 };
 
-/**
- * Input binding for `bslib::toolbar_download_button()`.
- * This binding exists purely to receive update messages via sendInputMessage().
- * Download buttons are outputs (not inputs), but we use an input binding
- * to enable server-to-client communication for disabled state updates.
- */
-class BslibToolbarDownloadButtonBinding extends InputBinding {
-  find(scope: HTMLElement) {
-    return $(scope).find(".bslib-toolbar-download-button");
-  }
+shinyAddCustomMessageHandlers({
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  "bslib.toolbar-download-button": (msg: ToolbarDownloadButtonMessage) => {
+    const el = document.getElementById(msg.id);
+    if (!el) {
+      console.warn("[bslib.toolbar-download-button] No element found", msg);
+      return;
+    }
 
-  getValue(/*el: HTMLElement*/) {
-    // Not used as a true input - returns null
-    return null;
-  }
-
-  subscribe(/*el: HTMLElement, callback: (x: boolean) => void*/) {
-    // No-op: download buttons don't have input values to subscribe to
-  }
-
-  unsubscribe(/*el: HTMLElement*/) {
-    // No-op
-  }
-
-  receiveMessage(el: HTMLElement, message: ToolbarDownloadButtonMessage) {
-    if (hasDefinedProperty(message, "disabled")) {
-      if (message.disabled) {
+    if (typeof msg.disabled !== "undefined") {
+      if (msg.disabled) {
         el.classList.add("disabled");
         el.setAttribute("aria-disabled", "true");
         el.setAttribute("tabindex", "-1");
@@ -40,7 +25,5 @@ class BslibToolbarDownloadButtonBinding extends InputBinding {
         el.removeAttribute("tabindex");
       }
     }
-  }
-}
-
-registerBinding(BslibToolbarDownloadButtonBinding, "toolbar-download-button");
+  },
+});
