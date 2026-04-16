@@ -120,45 +120,33 @@ main <- function() {
   }
   clause_keywords <- unique(clause_keywords)
 
-  # -- Extract geom types --
-  geoms <- NULL
-  for (p in repo[["draw-clause"]]$patterns) {
-    if (identical(p$name, "support.type.geom.ggsql")) {
-      geoms <- extract_words(p$match)
+  # -- Extract token groups from named patterns --
+  extract_token_group <- function(repo_key, token_name) {
+    if (is.null(repo[[repo_key]])) {
+      stop(
+        "Repository key '", repo_key, "' not found in TextMate grammar. ",
+        "The upstream grammar structure may have changed."
+      )
     }
+    words <- NULL
+    for (p in repo[[repo_key]]$patterns) {
+      if (identical(p$name, token_name)) {
+        words <- extract_words(p$match)
+      }
+    }
+    if (is.null(words) || length(words) == 0) {
+      stop(
+        "No words extracted for '", token_name, "' from '", repo_key, "'. ",
+        "The upstream grammar structure may have changed."
+      )
+    }
+    words
   }
 
-  # -- Extract scale type modifiers --
-  scale_types <- NULL
-  for (p in repo[["scale-clause"]]$patterns) {
-    if (identical(p$name, "keyword.control.scale-modifier.ggsql")) {
-      scale_types <- extract_words(p$match)
-    }
-  }
-
-  # -- Extract aesthetic names --
-  aesthetics <- NULL
-  for (p in repo[["aesthetics"]]$patterns) {
-    if (identical(p$name, "support.type.aesthetic.ggsql")) {
-      aesthetics <- extract_words(p$match)
-    }
-  }
-
-  # -- Extract theme names --
-  themes <- NULL
-  for (p in repo[["theme-clause"]]$patterns) {
-    if (identical(p$name, "support.type.theme.ggsql")) {
-      themes <- extract_words(p$match)
-    }
-  }
-
-  # -- Extract project types --
-  projects <- NULL
-  for (p in repo[["project-clause"]]$patterns) {
-    if (identical(p$name, "support.type.project.ggsql")) {
-      projects <- extract_words(p$match)
-    }
-  }
+  geoms <- extract_token_group("draw-clause", "support.type.geom.ggsql")
+  scale_types <- extract_token_group("scale-clause", "keyword.control.scale-modifier.ggsql")
+  aesthetics <- extract_token_group("aesthetics", "support.type.aesthetic.ggsql")
+  projects <- extract_token_group("project-clause", "support.type.project.ggsql")
 
   # -- Extract SQL function names --
   all_functions <- character(0)
@@ -167,6 +155,13 @@ main <- function() {
     if (!is.null(words)) all_functions <- c(all_functions, words)
   }
   all_functions <- unique(all_functions)
+
+  if (length(clause_keywords) == 0) {
+    stop("No clause keywords extracted. The upstream grammar structure may have changed.")
+  }
+  if (length(all_functions) == 0) {
+    stop("No SQL functions extracted. The upstream grammar structure may have changed.")
+  }
 
   # -- Generate the JS file --
   js <- c(
@@ -189,41 +184,50 @@ main <- function() {
     "// Copy SQL tokens",
     'Object.keys(sql).forEach(function(k) { ggsql[k] = sql[k]; });',
     "",
-    "// ggsql clause keywords",
-    sprintf('ggsql["ggsql-keyword"] = {'),
-    sprintf("  pattern: %s,", format_word_regex(clause_keywords, "i")),
-    '  alias: "keyword",',
-    "};",
+    sprintf(
+      r"(// ggsql clause keywords
+ggsql["ggsql-keyword"] = {
+  pattern: %s,
+  alias: "keyword",
+};)",
+      format_word_regex(clause_keywords, flags = "i")
+    ),
     "",
-    "// Geom types",
-    sprintf('ggsql["ggsql-geom"] = {'),
-    sprintf("  pattern: %s,", format_word_regex(geoms)),
-    '  alias: "builtin",',
-    "};",
+    sprintf(
+      r"(// Geom types
+ggsql["ggsql-geom"] = {
+  pattern: %s,
+  alias: "builtin",
+};)",
+      format_word_regex(geoms)
+    ),
     "",
-    "// Scale type modifiers",
-    sprintf('ggsql["ggsql-scale-type"] = {'),
-    sprintf("  pattern: %s,", format_word_regex(scale_types, "i")),
-    '  alias: "builtin",',
-    "};",
+    sprintf(
+      r"(// Scale type modifiers
+ggsql["ggsql-scale-type"] = {
+  pattern: %s,
+  alias: "builtin",
+};)",
+      format_word_regex(scale_types, flags = "i")
+    ),
     "",
-    "// Aesthetic names",
-    sprintf('ggsql["ggsql-aesthetic"] = {'),
-    sprintf("  pattern: %s,", format_word_regex(aesthetics)),
-    '  alias: "attr-name",',
-    "};",
+    sprintf(
+      r"(// Aesthetic names
+ggsql["ggsql-aesthetic"] = {
+  pattern: %s,
+  alias: "attr-name",
+};)",
+      format_word_regex(aesthetics)
+    ),
     "",
-    "// Theme names",
-    sprintf('ggsql["ggsql-theme"] = {'),
-    sprintf("  pattern: %s,", format_word_regex(themes)),
-    '  alias: "class-name",',
-    "};",
-    "",
-    "// Project types",
-    sprintf('ggsql["ggsql-project"] = {'),
-    sprintf("  pattern: %s,", format_word_regex(projects)),
-    '  alias: "class-name",',
-    "};",
+    sprintf(
+      r"(// Project types
+ggsql["ggsql-project"] = {
+  pattern: %s,
+  alias: "class-name",
+};)",
+      format_word_regex(projects)
+    ),
     "",
     "// Fat arrow operator",
     'ggsql["ggsql-arrow"] = {',
@@ -240,7 +244,7 @@ main <- function() {
     "  if (k in ggsql) ordered[k] = ggsql[k];",
     "});",
     '["ggsql-keyword", "ggsql-geom", "ggsql-scale-type", "ggsql-aesthetic",',
-    ' "ggsql-theme", "ggsql-project", "ggsql-arrow"].forEach(function(k) {',
+    ' "ggsql-project", "ggsql-arrow"].forEach(function(k) {',
     "  if (k in ggsql) ordered[k] = ggsql[k];",
     "});",
     "Object.keys(ggsql).forEach(function(k) {",
