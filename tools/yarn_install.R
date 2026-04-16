@@ -340,6 +340,7 @@ with_dir("inst/lib", {
     "python",
     "julia",
     "sql",
+    "ggsql",
     # Web/Frontend
     "javascript",
     "typescript",
@@ -402,9 +403,16 @@ with_dir("inst/lib", {
     file.path(dest, "languages")
   )
 
-  # Copy prism grammars (only bundled)
+  # Copy prism grammars (only bundled, filtered to those that exist upstream)
+  bundled_prism_files <- file.path(
+    src,
+    "prism",
+    "languages",
+    bundled_lang_files
+  )
+  bundled_prism_files <- bundled_prism_files[file.exists(bundled_prism_files)]
   file.copy(
-    file.path(src, "prism", "languages", bundled_lang_files),
+    bundled_prism_files,
     file.path(dest, "prism", "languages")
   )
 
@@ -547,6 +555,9 @@ with_dir("inst/lib", {
 
   unlink("prism-code-editor-full", recursive = TRUE)
   cat("\n\n==== Finished prism-code-editor ====\n")
+  cat(
+    "NOTE: Run `Rscript tools/build_ggsql_grammar.R` to regenerate ggsql.js\n"
+  )
 
   # GitHub reports security issues of devDependencies, but that's irrelevant to us
   remove_dev_dependencies <- function(pkg_file) {

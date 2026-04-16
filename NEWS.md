@@ -2,6 +2,8 @@
 
 ## Improvements and bug fixes
 
+* `input_code_editor()` now supports `language = "ggsql"` for syntax highlighting of ggsql queries. (#1291)
+
 * Improved the sidebar resize handle to avoid conflicts with the sidebar's native scrollbar and to better support touch devices. (#1299)
 
 * `sidebar()` gains a `resizable` argument (default `TRUE`) to control whether the sidebar can be resized by dragging its edge on desktop (wide screen sizes). (#1299)
