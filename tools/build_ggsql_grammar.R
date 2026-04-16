@@ -121,32 +121,53 @@ main <- function() {
   clause_keywords <- unique(clause_keywords)
 
   # -- Extract token groups from named patterns --
-  extract_token_group <- function(repo_key, token_name) {
-    if (is.null(repo[[repo_key]])) {
-      stop(
-        "Repository key '", repo_key, "' not found in TextMate grammar. ",
-        "The upstream grammar structure may have changed."
-      )
-    }
-    words <- NULL
-    for (p in repo[[repo_key]]$patterns) {
-      if (identical(p$name, token_name)) {
-        words <- extract_words(p$match)
+  # Searches all patterns in repo_key(s) for token_name, accumulating words
+  # across multiple matching patterns.
+  extract_token_group <- function(repo_keys, token_name) {
+    words <- character(0)
+    for (repo_key in repo_keys) {
+      if (is.null(repo[[repo_key]])) {
+        stop(
+          "Repository key '", repo_key, "' not found in TextMate grammar. ",
+          "The upstream grammar structure may have changed."
+        )
+      }
+      for (p in repo[[repo_key]]$patterns) {
+        if (identical(p$name, token_name)) {
+          w <- extract_words(p$match)
+          if (!is.null(w)) words <- c(words, w)
+        }
       }
     }
-    if (is.null(words) || length(words) == 0) {
+    if (length(words) == 0) {
       stop(
-        "No words extracted for '", token_name, "' from '", repo_key, "'. ",
+        "No words extracted for '", token_name, "' from ",
+        paste(repo_keys, collapse = ", "), ". ",
         "The upstream grammar structure may have changed."
       )
     }
-    words
+    unique(words)
   }
 
-  geoms <- extract_token_group("draw-clause", "support.type.geom.ggsql")
-  scale_types <- extract_token_group("scale-clause", "keyword.control.scale-modifier.ggsql")
-  aesthetics <- extract_token_group("aesthetics", "support.type.aesthetic.ggsql")
-  projects <- extract_token_group("project-clause", "support.type.project.ggsql")
+  geoms <- extract_token_group(
+    c("draw-clause", "place-clause"), "support.type.geom.ggsql"
+  )
+  scale_types <- extract_token_group(
+    "scale-clause", "keyword.control.scale-modifier.ggsql"
+  )
+  scale_values <- extract_token_group(
+    "scale-clause", "constant.language.scale-type.ggsql"
+  )
+  aesthetics <- extract_token_group(
+    "aesthetics", "support.type.aesthetic.ggsql"
+  )
+  properties <- extract_token_group(
+    c("scale-clause", "facet-clause", "project-clause", "label-clause"),
+    "support.type.property.ggsql"
+  )
+  projects <- extract_token_group(
+    "project-clause", "support.type.project.ggsql"
+  )
 
   # -- Extract SQL function names --
   all_functions <- character(0)
@@ -212,12 +233,30 @@ ggsql["ggsql-scale-type"] = {
     ),
     "",
     sprintf(
+      r"(// Scale type values
+ggsql["ggsql-scale-value"] = {
+  pattern: %s,
+  alias: "string",
+};)",
+      format_word_regex(scale_values)
+    ),
+    "",
+    sprintf(
       r"(// Aesthetic names
 ggsql["ggsql-aesthetic"] = {
   pattern: %s,
   alias: "attr-name",
 };)",
       format_word_regex(aesthetics)
+    ),
+    "",
+    sprintf(
+      r"(// Property names
+ggsql["ggsql-property"] = {
+  pattern: %s,
+  alias: "property",
+};)",
+      format_word_regex(properties)
     ),
     "",
     sprintf(
@@ -243,8 +282,8 @@ ggsql["ggsql-project"] = {
     '["comment", "variable", "string", "identifier"].forEach(function(k) {',
     "  if (k in ggsql) ordered[k] = ggsql[k];",
     "});",
-    '["ggsql-keyword", "ggsql-geom", "ggsql-scale-type", "ggsql-aesthetic",',
-    ' "ggsql-project", "ggsql-arrow"].forEach(function(k) {',
+    '["ggsql-keyword", "ggsql-geom", "ggsql-scale-type", "ggsql-scale-value",',
+    ' "ggsql-aesthetic", "ggsql-property", "ggsql-project", "ggsql-arrow"].forEach(function(k) {',
     "  if (k in ggsql) ordered[k] = ggsql[k];",
     "});",
     "Object.keys(ggsql).forEach(function(k) {",
