@@ -4,6 +4,10 @@
 
 ### Improvements and bug fixes
 
+- [`input_code_editor()`](https://rstudio.github.io/bslib/dev/reference/input_code_editor.md)
+  now supports `language = "ggsql"` for syntax highlighting of ggsql
+  queries. ([\#1291](https://github.com/rstudio/bslib/issues/1291))
+
 - Improved the sidebar resize handle to avoid conflicts with the
   sidebar’s native scrollbar and to better support touch devices.
   ([\#1299](https://github.com/rstudio/bslib/issues/1299))
