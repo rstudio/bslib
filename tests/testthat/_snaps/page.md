@@ -46,7 +46,7 @@
           <div class="main bslib-gap-spacing html-fill-container" data-attr="here">
             <main class="bslib-page-main bslib-gap-spacing html-fill-item html-fill-container">main</main>
           </div>
-          <aside class="sidebar">
+          <aside class="sidebar" data-resizable>
             <div class="sidebar-content bslib-gap-spacing"></div>
           </aside>
           <button class="collapse-toggle" type="button" title="Toggle sidebar" aria-expanded="false"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="bi bi-chevron-left collapse-icon" style="height:;width:;fill:currentColor;vertical-align:-0.125em;" aria-hidden="true" role="img" ><path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path></svg></button>
@@ -69,7 +69,7 @@
           <div class="main bslib-gap-spacing html-fill-container">
             <main class="bslib-page-main bslib-gap-spacing html-fill-item html-fill-container">main</main>
           </div>
-          <aside id="bslib-sidebar-4785" class="sidebar" hidden>
+          <aside id="bslib-sidebar-4785" class="sidebar" hidden data-resizable>
             <div class="sidebar-content bslib-gap-spacing">side</div>
           </aside>
           <button class="collapse-toggle" type="button" title="Toggle sidebar" aria-expanded="true" aria-controls="bslib-sidebar-4785"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="bi bi-chevron-left collapse-icon" style="height:;width:;fill:currentColor;vertical-align:-0.125em;" aria-hidden="true" role="img" ><path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path></svg></button>
