@@ -128,7 +128,9 @@ main <- function() {
     for (repo_key in repo_keys) {
       if (is.null(repo[[repo_key]])) {
         stop(
-          "Repository key '", repo_key, "' not found in TextMate grammar. ",
+          "Repository key '",
+          repo_key,
+          "' not found in TextMate grammar. ",
           "The upstream grammar structure may have changed."
         )
       }
@@ -141,8 +143,11 @@ main <- function() {
     }
     if (length(words) == 0) {
       stop(
-        "No words extracted for '", token_name, "' from ",
-        paste(repo_keys, collapse = ", "), ". ",
+        "No words extracted for '",
+        token_name,
+        "' from ",
+        paste(repo_keys, collapse = ", "),
+        ". ",
         "The upstream grammar structure may have changed."
       )
     }
@@ -150,23 +155,28 @@ main <- function() {
   }
 
   geoms <- extract_token_group(
-    c("draw-clause", "place-clause"), "support.type.geom.ggsql"
+    c("draw-clause", "place-clause"),
+    "support.type.geom.ggsql"
   )
   scale_types <- extract_token_group(
-    "scale-clause", "keyword.control.scale-modifier.ggsql"
+    "scale-clause",
+    "keyword.control.scale-modifier.ggsql"
   )
   scale_values <- extract_token_group(
-    "scale-clause", "constant.language.scale-type.ggsql"
+    "scale-clause",
+    "constant.language.scale-type.ggsql"
   )
   aesthetics <- extract_token_group(
-    "aesthetics", "support.type.aesthetic.ggsql"
+    "aesthetics",
+    "support.type.aesthetic.ggsql"
   )
   properties <- extract_token_group(
     c("scale-clause", "facet-clause", "project-clause", "label-clause"),
     "support.type.property.ggsql"
   )
   projects <- extract_token_group(
-    "project-clause", "support.type.project.ggsql"
+    "project-clause",
+    "support.type.project.ggsql"
   )
 
   # -- Extract SQL function names --
@@ -178,10 +188,14 @@ main <- function() {
   all_functions <- unique(all_functions)
 
   if (length(clause_keywords) == 0) {
-    stop("No clause keywords extracted. The upstream grammar structure may have changed.")
+    stop(
+      "No clause keywords extracted. The upstream grammar structure may have changed."
+    )
   }
   if (length(all_functions) == 0) {
-    stop("No SQL functions extracted. The upstream grammar structure may have changed.")
+    stop(
+      "No SQL functions extracted. The upstream grammar structure may have changed."
+    )
   }
 
   # -- Generate the JS file --
