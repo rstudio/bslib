@@ -1063,24 +1063,59 @@ test_that("toolbar_download_button() with show_label", {
   )
 })
 
-test_that("toolbar_download_button() disabled parameter", {
+test_that("toolbar_download_button() enabled = 'auto' (default)", {
+  btn <- toolbar_download_button(outputId = "dl_test", show_label = TRUE)
+  # Starts disabled so Shiny can auto-enable on render
+  expect_match(htmltools::tagGetAttribute(btn, "class"), "disabled")
+  expect_equal(htmltools::tagGetAttribute(btn, "aria-disabled"), "true")
+  expect_equal(htmltools::tagGetAttribute(btn, "tabindex"), "-1")
+  # No data-ignore-update — Shiny IS allowed to auto-enable
+  expect_null(htmltools::tagGetAttribute(btn, "data-ignore-update"))
+
+  expect_snapshot_html(
+    toolbar_download_button(outputId = "dl_auto", show_label = TRUE)
+  )
+})
+
+test_that("toolbar_download_button() enabled = TRUE", {
+  btn <- toolbar_download_button(
+    outputId = "dl_test",
+    enabled = TRUE,
+    show_label = TRUE
+  )
+  expect_false(grepl("\\bdisabled\\b", htmltools::tagGetAttribute(btn, "class") %||% ""))
+  expect_null(htmltools::tagGetAttribute(btn, "aria-disabled"))
+  expect_null(htmltools::tagGetAttribute(btn, "tabindex"))
+  expect_null(htmltools::tagGetAttribute(btn, "data-ignore-update"))
+
   expect_snapshot_html(
     toolbar_download_button(
-      outputId = "dl_disabled",
-      disabled = TRUE,
+      outputId = "dl_enabled_true",
+      enabled = TRUE,
       show_label = TRUE
     )
   )
+})
 
-  # Check disabled attributes
+test_that("toolbar_download_button() enabled = FALSE", {
   btn <- toolbar_download_button(
     outputId = "dl_test",
-    disabled = TRUE,
+    enabled = FALSE,
     show_label = TRUE
   )
   expect_match(htmltools::tagGetAttribute(btn, "class"), "disabled")
   expect_equal(htmltools::tagGetAttribute(btn, "aria-disabled"), "true")
   expect_equal(htmltools::tagGetAttribute(btn, "tabindex"), "-1")
+  # data-ignore-update present — Shiny must NOT auto-enable
+  expect_false(is.null(htmltools::tagGetAttribute(btn, "data-ignore-update")))
+
+  expect_snapshot_html(
+    toolbar_download_button(
+      outputId = "dl_enabled_false",
+      enabled = FALSE,
+      show_label = TRUE
+    )
+  )
 })
 
 test_that("toolbar_download_button() border parameter", {
