@@ -1,4 +1,5 @@
-import { shinyAddCustomMessageHandlers, shinyRenderContent } from "./_utils";
+import { shinyAddCustomMessageHandlers } from "./_shinyAddCustomMessageHandlers";
+import { shinyRenderContent, hasDefinedProperty } from "./_utils";
 import type { HtmlDep } from "./_utils";
 
 type ToolbarDownloadButtonMessage = {
@@ -20,7 +21,9 @@ shinyAddCustomMessageHandlers({
       return;
     }
 
-    if (typeof msg.disabled !== "undefined") {
+    if (hasDefinedProperty(msg, "disabled")) {
+      // The element is an <a> tag, not a <button>, so there is no native
+      // `disabled` property — we manually manage class/aria/tabindex instead.
       if (msg.disabled) {
         el.classList.add("disabled");
         el.setAttribute("aria-disabled", "true");
@@ -32,13 +35,21 @@ shinyAddCustomMessageHandlers({
       }
     }
 
-    if (msg.label !== undefined) {
-      const labelEl = el.querySelector(".bslib-toolbar-label") as HTMLElement;
+    if (hasDefinedProperty(msg, "label") && msg.label !== undefined) {
+      const labelEl = el.querySelector(".bslib-toolbar-label") as HTMLElement | null;
+      if (!labelEl) {
+        console.warn("[bslib.toolbar-download-button] .bslib-toolbar-label not found");
+        return;
+      }
       await shinyRenderContent(labelEl, msg.label);
     }
 
-    if (typeof msg.showLabel !== "undefined") {
-      const labelEl = el.querySelector(".bslib-toolbar-label") as HTMLElement;
+    if (hasDefinedProperty(msg, "showLabel")) {
+      const labelEl = el.querySelector(".bslib-toolbar-label") as HTMLElement | null;
+      if (!labelEl) {
+        console.warn("[bslib.toolbar-download-button] .bslib-toolbar-label not found");
+        return;
+      }
       if (msg.showLabel === false) {
         labelEl.setAttribute("hidden", "");
         el.setAttribute("data-type", "icon");
@@ -48,8 +59,12 @@ shinyAddCustomMessageHandlers({
       }
     }
 
-    if (msg.icon !== undefined) {
-      const iconEl = el.querySelector(".bslib-toolbar-icon") as HTMLElement;
+    if (hasDefinedProperty(msg, "icon") && msg.icon !== undefined) {
+      const iconEl = el.querySelector(".bslib-toolbar-icon") as HTMLElement | null;
+      if (!iconEl) {
+        console.warn("[bslib.toolbar-download-button] .bslib-toolbar-icon not found");
+        return;
+      }
       await shinyRenderContent(iconEl, msg.icon);
     }
   },
