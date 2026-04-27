@@ -76,21 +76,29 @@
       margin: 0;
     }
 
-    // Match hover/focus styles from input button
-    &:not(.disabled) {
-      &:hover {
-        background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.08) !important;
-      }
-      &:active {
-        background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.16) !important;
-      }
-      &:focus-within {
-        background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.12) !important;
-        box-shadow: 0 0 0 0.25rem rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.25) !important;
+    // Neutralize btn-default background and apply toolbar hover/focus styles.
+    // Gated so that user-passed variant classes (e.g. btn-primary) are not
+    // overridden — matches the same pattern used for .bslib-toolbar-input-button.
+    &.btn-default:not(.btn-primary):not(.btn-secondary):not(.btn-success):not(.btn-danger):not(.btn-warning):not(.btn-info):not(.btn-light):not(.btn-dark) {
+      background-color: transparent !important;
+      background-image: none !important;
+      color: currentColor !important;
+
+      &:not(.disabled) {
+        &:hover {
+          background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.08) !important;
+        }
+        &:active {
+          background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.16) !important;
+        }
+        &:focus-within {
+          background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.12) !important;
+          box-shadow: 0 0 0 0.25rem rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.25) !important;
+        }
       }
     }
 
-    // Disabled state
+    // Disabled state applies regardless of variant
     &.disabled {
       opacity: 0.65;
       pointer-events: none;
