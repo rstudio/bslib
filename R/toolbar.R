@@ -1090,15 +1090,30 @@ toolbar_download_button <- function(
   button
 }
 
-#' @param session A Shiny session object.
+#' @param session A Shiny session object (the default should almost always be
+#'   used).
 #'
 #' @describeIn toolbar_download_button Update a toolbar download button.
 #' @export
 update_toolbar_download_button <- function(
   outputId,
+  label = NULL,
+  show_label = NULL,
+  icon = NULL,
   disabled = NULL,
   session = get_current_session()
 ) {
-  message <- dropNulls(list(id = outputId, disabled = disabled))
+  icon <- validateIcon(icon)
+  icon_processed <- if (!is.null(icon)) processDeps(icon, session)
+  label_processed <- if (!is.null(label)) processDeps(label, session)
+
+  message <- dropNulls(list(
+    id = outputId,
+    label = label_processed,
+    showLabel = show_label,
+    icon = icon_processed,
+    disabled = disabled
+  ))
+
   session$sendCustomMessage("bslib.toolbar-download-button", message)
 }
