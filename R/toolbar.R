@@ -976,10 +976,18 @@ toolbar_spacer <- function() {
 #'   * `TRUE` (default when `show_label = FALSE`) - shows tooltip with `label` text
 #'   * `FALSE` (default when `show_label = TRUE`) - no tooltip
 #'   * A character string - shows tooltip with custom text
-#' @param ... Additional attributes passed to the `<a>` tag.
-#' @param disabled If `TRUE`, the button will not be clickable. Since `<a>` tags
-#'   have no native disabled attribute, this adds `class="disabled"`,
-#'   `aria-disabled="true"`, and `tabindex="-1"`.
+#' @param ... Additional attributes passed to the button tag.
+#' @param enabled Controls the initial enabled/disabled state and whether Shiny
+#'   manages auto-enabling:
+#'   * `"auto"` (default) — button starts disabled; Shiny auto-enables it once
+#'     the [shiny::downloadHandler()] is initialized. Use
+#'     [update_toolbar_download_button()] to disable again after that point.
+#'   * `TRUE` — button starts enabled immediately (before the server connects).
+#'   * `FALSE` — button starts disabled with `data-ignore-update`, permanently
+#'     opting out of Shiny's auto-enable. Use [update_toolbar_download_button()]
+#'     to manage enabled/disabled state.
+#'   Note: if the button is inside a `renderUI`, re-renders reset it to the
+#'   initial HTML state; use `enabled = FALSE` for persistent manual control.
 #' @param border Whether to show a border around the button.
 #'
 #' @return Returns a download button suitable for use in a toolbar.
@@ -1005,35 +1013,29 @@ toolbar_download_button <- function(
   show_label = FALSE,
   tooltip = !show_label,
   ...,
-  disabled = FALSE,
+  enabled = c("auto", TRUE, FALSE),
   border = FALSE
 ) {
+  enabled <- if (isTRUE(enabled)) TRUE else if (isFALSE(enabled)) FALSE else "auto"
+  disabled_initially <- !isTRUE(enabled)
+
   btn_type <-
     if (is.null(icon)) {
       if (!show_label) {
-        rlang::abort(
-          "If `show_label` is FALSE, `icon` must be provided."
-        )
+        rlang::abort("If `show_label` is FALSE, `icon` must be provided.")
       }
       "label"
     } else {
       if (show_label) "both" else "icon"
     }
 
-  # Validate that label has text for accessibility
   label_text <- paste(unlist(find_characters(label)), collapse = " ")
-  # Verifies the label contains non-empty text
   if (!nzchar(trimws(label_text))) {
-    warning(
-      "Consider providing a non-empty string label for accessibility."
-    )
+    warning("Consider providing a non-empty string label for accessibility.")
   }
 
   label_id <- paste0("btn-label-", p_randomInt(1000, 10000))
 
-  # We hide the label visually if `!show_label` but keep the label field for
-  # use with `aria-labelledby`. This ensures that ARIA will always use the
-  # label text.
   label_elem <- span(
     class = "action-label",
     span(
@@ -1044,7 +1046,6 @@ toolbar_download_button <- function(
     )
   )
 
-  # And we wrap the icon to ensure that it is always treated as decorative
   icon_elem <- span(
     class = "action-icon",
     span(
@@ -1055,23 +1056,34 @@ toolbar_download_button <- function(
     )
   )
 
-  button <- tags$a(
-    id = outputId,
-    class = "bslib-toolbar-download-button btn btn-sm shiny-download-link",
-    class = if (!border) "border-0" else "border",
-    class = if (disabled) "disabled",
-    href = "",
-    target = "_blank",
-    rel = "noopener noreferrer",
-    download = NA,
+  button <- shiny::downloadButton(
+    outputId,
+    label = label_elem,
+    icon = icon_elem,
+    class = paste0(
+      "bslib-toolbar-download-button btn-sm",
+      if (!border) " border-0" else " border"
+    ),
+    enabled = enabled,
     `data-type` = btn_type,
     `aria-labelledby` = label_id,
-    `aria-disabled` = if (disabled) "true" else NULL,
-    tabindex = if (disabled) "-1" else NULL,
-    icon_elem,
-    label_elem,
     ...
   )
+
+  # shiny::downloadButton() always hardcodes disabled class + aria-disabled +
+  # tabindex. Post-process to match the requested enabled state:
+  if (isTRUE(enabled)) {
+    # Remove the hardcoded disabled state so the button starts enabled.
+    button$attribs$class <- gsub("\\bdisabled\\b", "", button$attribs$class)
+    button$attribs$`aria-disabled` <- NULL
+    button$attribs$tabindex <- NULL
+  } else if (isFALSE(enabled)) {
+    # Keep disabled but also mark with data-ignore-update so Shiny never
+    # auto-enables this button.
+    button$attribs$`data-ignore-update` <- NA
+  }
+  # For enabled = "auto": keep Shiny's disabled state as-is; the input
+  # binding will auto-enable once the downloadHandler initialises.
 
   # If tooltip is literally TRUE, use the label as the tooltip text.
   if (isTRUE(tooltip)) {
