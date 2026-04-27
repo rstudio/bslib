@@ -12,12 +12,15 @@ toolbar_download_button(
   show_label = FALSE,
   tooltip = !show_label,
   ...,
-  disabled = FALSE,
+  enabled = c("auto", TRUE, FALSE),
   border = FALSE
 )
 
 update_toolbar_download_button(
   outputId,
+  label = NULL,
+  show_label = NULL,
+  icon = NULL,
   disabled = NULL,
   session = get_current_session()
 )
@@ -40,15 +43,26 @@ only the icon is shown. If \code{TRUE}, the label text is shown alongside the ic
 \item A character string - shows tooltip with custom text
 }}
 
-\item{...}{Additional attributes passed to the \verb{<a>} tag.}
+\item{...}{Additional attributes passed to the button tag.}
 
-\item{disabled}{If \code{TRUE}, the button will not be clickable. Since \verb{<a>} tags
-have no native disabled attribute, this adds \code{class="disabled"},
-\code{aria-disabled="true"}, and \code{tabindex="-1"}.}
+\item{enabled}{Controls the initial enabled/disabled state and whether Shiny
+manages auto-enabling:
+\itemize{
+\item \code{"auto"} (default) — button starts disabled; Shiny auto-enables it once
+the \code{\link[shiny:downloadHandler]{shiny::downloadHandler()}} is initialized. Use
+\code{\link[=update_toolbar_download_button]{update_toolbar_download_button()}} to disable again after that point.
+\item \code{TRUE} — button starts enabled immediately (before the server connects).
+\item \code{FALSE} — button starts disabled with \code{data-ignore-update}, permanently
+opting out of Shiny's auto-enable. Use \code{\link[=update_toolbar_download_button]{update_toolbar_download_button()}}
+to manage enabled/disabled state.
+Note: if the button is inside a \code{renderUI}, re-renders reset it to the
+initial HTML state; use \code{enabled = FALSE} for persistent manual control.
+}}
 
 \item{border}{Whether to show a border around the button.}
 
-\item{session}{A Shiny session object.}
+\item{session}{A Shiny session object (the default should almost always be
+used).}
 }
 \value{
 Returns a download button suitable for use in a toolbar.
@@ -62,7 +76,7 @@ A download button designed to fit well in small places such as in a \code{\link[
 
 }}
 \examples{
-\dontshow{if (rlang::is_interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
 # Download button in a card toolbar
 card(
   card_header(
@@ -76,7 +90,7 @@ card(
 \dontshow{\}) # examplesIf}
 }
 \seealso{
-Other toolbar components:
+Other toolbar components: 
 \code{\link{toolbar}()},
 \code{\link{toolbar_divider}()},
 \code{\link{toolbar_input_button}()},
