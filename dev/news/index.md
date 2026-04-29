@@ -4,6 +4,12 @@
 
 ### Improvements and bug fixes
 
+- Fixed a caret drift issue in
+  [`input_code_editor()`](https://rstudio.github.io/bslib/dev/reference/input_code_editor.md)
+  where the cursor would appear to the right of the actual text
+  insertion point when certain themes or on some operating systems.
+  ([\#1304](https://github.com/rstudio/bslib/issues/1304))
+
 - [`input_code_editor()`](https://rstudio.github.io/bslib/dev/reference/input_code_editor.md)
   now supports `language = "ggsql"` for syntax highlighting of ggsql
   queries. ([\#1291](https://github.com/rstudio/bslib/issues/1291))
