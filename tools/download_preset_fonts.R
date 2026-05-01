@@ -59,30 +59,45 @@ download_and_copy_fonts <- function(theme, rule_file = "_bootswatch.scss") {
   css <- readLines(css_file)
   urls <- sass:::extract_group(css, "url\\(([^)]+)")
   basenames <- basename(urls)
-  Map(
-    function(url, nm) {
-      if (!grepl("[.]woff2$", nm)) {
-        stop("Expected a woff2 font file")
-      }
+  n_fonts <- length(urls)
+  for (i in seq_along(urls)) {
+    url <- urls[[i]]
+    nm <- basenames[[i]]
 
+    if (!grepl("[.]woff2$", nm)) {
+      stop("Expected a woff2 font file")
+    }
+
+    target <- file.path(fonts_home, nm)
+    # The basename can sometimes be very long, and R CMD check
+    # will complain if the target file is over 100 characters long,
+    # so shorten it if necessary
+    if (nchar(file.path("bslib", target)) > 100) {
+      nm <- paste0(
+        rlang::hash(tools::file_path_sans_ext(nm)),
+        ".",
+        tools::file_ext(nm)
+      )
       target <- file.path(fonts_home, nm)
-      # The basename can sometimes be very long, and R CMD check
-      # will complain if the target file is over 100 characters long,
-      # so shorten it if necessary
-      if (nchar(file.path("bslib", target)) > 100) {
-        nm <- paste0(
-          rlang::hash(tools::file_path_sans_ext(nm)),
-          ".",
-          tools::file_ext(nm)
-        )
-        target <- file.path(fonts_home, nm)
+    }
+
+    cat(sprintf("\r  Downloading font file %d of %d", i, n_fonts))
+    tryCatch(
+      download.file(
+        url,
+        target,
+        method = "libcurl",
+        headers = request_headers,
+        quiet = TRUE
+      ),
+      error = function(e) {
+        cat("\n")
+        warning("Failed to download: ", url, call. = FALSE)
       }
-      download.file(url, target, method = "libcurl", headers = request_headers)
-      css <<- sub(url, file.path("fonts", nm), css, fixed = TRUE)
-    },
-    urls,
-    basenames
-  )
+    )
+    css <- sub(url, file.path("fonts", nm), css, fixed = TRUE)
+  }
+  cat("\n")
   writeLines(css, css_file)
   NULL
 }

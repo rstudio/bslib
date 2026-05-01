@@ -2,6 +2,8 @@
 
 ## Improvements and bug fixes
 
+* bslib's version of Bootstrap and Bootswatch have been updated to 5.3.8. (#1287)
+
 * Fixed a caret drift issue in `input_code_editor()` where the cursor would appear to the right of the actual text insertion point when certain themes or on some operating systems. (#1304)
 
 * `input_code_editor()` now supports `language = "ggsql"` for syntax highlighting of ggsql queries. (#1291)
