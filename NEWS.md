@@ -1,5 +1,19 @@
 # bslib (development version)
 
+## Improvements and bug fixes
+
+* Fixed a caret drift issue in `input_code_editor()` where the cursor would appear to the right of the actual text insertion point when certain themes or on some operating systems. (#1304)
+
+* `input_code_editor()` now supports `language = "ggsql"` for syntax highlighting of ggsql queries. (#1291)
+
+* Improved the sidebar resize handle to avoid conflicts with the sidebar's native scrollbar and to better support touch devices. (#1299)
+
+* `sidebar()` gains a `resizable` argument (default `TRUE`) to control whether the sidebar can be resized by dragging its edge on desktop (wide screen sizes). (#1299)
+
+* Fixed `toolbar_input_button()` alignment and spacing issues. (#1290)
+
+* The brand.yml example app (`shiny::runExample("brand.yml", package = "bslib")`) now uses `brand_pluck()` and `brand_has()` from `{brand.yml}`. (#1288)
+
 # bslib 0.10.0
 
 ## Breaking changes

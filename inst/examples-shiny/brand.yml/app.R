@@ -1,11 +1,13 @@
 rlang::check_installed("shiny", version = "1.8.1")
 rlang::check_installed("bslib", version = "0.8.0.9000")
+rlang::check_installed("brand.yml")
 rlang::check_installed("future")
 rlang::check_installed("ggplot2")
 rlang::check_installed("markdown")
 
 library(shiny)
 library(bslib)
+library(brand.yml)
 library(ggplot2)
 
 library(future)
@@ -24,7 +26,7 @@ BRAND_PATH <- brand$path %||% "_brand.yml"
 theme_set(theme_minimal())
 
 if (requireNamespace("thematic", quietly = TRUE)) {
-  base_font <- bslib:::brand_pluck(brand, "typography", "base", "family")
+  base_font <- brand_pluck(brand, "typography", "base", "family")
   if (!is.null(base_font)) {
     # TODO: Update plot fonts dynamically
     thematic::thematic_shiny(font = base_font)
@@ -43,7 +45,7 @@ is_app_packaged <-
   getwd() == system.file("examples-shiny/brand.yml", package = "bslib")
 use_download_button <- is_app_hosted || is_app_packaged
 
-if (bslib:::brand_has(brand, "typography", "fonts")) {
+if (brand_has(brand, "typography", "fonts")) {
   tryCatch(
     {
       if (brand$typography$fonts[[2]]$files[[1]]$path == "Monda.ttf") {
@@ -437,8 +439,8 @@ server <- function(input, output, session) {
 
   output$brand_name <- renderUI({
     brand_name <-
-      bslib:::brand_pluck(brand_yml(), "meta", "name", "short") %||%
-      bslib:::brand_pluck(brand_yml(), "meta", "name")
+      brand_pluck(brand_yml(), "meta", "name", "short") %||%
+      brand_pluck(brand_yml(), "meta", "name")
 
     if (rlang::is_string(brand_name)) brand_name else "brand.yml Demo"
   })
@@ -447,8 +449,8 @@ server <- function(input, output, session) {
     brand <- brand_yml()
 
     logo <-
-      bslib:::brand_pluck(brand, "logo", "small") %||%
-      bslib:::brand_pluck(brand, "logo")
+      brand_pluck(brand, "logo", "small") %||%
+      brand_pluck(brand, "logo")
 
     req(rlang::is_string(logo))
 
