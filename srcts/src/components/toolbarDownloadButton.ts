@@ -36,18 +36,26 @@ shinyAddCustomMessageHandlers({
     }
 
     if (hasDefinedProperty(msg, "label") && msg.label !== undefined) {
-      const labelEl = el.querySelector(".bslib-toolbar-label") as HTMLElement | null;
+      const labelEl = el.querySelector(
+        ".bslib-toolbar-label"
+      ) as HTMLElement | null;
       if (!labelEl) {
-        console.warn("[bslib.toolbar-download-button] .bslib-toolbar-label not found");
+        console.warn(
+          "[bslib.toolbar-download-button] .bslib-toolbar-label not found"
+        );
         return;
       }
       await shinyRenderContent(labelEl, msg.label);
     }
 
     if (hasDefinedProperty(msg, "showLabel")) {
-      const labelEl = el.querySelector(".bslib-toolbar-label") as HTMLElement | null;
+      const labelEl = el.querySelector(
+        ".bslib-toolbar-label"
+      ) as HTMLElement | null;
       if (!labelEl) {
-        console.warn("[bslib.toolbar-download-button] .bslib-toolbar-label not found");
+        console.warn(
+          "[bslib.toolbar-download-button] .bslib-toolbar-label not found"
+        );
         return;
       }
       if (msg.showLabel === false) {
@@ -60,9 +68,13 @@ shinyAddCustomMessageHandlers({
     }
 
     if (hasDefinedProperty(msg, "icon") && msg.icon !== undefined) {
-      const iconEl = el.querySelector(".bslib-toolbar-icon") as HTMLElement | null;
+      const iconEl = el.querySelector(
+        ".bslib-toolbar-icon"
+      ) as HTMLElement | null;
       if (!iconEl) {
-        console.warn("[bslib.toolbar-download-button] .bslib-toolbar-icon not found");
+        console.warn(
+          "[bslib.toolbar-download-button] .bslib-toolbar-icon not found"
+        );
         return;
       }
       await shinyRenderContent(iconEl, msg.icon);

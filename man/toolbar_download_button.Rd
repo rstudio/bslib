@@ -52,14 +52,19 @@ manages auto-enabling:
 the \code{\link[shiny:downloadHandler]{shiny::downloadHandler()}} is initialized. Use
 \code{\link[=update_toolbar_download_button]{update_toolbar_download_button()}} to disable again after that point.
 \item \code{TRUE} — button starts enabled immediately (before the server connects).
-\item \code{FALSE} — button starts disabled with \code{data-ignore-update}, permanently
-opting out of Shiny's auto-enable. Use \code{\link[=update_toolbar_download_button]{update_toolbar_download_button()}}
-to manage enabled/disabled state.
+Sets \code{data-shiny-disable-auto-enable} so Shiny does not re-enable on
+render (preserves state set by e.g. \code{shinyjs::disable()}).
+\item \code{FALSE} — button starts disabled with \code{data-shiny-disable-auto-enable},
+permanently opting out of Shiny's auto-enable. Use
+\code{\link[=update_toolbar_download_button]{update_toolbar_download_button()}} to manage enabled/disabled state.
 Note: if the button is inside a \code{renderUI}, re-renders reset it to the
 initial HTML state; use \code{enabled = FALSE} for persistent manual control.
 }}
 
 \item{border}{Whether to show a border around the button.}
+
+\item{disabled}{If \code{TRUE}, disables the button; if \code{FALSE}, enables it.
+\code{NULL} (default) leaves the current state unchanged.}
 
 \item{session}{A Shiny session object (the default should almost always be
 used).}

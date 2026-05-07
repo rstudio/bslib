@@ -983,9 +983,11 @@ toolbar_spacer <- function() {
 #'     the [shiny::downloadHandler()] is initialized. Use
 #'     [update_toolbar_download_button()] to disable again after that point.
 #'   * `TRUE` — button starts enabled immediately (before the server connects).
-#'   * `FALSE` — button starts disabled with `data-ignore-update`, permanently
-#'     opting out of Shiny's auto-enable. Use [update_toolbar_download_button()]
-#'     to manage enabled/disabled state.
+#'     Sets `data-shiny-disable-auto-enable` so Shiny does not re-enable on
+#'     render (preserves state set by e.g. `shinyjs::disable()`).
+#'   * `FALSE` — button starts disabled with `data-shiny-disable-auto-enable`,
+#'     permanently opting out of Shiny's auto-enable. Use
+#'     [update_toolbar_download_button()] to manage enabled/disabled state.
 #'   Note: if the button is inside a `renderUI`, re-renders reset it to the
 #'   initial HTML state; use `enabled = FALSE` for persistent manual control.
 #' @param border Whether to show a border around the button.
@@ -1090,6 +1092,8 @@ toolbar_download_button <- function(
   button
 }
 
+#' @param disabled If `TRUE`, disables the button; if `FALSE`, enables it.
+#'   `NULL` (default) leaves the current state unchanged.
 #' @param session A Shiny session object (the default should almost always be
 #'   used).
 #'
