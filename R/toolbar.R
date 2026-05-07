@@ -1018,7 +1018,21 @@ toolbar_download_button <- function(
   enabled = c("auto", TRUE, FALSE),
   border = FALSE
 ) {
-  enabled <- if (isTRUE(enabled)) TRUE else if (isFALSE(enabled)) FALSE else "auto"
+  if (isTRUE(enabled)) {
+    enabled <- TRUE
+  } else if (isFALSE(enabled)) {
+    enabled <- FALSE
+  } else if (identical(enabled, "auto") || identical(enabled, c("auto", TRUE, FALSE))) {
+    enabled <- "auto"
+  } else {
+    rlang::warn(
+      paste0(
+        '`enabled` must be TRUE, FALSE, or "auto". ',
+        "Got ", deparse(enabled), '. Falling back to "auto".'
+      )
+    )
+    enabled <- "auto"
+  }
 
   btn_type <-
     if (is.null(icon)) {
