@@ -62,4 +62,30 @@ $form-group-margin-bottom: 1rem !default;
       margin-top: calc(#{-($line-height-base - $form-check-input-width) * .5} - #{$input-btn-border-width});
     }
   }
+
+  // selectInput(selectize=FALSE) uses form-control, but BS5's form-control sets
+  // appearance:none without a background-image chevron (unlike form-select).
+  // https://github.com/rstudio/bslib/issues/1295
+  select.form-control {
+    --#{$prefix}form-select-bg-img: #{escape-svg($form-select-indicator)};
+    padding-right: $form-select-indicator-padding;
+    background-image: var(--#{$prefix}form-select-bg-img), var(--#{$prefix}form-select-bg-icon, none);
+    background-repeat: no-repeat;
+    background-position: $form-select-bg-position;
+    background-size: $form-select-bg-size;
+
+    &[multiple],
+    &[size]:not([size="1"]) {
+      padding-right: $form-select-padding-x;
+      background-image: none;
+    }
+  }
+
+  @if $enable-dark-mode {
+    @include color-mode(dark) {
+      select.form-control {
+        --#{$prefix}form-select-bg-img: #{escape-svg($form-select-indicator-dark)};
+      }
+    }
+  }
 }
