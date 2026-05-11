@@ -41,7 +41,7 @@ when \code{multiple=TRUE}.}
 
 \item{value}{A character string that uniquely identifies this panel.}
 
-\item{icon}{A \link[htmltools:builder]{htmltools::tag} child (e.g., \code{\link[bsicons:bs_icon]{bsicons::bs_icon()}}) which is positioned just before the \code{title}.}
+\item{icon}{A \link[htmltools:tag]{htmltools::tag} child (e.g., \code{\link[bsicons:bs_icon]{bsicons::bs_icon()}}) which is positioned just before the \code{title}.}
 }
 \description{
 An accordion can be used to organize UI elements and content in a limited
@@ -99,10 +99,10 @@ accordion panel.
 \code{\link[=accordion_panel_update]{accordion_panel_update()}} add or remove accordion panels from an
 accordion.
 
-Other Components: 
-\code{\link{card}()},
-\code{\link{popover}()},
-\code{\link{tooltip}()},
-\code{\link{value_box}()}
+Other Components:
+\code{\link[=card]{card()}},
+\code{\link[=popover]{popover()}},
+\code{\link[=tooltip]{tooltip()}},
+\code{\link[=value_box]{value_box()}}
 }
 \concept{Components}

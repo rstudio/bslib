@@ -30,7 +30,7 @@ bs_bundle(theme, ...)
 \item \code{bs_add_variables()}: Should be named Sass variables or values that can be
 passed in directly to the \code{defaults} argument of a \code{\link[sass:sass_layer]{sass::sass_layer()}}.
 \item \code{bs_bundle()}: Should be arguments that can be handled by
-\code{\link[sass:sass_layer]{sass::sass_bundle()}} to be appended to the \code{theme}
+\code{\link[sass:sass_bundle]{sass::sass_bundle()}} to be appended to the \code{theme}
 }}
 
 \item{.where}{Whether to place the variable definitions before other Sass
@@ -41,12 +41,12 @@ passed in directly to the \code{defaults} argument of a \code{\link[sass:sass_la
 variable expressions. It's recommended to keep this as \code{TRUE} when \code{.where = "defaults"}.}
 
 \item{rules}{Sass rules. Anything understood by \code{\link[sass:as_sass]{sass::as_sass()}} may be
-provided (e.g., a list, character vector, \code{\link[sass:sass_import]{sass::sass_file()}}, etc)}
+provided (e.g., a list, character vector, \code{\link[sass:sass_file]{sass::sass_file()}}, etc)}
 
-\item{functions}{A character vector or \code{\link[sass:sass_import]{sass::sass_file()}} containing
+\item{functions}{A character vector or \code{\link[sass:sass_file]{sass::sass_file()}} containing
 functions definitions.}
 
-\item{mixins}{A character vector or \code{\link[sass:sass_import]{sass::sass_file()}} containing
+\item{mixins}{A character vector or \code{\link[sass:sass_file]{sass::sass_file()}} containing
 mixin definitions.}
 }
 \value{
@@ -75,7 +75,7 @@ versions.
 
 \item \code{bs_add_mixins()}: Add additional \href{https://rstudio.github.io/sass/articles/sass.html#mixins}{Sass mixins}.
 
-\item \code{bs_bundle()}: Add additional \code{\link[sass:sass_layer]{sass::sass_bundle()}} objects to an
+\item \code{bs_bundle()}: Add additional \code{\link[sass:sass_bundle]{sass::sass_bundle()}} objects to an
 existing \code{theme}.
 
 }}
@@ -142,13 +142,13 @@ on the \pkg{sass} website.
 \code{\link[=bs_theme]{bs_theme()}} creates a Bootstrap theme object, and is the best place
 to start learning about bslib's theming capabilities.
 
-Other Bootstrap theme functions: 
-\code{\link{bs_current_theme}()},
-\code{\link{bs_dependency}()},
-\code{\link{bs_global_theme}()},
-\code{\link{bs_remove}()},
-\code{\link{bs_theme}()},
-\code{\link{bs_theme_dependencies}()},
-\code{\link{bs_theme_preview}()}
+Other Bootstrap theme functions:
+\code{\link[=bs_current_theme]{bs_current_theme()}},
+\code{\link[=bs_dependency]{bs_dependency()}},
+\code{\link[=bs_global_theme]{bs_global_theme()}},
+\code{\link[=bs_remove]{bs_remove()}},
+\code{\link[=bs_theme]{bs_theme()}},
+\code{\link[=bs_theme_dependencies]{bs_theme_dependencies()}},
+\code{\link[=bs_theme_preview]{bs_theme_preview()}}
 }
 \concept{Bootstrap theme functions}

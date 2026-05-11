@@ -20,7 +20,7 @@ This first example creates a simple tabbed navigation container with two tabs.
 The tab name and the content of each tab are specified in the `nav_panel()` calls
 and `navset_tab()` creates the tabbed navigation around these two tabs.
 
-```{r navset_tab-basic, fig.alt = "Screenshot of a basic navset_tab() example."}
+```{r navset_tab-basic, message = FALSE, fig.alt = "Screenshot of a basic navset_tab() example."}
 library(htmltools)
 
 navset_tab(

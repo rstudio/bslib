@@ -16,11 +16,11 @@ Returns the Bootswatch theme named used (if any) in the \code{theme}.
 Obtain a theme's Bootswatch theme name
 }
 \seealso{
-Other Bootstrap theme utility functions: 
-\code{\link{bootswatch_themes}()},
-\code{\link{bs_get_variables}()},
-\code{\link{builtin_themes}()},
-\code{\link{theme_version}()},
-\code{\link{versions}()}
+Other Bootstrap theme utility functions:
+\code{\link[=bootswatch_themes]{bootswatch_themes()}},
+\code{\link[=bs_get_variables]{bs_get_variables()}},
+\code{\link[=builtin_themes]{builtin_themes()}},
+\code{\link[=theme_version]{theme_version()}},
+\code{\link[=versions]{versions()}}
 }
 \concept{Bootstrap theme utility functions}

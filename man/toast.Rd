@@ -136,7 +136,7 @@ shinyApp(ui, server)
 \code{\link[=show_toast]{show_toast()}} to display a toast, \code{\link[=hide_toast]{hide_toast()}} to dismiss a
 toast, and \code{\link[=toast_header]{toast_header()}} to create structured headers.
 
-Other Toast components: 
-\code{\link{show_toast}()}
+Other Toast components:
+\code{\link[=show_toast]{show_toast()}}
 }
 \concept{Toast components}

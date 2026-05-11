@@ -59,7 +59,7 @@ panel and \code{"before"} will prepend before the first panel.}
 
 \item{value}{A character string that uniquely identifies this panel.}
 
-\item{icon}{A \link[htmltools:builder]{htmltools::tag} child (e.g., \code{\link[bsicons:bs_icon]{bsicons::bs_icon()}}) which is positioned just before the \code{title}.}
+\item{icon}{A \link[htmltools:tag]{htmltools::tag} child (e.g., \code{\link[bsicons:bs_icon]{bsicons::bs_icon()}}) which is positioned just before the \code{title}.}
 }
 \description{
 Dynamically update/modify \code{\link[=accordion]{accordion()}}s in a Shiny app. To be updated

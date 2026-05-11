@@ -22,7 +22,7 @@ more details.}
 
 \item{sidebar}{A \code{\link[=sidebar]{sidebar()}} object.}
 
-\item{title}{A string, number, or \code{\link[htmltools:builder]{htmltools::tag()}} child to display as the
+\item{title}{A string, number, or \code{\link[htmltools:tag]{htmltools::tag()}} child to display as the
 title (just above the \code{sidebar}).}
 
 \item{fillable}{Whether or not the \code{main} content area should be considered a
@@ -86,8 +86,8 @@ into rows and columns.
 
 \code{\link[=value_box]{value_box()}} for highlighting values.
 
-Other Dashboard page layouts: 
-\code{\link{page_fillable}()},
-\code{\link{page_navbar}()}
+Other Dashboard page layouts:
+\code{\link[=page_fillable]{page_fillable()}},
+\code{\link[=page_navbar]{page_navbar()}}
 }
 \concept{Dashboard page layouts}

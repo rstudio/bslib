@@ -130,7 +130,7 @@ Bootswatch theme is first removed before the new one is applied (use
 \item{x}{an object.}
 }
 \value{
-Returns a \code{\link[sass:sass_layer]{sass::sass_bundle()}} (list-like) object.
+Returns a \code{\link[sass:sass_bundle]{sass::sass_bundle()}} (list-like) object.
 }
 \description{
 Creates a Bootstrap theme object, where you can:
@@ -234,13 +234,13 @@ without writing CSS or customizing your \code{bs_theme()}.
 }
 }
 \seealso{
-Other Bootstrap theme functions: 
-\code{\link{bs_add_variables}()},
-\code{\link{bs_current_theme}()},
-\code{\link{bs_dependency}()},
-\code{\link{bs_global_theme}()},
-\code{\link{bs_remove}()},
-\code{\link{bs_theme_dependencies}()},
-\code{\link{bs_theme_preview}()}
+Other Bootstrap theme functions:
+\code{\link[=bs_add_variables]{bs_add_variables()}},
+\code{\link[=bs_current_theme]{bs_current_theme()}},
+\code{\link[=bs_dependency]{bs_dependency()}},
+\code{\link[=bs_global_theme]{bs_global_theme()}},
+\code{\link[=bs_remove]{bs_remove()}},
+\code{\link[=bs_theme_dependencies]{bs_theme_dependencies()}},
+\code{\link[=bs_theme_preview]{bs_theme_preview()}}
 }
 \concept{Bootstrap theme functions}

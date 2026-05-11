@@ -48,7 +48,7 @@ element (e.g., spellcheck, autocomplete, etc).}
 sets the minimum height -- the textarea can grow taller as the user
 enters more text.}
 
-\item{button}{A \link[htmltools:builder]{htmltools::tags} element to use for the submit button. It's recommended
+\item{button}{A \link[htmltools:tags]{htmltools::tags} element to use for the submit button. It's recommended
 that this be a \code{\link[=input_task_button]{input_task_button()}} since it will automatically provide a
 busy indicator (and disable) until the next flush occurs. Note also that if
 the submit button launches a \link[shiny:ExtendedTask]{shiny::ExtendedTask}, this button can also be bound

@@ -38,13 +38,13 @@ bs_theme_preview(theme)
 Use \code{\link[=run_with_themer]{run_with_themer()}} or \code{\link[=bs_themer]{bs_themer()}} to add the theming UI to
 an existing shiny app.
 
-Other Bootstrap theme functions: 
-\code{\link{bs_add_variables}()},
-\code{\link{bs_current_theme}()},
-\code{\link{bs_dependency}()},
-\code{\link{bs_global_theme}()},
-\code{\link{bs_remove}()},
-\code{\link{bs_theme}()},
-\code{\link{bs_theme_dependencies}()}
+Other Bootstrap theme functions:
+\code{\link[=bs_add_variables]{bs_add_variables()}},
+\code{\link[=bs_current_theme]{bs_current_theme()}},
+\code{\link[=bs_dependency]{bs_dependency()}},
+\code{\link[=bs_global_theme]{bs_global_theme()}},
+\code{\link[=bs_remove]{bs_remove()}},
+\code{\link[=bs_theme]{bs_theme()}},
+\code{\link[=bs_theme_dependencies]{bs_theme_dependencies()}}
 }
 \concept{Bootstrap theme functions}
