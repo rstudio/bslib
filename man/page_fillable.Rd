@@ -124,8 +124,8 @@ into rows and columns.
 
 \code{\link[=value_box]{value_box()}} for highlighting values.
 
-Other Dashboard page layouts: 
-\code{\link{page_navbar}()},
-\code{\link{page_sidebar}()}
+Other Dashboard page layouts:
+\code{\link[=page_navbar]{page_navbar()}},
+\code{\link[=page_sidebar]{page_sidebar()}}
 }
 \concept{Dashboard page layouts}

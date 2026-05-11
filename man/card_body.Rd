@@ -49,7 +49,7 @@ as.card_item(x)
 is.card_item(x)
 }
 \arguments{
-\item{...}{Unnamed arguments can be any valid child of an \link[htmltools:builder]{htmltools tag}. Named arguments become HTML attributes on returned
+\item{...}{Unnamed arguments can be any valid child of an \link[htmltools:tags]{htmltools tag}. Named arguments become HTML attributes on returned
 UI element.}
 
 \item{fillable}{Whether or not the card item should be a fillable (i.e.
@@ -122,7 +122,7 @@ unable to automatically determine the file type.}
 \item{x}{an object to test (or coerce to) a card item.}
 }
 \value{
-An \code{\link[htmltools:builder]{htmltools::div()}} tag.
+An \code{\link[htmltools:div]{htmltools::div()}} tag.
 }
 \description{
 Components designed to be provided as direct children of a \code{\link[=card]{card()}}. For a

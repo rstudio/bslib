@@ -104,7 +104,7 @@ the nav panels.
 \code{\link[=nav_menu]{nav_menu()}}, \code{\link[=nav_item]{nav_item()}}, \code{\link[=nav_spacer]{nav_spacer()}} create menus, items, or
 space in the navset control area.
 
-Other Panel container functions: 
+Other Panel container functions:
 \code{\link{nav-items}},
 \code{\link{navset}}
 }

@@ -16,11 +16,11 @@ Returns the major version of Bootstrap used in the \code{theme}.
 Obtain a theme's Bootstrap version
 }
 \seealso{
-Other Bootstrap theme utility functions: 
-\code{\link{bootswatch_themes}()},
-\code{\link{bs_get_variables}()},
-\code{\link{builtin_themes}()},
-\code{\link{theme_bootswatch}()},
-\code{\link{versions}()}
+Other Bootstrap theme utility functions:
+\code{\link[=bootswatch_themes]{bootswatch_themes()}},
+\code{\link[=bs_get_variables]{bs_get_variables()}},
+\code{\link[=builtin_themes]{builtin_themes()}},
+\code{\link[=theme_bootswatch]{theme_bootswatch()}},
+\code{\link[=versions]{versions()}}
 }
 \concept{Bootstrap theme utility functions}

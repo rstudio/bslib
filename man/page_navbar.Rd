@@ -64,12 +64,12 @@ right. If three, then the first will be used for top, the second will be
 left and right, and the third will be bottom. If four, then the values will
 be interpreted as top, right, bottom, and left respectively.}
 
-\item{header}{UI element(s) (\link[htmltools:builder]{htmltools::tags}) to display \emph{above} the nav
+\item{header}{UI element(s) (\link[htmltools:tags]{htmltools::tags}) to display \emph{above} the nav
 content. For \code{card}-based navsets, these elements are implicitly wrapped in
 a \code{card_body()}. To control things like \code{padding}, \code{fill}, etc., wrap the
 elements in an explicit \code{\link[=card_body]{card_body()}}.}
 
-\item{footer}{UI element(s) (\link[htmltools:builder]{htmltools::tags}) to display \emph{below} the nav
+\item{footer}{UI element(s) (\link[htmltools:tags]{htmltools::tags}) to display \emph{below} the nav
 content. For \code{card}-based navsets, these elements are implicitly wrapped in
 a \code{card_body()}. To control things like \code{padding}, \code{fill}, etc., wrap the
 elements in an explicit \code{\link[=card_body]{card_body()}}.}
@@ -163,8 +163,8 @@ into rows and columns.
 
 \code{\link[=accordion]{accordion()}} for grouping related input controls in the \code{sidebar}.
 
-Other Dashboard page layouts: 
-\code{\link{page_fillable}()},
-\code{\link{page_sidebar}()}
+Other Dashboard page layouts:
+\code{\link[=page_fillable]{page_fillable()}},
+\code{\link[=page_sidebar]{page_sidebar()}}
 }
 \concept{Dashboard page layouts}

@@ -21,7 +21,7 @@ layout_column_wrap(
 }
 \arguments{
 \item{...}{Unnamed arguments should be UI elements (e.g., \code{\link[=card]{card()}}). Named
-arguments become attributes on the containing \link[htmltools:builder]{htmltools::tag} element.}
+arguments become attributes on the containing \link[htmltools:tag]{htmltools::tag} element.}
 
 \item{width}{The desired width of each card, which can be any of the
 following:
@@ -111,7 +111,7 @@ The bslib website features \code{layout_column_wrap()} in two places:
 }
 }
 \seealso{
-Other Column layouts: 
-\code{\link{layout_columns}()}
+Other Column layouts:
+\code{\link[=layout_columns]{layout_columns()}}
 }
 \concept{Column layouts}

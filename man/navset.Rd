@@ -100,12 +100,12 @@ navset_card_underline(
 \item{selected}{a character string matching the \code{value} of a particular
 \code{\link[=nav_panel]{nav_panel()}} item to selected by default.}
 
-\item{header}{UI element(s) (\link[htmltools:builder]{htmltools::tags}) to display \emph{above} the nav
+\item{header}{UI element(s) (\link[htmltools:tags]{htmltools::tags}) to display \emph{above} the nav
 content. For \code{card}-based navsets, these elements are implicitly wrapped in
 a \code{card_body()}. To control things like \code{padding}, \code{fill}, etc., wrap the
 elements in an explicit \code{\link[=card_body]{card_body()}}.}
 
-\item{footer}{UI element(s) (\link[htmltools:builder]{htmltools::tags}) to display \emph{below} the nav
+\item{footer}{UI element(s) (\link[htmltools:tags]{htmltools::tags}) to display \emph{below} the nav
 content. For \code{card}-based navsets, these elements are implicitly wrapped in
 a \code{card_body()}. To control things like \code{padding}, \code{fill}, etc., wrap the
 elements in an explicit \code{\link[=card_body]{card_body()}}.}
@@ -185,6 +185,7 @@ The tab name and the content of each tab are specified in the \code{nav_panel()}
 and \code{navset_tab()} creates the tabbed navigation around these two tabs.
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{library(htmltools)
+#> Warning: package 'htmltools' was built under R version 4.5.2
 
 navset_tab(
   nav_panel(title = "One", p("First tab content.")),
@@ -404,8 +405,8 @@ panels.
 \code{\link[=nav_select]{nav_select()}}, \code{\link[=nav_show]{nav_show()}}, \code{\link[=nav_hide]{nav_hide()}} change the state of a
 \code{\link[=nav_panel]{nav_panel()}} in a navset.
 
-Other Panel container functions: 
+Other Panel container functions:
 \code{\link{nav-items}},
-\code{\link{nav_select}()}
+\code{\link[=nav_select]{nav_select()}}
 }
 \concept{Panel container functions}

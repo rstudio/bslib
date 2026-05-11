@@ -16,11 +16,11 @@ Returns a list of the Bootstrap versions available.
 Available Bootstrap versions
 }
 \seealso{
-Other Bootstrap theme utility functions: 
-\code{\link{bootswatch_themes}()},
-\code{\link{bs_get_variables}()},
-\code{\link{builtin_themes}()},
-\code{\link{theme_bootswatch}()},
-\code{\link{theme_version}()}
+Other Bootstrap theme utility functions:
+\code{\link[=bootswatch_themes]{bootswatch_themes()}},
+\code{\link[=bs_get_variables]{bs_get_variables()}},
+\code{\link[=builtin_themes]{builtin_themes()}},
+\code{\link[=theme_bootswatch]{theme_bootswatch()}},
+\code{\link[=theme_version]{theme_version()}}
 }
 \concept{Bootstrap theme utility functions}

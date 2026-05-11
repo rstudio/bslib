@@ -22,7 +22,7 @@ This function should generally only be called at print/render time. For
 example:
 \itemize{
 \item Inside the \code{preRenderHook} of \code{htmlwidgets::createWidget()}.
-\item Inside of a custom \link{print} method that generates \link[htmltools:builder]{htmltools::tags}.
+\item Inside of a custom \link{print} method that generates \link[htmltools:tags]{htmltools::tags}.
 \item Inside of a \code{\link[htmltools:tagFunction]{htmltools::tagFunction()}}
 }
 
@@ -39,13 +39,13 @@ possibly other static rendering contexts.
 }
 }
 \seealso{
-Other Bootstrap theme functions: 
-\code{\link{bs_add_variables}()},
-\code{\link{bs_dependency}()},
-\code{\link{bs_global_theme}()},
-\code{\link{bs_remove}()},
-\code{\link{bs_theme}()},
-\code{\link{bs_theme_dependencies}()},
-\code{\link{bs_theme_preview}()}
+Other Bootstrap theme functions:
+\code{\link[=bs_add_variables]{bs_add_variables()}},
+\code{\link[=bs_dependency]{bs_dependency()}},
+\code{\link[=bs_global_theme]{bs_global_theme()}},
+\code{\link[=bs_remove]{bs_remove()}},
+\code{\link[=bs_theme]{bs_theme()}},
+\code{\link[=bs_theme_dependencies]{bs_theme_dependencies()}},
+\code{\link[=bs_theme_preview]{bs_theme_preview()}}
 }
 \concept{Bootstrap theme functions}

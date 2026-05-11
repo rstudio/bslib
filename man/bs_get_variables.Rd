@@ -45,11 +45,11 @@ provides a searchable reference of all theming variables available in
 Bootstrap 5.
 }
 \seealso{
-Other Bootstrap theme utility functions: 
-\code{\link{bootswatch_themes}()},
-\code{\link{builtin_themes}()},
-\code{\link{theme_bootswatch}()},
-\code{\link{theme_version}()},
-\code{\link{versions}()}
+Other Bootstrap theme utility functions:
+\code{\link[=bootswatch_themes]{bootswatch_themes()}},
+\code{\link[=builtin_themes]{builtin_themes()}},
+\code{\link[=theme_bootswatch]{theme_bootswatch()}},
+\code{\link[=theme_version]{theme_version()}},
+\code{\link[=versions]{versions()}}
 }
 \concept{Bootstrap theme utility functions}

@@ -19,7 +19,7 @@ layout_columns(
 }
 \arguments{
 \item{...}{Unnamed arguments should be UI elements (e.g., \code{\link[=card]{card()}}). Named
-arguments become attributes on the containing \link[htmltools:builder]{htmltools::tag} element.}
+arguments become attributes on the containing \link[htmltools:tag]{htmltools::tag} element.}
 
 \item{col_widths}{One of the following:
 \itemize{
@@ -126,7 +126,7 @@ on the bslib website.
 \code{\link[=breakpoints]{breakpoints()}} for more information on specifying column widths at
 responsive breakpoints.
 
-Other Column layouts: 
-\code{\link{layout_column_wrap}()}
+Other Column layouts:
+\code{\link[=layout_column_wrap]{layout_column_wrap()}}
 }
 \concept{Column layouts}

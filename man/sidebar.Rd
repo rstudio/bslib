@@ -41,7 +41,7 @@ layout_sidebar(
 toggle_sidebar(id, open = NULL, session = get_current_session())
 }
 \arguments{
-\item{...}{Unnamed arguments can be any valid child of an \link[htmltools:builder]{htmltools tag} and named arguments become HTML attributes on
+\item{...}{Unnamed arguments can be any valid child of an \link[htmltools:tags]{htmltools tag} and named arguments become HTML attributes on
 returned UI element. In the case of \code{layout_sidebar()}, these arguments are
 passed to the main content tag (not the sidebar+main content container).}
 
@@ -79,7 +79,7 @@ update) the \code{collapsible} state in a Shiny app.}
 
 \item{title}{A character title to be used as the sidebar title, which will be
 wrapped in a \verb{<header>} element with class \code{sidebar-title}. You can also
-provide a custom \code{\link[htmltools:builder]{htmltools::tag()}} for the title element, in which case
+provide a custom \code{\link[htmltools:tag]{htmltools::tag()}} for the title element, in which case
 you'll likely want to give this element \code{class = "sidebar-title"}.}
 
 \item{bg, fg}{A background or foreground color. If only one of either is
