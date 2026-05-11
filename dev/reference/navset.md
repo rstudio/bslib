@@ -251,7 +251,6 @@ calls and `navset_tab()` creates the tabbed navigation around these two
 tabs.
 
     library(htmltools)
-    #> Warning: package 'htmltools' was built under R version 4.5.2
 
     navset_tab(
       nav_panel(title = "One", p("First tab content.")),
