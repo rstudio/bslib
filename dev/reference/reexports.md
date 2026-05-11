@@ -5,4 +5,4 @@ to see their documentation.
 
 - htmltools:
 
-  [`css`](https://rstudio.github.io/htmltools/reference/css.html)
+  [`css()`](https://rstudio.github.io/htmltools/reference/css.html)

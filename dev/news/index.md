@@ -4,6 +4,9 @@
 
 ### Improvements and bug fixes
 
+- bslib’s version of Bootstrap and Bootswatch have been updated to
+  5.3.8. ([\#1287](https://github.com/rstudio/bslib/issues/1287))
+
 - Fixed a caret drift issue in
   [`input_code_editor()`](https://rstudio.github.io/bslib/dev/reference/input_code_editor.md)
   where the cursor would appear to the right of the actual text
