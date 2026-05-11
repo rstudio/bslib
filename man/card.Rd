@@ -17,7 +17,7 @@ card(
 )
 }
 \arguments{
-\item{...}{Unnamed arguments can be any valid child of an \link[htmltools:builder]{htmltools tag} (which includes card items such as \code{\link[=card_body]{card_body()}}.
+\item{...}{Unnamed arguments can be any valid child of an \link[htmltools:tags]{htmltools tag} (which includes card items such as \code{\link[=card_body]{card_body()}}.
 Named arguments become HTML attributes on returned UI element.}
 
 \item{full_screen}{If \code{TRUE}, an icon will appear when hovering over the card
@@ -48,7 +48,7 @@ you can observe the card's full screen state with
 \code{input$my_card_full_screen}.}
 }
 \value{
-A \code{\link[htmltools:builder]{htmltools::div()}} tag.
+A \code{\link[htmltools:div]{htmltools::div()}} tag.
 }
 \description{
 A general purpose container for grouping related UI elements together with a
@@ -100,10 +100,10 @@ or \code{\link[=card_body]{card_body()}}.
 \code{\link[=value_box]{value_box()}} uses \code{\link[=card]{card()}} to highlight a showcase a key piece of
 information.
 
-Other Components: 
-\code{\link{accordion}()},
-\code{\link{popover}()},
-\code{\link{tooltip}()},
-\code{\link{value_box}()}
+Other Components:
+\code{\link[=accordion]{accordion()}},
+\code{\link[=popover]{popover()}},
+\code{\link[=tooltip]{tooltip()}},
+\code{\link[=value_box]{value_box()}}
 }
 \concept{Components}

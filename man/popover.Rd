@@ -24,7 +24,7 @@ update_popover(id, ..., title = NULL, session = get_current_session())
 \code{\link[shiny:actionButton]{shiny::actionButton()}} or similar). If \code{trigger} renders as multiple HTML
 elements (e.g., it's a \code{tagList()}), the last HTML element is used for the
 trigger. If the \code{trigger} should contain all of those elements, wrap the
-object in a \code{\link[htmltools:builder]{htmltools::div()}} or \code{\link[htmltools:builder]{htmltools::span()}}.}
+object in a \code{\link[htmltools:div]{htmltools::div()}} or \code{\link[htmltools:span]{htmltools::span()}}.}
 
 \item{...}{UI elements for the popover's body. Character strings are
 \link[htmltools:htmlEscape]{automatically escaped} unless marked as
@@ -169,10 +169,10 @@ bslib website for an \href{https://rstudio.github.io/bslib/articles/tooltips-pop
 \code{\link[=tooltip]{tooltip()}} provides an alternative way to display informational
 text on demand, typically when focusing or hovering over a trigger element.
 
-Other Components: 
-\code{\link{accordion}()},
-\code{\link{card}()},
-\code{\link{tooltip}()},
-\code{\link{value_box}()}
+Other Components:
+\code{\link[=accordion]{accordion()}},
+\code{\link[=card]{card()}},
+\code{\link[=tooltip]{tooltip()}},
+\code{\link[=value_box]{value_box()}}
 }
 \concept{Components}

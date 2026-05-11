@@ -18,11 +18,11 @@ Returns a character vector of Bootswatch themes.
 Obtain a list of all available bootswatch themes.
 }
 \seealso{
-Other Bootstrap theme utility functions: 
-\code{\link{bs_get_variables}()},
-\code{\link{builtin_themes}()},
-\code{\link{theme_bootswatch}()},
-\code{\link{theme_version}()},
-\code{\link{versions}()}
+Other Bootstrap theme utility functions:
+\code{\link[=bs_get_variables]{bs_get_variables()}},
+\code{\link[=builtin_themes]{builtin_themes()}},
+\code{\link[=theme_bootswatch]{theme_bootswatch()}},
+\code{\link[=theme_version]{theme_version()}},
+\code{\link[=versions]{versions()}}
 }
 \concept{Bootstrap theme utility functions}

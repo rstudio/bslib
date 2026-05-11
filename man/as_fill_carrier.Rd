@@ -51,7 +51,7 @@ is_fillable_container(x)
 is_fill_item(x)
 }
 \arguments{
-\item{x}{An \code{\link[htmltools:builder]{htmltools::tag()}}.}
+\item{x}{An \code{\link[htmltools:tag]{htmltools::tag()}}.}
 
 \item{...}{Currently ignored.}
 
@@ -84,7 +84,7 @@ and fill items (fill carriers are both fillable and fill). This is why most
 bslib components (e.g., \code{\link[=card]{card()}}, \code{\link[=card_body]{card_body()}}, \code{\link[=layout_sidebar]{layout_sidebar()}}) possess
 both \code{fillable} and \code{fill} arguments (to control their fill behavior).
 However, sometimes it's useful to add, remove, and/or test fillable/fill
-properties on arbitrary \code{\link[htmltools:builder]{htmltools::tag()}}, which these functions are
+properties on arbitrary \code{\link[htmltools:tag]{htmltools::tag()}}, which these functions are
 designed to do.
 }
 \details{

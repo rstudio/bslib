@@ -164,9 +164,9 @@ toolbar(
 \dontshow{\}) # examplesIf}
 }
 \seealso{
-Other toolbar components: 
-\code{\link{toolbar}()},
-\code{\link{toolbar_divider}()},
-\code{\link{toolbar_input_button}()}
+Other toolbar components:
+\code{\link[=toolbar]{toolbar()}},
+\code{\link[=toolbar_divider]{toolbar_divider()}},
+\code{\link[=toolbar_input_button]{toolbar_input_button()}}
 }
 \concept{toolbar components}

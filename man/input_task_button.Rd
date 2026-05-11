@@ -59,7 +59,7 @@ in "ready" state after its click is handled by the server.}
 }
 \description{
 \code{input_task_button} is a button that can be used in conjuction with
-\code{\link[shiny:bindEvent]{shiny::bindEvent()}} (or the older \code{\link[shiny:observeEvent]{shiny::eventReactive()}} and
+\code{\link[shiny:bindEvent]{shiny::bindEvent()}} (or the older \code{\link[shiny:eventReactive]{shiny::eventReactive()}} and
 \code{\link[shiny:observeEvent]{shiny::observeEvent()}} functions) to trigger actions or recomputation.
 
 It is similar to \code{\link[shiny:actionButton]{shiny::actionButton()}}, except it prevents the user from
@@ -100,7 +100,7 @@ The task button is designed to automatically switch between two states: the
 \code{label_busy} and \code{icon_busy}.
 
 In advanced use cases, you can include additional states by adding an
-\code{\link[htmltools:builder]{htmltools::div()}} with a \code{slot} attribute naming the state and the icon and
+\code{\link[htmltools:div]{htmltools::div()}} with a \code{slot} attribute naming the state and the icon and
 label as the first and second children, respectively.
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{input_task_button(
@@ -127,9 +127,9 @@ An integer of class \code{"shinyActionButtonValue"}. This class differs from
 ordinary integers in that a value of 0 is considered "falsy". This implies
 two things:
 \itemize{
-\item Event handlers (e.g., \code{\link[shiny:observeEvent]{shiny::observeEvent()}}, \code{\link[shiny:observeEvent]{shiny::eventReactive()}})
+\item Event handlers (e.g., \code{\link[shiny:observeEvent]{shiny::observeEvent()}}, \code{\link[shiny:eventReactive]{shiny::eventReactive()}})
 won't execute on initial load.
-\item Input validation (e.g., \code{\link[shiny:req]{shiny::req()}}, \code{\link[shiny:validate]{shiny::need()}}) will fail on
+\item Input validation (e.g., \code{\link[shiny:req]{shiny::req()}}, \code{\link[shiny:need]{shiny::need()}}) will fail on
 initial load.
 }
 }

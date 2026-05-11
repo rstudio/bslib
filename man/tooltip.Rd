@@ -19,11 +19,11 @@ toggle_tooltip(id, show = NULL, session = get_current_session())
 update_tooltip(id, ..., session = get_current_session())
 }
 \arguments{
-\item{trigger}{A UI element (i.e., \link[htmltools:builder]{htmltools tag}) to serve
+\item{trigger}{A UI element (i.e., \link[htmltools:tags]{htmltools tag}) to serve
 as the tooltip trigger. If \code{trigger} renders as multiple HTML
 elements (e.g., it's a \code{tagList()}), the last HTML element is used for the
 trigger. If the \code{trigger} should contain all of those elements, wrap the
-object in a \code{\link[htmltools:builder]{htmltools::div()}} or \code{\link[htmltools:builder]{htmltools::span()}}.}
+object in a \code{\link[htmltools:div]{htmltools::div()}} or \code{\link[htmltools:span]{htmltools::span()}}.}
 
 \item{...}{UI elements for the tooltip. Character strings are \link[htmltools:htmlEscape]{automatically escaped} unless marked as \code{\link[htmltools:HTML]{htmltools::HTML()}}.
 Tooltip content should expand on, not contradict element labels.}
@@ -137,10 +137,10 @@ bslib website for an \href{https://rstudio.github.io/bslib/articles/tooltips-pop
 for additional elements, typically revealed by clicking on a target
 element.
 
-Other Components: 
-\code{\link{accordion}()},
-\code{\link{card}()},
-\code{\link{popover}()},
-\code{\link{value_box}()}
+Other Components:
+\code{\link[=accordion]{accordion()}},
+\code{\link[=card]{card()}},
+\code{\link[=popover]{popover()}},
+\code{\link[=value_box]{value_box()}}
 }
 \concept{Components}

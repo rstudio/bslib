@@ -151,13 +151,13 @@ bs_global_set(theme)
 
 }
 \seealso{
-Other Bootstrap theme functions: 
-\code{\link{bs_add_variables}()},
-\code{\link{bs_current_theme}()},
-\code{\link{bs_dependency}()},
-\code{\link{bs_remove}()},
-\code{\link{bs_theme}()},
-\code{\link{bs_theme_dependencies}()},
-\code{\link{bs_theme_preview}()}
+Other Bootstrap theme functions:
+\code{\link[=bs_add_variables]{bs_add_variables()}},
+\code{\link[=bs_current_theme]{bs_current_theme()}},
+\code{\link[=bs_dependency]{bs_dependency()}},
+\code{\link[=bs_remove]{bs_remove()}},
+\code{\link[=bs_theme]{bs_theme()}},
+\code{\link[=bs_theme_dependencies]{bs_theme_dependencies()}},
+\code{\link[=bs_theme_preview]{bs_theme_preview()}}
 }
 \concept{Bootstrap theme functions}

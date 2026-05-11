@@ -75,7 +75,6 @@ Config/testthat/start-first: zzzz-bs-sass, fonts, zzz-precompile, theme-*,
     rmd-*
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3
 Collate:
     'accordion.R'
     'breakpoints.R'
@@ -126,3 +125,4 @@ Collate:
     'value-box.R'
     'version-default.R'
     'versions.R'
+Config/roxygen2/version: 8.0.0

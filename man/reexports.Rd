@@ -11,6 +11,6 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{htmltools}{\code{\link[htmltools]{css}}}
+  \item{htmltools}{\code{\link[htmltools:css]{css()}}}
 }}
 

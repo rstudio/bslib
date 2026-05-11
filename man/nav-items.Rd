@@ -21,15 +21,15 @@ nav_spacer()
 }
 \arguments{
 \item{title}{A title to display. Can be a character string or UI elements
-(i.e., \link[htmltools:builder]{htmltools::tags}).}
+(i.e., \link[htmltools:tags]{htmltools::tags}).}
 
 \item{...}{Depends on the function:
 \itemize{
 \item For \code{nav_panel()} and \code{nav_panel_hidden()}: UI elements (i.e.,
-\link[htmltools:builder]{htmltools::tags}) to display when the item is active.
+\link[htmltools:tags]{htmltools::tags}) to display when the item is active.
 \item For \code{nav_menu()}: a collection of nav items (e.g., \code{nav_panel()},
 \code{nav_item()}).
-\item For \code{nav_item()}: UI elements (i.e., \link[htmltools:builder]{htmltools::tags}) to place directly in
+\item For \code{nav_item()}: UI elements (i.e., \link[htmltools:tags]{htmltools::tags}) to place directly in
 the navigation panel (e.g., search forms, links to external content, etc).
 }}
 
@@ -80,8 +80,8 @@ panels.
 \code{\link[=nav_select]{nav_select()}}, \code{\link[=nav_show]{nav_show()}}, \code{\link[=nav_hide]{nav_hide()}} change the state of a
 \code{\link[=nav_panel]{nav_panel()}} in a navset.
 
-Other Panel container functions: 
-\code{\link{nav_select}()},
+Other Panel container functions:
+\code{\link[=nav_select]{nav_select()}},
 \code{\link{navset}}
 }
 \concept{Panel container functions}

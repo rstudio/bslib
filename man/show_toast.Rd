@@ -68,7 +68,7 @@ shinyApp(ui, server)
 \dontshow{\}) # examplesIf}
 }
 \seealso{
-Other Toast components: 
-\code{\link{toast}()}
+Other Toast components:
+\code{\link[=toast]{toast()}}
 }
 \concept{Toast components}

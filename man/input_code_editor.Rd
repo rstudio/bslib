@@ -145,8 +145,8 @@ shinyApp(ui, server)
 \dontshow{\}) # examplesIf}
 }
 \seealso{
-Other input controls: 
-\code{\link{input_dark_mode}()},
-\code{\link{input_switch}()}
+Other input controls:
+\code{\link[=input_dark_mode]{input_dark_mode()}},
+\code{\link[=input_switch]{input_switch()}}
 }
 \concept{input controls}

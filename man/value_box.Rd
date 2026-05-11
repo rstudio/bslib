@@ -51,14 +51,14 @@ showcase_bottom(
 )
 }
 \arguments{
-\item{title, value}{A string, number, or \code{\link[htmltools:builder]{htmltools::tag()}} child to display as
+\item{title, value}{A string, number, or \code{\link[htmltools:tag]{htmltools::tag()}} child to display as
 the title or value of the value box. The \code{title} appears above the \code{value}.}
 
-\item{...}{Unnamed arguments may be any \code{\link[htmltools:builder]{htmltools::tag()}} children to
+\item{...}{Unnamed arguments may be any \code{\link[htmltools:tag]{htmltools::tag()}} children to
 display below \code{value}. Named arguments become attributes on the containing
 element.}
 
-\item{showcase}{A \code{\link[htmltools:builder]{htmltools::tag()}} child to showcase (e.g., a
+\item{showcase}{A \code{\link[htmltools:tag]{htmltools::tag()}} child to showcase (e.g., a
 \code{\link[bsicons:bs_icon]{bsicons::bs_icon()}}, a \code{plotly::plotlyOutput()}, etc).}
 
 \item{showcase_layout}{One of \code{"left center"} (default), \code{"top right"} or
@@ -403,10 +403,10 @@ Value boxes are a specialized form of a \code{\link[=card]{card()}} component.
 \code{\link[=layout_columns]{layout_columns()}} and \code{\link[=layout_column_wrap]{layout_column_wrap()}} help position multiple
 value boxes into columns and rows.
 
-Other Components: 
-\code{\link{accordion}()},
-\code{\link{card}()},
-\code{\link{popover}()},
-\code{\link{tooltip}()}
+Other Components:
+\code{\link[=accordion]{accordion()}},
+\code{\link[=card]{card()}},
+\code{\link[=popover]{popover()}},
+\code{\link[=tooltip]{tooltip()}}
 }
 \concept{Components}
