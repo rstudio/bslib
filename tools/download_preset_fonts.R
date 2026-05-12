@@ -1,5 +1,3 @@
-library(stringr)
-
 # if (Sys.getenv("RSTUDIO") == "1") {
 #   stop("Please run this script from the command line: `Rscript tools/download_preset_fonts.R`")
 # }
@@ -40,7 +38,7 @@ download_and_copy_fonts <- function(theme, rule_file = "_bootswatch.scss") {
   if (!length(web_font_path)) {
     return()
   }
-  web_font_url <- strsplit(stringr::str_trim(web_font_path), "\\s+")[[1]][2]
+  web_font_url <- strsplit(trimws(web_font_path), "\\s+")[[1]][2]
   if (!length(web_font_url)) {
     warning(
       "Wasn't able to extract a url for $web-font-path from theme: ",
