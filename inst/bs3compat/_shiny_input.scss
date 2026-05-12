@@ -63,9 +63,12 @@ $form-group-margin-bottom: 1rem !default;
     }
   }
 
-  // selectInput(selectize=FALSE) uses form-control, but BS5's form-control sets
-  // appearance:none without a background-image chevron (unlike form-select).
-  // https://github.com/rstudio/bslib/issues/1295
+  // Shiny's selectInput(selectize=FALSE) renders <select class="form-control">.
+  // BS5 strips the native chevron from .form-control (via `appearance: none`)
+  // and provides a replacement chevron only on its new .form-select class,
+  // which Shiny doesn't use. Re-apply .form-select's chevron treatment to
+  // select.form-control here.
+  // Source: https://github.com/twbs/bootstrap/blob/v5.3.8/scss/forms/_form-select.scss
   select.form-control {
     --#{$prefix}form-select-bg-img: #{escape-svg($form-select-indicator)};
     padding-right: $form-select-indicator-padding;
