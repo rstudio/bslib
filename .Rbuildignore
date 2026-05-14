@@ -35,5 +35,6 @@ inst/lib/bsw3/.npmignore
 ^AGENTS\.md$
 ^[.]?air[.]toml$
 ^\.vscode$
+^\.claude$
 ^inst/examples-shiny/toast/\.gitignore$
 ^inst/examples-shiny/brand\.yml/\.gitignore$
