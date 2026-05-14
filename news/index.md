@@ -39,6 +39,15 @@
 
 ### Improvements and bug fixes
 
+- [`sidebar()`](https://rstudio.github.io/bslib/reference/sidebar.md)
+  gains a `resizable` argument (default `TRUE`) to control whether the
+  sidebar can be resized by dragging its edge on desktop (wide screen
+  sizes). ([\#1299](https://github.com/rstudio/bslib/issues/1299))
+
+- Improved the sidebar resize handle to avoid conflicts with the
+  sidebar’s native scrollbar and to better support touch devices.
+  ([\#1299](https://github.com/rstudio/bslib/issues/1299))
+
 - bslib’s version of Bootstrap and Bootswatch have been updated to
   5.3.8. ([\#1287](https://github.com/rstudio/bslib/issues/1287))
 
@@ -55,25 +64,16 @@
   now supports `language = "ggsql"` for syntax highlighting of ggsql
   queries. ([\#1291](https://github.com/rstudio/bslib/issues/1291))
 
-- Improved the sidebar resize handle to avoid conflicts with the
-  sidebar’s native scrollbar and to better support touch devices.
-  ([\#1299](https://github.com/rstudio/bslib/issues/1299))
-
-- [`sidebar()`](https://rstudio.github.io/bslib/reference/sidebar.md)
-  gains a `resizable` argument (default `TRUE`) to control whether the
-  sidebar can be resized by dragging its edge on desktop (wide screen
-  sizes). ([\#1299](https://github.com/rstudio/bslib/issues/1299))
-
-- Fixed
-  [`toolbar_input_button()`](https://rstudio.github.io/bslib/reference/toolbar_input_button.md)
-  alignment and spacing issues.
-  ([\#1290](https://github.com/rstudio/bslib/issues/1290))
-
 - The brand.yml example app
   (`shiny::runExample("brand.yml", package = "bslib")`) now uses
   `brand_pluck()` and `brand_has()` from
   [brand.yml](https://posit-dev.github.io/brand-yml/pkg/r/).
   ([\#1288](https://github.com/rstudio/bslib/issues/1288))
+
+- Fixed
+  [`toolbar_input_button()`](https://rstudio.github.io/bslib/reference/toolbar_input_button.md)
+  alignment and spacing issues.
+  ([\#1290](https://github.com/rstudio/bslib/issues/1290))
 
 ## bslib 0.10.0
 
