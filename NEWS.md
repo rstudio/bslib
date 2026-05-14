@@ -11,6 +11,10 @@
 
 ## Improvements and bug fixes
 
+* `sidebar()` gains a `resizable` argument (default `TRUE`) to control whether the sidebar can be resized by dragging its edge on desktop (wide screen sizes). (#1299)
+
+* Improved the sidebar resize handle to avoid conflicts with the sidebar's native scrollbar and to better support touch devices. (#1299)
+
 * bslib's version of Bootstrap and Bootswatch have been updated to 5.3.8. (#1287)
 
 * Fixed the chevron icon on `selectInput(selectize = FALSE)` when using Bootstrap 5. (#1307)
@@ -19,13 +23,9 @@
 
 * `input_code_editor()` now supports `language = "ggsql"` for syntax highlighting of ggsql queries. (#1291)
 
-* Improved the sidebar resize handle to avoid conflicts with the sidebar's native scrollbar and to better support touch devices. (#1299)
-
-* `sidebar()` gains a `resizable` argument (default `TRUE`) to control whether the sidebar can be resized by dragging its edge on desktop (wide screen sizes). (#1299)
+* The brand.yml example app (`shiny::runExample("brand.yml", package = "bslib")`) now uses `brand_pluck()` and `brand_has()` from `{brand.yml}`. (#1288)
 
 * Fixed `toolbar_input_button()` alignment and spacing issues. (#1290)
-
-* The brand.yml example app (`shiny::runExample("brand.yml", package = "bslib")`) now uses `brand_pluck()` and `brand_has()` from `{brand.yml}`. (#1288)
 
 # bslib 0.10.0
 
