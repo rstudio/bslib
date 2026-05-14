@@ -40,6 +40,7 @@ update_tooltip(id, ..., session = get_current_session())
   escaped](https://rstudio.github.io/htmltools/reference/htmlEscape.html)
   unless marked as
   [`htmltools::HTML()`](https://rstudio.github.io/htmltools/reference/HTML.html).
+  Tooltip content should expand on, not contradict element labels.
 
 - id:
 

@@ -22,6 +22,9 @@ Useful links:
 
 Authors:
 
+- Carson Sievert <carson@posit.co>
+  ([ORCID](https://orcid.org/0000-0002-4958-2844))
+
 - Joe Cheng <joe@posit.co>
 
 - Garrick Aden-Buie <garrick@posit.co>
