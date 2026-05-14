@@ -1,8 +1,19 @@
 # bslib (development version)
 
+## New features
+
+* Added a new `toolbar()` component for creating Bootstrap toolbars that can contain buttons, text, and other elements. (#1247)
+  * Added `toolbar_input_button()` for easily creating buttons to include in a `toolbar()`. (#1248)
+  * Added `toolbar_input_select()`, a select input designed for use within a `toolbar()`. (#1249)
+  * Added `update_toolbar_input_select()` for updating the choices, icon, label, and selected value of a `toolbar_input_select()` from the server. (#1266)
+  * Added `update_toolbar_input_button()` for updating the label, icon, and disabled state of a `toolbar_input_button()` from the server. (#1266)
+  * Added `toolbar_divider()` for adding visual dividers with customizable width and spacing between toolbar elements. (#1259)
+
 ## Improvements and bug fixes
 
 * bslib's version of Bootstrap and Bootswatch have been updated to 5.3.8. (#1287)
+
+* Fixed the chevron icon on `selectInput(selectize = FALSE)` when using Bootstrap 5. (#1307)
 
 * Fixed a caret drift issue in `input_code_editor()` where the cursor would appear to the right of the actual text insertion point when certain themes or on some operating systems. (#1304)
 
@@ -29,13 +40,6 @@
 * Added toast notifications based on [Bootstrap's Toast component](https://getbootstrap.com/docs/5.3/components/toasts/): Use `toast()` to create customizable toast objects, `show_toast()` to display a toast message, `hide_toast()` for manual dismissal, and `toast_header()` for structured headers with icons and status indicators. Try it with `shiny::runExample("toast", package = "bslib")`. (#1246)
 
 * Added a new `input_code_editor()` element that allows for light-weight code editing with syntax highlighting, using the [prism-code-editor](https://prism-code-editor.netlify.app/) library. The editor supports 20+ languages, more than a dozen themes, and automatic light/dark mode switching. Try it with `shiny::runExample("code-editor", package = "bslib")`. (#1274)
-
-* Added a new `toolbar()` component for creating Bootstrap toolbars that can contain buttons, text, and other elements. (#1247)
-  * Added `toolbar_input_button()` for easily creating buttons to include in a `toolbar()`. (#1248)
-  * Added `toolbar_input_select()`, a select input designed for use within a `toolbar()`. (#1249)
-  * Added `update_toolbar_input_select()` for updating the choices, icon, label, and selected value of a `toolbar_input_select()` from the server. (#1266)
-  * Added `update_toolbar_input_button()` for updating the label, icon, and disabled state of a `toolbar_input_button()` from the server. (#1266)
-  * Added `toolbar_divider()` for adding visual dividers with customizable width and spacing between toolbar elements. (#1259)
 
 ## Improvements and bug fixes
 
