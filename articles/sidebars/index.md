@@ -140,8 +140,8 @@ page_navbar(
 
 [`page_navbar()`](https://rstudio.github.io/bslib/reference/page_navbar.md)
 
-- [Page 1](#tab-9050-1)
-- [Page 2](#tab-9050-2)
+- [Page 1](#tab-5663-1)
+- [Page 2](#tab-5663-2)
 
 Page 1 content
 
@@ -168,8 +168,8 @@ navset_card_tab(
 
 Tab Card
 
-- [Tab 1](#tab-6320-1)
-- [Tab 2](#tab-6320-2)
+- [Tab 1](#tab-7232-1)
+- [Tab 2](#tab-7232-2)
 
 Tab 1 content
 
