@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">bslib</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.10.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.11.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -75,25 +75,28 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="bslib-development-version">bslib (development version)<a class="anchor" aria-label="anchor" href="#bslib-development-version"></a></h2>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.11.0" id="bslib-0110">bslib 0.11.0<a class="anchor" aria-label="anchor" href="#bslib-0110"></a></h2><p class="text-muted">CRAN release: 2026-05-16</p>
 <div class="section level3">
-<h3 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
-<ul><li>Added a new <code><a href="../reference/toolbar.html">toolbar()</a></code> component for creating Bootstrap toolbars that can contain buttons, text, and other elements. (<a href="https://github.com/rstudio/bslib/issues/1247" class="external-link">#1247</a>)
+<h3 id="new-features-0-11-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-11-0"></a></h3>
+<ul><li>
+<p>Added a new <code><a href="../reference/toolbar.html">toolbar()</a></code> component for creating Bootstrap toolbars that can contain buttons, text, and other elements. (<a href="https://github.com/rstudio/bslib/issues/1247" class="external-link">#1247</a>)</p>
 <ul><li>Added <code><a href="../reference/toolbar_input_button.html">toolbar_input_button()</a></code> for easily creating buttons to include in a <code><a href="../reference/toolbar.html">toolbar()</a></code>. (<a href="https://github.com/rstudio/bslib/issues/1248" class="external-link">#1248</a>)</li>
 <li>Added <code><a href="../reference/toolbar_input_select.html">toolbar_input_select()</a></code>, a select input designed for use within a <code><a href="../reference/toolbar.html">toolbar()</a></code>. (<a href="https://github.com/rstudio/bslib/issues/1249" class="external-link">#1249</a>)</li>
 <li>Added <code><a href="../reference/toolbar_input_select.html">update_toolbar_input_select()</a></code> for updating the choices, icon, label, and selected value of a <code><a href="../reference/toolbar_input_select.html">toolbar_input_select()</a></code> from the server. (<a href="https://github.com/rstudio/bslib/issues/1266" class="external-link">#1266</a>)</li>
 <li>Added <code><a href="../reference/toolbar_input_button.html">update_toolbar_input_button()</a></code> for updating the label, icon, and disabled state of a <code><a href="../reference/toolbar_input_button.html">toolbar_input_button()</a></code> from the server. (<a href="https://github.com/rstudio/bslib/issues/1266" class="external-link">#1266</a>)</li>
 <li>Added <code><a href="../reference/toolbar_divider.html">toolbar_divider()</a></code> for adding visual dividers with customizable width and spacing between toolbar elements. (<a href="https://github.com/rstudio/bslib/issues/1259" class="external-link">#1259</a>)</li>
 </ul></li>
+<li><p><code><a href="../reference/sidebar.html">sidebar()</a></code> gains a <code>resizable</code> argument (default <code>TRUE</code>) to control whether the sidebar can be resized by dragging its edge on desktop (wide screen sizes). (<a href="https://github.com/rstudio/bslib/issues/1299" class="external-link">#1299</a>)</p></li>
+<li><p><code><a href="../reference/input_code_editor.html">input_code_editor()</a></code> now supports <code>language = "ggsql"</code> for syntax highlighting of ggsql queries. (<a href="https://github.com/rstudio/bslib/issues/1291" class="external-link">#1291</a>)</p></li>
 </ul></div>
 <div class="section level3">
-<h3 id="improvements-and-bug-fixes-development-version">Improvements and bug fixes<a class="anchor" aria-label="anchor" href="#improvements-and-bug-fixes-development-version"></a></h3>
+<h3 id="improvements-and-bug-fixes-0-11-0">Improvements and bug fixes<a class="anchor" aria-label="anchor" href="#improvements-and-bug-fixes-0-11-0"></a></h3>
 <ul><li><p>bslib’s version of Bootstrap and Bootswatch have been updated to 5.3.8. (<a href="https://github.com/rstudio/bslib/issues/1287" class="external-link">#1287</a>)</p></li>
-<li><p>Fixed the chevron icon on <code>selectInput(selectize = FALSE)</code> when using Bootstrap 5. (<a href="https://github.com/rstudio/bslib/issues/1307" class="external-link">#1307</a>)</p></li>
 <li><p>Fixed a caret drift issue in <code><a href="../reference/input_code_editor.html">input_code_editor()</a></code> where the cursor would appear to the right of the actual text insertion point when certain themes or on some operating systems. (<a href="https://github.com/rstudio/bslib/issues/1304" class="external-link">#1304</a>)</p></li>
-<li><p><code><a href="../reference/input_code_editor.html">input_code_editor()</a></code> now supports <code>language = "ggsql"</code> for syntax highlighting of ggsql queries. (<a href="https://github.com/rstudio/bslib/issues/1291" class="external-link">#1291</a>)</p></li>
+<li><p>Fixed the chevron icon on <code>selectInput(selectize = FALSE)</code> when using Bootstrap 5. (<a href="https://github.com/rstudio/bslib/issues/1307" class="external-link">#1307</a>)</p></li>
 <li><p>Improved the sidebar resize handle to avoid conflicts with the sidebar’s native scrollbar and to better support touch devices. (<a href="https://github.com/rstudio/bslib/issues/1299" class="external-link">#1299</a>)</p></li>
-<li><p><code><a href="../reference/sidebar.html">sidebar()</a></code> gains a <code>resizable</code> argument (default <code>TRUE</code>) to control whether the sidebar can be resized by dragging its edge on desktop (wide screen sizes). (<a href="https://github.com/rstudio/bslib/issues/1299" class="external-link">#1299</a>)</p></li>
-<li><p>Fixed <code><a href="../reference/toolbar_input_button.html">toolbar_input_button()</a></code> alignment and spacing issues. (<a href="https://github.com/rstudio/bslib/issues/1290" class="external-link">#1290</a>)</p></li>
 <li><p>The brand.yml example app (<code>shiny::runExample("brand.yml", package = "bslib")</code>) now uses <code>brand_pluck()</code> and <code>brand_has()</code> from <a href="https://posit-dev.github.io/brand-yml/pkg/r/" class="external-link">brand.yml</a>. (<a href="https://github.com/rstudio/bslib/issues/1288" class="external-link">#1288</a>)</p></li>
 </ul></div>
 </div>
