@@ -1,4 +1,4 @@
-# bslib (development version)
+# bslib 0.11.0
 
 ## New features
 
@@ -9,21 +9,19 @@
   * Added `update_toolbar_input_button()` for updating the label, icon, and disabled state of a `toolbar_input_button()` from the server. (#1266)
   * Added `toolbar_divider()` for adding visual dividers with customizable width and spacing between toolbar elements. (#1259)
 
+* `sidebar()` gains a `resizable` argument (default `TRUE`) to control whether the sidebar can be resized by dragging its edge on desktop (wide screen sizes). (#1299)
+
+* `input_code_editor()` now supports `language = "ggsql"` for syntax highlighting of ggsql queries. (#1291)
+
 ## Improvements and bug fixes
 
 * bslib's version of Bootstrap and Bootswatch have been updated to 5.3.8. (#1287)
 
-* Fixed the chevron icon on `selectInput(selectize = FALSE)` when using Bootstrap 5. (#1307)
-
 * Fixed a caret drift issue in `input_code_editor()` where the cursor would appear to the right of the actual text insertion point when certain themes or on some operating systems. (#1304)
 
-* `input_code_editor()` now supports `language = "ggsql"` for syntax highlighting of ggsql queries. (#1291)
+* Fixed the chevron icon on `selectInput(selectize = FALSE)` when using Bootstrap 5. (#1307)
 
 * Improved the sidebar resize handle to avoid conflicts with the sidebar's native scrollbar and to better support touch devices. (#1299)
-
-* `sidebar()` gains a `resizable` argument (default `TRUE`) to control whether the sidebar can be resized by dragging its edge on desktop (wide screen sizes). (#1299)
-
-* Fixed `toolbar_input_button()` alignment and spacing issues. (#1290)
 
 * The brand.yml example app (`shiny::runExample("brand.yml", package = "bslib")`) now uses `brand_pluck()` and `brand_has()` from `{brand.yml}`. (#1288)
 
