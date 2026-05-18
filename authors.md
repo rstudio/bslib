@@ -30,7 +30,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/rstudio/bslib/blob/rc-v0.11.0/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/rstudio/bslib/blob/main/DESCRIPTION)
 
 Sievert C, Cheng J, Aden-Buie G (2026). *bslib: Custom 'Bootstrap'
 'Sass' Themes for 'shiny' and 'rmarkdown'*. R package version 0.11.0,

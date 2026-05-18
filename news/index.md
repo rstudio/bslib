@@ -2,6 +2,8 @@
 
 ## bslib 0.11.0
 
+CRAN release: 2026-05-16
+
 ### New features
 
 - Added a new
