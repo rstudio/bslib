@@ -4,6 +4,10 @@
 
 * bslib's version of Bootstrap and Bootswatch have been updated to 5.3.8. (#1287)
 
+* Unified label spacing on inline `shiny::radioButtons()` and `shiny::checkboxGroupInput()` in Bootstrap 5 to match the stacked variants, which was previously overridden by an inline-specific Shiny rule. (#1308)
+
+* Fixed a missing dropdown chevron on `shiny::selectInput(selectize = FALSE)` in Bootstrap 5. (#1307)
+
 * Fixed a caret drift issue in `input_code_editor()` where the cursor would appear to the right of the actual text insertion point when certain themes or on some operating systems. (#1304)
 
 * `input_code_editor()` now supports `language = "ggsql"` for syntax highlighting of ggsql queries. (#1291)
