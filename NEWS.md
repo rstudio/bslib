@@ -1,5 +1,9 @@
 # bslib (development version)
 
+## Bug fixes
+
+* Fixed label-to-options spacing on `shiny::radioButtons()` and `shiny::checkboxGroupInput()` in Bootstrap 5, where a Shiny rule was overriding the bslib fix. (#1308)
+
 # bslib 0.11.0
 
 ## New features
@@ -19,13 +23,9 @@
 
 * bslib's version of Bootstrap and Bootswatch have been updated to 5.3.8. (#1287)
 
-* Unified label spacing on inline `shiny::radioButtons()` and `shiny::checkboxGroupInput()` in Bootstrap 5 to match the stacked variants, which was previously overridden by an inline-specific Shiny rule. (#1308)
-
 * Fixed a missing dropdown chevron on `shiny::selectInput(selectize = FALSE)` in Bootstrap 5. (#1307)
 
 * Fixed a caret drift issue in `input_code_editor()` where the cursor would appear to the right of the actual text insertion point when certain themes or on some operating systems. (#1304)
-
-* Fixed the chevron icon on `selectInput(selectize = FALSE)` when using Bootstrap 5. (#1307)
 
 * Improved the sidebar resize handle to avoid conflicts with the sidebar's native scrollbar and to better support touch devices. (#1299)
 
