@@ -1022,3 +1022,83 @@ test_that("update_toolbar_input_button() can disable and reenable button", {
   expect_true(!is.null(session$last_message$label))
   expect_true(!is.null(session$last_message$icon))
 })
+
+# Tests for toolbar_badge() ----
+
+test_that("toolbar_badge() snapshot tests", {
+  # Default: text-only badge, show_label = TRUE, no tooltip
+  expect_snapshot_html(
+    toolbar_badge("Active")
+  )
+  # Icon-only badge (show_label defaults to FALSE): label hidden, tooltip present
+  expect_snapshot_html(
+    toolbar_badge("Status", icon = shiny::icon("circle"), id = "badge1")
+  )
+  # Icon + label shown
+  expect_snapshot_html(
+    toolbar_badge("Status", icon = shiny::icon("circle"), show_label = TRUE, tooltip = FALSE, id = "badge2")
+  )
+  # Pill variant
+  expect_snapshot_html(
+    toolbar_badge("New", pill = TRUE)
+  )
+  # Color variants
+  expect_snapshot_html(toolbar_badge("OK", color = "success"))
+  expect_snapshot_html(toolbar_badge("Error", color = "danger"))
+  # Nested inside toolbar()
+  expect_snapshot_html(
+    toolbar(
+      toolbar_badge("Active"),
+      toolbar_badge("3 errors", color = "danger")
+    )
+  )
+})
+
+test_that("toolbar_badge() applies text-bg-{color} class", {
+  badge <- toolbar_badge("Test", color = "success", tooltip = FALSE)
+  expect_match(htmltools::tagGetAttribute(badge, "class"), "text-bg-success")
+  badge2 <- toolbar_badge("Test", tooltip = FALSE)
+  expect_match(htmltools::tagGetAttribute(badge2, "class"), "text-bg-secondary")
+})
+
+test_that("toolbar_badge() pill = TRUE adds rounded-pill class", {
+  badge <- toolbar_badge("Test", pill = TRUE, tooltip = FALSE)
+  expect_match(htmltools::tagGetAttribute(badge, "class"), "rounded-pill")
+
+  badge2 <- toolbar_badge("Test", pill = FALSE, tooltip = FALSE)
+  expect_false(grepl("rounded-pill", htmltools::tagGetAttribute(badge2, "class") %||% ""))
+})
+
+test_that("toolbar_badge() show_label = FALSE sets hidden on label span", {
+  badge <- toolbar_badge("Hidden", icon = shiny::icon("circle"), id = "b1", tooltip = FALSE)
+  label_el <- tagQuery(as.tags(badge))$find(".bslib-toolbar-label")$selectedTags()[[1]]
+  expect_false(is.null(htmltools::tagGetAttribute(label_el, "hidden")))
+})
+
+test_that("toolbar_badge() show_label = TRUE omits hidden on label span", {
+  badge <- toolbar_badge("Visible", show_label = TRUE)
+  label_el <- tagQuery(as.tags(badge))$find(".bslib-toolbar-label")$selectedTags()[[1]]
+  expect_null(htmltools::tagGetAttribute(label_el, "hidden"))
+})
+
+test_that("toolbar_badge() outer span has aria-labelledby pointing to label span", {
+  badge <- toolbar_badge("Status", icon = shiny::icon("circle"), tooltip = FALSE)
+  label_el <- tagQuery(as.tags(badge))$find(".bslib-toolbar-label")$selectedTags()[[1]]
+  label_id <- htmltools::tagGetAttribute(label_el, "id")
+  expect_false(is.null(label_id))
+  expect_equal(htmltools::tagGetAttribute(badge, "aria-labelledby"), label_id)
+})
+
+test_that("toolbar_badge() invalid color aborts", {
+  expect_error(toolbar_badge("Test", color = "purple"), "`color` must be one of")
+  expect_error(toolbar_badge("Test", color = "red"), "`color` must be one of")
+})
+
+test_that("toolbar_badge() unnamed ... args abort", {
+  expect_error(toolbar_badge("Test", span("child")), "must be named")
+})
+
+test_that("toolbar_badge() named ... args pass as HTML attributes", {
+  badge <- toolbar_badge("Test", `data-foo` = "bar", tooltip = FALSE)
+  expect_equal(htmltools::tagGetAttribute(badge, "data-foo"), "bar")
+})
