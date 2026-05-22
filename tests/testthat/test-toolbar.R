@@ -1170,3 +1170,116 @@ test_that("toolbar_download_button() custom icon", {
     )
   )
 })
+
+test_that("toolbar_download_button() warns on invalid enabled value", {
+  expect_warning(
+    btn <- toolbar_download_button("dl_bad", enabled = "yes"),
+    '`enabled` must be TRUE, FALSE, or "auto"'
+  )
+  # Falls back to "auto" — starts disabled, no data-shiny-disable-auto-enable
+  btn_tag <- tagQuery(as.tags(btn))$find("a")$selectedTags()[[1]]
+  expect_match(htmltools::tagGetAttribute(btn_tag, "class"), "disabled")
+  expect_null(htmltools::tagGetAttribute(btn_tag, "data-shiny-disable-auto-enable"))
+
+  expect_warning(
+    toolbar_download_button("dl_bad2", enabled = 1),
+    '`enabled` must be TRUE, FALSE, or "auto"'
+  )
+})
+
+# Tests for update_toolbar_download_button() #
+
+test_that("update_toolbar_download_button() sends bslib.toolbar-download-button custom message", {
+  session <- list(
+    sendCustomMessage = function(type, message) {
+      session$last_type <<- type
+      session$last_message <<- message
+    }
+  )
+
+  update_toolbar_download_button("dl_target", disabled = TRUE, session = session)
+
+  expect_equal(session$last_type, "bslib.toolbar-download-button")
+  expect_equal(session$last_message$id, "dl_target")
+  expect_equal(session$last_message$disabled, TRUE)
+})
+
+test_that("update_toolbar_download_button() can disable and re-enable", {
+  session <- list(
+    sendCustomMessage = function(type, message) {
+      session$last_message <<- message
+    }
+  )
+
+  update_toolbar_download_button("dl_target", disabled = TRUE, session = session)
+  expect_equal(session$last_message$id, "dl_target")
+  expect_equal(session$last_message$disabled, TRUE)
+
+  update_toolbar_download_button("dl_target", disabled = FALSE, session = session)
+  expect_equal(session$last_message$id, "dl_target")
+  expect_equal(session$last_message$disabled, FALSE)
+})
+
+test_that("update_toolbar_download_button() updates label, show_label, icon", {
+  session <- list(
+    sendCustomMessage = function(type, message) {
+      session$last_message <<- message
+    }
+  )
+
+  update_toolbar_download_button(
+    "dl_target",
+    label = "Renamed",
+    show_label = FALSE,
+    icon = shiny::icon("file-csv"),
+    session = session
+  )
+
+  expect_equal(session$last_message$id, "dl_target")
+  # `label` and `icon` go through `processDeps()` and become tag-list payloads,
+  # not the raw character/icon — just check they're present and non-null.
+  expect_true(!is.null(session$last_message$label))
+  expect_true(!is.null(session$last_message$icon))
+  expect_equal(session$last_message$showLabel, FALSE)
+})
+
+test_that("update_toolbar_download_button() drops NULL args from message", {
+  session <- list(
+    sendCustomMessage = function(type, message) {
+      session$last_message <<- message
+    }
+  )
+
+  update_toolbar_download_button("dl_target", disabled = TRUE, session = session)
+
+  # Only `id` and `disabled` should be present.
+  expect_equal(sort(names(session$last_message)), c("disabled", "id"))
+})
+
+test_that("update_toolbar_download_button() with no updates still sends id-only message", {
+  session <- list(
+    sendCustomMessage = function(type, message) {
+      session$last_type <<- type
+      session$last_message <<- message
+    }
+  )
+
+  update_toolbar_download_button("dl_target", session = session)
+
+  expect_equal(session$last_type, "bslib.toolbar-download-button")
+  expect_equal(names(session$last_message), "id")
+  expect_equal(session$last_message$id, "dl_target")
+})
+
+test_that("check_shiny_supports_download_button_enabled() passes on supported shiny", {
+  local_mocked_bindings(is_installed = function(pkg, version = NULL) TRUE)
+  expect_silent(check_shiny_supports_download_button_enabled("foo()"))
+})
+
+test_that("check_shiny_supports_download_button_enabled() aborts on unsupported shiny", {
+  local_mocked_bindings(is_installed = function(pkg, version = NULL) FALSE)
+  expect_error(
+    check_shiny_supports_download_button_enabled("toolbar_download_button()"),
+    "requires a newer version of shiny"
+  )
+})

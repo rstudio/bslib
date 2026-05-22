@@ -1018,6 +1018,8 @@ toolbar_download_button <- function(
   enabled = c("auto", TRUE, FALSE),
   border = FALSE
 ) {
+  # TODO-REENABLE-GATE: temporarily disabled for local testing on stable shiny.
+  # check_shiny_supports_download_button_enabled("toolbar_download_button()")
   if (isTRUE(enabled)) {
     enabled <- TRUE
   } else if (isFALSE(enabled)) {
@@ -1121,6 +1123,8 @@ update_toolbar_download_button <- function(
   disabled = NULL,
   session = get_current_session()
 ) {
+  # TODO-REENABLE-GATE: temporarily disabled for local testing on stable shiny.
+  # check_shiny_supports_download_button_enabled("update_toolbar_download_button()")
   icon <- validateIcon(icon)
   icon_processed <- if (!is.null(icon)) processDeps(icon, session)
   label_processed <- if (!is.null(label)) processDeps(label, session)
@@ -1134,4 +1138,19 @@ update_toolbar_download_button <- function(
   ))
 
   session$sendCustomMessage("bslib.toolbar-download-button", message)
+}
+
+# Gate on shiny > 1.13.0 — needs `downloadButton(enabled =)` from rstudio/shiny#4371.
+check_shiny_supports_download_button_enabled <- function(fn) {
+  if (is_installed("shiny", "1.13.0.9000")) {
+    return(invisible())
+  }
+  rlang::abort(c(
+    sprintf("`%s` requires a newer version of shiny than is installed.", fn),
+    i = sprintf(
+      "Installed shiny version: %s. Need shiny > 1.13.0 (for `downloadButton(enabled =)`, rstudio/shiny#4371).",
+      utils::packageVersion("shiny")
+    ),
+    i = "Install the development version with `pak::pak(\"rstudio/shiny\")` or wait for the next CRAN release."
+  ))
 }
