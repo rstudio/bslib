@@ -225,3 +225,14 @@ label > .bslib-toolbar {
     margin-left: 0.15rem;
   }
 }
+
+.bslib-toolbar-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25em;
+
+  .bslib-toolbar-icon {
+    display: inline-flex;
+    align-items: center;
+  }
+}
