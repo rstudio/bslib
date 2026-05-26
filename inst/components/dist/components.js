@@ -1888,7 +1888,7 @@
         }
       }
       if (hasDefinedProperty(message, "color") || hasDefinedProperty(message, "border")) {
-        const newColor = (_b = message.color) != null ? _b : (_a = el.dataset.bslibColor) != null ? _a : "secondary";
+        const newColor = (_b = (_a = message.color) != null ? _a : el.dataset.bslibColor) != null ? _b : "secondary";
         const newOutline = message.border !== void 0 ? message.border : el.dataset.bslibBorder === "true";
         applyColorStyle(el, newColor, newOutline);
       }

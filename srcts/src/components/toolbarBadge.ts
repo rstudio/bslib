@@ -75,7 +75,7 @@ async function updateToolbarBadge(
     hasDefinedProperty(message, "color") ||
     hasDefinedProperty(message, "border")
   ) {
-    const newColor = message.color ?? (el.dataset.bslibColor ?? "secondary");
+    const newColor = message.color ?? el.dataset.bslibColor ?? "secondary";
     const newOutline =
       message.border !== undefined
         ? message.border
