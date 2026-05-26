@@ -1,5 +1,11 @@
 # bslib (development version)
 
+## New features
+
+* Added `toolbar_badge()` for displaying status text and icons in a `toolbar()`.
+  Use `update_toolbar_badge()` to update the badge label, icon, color, and pill
+  style from the server. (#1316)
+
 # bslib 0.11.0
 
 ## New features
