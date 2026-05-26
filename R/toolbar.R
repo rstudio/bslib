@@ -1003,6 +1003,7 @@ toolbar_badge <- function(
   show_label = is.null(icon),
   tooltip = !show_label,
   color = "secondary",
+  border = FALSE,
   pill = FALSE
 ) {
   valid_colors <- c(
@@ -1051,17 +1052,25 @@ toolbar_badge <- function(
     label
   )
 
+  color_classes <- if (isTRUE(border)) {
+    c("border", paste0("border-", color), paste0("text-", color))
+  } else {
+    paste0("text-bg-", color)
+  }
+
   badge <- tags$span(
     id = id,
     class = paste(
       c(
         "bslib-toolbar-badge badge",
-        paste0("text-bg-", color),
+        color_classes,
         if (isTRUE(pill)) "rounded-pill"
       ),
       collapse = " "
     ),
     `aria-labelledby` = label_id,
+    `data-bslib-color` = color,
+    `data-bslib-border` = if (isTRUE(border)) "true" else NULL,
     !!!dots$attribs,
     icon_elem,
     label_elem
@@ -1095,6 +1104,7 @@ update_toolbar_badge <- function(
   icon = NULL,
   show_label = NULL,
   color = NULL,
+  border = NULL,
   pill = NULL,
   session = get_current_session()
 ) {
@@ -1137,6 +1147,7 @@ update_toolbar_badge <- function(
     icon = icon_processed,
     showLabel = show_label,
     color = color,
+    border = border,
     pill = pill
   ))
 

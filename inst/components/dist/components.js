@@ -1845,8 +1845,25 @@
   });
 
   // srcts/src/components/toolbarBadge.ts
+  function applyColorStyle(el, color, border) {
+    el.classList.remove(
+      ...badgeColorNames.map((c) => `text-bg-${c}`),
+      ...badgeColorNames.map((c) => `border-${c}`),
+      ...badgeColorNames.map((c) => `text-${c}`),
+      "border"
+    );
+    if (border) {
+      el.classList.add("border", `border-${color}`, `text-${color}`);
+      el.dataset.bslibBorder = "true";
+    } else {
+      el.classList.add(`text-bg-${color}`);
+      delete el.dataset.bslibBorder;
+    }
+    el.dataset.bslibColor = color;
+  }
   function updateToolbarBadge(message) {
     return __async(this, null, function* () {
+      var _a, _b;
       const el = document.getElementById(message.id);
       if (!el)
         return;
@@ -1870,9 +1887,10 @@
           }
         }
       }
-      if (hasDefinedProperty(message, "color") && message.color !== void 0) {
-        el.classList.remove(...badgeColorClasses);
-        el.classList.add(`text-bg-${message.color}`);
+      if (hasDefinedProperty(message, "color") || hasDefinedProperty(message, "border")) {
+        const newColor = (_b = message.color) != null ? _b : (_a = el.dataset.bslibColor) != null ? _a : "secondary";
+        const newOutline = message.border !== void 0 ? message.border : el.dataset.bslibBorder === "true";
+        applyColorStyle(el, newColor, newOutline);
       }
       if (hasDefinedProperty(message, "pill")) {
         if (message.pill) {
@@ -1883,21 +1901,21 @@
       }
     });
   }
-  var badgeColorClasses;
+  var badgeColorNames;
   var init_toolbarBadge = __esm({
     "srcts/src/components/toolbarBadge.ts"() {
       "use strict";
       init_shinyAddCustomMessageHandlers();
       init_utils();
-      badgeColorClasses = [
-        "text-bg-primary",
-        "text-bg-secondary",
-        "text-bg-success",
-        "text-bg-danger",
-        "text-bg-warning",
-        "text-bg-info",
-        "text-bg-light",
-        "text-bg-dark"
+      badgeColorNames = [
+        "primary",
+        "secondary",
+        "success",
+        "danger",
+        "warning",
+        "info",
+        "light",
+        "dark"
       ];
       shinyAddCustomMessageHandlers({
         // eslint-disable-next-line @typescript-eslint/naming-convention

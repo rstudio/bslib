@@ -56,6 +56,7 @@ ui <- page_navbar(
               icon = icon("list"),
               show_label = TRUE,
               color = "secondary",
+              border = TRUE,
               pill = TRUE
             ),
             toolbar_spacer(),

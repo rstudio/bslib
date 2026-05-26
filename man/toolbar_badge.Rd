@@ -13,6 +13,7 @@ toolbar_badge(
   show_label = is.null(icon),
   tooltip = !show_label,
   color = "secondary",
+  border = FALSE,
   pill = FALSE
 )
 
@@ -22,6 +23,7 @@ update_toolbar_badge(
   icon = NULL,
   show_label = NULL,
   color = NULL,
+  border = NULL,
   pill = NULL,
   session = get_current_session()
 )

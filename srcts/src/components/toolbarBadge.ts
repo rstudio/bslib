@@ -8,19 +8,41 @@ interface UpdateToolbarBadgeMessage {
   icon?: string | { html: string; deps: HtmlDep[] };
   showLabel?: boolean;
   color?: string;
+  border?: boolean;
   pill?: boolean;
 }
 
-const badgeColorClasses = [
-  "text-bg-primary",
-  "text-bg-secondary",
-  "text-bg-success",
-  "text-bg-danger",
-  "text-bg-warning",
-  "text-bg-info",
-  "text-bg-light",
-  "text-bg-dark",
+const badgeColorNames = [
+  "primary",
+  "secondary",
+  "success",
+  "danger",
+  "warning",
+  "info",
+  "light",
+  "dark",
 ];
+
+function applyColorStyle(
+  el: HTMLElement,
+  color: string,
+  border: boolean
+): void {
+  el.classList.remove(
+    ...badgeColorNames.map((c) => `text-bg-${c}`),
+    ...badgeColorNames.map((c) => `border-${c}`),
+    ...badgeColorNames.map((c) => `text-${c}`),
+    "border"
+  );
+  if (border) {
+    el.classList.add("border", `border-${color}`, `text-${color}`);
+    el.dataset.bslibBorder = "true";
+  } else {
+    el.classList.add(`text-bg-${color}`);
+    delete el.dataset.bslibBorder;
+  }
+  el.dataset.bslibColor = color;
+}
 
 async function updateToolbarBadge(
   message: UpdateToolbarBadgeMessage
@@ -49,9 +71,16 @@ async function updateToolbarBadge(
     }
   }
 
-  if (hasDefinedProperty(message, "color") && message.color !== undefined) {
-    el.classList.remove(...badgeColorClasses);
-    el.classList.add(`text-bg-${message.color}`);
+  if (
+    hasDefinedProperty(message, "color") ||
+    hasDefinedProperty(message, "border")
+  ) {
+    const newColor = message.color ?? (el.dataset.bslibColor ?? "secondary");
+    const newOutline =
+      message.border !== undefined
+        ? message.border
+        : el.dataset.bslibBorder === "true";
+    applyColorStyle(el, newColor, newOutline);
   }
 
   if (hasDefinedProperty(message, "pill")) {
