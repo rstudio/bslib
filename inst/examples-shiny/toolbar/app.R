@@ -54,6 +54,8 @@ ui <- page_navbar(
             toolbar_badge(
               id = "record_count",
               label = "Showing 10 of 247 records",
+              icon = icon("list"),
+              show_label = TRUE,
               color = "secondary",
               pill = TRUE
             )
@@ -192,6 +194,8 @@ ui <- page_navbar(
             toolbar_badge(
               id = "activity_status",
               label = "Live",
+              icon = icon("circle"),
+              show_label = TRUE,
               color = "success",
               pill = TRUE
             ),
@@ -257,6 +261,16 @@ ui <- page_navbar(
                 label = "Format",
                 choices = c("Plain", "Markdown", "HTML"),
                 icon = icon("code")
+              ),
+              toolbar_spacer(),
+              toolbar_badge(
+                id = "msg_count",
+                label = "1 message",
+                icon = icon("comments"),
+                show_label = TRUE,
+                color = "secondary",
+                pill = FALSE,
+                tooltip = FALSE
               )
             )
           )
@@ -480,6 +494,15 @@ server <- function(input, output, session) {
 
     # Clear the input
     update_submit_textarea("chat_input", value = "", focus = TRUE)
+  })
+
+  # Update message count badge whenever chat history changes
+  observe({
+    n <- length(chat_messages())
+    update_toolbar_badge(
+      "msg_count",
+      label = sprintf("%d %s", n, if (n == 1L) "message" else "messages")
+    )
   })
 
   # Chat toolbar buttons
@@ -747,17 +770,13 @@ server <- function(input, output, session) {
 
     # Cycle: Live (success) -> Updating (warning) -> Stale (secondary) -> Live
     states <- list(
-      list(label = "Live", color = "success"),
-      list(label = "Updating", color = "warning"),
-      list(label = "Stale", color = "secondary")
+      list(label = "Live",     color = "success",   icon = icon("circle")),
+      list(label = "Updating", color = "warning",   icon = icon("arrows-rotate")),
+      list(label = "Stale",    color = "secondary", icon = icon("circle-half-stroke"))
     )
     state <- states[[(n %% length(states)) + 1L]]
 
-    update_toolbar_badge(
-      "activity_status",
-      label = state$label,
-      color = state$color
-    )
+    update_toolbar_badge("activity_status", label = state$label, color = state$color, icon = state$icon)
 
     show_toast(
       toast(
