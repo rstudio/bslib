@@ -50,7 +50,6 @@ ui <- page_navbar(
         ),
         card_footer(
           toolbar(
-            align = "left",
             toolbar_badge(
               id = "record_count",
               label = "Showing 10 of 247 records",
@@ -58,10 +57,8 @@ ui <- page_navbar(
               show_label = TRUE,
               color = "secondary",
               pill = TRUE
-            )
-          ),
-          toolbar(
-            align = "right",
+            ),
+            toolbar_spacer(),
             toolbar_input_button(
               id = "update_filter_btn",
               label = "Update Filter Choices",
