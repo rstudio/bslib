@@ -984,9 +984,15 @@ toolbar_spacer <- function() {
 #'   `"light"`, or `"dark"`. Defaults to `"secondary"`.
 #' @param pill If `TRUE`, renders with fully-rounded ends.
 #'
+#' @examplesIf rlang::is_interactive()
+#' toolbar(
+#'   toolbar_badge("Active", color = "success"),
+#'   toolbar_badge("3 errors", color = "danger"),
+#'   toolbar_badge("Loading", icon = shiny::icon("spinner"), id = "status")
+#' )
+#'
 #' @return A badge element for use in a [toolbar()].
 #' @family toolbar components
-#' @describeIn toolbar_badge Create a toolbar badge.
 #' @export
 toolbar_badge <- function(
   label,
@@ -998,14 +1004,14 @@ toolbar_badge <- function(
   color = "secondary",
   pill = FALSE
 ) {
-  .toolbar_badge_valid_colors <- c(
+  valid_colors <- c(
     "primary", "secondary", "success", "danger",
     "warning", "info", "light", "dark"
   )
-  if (!color %in% .toolbar_badge_valid_colors) {
+  if (!color %in% valid_colors) {
     rlang::abort(sprintf(
       '`color` must be one of %s, not "%s".',
-      paste0('"', .toolbar_badge_valid_colors, '"', collapse = ", "),
+      paste0('"', valid_colors, '"', collapse = ", "),
       color
     ))
   }
