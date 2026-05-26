@@ -1146,3 +1146,76 @@ test_that("toolbar_badge() text-only badge has no tooltip by default", {
   tooltip_els <- tagQuery(as.tags(badge))$filter("bslib-tooltip")$selectedTags()
   expect_length(tooltip_els, 0)
 })
+
+# Tests for update_toolbar_badge() ----
+
+test_that("update_toolbar_badge() sends correct custom message type", {
+  session <- list(
+    sendCustomMessage = function(type, message) {
+      session$last_type <<- type
+      session$last_message <<- message
+    }
+  )
+
+  update_toolbar_badge("my_badge", label = "Updated", session = session)
+  expect_equal(session$last_type, "bslib.update-toolbar-badge")
+})
+
+test_that("update_toolbar_badge() includes provided fields in message", {
+  session <- list(
+    sendCustomMessage = function(type, message) {
+      session$last_message <<- message
+    }
+  )
+
+  update_toolbar_badge(
+    "my_badge",
+    label = "New",
+    color = "success",
+    pill = TRUE,
+    show_label = TRUE,
+    session = session
+  )
+
+  expect_equal(session$last_message$id, "my_badge")
+  expect_equal(session$last_message$color, "success")
+  expect_true(session$last_message$pill)
+  expect_true(session$last_message$showLabel)
+})
+
+test_that("update_toolbar_badge() drops NULL fields from message", {
+  session <- list(
+    sendCustomMessage = function(type, message) {
+      session$last_message <<- message
+    }
+  )
+
+  update_toolbar_badge("my_badge", color = "danger", session = session)
+
+  expect_null(session$last_message$label)
+  expect_null(session$last_message$icon)
+  expect_null(session$last_message$showLabel)
+  expect_null(session$last_message$pill)
+  expect_equal(session$last_message$color, "danger")
+})
+
+test_that("update_toolbar_badge() errors on invalid color", {
+  session <- list(
+    sendCustomMessage = function(type, message) invisible(NULL)
+  )
+  expect_error(
+    update_toolbar_badge("my_badge", color = "purple", session = session),
+    "`color` must be one of"
+  )
+})
+
+test_that("update_toolbar_badge() warns on blank label", {
+  expect_warning(
+    expect_error(update_toolbar_badge("my_badge", label = "")),
+    "non-empty string label"
+  )
+  expect_warning(
+    expect_error(update_toolbar_badge("my_badge", label = "   ")),
+    "non-empty string label"
+  )
+})

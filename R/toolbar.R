@@ -993,6 +993,7 @@ toolbar_spacer <- function() {
 #'
 #' @return A badge element for use in a [toolbar()].
 #' @family toolbar components
+#' @describeIn toolbar_badge Create a toolbar badge.
 #' @export
 toolbar_badge <- function(
   label,
@@ -1076,4 +1077,54 @@ toolbar_badge <- function(
   }
 
   badge
+}
+
+#' @param session A Shiny session object (the default should almost always be
+#'   used).
+#' @describeIn toolbar_badge Update a toolbar badge from the server.
+#' @export
+update_toolbar_badge <- function(
+  id,
+  label = NULL,
+  icon = NULL,
+  show_label = NULL,
+  color = NULL,
+  pill = NULL,
+  session = get_current_session()
+) {
+  if (!is.null(label)) {
+    label_text <- paste(unlist(find_characters(label)), collapse = " ")
+    if (!nzchar(trimws(label_text))) {
+      rlang::warn("Consider providing a non-empty string label for accessibility.")
+    }
+  }
+
+  if (!is.null(color)) {
+    valid_colors <- c(
+      "primary", "secondary", "success", "danger",
+      "warning", "info", "light", "dark"
+    )
+    if (!color %in% valid_colors) {
+      rlang::abort(sprintf(
+        '`color` must be one of %s, not "%s".',
+        paste0('"', valid_colors, '"', collapse = ", "),
+        color
+      ))
+    }
+  }
+
+  icon <- validateIcon(icon)
+  icon_processed <- if (!is.null(icon)) processDeps(icon, session)
+  label_processed <- if (!is.null(label)) processDeps(label, session)
+
+  message <- dropNulls(list(
+    id = id,
+    label = label_processed,
+    icon = icon_processed,
+    showLabel = show_label,
+    color = color,
+    pill = pill
+  ))
+
+  session$sendCustomMessage("bslib.update-toolbar-badge", message)
 }

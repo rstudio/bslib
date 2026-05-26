@@ -2,6 +2,7 @@
 % Please edit documentation in R/toolbar.R
 \name{toolbar_badge}
 \alias{toolbar_badge}
+\alias{update_toolbar_badge}
 \title{Toolbar Badge}
 \usage{
 toolbar_badge(
@@ -13,6 +14,16 @@ toolbar_badge(
   tooltip = !show_label,
   color = "secondary",
   pill = FALSE
+)
+
+update_toolbar_badge(
+  id,
+  label = NULL,
+  icon = NULL,
+  show_label = NULL,
+  color = NULL,
+  pill = NULL,
+  session = get_current_session()
 )
 }
 \arguments{
@@ -39,6 +50,9 @@ tag object. Tooltip content can be updated via
 \code{"light"}, or \code{"dark"}. Defaults to \code{"secondary"}.}
 
 \item{pill}{If \code{TRUE}, renders with fully-rounded ends.}
+
+\item{session}{A Shiny session object (the default should almost always be
+used).}
 }
 \value{
 A badge element for use in a \code{\link[=toolbar]{toolbar()}}.
@@ -47,6 +61,13 @@ A badge element for use in a \code{\link[=toolbar]{toolbar()}}.
 A display badge for use in a \code{\link[=toolbar]{toolbar()}}. Badges are non-interactive status
 indicators. Use \code{\link[=update_toolbar_badge]{update_toolbar_badge()}} to update the badge from the server.
 }
+\section{Functions}{
+\itemize{
+\item \code{toolbar_badge()}: Create a toolbar badge.
+
+\item \code{update_toolbar_badge()}: Update a toolbar badge from the server.
+
+}}
 \examples{
 \dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
 toolbar(
