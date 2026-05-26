@@ -7,6 +7,7 @@ import "./sidebar";
 import "./taskButton";
 import "./toolbarInputButton";
 import "./toolbarInputSelect";
+import "./toolbarBadge";
 import "./submitTextArea";
 import "./toast";
 

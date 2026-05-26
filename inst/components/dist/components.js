@@ -1,4 +1,4 @@
-/*! bslib 0.11.0 | (c) 2012-2026 RStudio, PBC. | License: MIT + file LICENSE */
+/*! bslib 0.11.0.9000 | (c) 2012-2026 RStudio, PBC. | License: MIT + file LICENSE */
 "use strict";
 (() => {
   var __getOwnPropNames = Object.getOwnPropertyNames;
@@ -1829,6 +1829,83 @@
     }
   });
 
+  // srcts/src/components/_shinyAddCustomMessageHandlers.ts
+  function shinyAddCustomMessageHandlers(handlers) {
+    if (!window.Shiny) {
+      return;
+    }
+    for (const [name, handler] of Object.entries(handlers)) {
+      window.Shiny.addCustomMessageHandler(name, handler);
+    }
+  }
+  var init_shinyAddCustomMessageHandlers = __esm({
+    "srcts/src/components/_shinyAddCustomMessageHandlers.ts"() {
+      "use strict";
+    }
+  });
+
+  // srcts/src/components/toolbarBadge.ts
+  function updateToolbarBadge(message) {
+    return __async(this, null, function* () {
+      const el = document.getElementById(message.id);
+      if (!el)
+        return;
+      if (hasDefinedProperty(message, "label") && message.label !== void 0) {
+        const labelEl = el.querySelector(".bslib-toolbar-label");
+        if (labelEl)
+          yield shinyRenderContent(labelEl, message.label);
+      }
+      if (hasDefinedProperty(message, "icon") && message.icon !== void 0) {
+        const iconEl = el.querySelector(".bslib-toolbar-icon");
+        if (iconEl)
+          yield shinyRenderContent(iconEl, message.icon);
+      }
+      if (hasDefinedProperty(message, "showLabel")) {
+        const labelEl = el.querySelector(".bslib-toolbar-label");
+        if (labelEl) {
+          if (message.showLabel === false) {
+            labelEl.setAttribute("hidden", "");
+          } else {
+            labelEl.removeAttribute("hidden");
+          }
+        }
+      }
+      if (hasDefinedProperty(message, "color") && message.color !== void 0) {
+        el.classList.remove(...badgeColorClasses);
+        el.classList.add(`text-bg-${message.color}`);
+      }
+      if (hasDefinedProperty(message, "pill")) {
+        if (message.pill) {
+          el.classList.add("rounded-pill");
+        } else {
+          el.classList.remove("rounded-pill");
+        }
+      }
+    });
+  }
+  var badgeColorClasses;
+  var init_toolbarBadge = __esm({
+    "srcts/src/components/toolbarBadge.ts"() {
+      "use strict";
+      init_shinyAddCustomMessageHandlers();
+      init_utils();
+      badgeColorClasses = [
+        "text-bg-primary",
+        "text-bg-secondary",
+        "text-bg-success",
+        "text-bg-danger",
+        "text-bg-warning",
+        "text-bg-info",
+        "text-bg-light",
+        "text-bg-dark"
+      ];
+      shinyAddCustomMessageHandlers({
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        "bslib.update-toolbar-badge": updateToolbarBadge
+      });
+    }
+  });
+
   // srcts/src/components/submitTextArea.ts
   function updateDisabledState(el) {
     const btn = findSubmitButton(el);
@@ -2020,21 +2097,6 @@
         }
       };
       registerBinding(TextAreaSubmitInputBinding, "submit-text-area");
-    }
-  });
-
-  // srcts/src/components/_shinyAddCustomMessageHandlers.ts
-  function shinyAddCustomMessageHandlers(handlers) {
-    if (!window.Shiny) {
-      return;
-    }
-    for (const [name, handler] of Object.entries(handlers)) {
-      window.Shiny.addCustomMessageHandler(name, handler);
-    }
-  }
-  var init_shinyAddCustomMessageHandlers = __esm({
-    "srcts/src/components/_shinyAddCustomMessageHandlers.ts"() {
-      "use strict";
     }
   });
 
@@ -2346,6 +2408,7 @@
       init_taskButton();
       init_toolbarInputButton();
       init_toolbarInputSelect();
+      init_toolbarBadge();
       init_submitTextArea();
       init_toast();
       init_utils();
