@@ -1036,7 +1036,13 @@ test_that("toolbar_badge() snapshot tests", {
   )
   # Icon + label shown
   expect_snapshot_html(
-    toolbar_badge("Status", icon = shiny::icon("circle"), show_label = TRUE, tooltip = FALSE, id = "badge2")
+    toolbar_badge(
+      "Status",
+      icon = shiny::icon("circle"),
+      show_label = TRUE,
+      tooltip = FALSE,
+      id = "badge2"
+    )
   )
   # Pill variant
   expect_snapshot_html(
@@ -1066,31 +1072,52 @@ test_that("toolbar_badge() pill = TRUE adds rounded-pill class", {
   expect_match(htmltools::tagGetAttribute(badge, "class"), "rounded-pill")
 
   badge2 <- toolbar_badge("Test", pill = FALSE, tooltip = FALSE)
-  expect_false(grepl("rounded-pill", htmltools::tagGetAttribute(badge2, "class") %||% ""))
+  expect_false(grepl(
+    "rounded-pill",
+    htmltools::tagGetAttribute(badge2, "class") %||% ""
+  ))
 })
 
 test_that("toolbar_badge() show_label = FALSE sets hidden on label span", {
-  badge <- toolbar_badge("Hidden", icon = shiny::icon("circle"), id = "b1", tooltip = FALSE)
-  label_el <- tagQuery(as.tags(badge))$find(".bslib-toolbar-label")$selectedTags()[[1]]
+  badge <- toolbar_badge(
+    "Hidden",
+    icon = shiny::icon("circle"),
+    id = "b1",
+    tooltip = FALSE
+  )
+  label_el <- tagQuery(as.tags(badge))$find(
+    ".bslib-toolbar-label"
+  )$selectedTags()[[1]]
   expect_false(is.null(htmltools::tagGetAttribute(label_el, "hidden")))
 })
 
 test_that("toolbar_badge() show_label = TRUE omits hidden on label span", {
   badge <- toolbar_badge("Visible", show_label = TRUE)
-  label_el <- tagQuery(as.tags(badge))$find(".bslib-toolbar-label")$selectedTags()[[1]]
+  label_el <- tagQuery(as.tags(badge))$find(
+    ".bslib-toolbar-label"
+  )$selectedTags()[[1]]
   expect_null(htmltools::tagGetAttribute(label_el, "hidden"))
 })
 
 test_that("toolbar_badge() outer span has aria-labelledby pointing to label span", {
-  badge <- toolbar_badge("Status", icon = shiny::icon("circle"), tooltip = FALSE)
-  label_el <- tagQuery(as.tags(badge))$find(".bslib-toolbar-label")$selectedTags()[[1]]
+  badge <- toolbar_badge(
+    "Status",
+    icon = shiny::icon("circle"),
+    tooltip = FALSE
+  )
+  label_el <- tagQuery(as.tags(badge))$find(
+    ".bslib-toolbar-label"
+  )$selectedTags()[[1]]
   label_id <- htmltools::tagGetAttribute(label_el, "id")
   expect_false(is.null(label_id))
   expect_equal(htmltools::tagGetAttribute(badge, "aria-labelledby"), label_id)
 })
 
 test_that("toolbar_badge() invalid color aborts", {
-  expect_error(toolbar_badge("Test", color = "purple"), "`color` must be one of")
+  expect_error(
+    toolbar_badge("Test", color = "purple"),
+    "`color` must be one of"
+  )
   expect_error(toolbar_badge("Test", color = "red"), "`color` must be one of")
 })
 
@@ -1113,18 +1140,26 @@ test_that("toolbar_badge() tooltip wraps when show_label = FALSE (default for ic
 
 test_that("toolbar_badge() tooltip id is {id}_tooltip when id is provided", {
   badge <- toolbar_badge("Status", icon = shiny::icon("circle"), id = "mybadge")
-  tooltip_el <- tagQuery(as.tags(badge))$filter("bslib-tooltip")$selectedTags()[[1]]
+  tooltip_el <- tagQuery(as.tags(badge))$filter(
+    "bslib-tooltip"
+  )$selectedTags()[[1]]
   expect_equal(htmltools::tagGetAttribute(tooltip_el, "id"), "mybadge_tooltip")
 })
 
 test_that("toolbar_badge() tooltip has no id when badge id is NULL", {
   badge <- toolbar_badge("Status", icon = shiny::icon("circle"))
-  tooltip_el <- tagQuery(as.tags(badge))$filter("bslib-tooltip")$selectedTags()[[1]]
+  tooltip_el <- tagQuery(as.tags(badge))$filter(
+    "bslib-tooltip"
+  )$selectedTags()[[1]]
   expect_null(htmltools::tagGetAttribute(tooltip_el, "id"))
 })
 
 test_that("toolbar_badge() tooltip = FALSE skips tooltip wrapper", {
-  badge <- toolbar_badge("Status", icon = shiny::icon("circle"), tooltip = FALSE)
+  badge <- toolbar_badge(
+    "Status",
+    icon = shiny::icon("circle"),
+    tooltip = FALSE
+  )
   tooltip_els <- tagQuery(as.tags(badge))$filter("bslib-tooltip")$selectedTags()
   expect_length(tooltip_els, 0)
 })
@@ -1137,7 +1172,12 @@ test_that("toolbar_badge() tooltip = TRUE snapshot (uses label as tooltip)", {
 
 test_that("toolbar_badge() custom string tooltip snapshot", {
   expect_snapshot_html(
-    toolbar_badge("Status", icon = shiny::icon("circle"), tooltip = "Custom tip", id = "b3")
+    toolbar_badge(
+      "Status",
+      icon = shiny::icon("circle"),
+      tooltip = "Custom tip",
+      id = "b3"
+    )
   )
 })
 

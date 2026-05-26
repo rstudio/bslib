@@ -1006,8 +1006,14 @@ toolbar_badge <- function(
   pill = FALSE
 ) {
   valid_colors <- c(
-    "primary", "secondary", "success", "danger",
-    "warning", "info", "light", "dark"
+    "primary",
+    "secondary",
+    "success",
+    "danger",
+    "warning",
+    "info",
+    "light",
+    "dark"
   )
   if (!color %in% valid_colors) {
     rlang::abort(sprintf(
@@ -1095,14 +1101,22 @@ update_toolbar_badge <- function(
   if (!is.null(label)) {
     label_text <- paste(unlist(find_characters(label)), collapse = " ")
     if (!nzchar(trimws(label_text))) {
-      rlang::warn("Consider providing a non-empty string label for accessibility.")
+      rlang::warn(
+        "Consider providing a non-empty string label for accessibility."
+      )
     }
   }
 
   if (!is.null(color)) {
     valid_colors <- c(
-      "primary", "secondary", "success", "danger",
-      "warning", "info", "light", "dark"
+      "primary",
+      "secondary",
+      "success",
+      "danger",
+      "warning",
+      "info",
+      "light",
+      "dark"
     )
     if (!color %in% valid_colors) {
       rlang::abort(sprintf(
