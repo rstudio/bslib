@@ -51,7 +51,12 @@ ui <- page_navbar(
         card_footer(
           toolbar(
             align = "left",
-            "Showing 10 of 247 records"
+            toolbar_badge(
+              id = "record_count",
+              label = "Showing 10 of 247 records",
+              color = "secondary",
+              pill = TRUE
+            )
           ),
           toolbar(
             align = "right",
@@ -184,6 +189,13 @@ ui <- page_navbar(
           "Recent Activity",
           toolbar(
             align = "right",
+            toolbar_badge(
+              id = "activity_status",
+              label = "Live",
+              color = "success",
+              pill = TRUE
+            ),
+            toolbar_divider(),
             toolbar_input_button(
               id = "activity_refresh",
               label = "Refresh",
@@ -535,6 +547,17 @@ server <- function(input, output, session) {
     head(filtered_sales(), 10)
   })
 
+  # Update the record count badge whenever the filter changes
+  observe({
+    total <- nrow(filtered_sales())
+    shown <- min(10L, total)
+    update_toolbar_badge(
+      "record_count",
+      label = sprintf("Showing %d of %d records", shown, total),
+      color = if (total == nrow(sales_data)) "secondary" else "primary"
+    )
+  })
+
   # Stats that update based on filter
   output$stats <- renderText({
     data <- filtered_sales()
@@ -715,11 +738,26 @@ server <- function(input, output, session) {
     chart_color(input$color_scheme)
   })
 
-  # Activity feed controls
+  # Activity feed controls — cycle status badge through states on each refresh
+  activity_refresh_count <- reactiveVal(0L)
+
   observeEvent(input$activity_refresh, {
+    n <- activity_refresh_count() + 1L
+    activity_refresh_count(n)
+
+    # Cycle: Live (success) -> Updating (warning) -> Stale (secondary) -> Live
+    states <- list(
+      list(label = "Live",     color = "success"),
+      list(label = "Updating", color = "warning"),
+      list(label = "Stale",    color = "secondary")
+    )
+    state <- states[[(n %% length(states)) + 1L]]
+
+    update_toolbar_badge("activity_status", label = state$label, color = state$color)
+
     show_toast(
       toast(
-        "Activity refreshed!",
+        paste("Activity status:", state$label),
         type = "info",
         duration_s = 2
       )
