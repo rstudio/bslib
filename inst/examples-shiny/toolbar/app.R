@@ -767,13 +767,22 @@ server <- function(input, output, session) {
 
     # Cycle: Live (success) -> Updating (warning) -> Stale (secondary) -> Live
     states <- list(
-      list(label = "Live",     color = "success",   icon = icon("circle")),
-      list(label = "Updating", color = "warning",   icon = icon("arrows-rotate")),
-      list(label = "Stale",    color = "secondary", icon = icon("circle-half-stroke"))
+      list(label = "Live", color = "success", icon = icon("circle")),
+      list(label = "Updating", color = "warning", icon = icon("arrows-rotate")),
+      list(
+        label = "Stale",
+        color = "secondary",
+        icon = icon("circle-half-stroke")
+      )
     )
     state <- states[[(n %% length(states)) + 1L]]
 
-    update_toolbar_badge("activity_status", label = state$label, color = state$color, icon = state$icon)
+    update_toolbar_badge(
+      "activity_status",
+      label = state$label,
+      color = state$color,
+      icon = state$icon
+    )
 
     show_toast(
       toast(
