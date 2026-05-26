@@ -1102,3 +1102,47 @@ test_that("toolbar_badge() named ... args pass as HTML attributes", {
   badge <- toolbar_badge("Test", `data-foo` = "bar", tooltip = FALSE)
   expect_equal(htmltools::tagGetAttribute(badge, "data-foo"), "bar")
 })
+
+# Tests for toolbar_badge() tooltip behavior ----
+
+test_that("toolbar_badge() tooltip wraps when show_label = FALSE (default for icon)", {
+  badge <- toolbar_badge("Status", icon = shiny::icon("circle"), id = "b1")
+  tooltip_els <- tagQuery(as.tags(badge))$filter("bslib-tooltip")$selectedTags()
+  expect_length(tooltip_els, 1)
+})
+
+test_that("toolbar_badge() tooltip id is {id}_tooltip when id is provided", {
+  badge <- toolbar_badge("Status", icon = shiny::icon("circle"), id = "mybadge")
+  tooltip_el <- tagQuery(as.tags(badge))$filter("bslib-tooltip")$selectedTags()[[1]]
+  expect_equal(htmltools::tagGetAttribute(tooltip_el, "id"), "mybadge_tooltip")
+})
+
+test_that("toolbar_badge() tooltip has no id when badge id is NULL", {
+  badge <- toolbar_badge("Status", icon = shiny::icon("circle"))
+  tooltip_el <- tagQuery(as.tags(badge))$filter("bslib-tooltip")$selectedTags()[[1]]
+  expect_null(htmltools::tagGetAttribute(tooltip_el, "id"))
+})
+
+test_that("toolbar_badge() tooltip = FALSE skips tooltip wrapper", {
+  badge <- toolbar_badge("Status", icon = shiny::icon("circle"), tooltip = FALSE)
+  tooltip_els <- tagQuery(as.tags(badge))$filter("bslib-tooltip")$selectedTags()
+  expect_length(tooltip_els, 0)
+})
+
+test_that("toolbar_badge() tooltip = TRUE snapshot (uses label as tooltip)", {
+  expect_snapshot_html(
+    toolbar_badge("Active status", icon = shiny::icon("circle"), id = "b2")
+  )
+})
+
+test_that("toolbar_badge() custom string tooltip snapshot", {
+  expect_snapshot_html(
+    toolbar_badge("Status", icon = shiny::icon("circle"), tooltip = "Custom tip", id = "b3")
+  )
+})
+
+test_that("toolbar_badge() text-only badge has no tooltip by default", {
+  badge <- toolbar_badge("Active")
+  tooltip_els <- tagQuery(as.tags(badge))$filter("bslib-tooltip")$selectedTags()
+  expect_length(tooltip_els, 0)
+})

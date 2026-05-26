@@ -462,3 +462,34 @@
         </span>
       </div>
 
+# toolbar_badge() tooltip = TRUE snapshot (uses label as tooltip)
+
+    Code
+      show_raw_html(toolbar_badge("Active status", icon = shiny::icon("circle"), id = "b2"))
+    Output
+      <bslib-tooltip id="b2_tooltip" placement="bottom" bsOptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+        <template>Active status</template>
+        <span id="b2" class="bslib-toolbar-badge badge text-bg-secondary" aria-labelledby="badge-label-4785">
+          <span class="bslib-toolbar-icon" aria-hidden="true" style="pointer-events: none">
+            <i class="far fa-circle" role="presentation" aria-label="circle icon"></i>
+          </span>
+          <span id="badge-label-4785" class="bslib-toolbar-label" hidden>Active status</span>
+        </span>
+      </bslib-tooltip>
+
+# toolbar_badge() custom string tooltip snapshot
+
+    Code
+      show_raw_html(toolbar_badge("Status", icon = shiny::icon("circle"), tooltip = "Custom tip",
+      id = "b3"))
+    Output
+      <bslib-tooltip id="b3_tooltip" placement="bottom" bsOptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+        <template>Custom tip</template>
+        <span id="b3" class="bslib-toolbar-badge badge text-bg-secondary" aria-labelledby="badge-label-4785">
+          <span class="bslib-toolbar-icon" aria-hidden="true" style="pointer-events: none">
+            <i class="far fa-circle" role="presentation" aria-label="circle icon"></i>
+          </span>
+          <span id="badge-label-4785" class="bslib-toolbar-label" hidden>Status</span>
+        </span>
+      </bslib-tooltip>
+
