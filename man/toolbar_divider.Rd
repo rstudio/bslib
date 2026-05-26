@@ -62,6 +62,7 @@ toolbar(
 \seealso{
 Other toolbar components:
 \code{\link[=toolbar]{toolbar()}},
+\code{\link[=toolbar_badge]{toolbar_badge()}},
 \code{\link[=toolbar_input_button]{toolbar_input_button()}},
 \code{\link[=toolbar_input_select]{toolbar_input_select()}}
 }
