@@ -960,3 +960,196 @@ toolbar_divider <- function(..., width = NULL, gap = NULL) {
 toolbar_spacer <- function() {
   div(class = "bslib-toolbar-spacer")
 }
+
+#' Toolbar Badge
+#'
+#' @description
+#' A display badge for use in a [toolbar()]. Badges are non-interactive status
+#' indicators. Use [update_toolbar_badge()] to update the badge from the server.
+#'
+#' @param label The badge label text or tag. Required for accessibility even
+#'   when hidden.
+#' @param ... Additional named HTML attributes passed to the outer `<span>`.
+#' @param id An optional ID. Required when using [update_toolbar_badge()]. When
+#'   a tooltip is shown, the tooltip gets `id = "{id}_tooltip"`.
+#' @param icon An optional decorative icon.
+#' @param show_label Whether to show the label. Defaults to `TRUE` when no icon
+#'   is provided, `FALSE` when an icon is provided (icon-only mode).
+#' @param tooltip Tooltip shown on hover. Defaults to `!show_label`. Accepts
+#'   `TRUE` (use label text), `FALSE` (no tooltip), a character string, or a
+#'   tag object. Tooltip content can be updated via
+#'   [update_tooltip()][bslib::update_tooltip()] using id `"{id}_tooltip"`.
+#' @param color Bootstrap contextual color. One of `"primary"`,
+#'   `"secondary"`, `"success"`, `"danger"`, `"warning"`, `"info"`,
+#'   `"light"`, or `"dark"`. Defaults to `"secondary"`.
+#' @param pill If `TRUE`, renders with fully-rounded ends.
+#'
+#' @examplesIf rlang::is_interactive()
+#' toolbar(
+#'   toolbar_badge("Active", color = "success"),
+#'   toolbar_badge("3 errors", color = "danger"),
+#'   toolbar_badge("Loading", icon = shiny::icon("spinner"), id = "status")
+#' )
+#'
+#' @return A badge element for use in a [toolbar()].
+#' @family toolbar components
+#' @describeIn toolbar_badge Create a toolbar badge.
+#' @export
+toolbar_badge <- function(
+  label,
+  ...,
+  id = NULL,
+  icon = NULL,
+  show_label = is.null(icon),
+  tooltip = !show_label,
+  color = "secondary",
+  border = FALSE,
+  pill = FALSE
+) {
+  valid_colors <- c(
+    "primary",
+    "secondary",
+    "success",
+    "danger",
+    "warning",
+    "info",
+    "light",
+    "dark"
+  )
+  if (!color %in% valid_colors) {
+    rlang::abort(sprintf(
+      '`color` must be one of %s, not "%s".',
+      paste0('"', valid_colors, '"', collapse = ", "),
+      color
+    ))
+  }
+
+  dots <- separate_arguments(...)
+  if (length(dots$children) > 0) {
+    rlang::abort("All arguments in `...` must be named.")
+  }
+
+  label_text <- paste(unlist(find_characters(label)), collapse = " ")
+  if (!nzchar(trimws(label_text))) {
+    warning("Consider providing a non-empty string label for accessibility.")
+  }
+
+  label_id <- paste0("badge-label-", p_randomInt(1000, 10000))
+
+  icon_elem <- if (!is.null(icon)) {
+    tags$span(
+      class = "bslib-toolbar-icon",
+      `aria-hidden` = "true",
+      style = "pointer-events: none",
+      icon
+    )
+  }
+
+  label_elem <- tags$span(
+    id = label_id,
+    class = "bslib-toolbar-label",
+    hidden = if (!show_label) NA else NULL,
+    label
+  )
+
+  color_classes <- if (isTRUE(border)) {
+    c("border", paste0("border-", color), paste0("text-", color))
+  } else {
+    paste0("text-bg-", color)
+  }
+
+  badge <- tags$span(
+    id = id,
+    class = paste(
+      c(
+        "bslib-toolbar-badge badge",
+        color_classes,
+        if (isTRUE(pill)) "rounded-pill"
+      ),
+      collapse = " "
+    ),
+    `aria-labelledby` = label_id,
+    `data-bslib-color` = color,
+    `data-bslib-border` = if (isTRUE(border)) "true" else NULL,
+    !!!dots$attribs,
+    icon_elem,
+    label_elem
+  )
+
+  if (isTRUE(tooltip)) {
+    tooltip <- label
+  }
+  if (isFALSE(tooltip)) {
+    tooltip <- NULL
+  }
+  if (!is.null(tooltip)) {
+    badge <- bslib::tooltip(
+      badge,
+      tooltip,
+      id = if (!is.null(id)) sprintf("%s_tooltip", id) else NULL,
+      placement = "bottom"
+    )
+  }
+
+  badge
+}
+
+#' @param session A Shiny session object (the default should almost always be
+#'   used).
+#' @describeIn toolbar_badge Update a toolbar badge from the server.
+#' @export
+update_toolbar_badge <- function(
+  id,
+  label = NULL,
+  icon = NULL,
+  show_label = NULL,
+  color = NULL,
+  border = NULL,
+  pill = NULL,
+  session = get_current_session()
+) {
+  if (!is.null(label)) {
+    label_text <- paste(unlist(find_characters(label)), collapse = " ")
+    if (!nzchar(trimws(label_text))) {
+      rlang::warn(
+        "Consider providing a non-empty string label for accessibility."
+      )
+    }
+  }
+
+  if (!is.null(color)) {
+    valid_colors <- c(
+      "primary",
+      "secondary",
+      "success",
+      "danger",
+      "warning",
+      "info",
+      "light",
+      "dark"
+    )
+    if (!color %in% valid_colors) {
+      rlang::abort(sprintf(
+        '`color` must be one of %s, not "%s".',
+        paste0('"', valid_colors, '"', collapse = ", "),
+        color
+      ))
+    }
+  }
+
+  icon <- validateIcon(icon)
+  icon_processed <- if (!is.null(icon)) processDeps(icon, session)
+  label_processed <- if (!is.null(label)) processDeps(label, session)
+
+  message <- dropNulls(list(
+    id = id,
+    label = label_processed,
+    icon = icon_processed,
+    showLabel = show_label,
+    color = color,
+    border = border,
+    pill = pill
+  ))
+
+  session$sendCustomMessage("bslib.update-toolbar-badge", message)
+}

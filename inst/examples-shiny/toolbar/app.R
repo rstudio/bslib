@@ -50,11 +50,16 @@ ui <- page_navbar(
         ),
         card_footer(
           toolbar(
-            align = "left",
-            "Showing 10 of 247 records"
-          ),
-          toolbar(
-            align = "right",
+            toolbar_badge(
+              id = "record_count",
+              label = "Showing 10 of 247 records",
+              icon = icon("list"),
+              show_label = TRUE,
+              color = "secondary",
+              border = TRUE,
+              pill = TRUE
+            ),
+            toolbar_spacer(),
             toolbar_input_button(
               id = "update_filter_btn",
               label = "Update Filter Choices",
@@ -184,6 +189,15 @@ ui <- page_navbar(
           "Recent Activity",
           toolbar(
             align = "right",
+            toolbar_badge(
+              id = "activity_status",
+              label = "Live",
+              icon = icon("circle"),
+              show_label = TRUE,
+              color = "success",
+              pill = TRUE
+            ),
+            toolbar_divider(),
             toolbar_input_button(
               id = "activity_refresh",
               label = "Refresh",
@@ -245,6 +259,16 @@ ui <- page_navbar(
                 label = "Format",
                 choices = c("Plain", "Markdown", "HTML"),
                 icon = icon("code")
+              ),
+              toolbar_spacer(),
+              toolbar_badge(
+                id = "msg_count",
+                label = "1 message",
+                icon = icon("comments"),
+                show_label = TRUE,
+                color = "secondary",
+                pill = FALSE,
+                tooltip = FALSE
               )
             )
           )
@@ -470,6 +494,15 @@ server <- function(input, output, session) {
     update_submit_textarea("chat_input", value = "", focus = TRUE)
   })
 
+  # Update message count badge whenever chat history changes
+  observe({
+    n <- length(chat_messages())
+    update_toolbar_badge(
+      "msg_count",
+      label = sprintf("%d %s", n, if (n == 1L) "message" else "messages")
+    )
+  })
+
   # Chat toolbar buttons
   observeEvent(input$attach_file, {
     show_toast(
@@ -533,6 +566,17 @@ server <- function(input, output, session) {
 
   output$sales_table <- renderTable({
     head(filtered_sales(), 10)
+  })
+
+  # Update the record count badge whenever the filter changes
+  observe({
+    total <- nrow(filtered_sales())
+    shown <- min(10L, total)
+    update_toolbar_badge(
+      "record_count",
+      label = sprintf("Showing %d of %d records", shown, total),
+      color = if (total == nrow(sales_data)) "secondary" else "primary"
+    )
   })
 
   # Stats that update based on filter
@@ -715,11 +759,35 @@ server <- function(input, output, session) {
     chart_color(input$color_scheme)
   })
 
-  # Activity feed controls
+  # Activity feed controls — cycle status badge through states on each refresh
+  activity_refresh_count <- reactiveVal(0L)
+
   observeEvent(input$activity_refresh, {
+    n <- activity_refresh_count() + 1L
+    activity_refresh_count(n)
+
+    # Cycle: Live (success) -> Updating (warning) -> Stale (secondary) -> Live
+    states <- list(
+      list(label = "Live", color = "success", icon = icon("circle")),
+      list(label = "Updating", color = "warning", icon = icon("arrows-rotate")),
+      list(
+        label = "Stale",
+        color = "secondary",
+        icon = icon("circle-half-stroke")
+      )
+    )
+    state <- states[[(n %% length(states)) + 1L]]
+
+    update_toolbar_badge(
+      "activity_status",
+      label = state$label,
+      color = state$color,
+      icon = state$icon
+    )
+
     show_toast(
       toast(
-        "Activity refreshed!",
+        paste("Activity status:", state$label),
         type = "info",
         duration_s = 2
       )

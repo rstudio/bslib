@@ -252,6 +252,7 @@ shinyApp(ui, server)
 \code{\link[=card_header]{card_header()}} for using toolbars in card headers/footers
 
 Other toolbar components:
+\code{\link[=toolbar_badge]{toolbar_badge()}},
 \code{\link[=toolbar_divider]{toolbar_divider()}},
 \code{\link[=toolbar_input_button]{toolbar_input_button()}},
 \code{\link[=toolbar_input_select]{toolbar_input_select()}}

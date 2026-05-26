@@ -384,3 +384,112 @@
       Warning:
       `selected` value 'D' is not in `choices`.
 
+# toolbar_badge() snapshot tests
+
+    Code
+      show_raw_html(toolbar_badge("Active"))
+    Output
+      <span class="bslib-toolbar-badge badge text-bg-secondary" aria-labelledby="badge-label-4785">
+        <span id="badge-label-4785" class="bslib-toolbar-label">Active</span>
+      </span>
+
+---
+
+    Code
+      show_raw_html(toolbar_badge("Status", icon = shiny::icon("circle"), id = "badge1"))
+    Output
+      <bslib-tooltip id="badge1_tooltip" placement="bottom" bsOptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+        <template>Status</template>
+        <span id="badge1" class="bslib-toolbar-badge badge text-bg-secondary" aria-labelledby="badge-label-4785">
+          <span class="bslib-toolbar-icon" aria-hidden="true" style="pointer-events: none">
+            <i class="far fa-circle" role="presentation" aria-label="circle icon"></i>
+          </span>
+          <span id="badge-label-4785" class="bslib-toolbar-label" hidden>Status</span>
+        </span>
+      </bslib-tooltip>
+
+---
+
+    Code
+      show_raw_html(toolbar_badge("Status", icon = shiny::icon("circle"), show_label = TRUE,
+      tooltip = FALSE, id = "badge2"))
+    Output
+      <span id="badge2" class="bslib-toolbar-badge badge text-bg-secondary" aria-labelledby="badge-label-4785">
+        <span class="bslib-toolbar-icon" aria-hidden="true" style="pointer-events: none">
+          <i class="far fa-circle" role="presentation" aria-label="circle icon"></i>
+        </span>
+        <span id="badge-label-4785" class="bslib-toolbar-label">Status</span>
+      </span>
+
+---
+
+    Code
+      show_raw_html(toolbar_badge("New", pill = TRUE))
+    Output
+      <span class="bslib-toolbar-badge badge text-bg-secondary rounded-pill" aria-labelledby="badge-label-4785">
+        <span id="badge-label-4785" class="bslib-toolbar-label">New</span>
+      </span>
+
+---
+
+    Code
+      show_raw_html(toolbar_badge("OK", color = "success"))
+    Output
+      <span class="bslib-toolbar-badge badge text-bg-success" aria-labelledby="badge-label-4785">
+        <span id="badge-label-4785" class="bslib-toolbar-label">OK</span>
+      </span>
+
+---
+
+    Code
+      show_raw_html(toolbar_badge("Error", color = "danger"))
+    Output
+      <span class="bslib-toolbar-badge badge text-bg-danger" aria-labelledby="badge-label-4785">
+        <span id="badge-label-4785" class="bslib-toolbar-label">Error</span>
+      </span>
+
+---
+
+    Code
+      show_raw_html(toolbar(toolbar_badge("Active"), toolbar_badge("3 errors", color = "danger")))
+    Output
+      <div class="bslib-toolbar bslib-gap-spacing" data-align="right">
+        <span class="bslib-toolbar-badge badge text-bg-secondary" aria-labelledby="badge-label-4785">
+          <span id="badge-label-4785" class="bslib-toolbar-label">Active</span>
+        </span>
+        <span class="bslib-toolbar-badge badge text-bg-danger" aria-labelledby="badge-label-1502">
+          <span id="badge-label-1502" class="bslib-toolbar-label">3 errors</span>
+        </span>
+      </div>
+
+# toolbar_badge() tooltip = TRUE snapshot (uses label as tooltip)
+
+    Code
+      show_raw_html(toolbar_badge("Active status", icon = shiny::icon("circle"), id = "b2"))
+    Output
+      <bslib-tooltip id="b2_tooltip" placement="bottom" bsOptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+        <template>Active status</template>
+        <span id="b2" class="bslib-toolbar-badge badge text-bg-secondary" aria-labelledby="badge-label-4785">
+          <span class="bslib-toolbar-icon" aria-hidden="true" style="pointer-events: none">
+            <i class="far fa-circle" role="presentation" aria-label="circle icon"></i>
+          </span>
+          <span id="badge-label-4785" class="bslib-toolbar-label" hidden>Active status</span>
+        </span>
+      </bslib-tooltip>
+
+# toolbar_badge() custom string tooltip snapshot
+
+    Code
+      show_raw_html(toolbar_badge("Status", icon = shiny::icon("circle"), tooltip = "Custom tip",
+      id = "b3"))
+    Output
+      <bslib-tooltip id="b3_tooltip" placement="bottom" bsOptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
+        <template>Custom tip</template>
+        <span id="b3" class="bslib-toolbar-badge badge text-bg-secondary" aria-labelledby="badge-label-4785">
+          <span class="bslib-toolbar-icon" aria-hidden="true" style="pointer-events: none">
+            <i class="far fa-circle" role="presentation" aria-label="circle icon"></i>
+          </span>
+          <span id="badge-label-4785" class="bslib-toolbar-label" hidden>Status</span>
+        </span>
+      </bslib-tooltip>
+
