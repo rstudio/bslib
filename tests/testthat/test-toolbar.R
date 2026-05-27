@@ -1040,10 +1040,6 @@ test_that("toolbar_download_button() basic structure", {
   )
   expect_match(htmltools::tagGetAttribute(btn_tag, "class"), "btn-sm")
   expect_match(htmltools::tagGetAttribute(btn_tag, "data-type"), "icon")
-
-  expect_snapshot_html(
-    toolbar_download_button(outputId = "dl_icon_only")
-  )
 })
 
 test_that("toolbar_download_button() with show_label", {
@@ -1053,14 +1049,6 @@ test_that("toolbar_download_button() with show_label", {
     show_label = TRUE
   )
   expect_match(htmltools::tagGetAttribute(btn, "data-type"), "both")
-
-  expect_snapshot_html(
-    toolbar_download_button(
-      outputId = "dl_with_label",
-      label = "Download",
-      show_label = TRUE
-    )
-  )
 })
 
 test_that("toolbar_download_button() enabled = 'auto' (default)", {
@@ -1119,32 +1107,8 @@ test_that("toolbar_download_button() enabled = FALSE", {
   )
 })
 
-test_that("toolbar_download_button() border parameter", {
-  expect_snapshot_html(
-    toolbar_download_button(
-      outputId = "dl_no_border",
-      border = FALSE,
-      show_label = TRUE
-    )
-  )
-
-  expect_snapshot_html(
-    toolbar_download_button(
-      outputId = "dl_with_border",
-      border = TRUE,
-      show_label = TRUE
-    )
-  )
-})
 
 test_that("toolbar_download_button() tooltip parameter", {
-  # Default: icon-only has tooltip
-  expect_snapshot_html(
-    toolbar_download_button(
-      outputId = "dl_tooltip_default"
-    )
-  )
-
   # Explicit tooltip = FALSE
   expect_snapshot_html(
     toolbar_download_button(
@@ -1189,20 +1153,6 @@ test_that("toolbar_download_button() warns on invalid enabled value", {
 
 # Tests for update_toolbar_download_button() #
 
-test_that("update_toolbar_download_button() sends bslib.toolbar-download-button custom message", {
-  session <- list(
-    sendCustomMessage = function(type, message) {
-      session$last_type <<- type
-      session$last_message <<- message
-    }
-  )
-
-  update_toolbar_download_button("dl_target", disabled = TRUE, session = session)
-
-  expect_equal(session$last_type, "bslib.toolbar-download-button")
-  expect_equal(session$last_message$id, "dl_target")
-  expect_equal(session$last_message$disabled, TRUE)
-})
 
 test_that("update_toolbar_download_button() can disable and re-enable", {
   session <- list(

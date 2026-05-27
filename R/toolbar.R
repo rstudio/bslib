@@ -1073,19 +1073,30 @@ toolbar_download_button <- function(
     )
   )
 
-  button <- shiny::downloadButton(
+  # Unlike shiny::actionButton(), shiny::downloadButton() has `class` as a
+  # formal, so we extract it from ... and merge it manually to avoid a
+  # duplicate-argument error.
+  dots <- rlang::list2(...)
+  extra_class <- dots[["class"]]
+  dots[["class"]] <- NULL
+
+  button <- rlang::inject(shiny::downloadButton(
     outputId,
     label = label_elem,
     icon = icon_elem,
-    class = paste0(
-      "bslib-toolbar-download-button btn-sm",
-      if (!border) " border-0" else " border"
+    class = paste(
+      c(
+        "bslib-toolbar-download-button btn-sm",
+        if (!border) "border-0" else "border",
+        extra_class
+      ),
+      collapse = " "
     ),
     enabled = enabled,
     `data-type` = btn_type,
     `aria-labelledby` = label_id,
-    ...
-  )
+    !!!dots
+  ))
 
   # If tooltip is literally TRUE, use the label as the tooltip text.
   if (isTRUE(tooltip)) {

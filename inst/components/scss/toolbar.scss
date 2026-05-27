@@ -24,6 +24,31 @@
     justify-content: end;
   }
 
+  /* ---- Shared toolbar button interaction styles ---- */
+
+  // Mixin avoids SCSS multi-selector quirks with complex :not() lists that
+  // cause the second selector in a comma list to drop the .btn-default guard.
+  // Note: R's sass compiler (LibSass) drops the .btn-default guard when
+  // &:not(.disabled) is nested inside &.btn-default:not(...)... — three levels
+  // of & + complex :not() chains. Using simple pseudo-class selectors here keeps
+  // nesting at two levels, which compiles correctly. Disabled hover suppression
+  // for <a>-based buttons is handled by pointer-events:none on .disabled instead.
+  @mixin toolbar-btn-default-interactions {
+    &.btn-default:not(.btn-primary):not(.btn-secondary):not(.btn-success):not(.btn-danger):not(.btn-warning):not(.btn-info):not(.btn-light):not(.btn-dark) {
+      background-color: transparent !important;
+      background-image: none !important;
+      color: currentColor !important;
+
+      &:hover        { background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.08) !important; }
+      &:active       { background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.16) !important; }
+      &:focus-within {
+        background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.12) !important;
+        // Match the focus styling used by toolbar buttons (uses emphasis color for both border and shadow)
+        box-shadow: 0 0 0 0.25rem rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.25) !important;
+      }
+    }
+  }
+
   /* ---- Toolbar Input Buttons ---- */
 
   // Keep labels and icons centered in the button
@@ -40,25 +65,7 @@
       margin: 0;
     }
 
-    &.btn-default:not(.btn-primary):not(.btn-secondary):not(.btn-success):not(.btn-danger):not(.btn-warning):not(.btn-info):not(.btn-light):not(.btn-dark) {
-      background-color: transparent !important;
-      background-image: none !important;
-      color: currentColor !important;
-
-      &:hover {
-        background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.08) !important;
-      }
-
-      &:active {
-        background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.16) !important;
-      }
-
-      &:focus-within {
-        background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.12) !important;
-        // Match the focus styling used by toolbar buttons (uses emphasis color for both border and shadow)
-        box-shadow: 0 0 0 0.25rem rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.25) !important;
-      }
-    }
+    @include toolbar-btn-default-interactions;
   }
 
   /* ---- Toolbar Download Buttons ---- */
@@ -69,33 +76,22 @@
     line-height: 1;
     height: var(--_toolbar-btn-size);
     display: flex;
-    text-decoration: none; // Remove link underline
+    text-decoration: none; // Remove link underline on <a> tag
 
     .action-icon,
     .action-label {
       margin: 0;
     }
 
-    // Neutralize btn-default background and apply toolbar hover/focus styles.
-    // Gated so that user-passed variant classes (e.g. btn-primary) are not
-    // overridden — matches the same pattern used for .bslib-toolbar-input-button.
-    &.btn-default:not(.btn-primary):not(.btn-secondary):not(.btn-success):not(.btn-danger):not(.btn-warning):not(.btn-info):not(.btn-light):not(.btn-dark) {
-      background-color: transparent !important;
-      background-image: none !important;
+    // Same interaction styles as input button. Disabled hover suppression relies
+    // on pointer-events:none below rather than :not(.disabled) selectors (which
+    // would introduce a third & nesting level and cause LibSass to drop the
+    // .btn-default guard). <a> tags also need color/text-decoration locked down
+    // so Bootstrap's link-hover rules don't change the text.
+    @include toolbar-btn-default-interactions;
+    &:hover, &:active, &:focus-within {
       color: currentColor !important;
-
-      &:not(.disabled) {
-        &:hover {
-          background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.08) !important;
-        }
-        &:active {
-          background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.16) !important;
-        }
-        &:focus-within {
-          background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.12) !important;
-          box-shadow: 0 0 0 0.25rem rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.25) !important;
-        }
-      }
+      text-decoration: none !important;
     }
 
     // Disabled state applies regardless of variant

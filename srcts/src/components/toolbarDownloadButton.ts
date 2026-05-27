@@ -21,9 +21,10 @@ shinyAddCustomMessageHandlers({
       return;
     }
 
+    // Update disabled state.
+    // The element is an <a> tag, not a <button>, so there is no native
+    // `disabled` property — we manually manage class/aria/tabindex instead.
     if (hasDefinedProperty(msg, "disabled")) {
-      // The element is an <a> tag, not a <button>, so there is no native
-      // `disabled` property — we manually manage class/aria/tabindex instead.
       if (msg.disabled) {
         el.classList.add("disabled");
         el.setAttribute("aria-disabled", "true");
@@ -35,30 +36,29 @@ shinyAddCustomMessageHandlers({
       }
     }
 
+    // Hoist label element lookup — shared by label and showLabel blocks.
+    const labelEl = el.querySelector(
+      ".bslib-toolbar-label"
+    ) as HTMLElement | null;
+
+    // Update label
     if (hasDefinedProperty(msg, "label") && msg.label !== undefined) {
-      const labelEl = el.querySelector(
-        ".bslib-toolbar-label"
-      ) as HTMLElement | null;
       if (!labelEl) {
         console.warn(
           "[bslib.toolbar-download-button] .bslib-toolbar-label not found"
         );
-        return;
+      } else {
+        await shinyRenderContent(labelEl, msg.label);
       }
-      await shinyRenderContent(labelEl, msg.label);
     }
 
+    // Update show_label visibility
     if (hasDefinedProperty(msg, "showLabel")) {
-      const labelEl = el.querySelector(
-        ".bslib-toolbar-label"
-      ) as HTMLElement | null;
       if (!labelEl) {
         console.warn(
           "[bslib.toolbar-download-button] .bslib-toolbar-label not found"
         );
-        return;
-      }
-      if (msg.showLabel === false) {
+      } else if (msg.showLabel === false) {
         labelEl.setAttribute("hidden", "");
         el.setAttribute("data-type", "icon");
       } else {
@@ -67,6 +67,7 @@ shinyAddCustomMessageHandlers({
       }
     }
 
+    // Update icon
     if (hasDefinedProperty(msg, "icon") && msg.icon !== undefined) {
       const iconEl = el.querySelector(
         ".bslib-toolbar-icon"
@@ -75,9 +76,9 @@ shinyAddCustomMessageHandlers({
         console.warn(
           "[bslib.toolbar-download-button] .bslib-toolbar-icon not found"
         );
-        return;
+      } else {
+        await shinyRenderContent(iconEl, msg.icon);
       }
-      await shinyRenderContent(iconEl, msg.icon);
     }
   },
 });
