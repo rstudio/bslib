@@ -26,27 +26,35 @@
 
   /* ---- Shared toolbar button interaction styles ---- */
 
-  // Mixin avoids SCSS multi-selector quirks with complex :not() lists that
-  // cause the second selector in a comma list to drop the .btn-default guard.
-  // Note: R's sass compiler (LibSass) drops the .btn-default guard when
-  // &:not(.disabled) is nested inside &.btn-default:not(...)... — three levels
-  // of & + complex :not() chains. Using simple pseudo-class selectors here keeps
-  // nesting at two levels, which compiles correctly. Disabled hover suppression
-  // for <a>-based buttons is handled by pointer-events:none on .disabled instead.
-  @mixin toolbar-btn-default-interactions {
-    &.btn-default:not(.btn-primary):not(.btn-secondary):not(.btn-success):not(.btn-danger):not(.btn-warning):not(.btn-info):not(.btn-light):not(.btn-dark) {
-      background-color: transparent !important;
-      background-image: none !important;
-      color: currentColor !important;
+  // LibSass drops the .btn-default class from the second selector whenever &
+  // is used inside a comma list (e.g. .input-btn, .download-btn { &.btn-default
+  // { } } compiles incorrectly). Avoid & entirely by writing these as plain
+  // descendant selectors; LibSass handles those correctly. A variable holds the
+  // shared :not() exclusion list so it isn't repeated on every line.
+  $_btn-not: ":not(.btn-primary):not(.btn-secondary):not(.btn-success):not(.btn-danger):not(.btn-warning):not(.btn-info):not(.btn-light):not(.btn-dark)";
 
-      &:hover        { background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.08) !important; }
-      &:active       { background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.16) !important; }
-      &:focus-within {
-        background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.12) !important;
-        // Match the focus styling used by toolbar buttons (uses emphasis color for both border and shadow)
-        box-shadow: 0 0 0 0.25rem rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.25) !important;
-      }
-    }
+  .bslib-toolbar-input-button.btn-default#{$_btn-not},
+  .bslib-toolbar-download-button.btn-default#{$_btn-not} {
+    background-color: transparent !important;
+    background-image: none !important;
+    color: currentColor !important;
+  }
+
+  .bslib-toolbar-input-button.btn-default#{$_btn-not}:hover,
+  .bslib-toolbar-download-button.btn-default#{$_btn-not}:hover {
+    background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.08) !important;
+  }
+
+  .bslib-toolbar-input-button.btn-default#{$_btn-not}:active,
+  .bslib-toolbar-download-button.btn-default#{$_btn-not}:active {
+    background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.16) !important;
+  }
+
+  .bslib-toolbar-input-button.btn-default#{$_btn-not}:focus-within,
+  .bslib-toolbar-download-button.btn-default#{$_btn-not}:focus-within {
+    background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.12) !important;
+    // Match the focus styling used by toolbar buttons (uses emphasis color for both border and shadow)
+    box-shadow: 0 0 0 0.25rem rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.25) !important;
   }
 
   /* ---- Toolbar Input Buttons ---- */
@@ -64,8 +72,6 @@
     .action-label {
       margin: 0;
     }
-
-    @include toolbar-btn-default-interactions;
   }
 
   /* ---- Toolbar Download Buttons ---- */
@@ -83,12 +89,9 @@
       margin: 0;
     }
 
-    // Same interaction styles as input button. Disabled hover suppression relies
-    // on pointer-events:none below rather than :not(.disabled) selectors (which
-    // would introduce a third & nesting level and cause LibSass to drop the
-    // .btn-default guard). <a> tags also need color/text-decoration locked down
-    // so Bootstrap's link-hover rules don't change the text.
-    @include toolbar-btn-default-interactions;
+    // <a> tags need color/text-decoration locked down so Bootstrap's link-hover
+    // rules don't override them. Disabled hover suppression relies on
+    // pointer-events:none on .disabled (no :not(.disabled) needed here).
     &:hover, &:active, &:focus-within {
       color: currentColor !important;
       text-decoration: none !important;
