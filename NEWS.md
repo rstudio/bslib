@@ -1,5 +1,9 @@
 # bslib (development version)
 
+## Bug fixes
+
+* Fixed label-to-options spacing on `shiny::radioButtons()` and `shiny::checkboxGroupInput()` in Bootstrap 5, where a Shiny rule was overriding the bslib fix. (#1308)
+
 # bslib 0.11.0
 
 ## New features
