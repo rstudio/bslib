@@ -1020,20 +1020,13 @@ toolbar_download_button <- function(
 ) {
   # TODO-REENABLE-GATE: temporarily disabled for local testing on stable shiny.
   # check_shiny_supports_download_button_enabled("toolbar_download_button()")
-  if (isTRUE(enabled)) {
-    enabled <- TRUE
-  } else if (isFALSE(enabled)) {
-    enabled <- FALSE
-  } else if (identical(enabled, "auto") || identical(enabled, c("auto", TRUE, FALSE))) {
-    enabled <- "auto"
-  } else {
-    rlang::warn(
-      paste0(
-        '`enabled` must be TRUE, FALSE, or "auto". ',
-        "Got ", deparse(enabled), '. Falling back to "auto".'
-      )
+  # Normalize the match.arg vector default to "auto", then hard-error on
+  # anything else invalid (mirrors shiny::downloadButton()'s approach).
+  if (identical(enabled, c("auto", TRUE, FALSE))) enabled <- "auto"
+  if (!isTRUE(enabled) && !isFALSE(enabled) && !identical(enabled, "auto")) {
+    rlang::abort(
+      paste0('`enabled` must be TRUE, FALSE, or "auto". Got ', deparse(enabled), ".")
     )
-    enabled <- "auto"
   }
 
   btn_type <-
@@ -1053,6 +1046,10 @@ toolbar_download_button <- function(
 
   label_id <- paste0("btn-label-", p_randomInt(1000, 10000))
 
+  # We hide the label visually if `!show_label` but keep it in the DOM for use
+  # with `aria-labelledby`. This ensures that ARIA always uses the label text:
+  # screen readers will read out the icon's `aria-label` even if the icon is a
+  # descendant of an element with `aria-hidden=true`.
   label_elem <- span(
     class = "action-label",
     span(
@@ -1063,6 +1060,8 @@ toolbar_download_button <- function(
     )
   )
 
+  # Wrap the icon so it is always treated as decorative (`aria-hidden`),
+  # preventing screen readers from announcing the icon in addition to the label.
   icon_elem <- span(
     class = "action-icon",
     span(
@@ -1136,6 +1135,15 @@ update_toolbar_download_button <- function(
 ) {
   # TODO-REENABLE-GATE: temporarily disabled for local testing on stable shiny.
   # check_shiny_supports_download_button_enabled("update_toolbar_download_button()")
+  if (!is.null(label)) {
+    label_text <- paste(unlist(find_characters(label)), collapse = " ")
+    if (!nzchar(trimws(label_text))) {
+      rlang::warn(
+        "Consider providing a non-empty string label for accessibility."
+      )
+    }
+  }
+
   icon <- validateIcon(icon)
   icon_processed <- if (!is.null(icon)) processDeps(icon, session)
   label_processed <- if (!is.null(label)) processDeps(label, session)
