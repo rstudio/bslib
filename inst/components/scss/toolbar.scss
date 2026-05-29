@@ -26,39 +26,23 @@
 
   /* ---- Shared toolbar button interaction styles ---- */
 
-  // R's sass package uses LibSass, which has a bug: when & is used inside a
-  // comma-separated selector list, it drops any chained class from the second
-  // selector (e.g. `.a, .b { &.active { } }` compiles `.a.active, .b { }` —
-  // note .active is missing from .b). Writing these as plain descendant
-  // selectors (no &) avoids the bug. $_btn-not holds the shared :not() list
-  // so it isn't repeated on every line.
-  //
   // Note: color and text-decoration overrides on hover/active/focus are
   // download-button-specific (<a> tag behavior) and live in that block below.
-  $_btn-not: ":not(.btn-primary):not(.btn-secondary):not(.btn-success):not(.btn-danger):not(.btn-warning):not(.btn-info):not(.btn-light):not(.btn-dark)";
+  .bslib-toolbar-input-button,
+  .bslib-toolbar-download-button {
+    &.btn-default:not(.btn-primary):not(.btn-secondary):not(.btn-success):not(.btn-danger):not(.btn-warning):not(.btn-info):not(.btn-light):not(.btn-dark) {
+      background-color: transparent !important;
+      background-image: none !important;
+      color: currentColor !important;
 
-  .bslib-toolbar-input-button.btn-default#{$_btn-not},
-  .bslib-toolbar-download-button.btn-default#{$_btn-not} {
-    background-color: transparent !important;
-    background-image: none !important;
-    color: currentColor !important;
-  }
-
-  .bslib-toolbar-input-button.btn-default#{$_btn-not}:hover,
-  .bslib-toolbar-download-button.btn-default#{$_btn-not}:hover {
-    background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.08) !important;
-  }
-
-  .bslib-toolbar-input-button.btn-default#{$_btn-not}:active,
-  .bslib-toolbar-download-button.btn-default#{$_btn-not}:active {
-    background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.16) !important;
-  }
-
-  .bslib-toolbar-input-button.btn-default#{$_btn-not}:focus-within,
-  .bslib-toolbar-download-button.btn-default#{$_btn-not}:focus-within {
-    background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.12) !important;
-    // Match the focus styling used by toolbar buttons (uses emphasis color for both border and shadow)
-    box-shadow: 0 0 0 0.25rem rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.25) !important;
+      &:hover        { background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.08) !important; }
+      &:active       { background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.16) !important; }
+      &:focus-within {
+        background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.12) !important;
+        // Match the focus styling used by toolbar buttons (uses emphasis color for both border and shadow)
+        box-shadow: 0 0 0 0.25rem rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.25) !important;
+      }
+    }
   }
 
   /* ---- Toolbar Input Buttons ---- */
