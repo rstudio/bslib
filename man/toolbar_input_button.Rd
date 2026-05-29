@@ -167,6 +167,7 @@ toolbar(
 Other toolbar components:
 \code{\link[=toolbar]{toolbar()}},
 \code{\link[=toolbar_divider]{toolbar_divider()}},
+\code{\link[=toolbar_download_button]{toolbar_download_button()}},
 \code{\link[=toolbar_input_select]{toolbar_input_select()}}
 }
 \concept{toolbar components}

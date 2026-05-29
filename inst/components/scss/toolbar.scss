@@ -24,10 +24,11 @@
     justify-content: end;
   }
 
-  /* ---- Toolbar Input Buttons ---- */
+  /* ---- Toolbar Input + Download Buttons ---- */
 
-  // Keep labels and icons centered in the button
-  .bslib-toolbar-input-button {
+  .bslib-toolbar-input-button,
+  .bslib-toolbar-download-button {
+    // Keep labels and icons centered
     align-items: center;
     justify-content: center;
     line-height: 1; // Override Bootstrap's line-height to avoid too much vertical space
@@ -40,6 +41,11 @@
       margin: 0;
     }
 
+    // Reset Bootstrap's .btn-default styling so toolbar buttons use the
+    // toolbar's own text color and a transparent background, with subtle
+    // emphasis-color highlights on interaction. `color: currentColor` is
+    // repeated on each state to prevent Bootstrap's link hover styles from
+    // overriding the text color (needed for the <a>-based download button).
     &.btn-default:not(.btn-primary):not(.btn-secondary):not(.btn-success):not(.btn-danger):not(.btn-warning):not(.btn-info):not(.btn-light):not(.btn-dark) {
       background-color: transparent !important;
       background-image: none !important;
@@ -47,17 +53,39 @@
 
       &:hover {
         background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.08) !important;
+        color: currentColor !important;
       }
 
       &:active {
         background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.16) !important;
+        color: currentColor !important;
       }
 
       &:focus-within {
         background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.12) !important;
         // Match the focus styling used by toolbar buttons (uses emphasis color for both border and shadow)
         box-shadow: 0 0 0 0.25rem rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.25) !important;
+        color: currentColor !important;
       }
+    }
+  }
+
+  /* ---- Toolbar Download Button extras ---- */
+
+  .bslib-toolbar-download-button {
+    text-decoration: none; // Remove link underline on <a> tag
+
+    // text-decoration suppression applies to all variants since this is an
+    // <a> tag — Bootstrap's link hover styles would otherwise add an underline.
+    &:hover, &:active, &:focus-within {
+      text-decoration: none !important;
+    }
+
+    // Disabled state applies regardless of variant; pointer-events:none
+    // suppresses hover so no :not(.disabled) guard is needed above.
+    &.disabled {
+      opacity: 0.65;
+      pointer-events: none;
     }
   }
 
@@ -68,21 +96,24 @@
   }
 
   // Remove the left padding on label-only buttons so the text is centered
-  .bslib-toolbar-input-button[data-type="label"] {
+  .bslib-toolbar-input-button[data-type="label"],
+  .bslib-toolbar-download-button[data-type="label"] {
     .action-label {
       padding-left: 0;
     }
   }
 
   // Add spacing between icon and label in buttons with both
-  .bslib-toolbar-input-button[data-type="both"] {
+  .bslib-toolbar-input-button[data-type="both"],
+  .bslib-toolbar-download-button[data-type="both"] {
     .action-icon {
       margin-right: 0.35rem;
     }
   }
 
   // Square icon-only buttons
-  .bslib-toolbar-input-button[data-type="icon"] {
+  .bslib-toolbar-input-button[data-type="icon"],
+  .bslib-toolbar-download-button[data-type="icon"] {
     aspect-ratio: 1;
     line-height: 1 !important; // Ensure no line-height interference
 

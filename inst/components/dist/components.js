@@ -1,13 +1,34 @@
 /*! bslib 0.11.0.9000 | (c) 2012-2026 RStudio, PBC. | License: MIT + file LICENSE */
 "use strict";
 (() => {
+  var __create = Object.create;
+  var __defProp = Object.defineProperty;
+  var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
   var __getOwnPropNames = Object.getOwnPropertyNames;
+  var __getProtoOf = Object.getPrototypeOf;
+  var __hasOwnProp = Object.prototype.hasOwnProperty;
   var __esm = (fn, res) => function __init() {
     return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
   };
   var __commonJS = (cb, mod) => function __require() {
     return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
   };
+  var __copyProps = (to, from, except, desc) => {
+    if (from && typeof from === "object" || typeof from === "function") {
+      for (let key of __getOwnPropNames(from))
+        if (!__hasOwnProp.call(to, key) && key !== except)
+          __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+    }
+    return to;
+  };
+  var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+    // If the importer is in node compatibility mode or this is not an ESM
+    // file that has been converted to a CommonJS file using a Babel-
+    // compatible transform (i.e. "__esModule" has not been set), then set
+    // "default" to the CommonJS "module.exports" for node compatibility.
+    isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+    mod
+  ));
   var __accessCheck = (obj, member, msg) => {
     if (!member.has(obj))
       throw TypeError("Cannot " + msg);
@@ -1749,6 +1770,88 @@
     }
   });
 
+  // srcts/src/components/_shinyAddCustomMessageHandlers.ts
+  function shinyAddCustomMessageHandlers(handlers) {
+    if (!window.Shiny) {
+      return;
+    }
+    for (const [name, handler] of Object.entries(handlers)) {
+      window.Shiny.addCustomMessageHandler(name, handler);
+    }
+  }
+  var init_shinyAddCustomMessageHandlers = __esm({
+    "srcts/src/components/_shinyAddCustomMessageHandlers.ts"() {
+      "use strict";
+    }
+  });
+
+  // srcts/src/components/toolbarDownloadButton.ts
+  var require_toolbarDownloadButton = __commonJS({
+    "srcts/src/components/toolbarDownloadButton.ts"(exports) {
+      "use strict";
+      init_shinyAddCustomMessageHandlers();
+      init_utils();
+      shinyAddCustomMessageHandlers({
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        "bslib.toolbar-download-button": (msg) => __async(exports, null, function* () {
+          const el = document.getElementById(msg.id);
+          if (!el) {
+            console.warn("[bslib.toolbar-download-button] No element found", msg);
+            return;
+          }
+          if (hasDefinedProperty(msg, "disabled")) {
+            if (msg.disabled) {
+              el.classList.add("disabled");
+              el.setAttribute("aria-disabled", "true");
+              el.setAttribute("tabindex", "-1");
+            } else {
+              el.classList.remove("disabled");
+              el.removeAttribute("aria-disabled");
+              el.removeAttribute("tabindex");
+            }
+          }
+          const labelEl = el.querySelector(
+            ".bslib-toolbar-label"
+          );
+          if (hasDefinedProperty(msg, "label") && msg.label !== void 0) {
+            if (!labelEl) {
+              console.warn(
+                "[bslib.toolbar-download-button] .bslib-toolbar-label not found"
+              );
+            } else {
+              yield shinyRenderContent(labelEl, msg.label);
+            }
+          }
+          if (hasDefinedProperty(msg, "showLabel")) {
+            if (!labelEl) {
+              console.warn(
+                "[bslib.toolbar-download-button] .bslib-toolbar-label not found"
+              );
+            } else if (msg.showLabel === false) {
+              labelEl.setAttribute("hidden", "");
+              el.setAttribute("data-type", "icon");
+            } else {
+              labelEl.removeAttribute("hidden");
+              el.setAttribute("data-type", "both");
+            }
+          }
+          if (hasDefinedProperty(msg, "icon") && msg.icon !== void 0) {
+            const iconEl = el.querySelector(
+              ".bslib-toolbar-icon"
+            );
+            if (!iconEl) {
+              console.warn(
+                "[bslib.toolbar-download-button] .bslib-toolbar-icon not found"
+              );
+            } else {
+              yield shinyRenderContent(iconEl, msg.icon);
+            }
+          }
+        })
+      });
+    }
+  });
+
   // srcts/src/components/toolbarInputSelect.ts
   var _hideTooltip2, hideTooltip_fn2, BslibToolbarInputSelectBinding;
   var init_toolbarInputSelect = __esm({
@@ -2020,21 +2123,6 @@
         }
       };
       registerBinding(TextAreaSubmitInputBinding, "submit-text-area");
-    }
-  });
-
-  // srcts/src/components/_shinyAddCustomMessageHandlers.ts
-  function shinyAddCustomMessageHandlers(handlers) {
-    if (!window.Shiny) {
-      return;
-    }
-    for (const [name, handler] of Object.entries(handlers)) {
-      window.Shiny.addCustomMessageHandler(name, handler);
-    }
-  }
-  var init_shinyAddCustomMessageHandlers = __esm({
-    "srcts/src/components/_shinyAddCustomMessageHandlers.ts"() {
-      "use strict";
     }
   });
 
@@ -2345,6 +2433,7 @@
       init_sidebar();
       init_taskButton();
       init_toolbarInputButton();
+      var import_toolbarDownloadButton = __toESM(require_toolbarDownloadButton());
       init_toolbarInputSelect();
       init_submitTextArea();
       init_toast();

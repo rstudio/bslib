@@ -406,7 +406,6 @@ toolbar_input_button <- function(
 
   # Validate that label has text for accessibility
   label_text <- paste(unlist(find_characters(label)), collapse = " ")
-  # Verifies the label contains non-empty text
   if (!nzchar(trimws(label_text))) {
     warning(
       "Consider providing a non-empty string label for accessibility."
@@ -480,11 +479,13 @@ update_toolbar_input_button <- function(
   disabled = NULL,
   session = get_current_session()
 ) {
-  label_text <- paste(unlist(find_characters(label)), collapse = " ")
-  if (!nzchar(trimws(label_text))) {
-    rlang::warn(
-      "Consider providing a non-empty string label for accessibility."
-    )
+  if (!is.null(label)) {
+    label_text <- paste(unlist(find_characters(label)), collapse = " ")
+    if (!nzchar(trimws(label_text))) {
+      rlang::warn(
+        "Consider providing a non-empty string label for accessibility."
+      )
+    }
   }
 
   icon <- validateIcon(icon)
@@ -959,4 +960,232 @@ toolbar_divider <- function(..., width = NULL, gap = NULL) {
 #' @export
 toolbar_spacer <- function() {
   div(class = "bslib-toolbar-spacer")
+}
+
+#' Toolbar Download Button
+#'
+#' @description
+#' A download button designed to fit well in small places such as in a [toolbar()].
+#'
+#' @param outputId The download output ID (connects to [shiny::downloadHandler()] in server).
+#' @inheritParams toolbar_input_button
+#' @param enabled Controls the initial enabled/disabled state and whether Shiny
+#'   manages auto-enabling:
+#'   * `"auto"` (default) — button starts disabled; Shiny auto-enables it once
+#'     the [shiny::downloadHandler()] is initialized. Use
+#'     [update_toolbar_download_button()] to disable again after that point.
+#'   * `TRUE` — button starts enabled immediately (before the server connects).
+#'     Sets `data-shiny-disable-auto-enable` so Shiny does not re-enable on
+#'     render (preserves state set by e.g. `shinyjs::disable()`).
+#'   * `FALSE` — button starts disabled with `data-shiny-disable-auto-enable`,
+#'     permanently opting out of Shiny's auto-enable. Use
+#'     [update_toolbar_download_button()] to manage enabled/disabled state.
+#'
+#' @return Returns a download button suitable for use in a toolbar.
+#'
+#' @examplesIf rlang::is_interactive()
+#' library(shiny)
+#' library(bslib)
+#'
+#' ui <- page_fluid(
+#'   card(
+#'     card_header(
+#'       "Flower Data",
+#'       toolbar(
+#'         align = "right",
+#'         toolbar_download_button("download_data", label = "Download CSV")
+#'       )
+#'     ),
+#'     tableOutput("table")
+#'   )
+#' )
+#'
+#' server <- function(input, output, session) {
+#'   output$table <- renderTable(head(iris))
+#'
+#'   output$download_data <- downloadHandler(
+#'     filename = function() "iris.csv",
+#'     content = function(file) write.csv(iris, file, row.names = FALSE)
+#'   )
+#' }
+#'
+#' shinyApp(ui, server)
+#'
+#' @family toolbar components
+#' @export
+toolbar_download_button <- function(
+  outputId,
+  label = "Download",
+  icon = shiny::icon("download"),
+  show_label = FALSE,
+  tooltip = !show_label,
+  ...,
+  enabled = c("auto", TRUE, FALSE),
+  border = FALSE
+) {
+  check_shiny_supports_download_button_enabled("toolbar_download_button()")
+  # Normalize the match.arg vector default to "auto", then hard-error on
+  # anything else invalid (mirrors shiny::downloadButton()'s approach).
+  if (identical(enabled, c("auto", TRUE, FALSE))) {
+    enabled <- "auto"
+  }
+  if (!isTRUE(enabled) && !isFALSE(enabled) && !identical(enabled, "auto")) {
+    rlang::abort(
+      paste0(
+        '`enabled` must be TRUE, FALSE, or "auto". Got ',
+        deparse(enabled),
+        "."
+      )
+    )
+  }
+
+  btn_type <-
+    if (is.null(icon)) {
+      if (!show_label) {
+        rlang::abort("If `show_label` is FALSE, `icon` must be provided.")
+      }
+      "label"
+    } else {
+      if (show_label) "both" else "icon"
+    }
+
+  # Validate that label has text for accessibility
+  label_text <- paste(unlist(find_characters(label)), collapse = " ")
+  if (!nzchar(trimws(label_text))) {
+    warning("Consider providing a non-empty string label for accessibility.")
+  }
+
+  label_id <- paste0("btn-label-", p_randomInt(1000, 10000))
+
+  # shiny::downloadButton() doesn't wrap label/icon in span.action-label /
+  # span.action-icon (unlike shiny::actionButton()), so we do it here to keep
+  # the DOM structure consistent between the two toolbar button types.
+
+  # We hide the label visually if `!show_label` but keep it in the DOM for use
+  # with `aria-labelledby`. This ensures that ARIA always uses the label text:
+  # screen readers will read out the icon's `aria-label` even if the icon is a
+  # descendant of an element with `aria-hidden=true`.
+  label_elem <- span(
+    class = "action-label",
+    span(
+      id = label_id,
+      class = "bslib-toolbar-label",
+      hidden = if (!show_label) NA else NULL,
+      label
+    )
+  )
+
+  # Wrap the icon so it is always treated as decorative (`aria-hidden`),
+  # preventing screen readers from announcing the icon in addition to the label.
+  icon_elem <- span(
+    class = "action-icon",
+    span(
+      class = "bslib-toolbar-icon",
+      `aria-hidden` = "true",
+      style = "pointer-events: none",
+      icon
+    )
+  )
+
+  # Unlike shiny::actionButton(), shiny::downloadButton() has `class` as a
+  # formal, so we extract it from ... and merge it manually to avoid a
+  # duplicate-argument error.
+  dots <- rlang::list2(...)
+  extra_class <- dots[["class"]]
+  dots[["class"]] <- NULL
+
+  button <- rlang::inject(shiny::downloadButton(
+    outputId,
+    label = label_elem,
+    icon = icon_elem,
+    class = paste(
+      c(
+        "bslib-toolbar-download-button btn-sm",
+        if (!border) "border-0" else "border-1",
+        extra_class
+      ),
+      collapse = " "
+    ),
+    enabled = enabled,
+    `data-type` = btn_type,
+    `aria-labelledby` = label_id,
+    !!!dots
+  ))
+
+  # If tooltip is literally TRUE, use the label as the tooltip text.
+  if (isTRUE(tooltip)) {
+    tooltip <- label
+  }
+  if (isFALSE(tooltip)) {
+    tooltip <- NULL
+  }
+  if (!is.null(tooltip)) {
+    # Default placement is "bottom" for the toolbar case because otherwise the
+    # tooltip ends up covering the neighboring buttons in the header/footer.
+    button <- tooltip(
+      button,
+      tooltip,
+      id = sprintf("%s_tooltip", outputId),
+      placement = "bottom"
+    )
+  }
+
+  button
+}
+
+#' @inheritParams toolbar_download_button
+#' @inheritParams update_toolbar_input_button
+#' @param disabled If `TRUE`, disables the button; if `FALSE`, enables it.
+#'   `NULL` (default) leaves the current state unchanged.
+#'
+#' @describeIn toolbar_download_button Update a toolbar download button.
+#' @export
+update_toolbar_download_button <- function(
+  outputId,
+  label = NULL,
+  show_label = NULL,
+  icon = NULL,
+  disabled = NULL,
+  session = get_current_session()
+) {
+  check_shiny_supports_download_button_enabled(
+    "update_toolbar_download_button()"
+  )
+  if (!is.null(label)) {
+    label_text <- paste(unlist(find_characters(label)), collapse = " ")
+    if (!nzchar(trimws(label_text))) {
+      rlang::warn(
+        "Consider providing a non-empty string label for accessibility."
+      )
+    }
+  }
+
+  icon <- validateIcon(icon)
+  icon_processed <- if (!is.null(icon)) processDeps(icon, session)
+  label_processed <- if (!is.null(label)) processDeps(label, session)
+
+  message <- dropNulls(list(
+    id = outputId,
+    label = label_processed,
+    showLabel = show_label,
+    icon = icon_processed,
+    disabled = disabled
+  ))
+
+  session$sendCustomMessage("bslib.toolbar-download-button", message)
+}
+
+# Gate on shiny > 1.13.0 — needs `downloadButton(enabled =)` from rstudio/shiny#4371.
+check_shiny_supports_download_button_enabled <- function(fn) {
+  if (is_installed("shiny", "1.13.0.9000")) {
+    return(invisible())
+  }
+  rlang::abort(c(
+    sprintf("`%s` requires a newer version of shiny than is installed.", fn),
+    i = sprintf(
+      "Installed shiny version: %s. Need shiny > 1.13.0 (for `downloadButton(enabled =)`, rstudio/shiny#4371).",
+      utils::packageVersion("shiny")
+    ),
+    i = "Install the development version with `pak::pak(\"rstudio/shiny\")` or wait for the next CRAN release."
+  ))
 }

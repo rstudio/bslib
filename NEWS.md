@@ -1,5 +1,9 @@
 # bslib (development version)
 
+## New features
+
+* Added `toolbar_download_button()` and `update_toolbar_download_button()` for adding a download button to a `toolbar()`, styled consistently with other toolbar inputs. (#1292)
+
 ## Bug fixes
 
 * Fixed label-to-options spacing on `shiny::radioButtons()` and `shiny::checkboxGroupInput()` in Bootstrap 5, where a Shiny rule was overriding the bslib fix. (#1308)
