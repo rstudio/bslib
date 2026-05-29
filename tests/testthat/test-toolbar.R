@@ -1074,6 +1074,8 @@ test_that("toolbar_download_button() basic structure", {
 })
 
 test_that("toolbar_download_button() with show_label", {
+  # icon defaults to shiny::icon("download"), so show_label = TRUE produces
+  # data-type = "both" (icon + label). For data-type = "label", pass icon = NULL.
   btn <- toolbar_download_button(
     outputId = "dl_test",
     label = "Download CSV",
