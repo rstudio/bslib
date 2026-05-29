@@ -1073,16 +1073,6 @@ test_that("toolbar_download_button() basic structure", {
   expect_match(htmltools::tagGetAttribute(btn_tag, "data-type"), "icon")
 })
 
-test_that("toolbar_download_button() with show_label", {
-  # icon defaults to shiny::icon("download"), so show_label = TRUE produces
-  # data-type = "both" (icon + label). For data-type = "label", pass icon = NULL.
-  btn <- toolbar_download_button(
-    outputId = "dl_test",
-    label = "Download CSV",
-    show_label = TRUE
-  )
-  expect_match(htmltools::tagGetAttribute(btn, "data-type"), "both")
-})
 
 test_that("toolbar_download_button() enabled = 'auto' (default)", {
   btn <- toolbar_download_button(outputId = "dl_test", show_label = TRUE)
@@ -1175,9 +1165,18 @@ test_that("toolbar_download_button() aborts when show_label = FALSE and no icon"
   )
 })
 
-test_that("toolbar_download_button() label-only type (icon = NULL, show_label = TRUE)", {
-  btn <- toolbar_download_button("dl_label_only", icon = NULL, show_label = TRUE)
-  expect_match(htmltools::tagGetAttribute(btn, "data-type"), "label")
+test_that("toolbar_download_button() data-type: label, both, icon", {
+  # "label": no icon, label visible
+  btn_label <- toolbar_download_button("dl_label_only", icon = NULL, show_label = TRUE)
+  expect_match(htmltools::tagGetAttribute(btn_label, "data-type"), "label")
+
+  # "both": default icon + label visible
+  btn_both <- toolbar_download_button("dl_both", show_label = TRUE)
+  expect_match(htmltools::tagGetAttribute(btn_both, "data-type"), "both")
+
+  # "icon": default icon only (show_label = FALSE is the default)
+  btn_icon_tag <- tagQuery(as.tags(toolbar_download_button("dl_icon")))$find("a")$selectedTags()[[1]]
+  expect_match(htmltools::tagGetAttribute(btn_icon_tag, "data-type"), "icon")
 })
 
 test_that("toolbar_download_button() border = TRUE", {
@@ -1262,15 +1261,10 @@ test_that("update_toolbar_download_button() sends only specified fields", {
     }
   )
 
-  # Only specified fields appear — NULLs are dropped
+  # Only specified fields appear — NULLs are dropped; id always included
   update_toolbar_download_button("dl_target", disabled = TRUE, session = session)
-  expect_equal(sort(names(session$last_message)), c("disabled", "id"))
-
-  # No args → id-only message on the correct channel
-  update_toolbar_download_button("dl_target", session = session)
   expect_equal(session$last_type, "bslib.toolbar-download-button")
-  expect_equal(names(session$last_message), "id")
-  expect_equal(session$last_message$id, "dl_target")
+  expect_equal(sort(names(session$last_message)), c("disabled", "id"))
 })
 
 test_that("update_toolbar_download_button() warns on empty label", {

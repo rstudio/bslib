@@ -1023,8 +1023,7 @@ toolbar_download_button <- function(
   enabled = c("auto", TRUE, FALSE),
   border = FALSE
 ) {
-  # TODO-REENABLE-GATE: temporarily disabled for local testing on stable shiny.
-  # check_shiny_supports_download_button_enabled("toolbar_download_button()")
+  check_shiny_supports_download_button_enabled("toolbar_download_button()")
   # Normalize the match.arg vector default to "auto", then hard-error on
   # anything else invalid (mirrors shiny::downloadButton()'s approach).
   if (identical(enabled, c("auto", TRUE, FALSE))) enabled <- "auto"
@@ -1143,8 +1142,7 @@ update_toolbar_download_button <- function(
   disabled = NULL,
   session = get_current_session()
 ) {
-  # TODO-REENABLE-GATE: temporarily disabled for local testing on stable shiny.
-  # check_shiny_supports_download_button_enabled("update_toolbar_download_button()")
+  check_shiny_supports_download_button_enabled("update_toolbar_download_button()")
   if (!is.null(label)) {
     label_text <- paste(unlist(find_characters(label)), collapse = " ")
     if (!nzchar(trimws(label_text))) {
