@@ -1127,10 +1127,10 @@ toolbar_download_button <- function(
   button
 }
 
+#' @inheritParams toolbar_download_button
+#' @inheritParams update_toolbar_input_button
 #' @param disabled If `TRUE`, disables the button; if `FALSE`, enables it.
 #'   `NULL` (default) leaves the current state unchanged.
-#' @param session A Shiny session object (the default should almost always be
-#'   used).
 #'
 #' @describeIn toolbar_download_button Update a toolbar download button.
 #' @export
