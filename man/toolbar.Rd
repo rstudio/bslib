@@ -251,10 +251,10 @@ shinyApp(ui, server)
 \seealso{
 \code{\link[=card_header]{card_header()}} for using toolbars in card headers/footers
 
-Other toolbar components: 
-\code{\link{toolbar_divider}()},
-\code{\link{toolbar_download_button}()},
-\code{\link{toolbar_input_button}()},
-\code{\link{toolbar_input_select}()}
+Other toolbar components:
+\code{\link[=toolbar_divider]{toolbar_divider()}},
+\code{\link[=toolbar_download_button]{toolbar_download_button()}},
+\code{\link[=toolbar_input_button]{toolbar_input_button()}},
+\code{\link[=toolbar_input_select]{toolbar_input_select()}}
 }
 \concept{toolbar components}
