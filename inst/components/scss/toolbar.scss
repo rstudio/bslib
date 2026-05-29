@@ -49,14 +49,13 @@
       background-image: none !important;
       color: currentColor !important;
 
-      &:hover        { background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.08) !important; color: currentColor !important; text-decoration: none !important; }
-      &:active       { background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.16) !important; color: currentColor !important; text-decoration: none !important; }
+      &:hover        { background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.08) !important; color: currentColor !important; }
+      &:active       { background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.16) !important; color: currentColor !important; }
       &:focus-within {
         background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.12) !important;
         // Match the focus styling used by toolbar buttons (uses emphasis color for both border and shadow)
         box-shadow: 0 0 0 0.25rem rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.25) !important;
         color: currentColor !important;
-        text-decoration: none !important;
       }
     }
   }
@@ -65,6 +64,12 @@
 
   .bslib-toolbar-download-button {
     text-decoration: none; // Remove link underline on <a> tag
+
+    // text-decoration suppression applies to all variants since this is an
+    // <a> tag — Bootstrap's link hover styles would otherwise add an underline.
+    &:hover, &:active, &:focus-within {
+      text-decoration: none !important;
+    }
 
     // Disabled state applies regardless of variant; pointer-events:none
     // suppresses hover so no :not(.disabled) guard is needed above.
