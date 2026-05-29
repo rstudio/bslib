@@ -24,35 +24,15 @@
     justify-content: end;
   }
 
-  /* ---- Shared toolbar button interaction styles ---- */
+  /* ---- Toolbar Input + Download Buttons ---- */
 
-  // Note: color and text-decoration overrides on hover/active/focus are
-  // download-button-specific (<a> tag behavior) and live in that block below.
   .bslib-toolbar-input-button,
   .bslib-toolbar-download-button {
-    &.btn-default:not(.btn-primary):not(.btn-secondary):not(.btn-success):not(.btn-danger):not(.btn-warning):not(.btn-info):not(.btn-light):not(.btn-dark) {
-      background-color: transparent !important;
-      background-image: none !important;
-      color: currentColor !important;
-
-      &:hover        { background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.08) !important; }
-      &:active       { background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.16) !important; }
-      &:focus-within {
-        background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.12) !important;
-        // Match the focus styling used by toolbar buttons (uses emphasis color for both border and shadow)
-        box-shadow: 0 0 0 0.25rem rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.25) !important;
-      }
-    }
-  }
-
-  /* ---- Toolbar Input Buttons ---- */
-
-  // Keep labels and icons centered in the button
-  .bslib-toolbar-input-button {
+    // Keep labels and icons centered; height keeps icon-only and label+icon buttons consistent
     align-items: center;
     justify-content: center;
     line-height: 1; // Override Bootstrap's line-height to avoid too much vertical space
-    height: var(--_toolbar-btn-size); // Keep square icon and label + icon button heights consistent
+    height: var(--_toolbar-btn-size);
     display: flex; // Prevent Shiny from overwriting flex centering
 
     // Remove margins from action button elements
@@ -60,32 +40,34 @@
     .action-label {
       margin: 0;
     }
+
+    // Reset Bootstrap's .btn-default styling so toolbar buttons use the
+    // toolbar's own text color and a transparent background, with subtle
+    // emphasis-color highlights on interaction.
+    &.btn-default:not(.btn-primary):not(.btn-secondary):not(.btn-success):not(.btn-danger):not(.btn-warning):not(.btn-info):not(.btn-light):not(.btn-dark) {
+      background-color: transparent !important;
+      background-image: none !important;
+      color: currentColor !important;
+
+      &:hover        { background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.08) !important; color: currentColor !important; text-decoration: none !important; }
+      &:active       { background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.16) !important; color: currentColor !important; text-decoration: none !important; }
+      &:focus-within {
+        background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.12) !important;
+        // Match the focus styling used by toolbar buttons (uses emphasis color for both border and shadow)
+        box-shadow: 0 0 0 0.25rem rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.25) !important;
+        color: currentColor !important;
+        text-decoration: none !important;
+      }
+    }
   }
 
-  /* ---- Toolbar Download Buttons ---- */
+  /* ---- Toolbar Download Button extras ---- */
 
   .bslib-toolbar-download-button {
-    align-items: center;
-    justify-content: center;
-    line-height: 1;
-    height: var(--_toolbar-btn-size);
-    display: flex;
     text-decoration: none; // Remove link underline on <a> tag
 
-    .action-icon,
-    .action-label {
-      margin: 0;
-    }
-
-    // <a> tags need color/text-decoration locked down so Bootstrap's link-hover
-    // rules don't override them. Disabled hover suppression relies on
-    // pointer-events:none on .disabled (no :not(.disabled) needed here).
-    &:hover, &:active, &:focus-within {
-      color: currentColor !important;
-      text-decoration: none !important;
-    }
-
-    // Disabled state applies regardless of variant
+    // Disabled state applies regardless of variant; pointer-events:none
+    // suppresses hover so no :not(.disabled) guard is needed above.
     &.disabled {
       opacity: 0.65;
       pointer-events: none;
