@@ -406,7 +406,6 @@ toolbar_input_button <- function(
 
   # Validate that label has text for accessibility
   label_text <- paste(unlist(find_characters(label)), collapse = " ")
-  # Verifies the label contains non-empty text
   if (!nzchar(trimws(label_text))) {
     warning(
       "Consider providing a non-empty string label for accessibility."
@@ -480,11 +479,13 @@ update_toolbar_input_button <- function(
   disabled = NULL,
   session = get_current_session()
 ) {
-  label_text <- paste(unlist(find_characters(label)), collapse = " ")
-  if (!nzchar(trimws(label_text))) {
-    rlang::warn(
-      "Consider providing a non-empty string label for accessibility."
-    )
+  if (!is.null(label)) {
+    label_text <- paste(unlist(find_characters(label)), collapse = " ")
+    if (!nzchar(trimws(label_text))) {
+      rlang::warn(
+        "Consider providing a non-empty string label for accessibility."
+      )
+    }
   }
 
   icon <- validateIcon(icon)
@@ -1045,6 +1046,7 @@ toolbar_download_button <- function(
       if (show_label) "both" else "icon"
     }
 
+  # Validate that label has text for accessibility
   label_text <- paste(unlist(find_characters(label)), collapse = " ")
   if (!nzchar(trimws(label_text))) {
     warning("Consider providing a non-empty string label for accessibility.")

@@ -999,6 +999,15 @@ test_that("update_toolbar_input_button() warns for blank label", {
   )
 })
 
+test_that("update_toolbar_input_button() does not warn when label is NULL", {
+  session <- list(
+    sendInputMessage = function(id, message) invisible(NULL)
+  )
+  expect_no_warning(
+    update_toolbar_input_button("test_id", disabled = TRUE, session = session)
+  )
+})
+
 test_that("update_toolbar_input_button() can disable and reenable button", {
   # Mock session that captures sendInputMessage calls
   session <- list(
