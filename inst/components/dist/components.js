@@ -1810,29 +1810,24 @@
               el.removeAttribute("tabindex");
             }
           }
+          const labelEl = el.querySelector(
+            ".bslib-toolbar-label"
+          );
           if (hasDefinedProperty(msg, "label") && msg.label !== void 0) {
-            const labelEl = el.querySelector(
-              ".bslib-toolbar-label"
-            );
             if (!labelEl) {
               console.warn(
                 "[bslib.toolbar-download-button] .bslib-toolbar-label not found"
               );
-              return;
+            } else {
+              yield shinyRenderContent(labelEl, msg.label);
             }
-            yield shinyRenderContent(labelEl, msg.label);
           }
           if (hasDefinedProperty(msg, "showLabel")) {
-            const labelEl = el.querySelector(
-              ".bslib-toolbar-label"
-            );
             if (!labelEl) {
               console.warn(
                 "[bslib.toolbar-download-button] .bslib-toolbar-label not found"
               );
-              return;
-            }
-            if (msg.showLabel === false) {
+            } else if (msg.showLabel === false) {
               labelEl.setAttribute("hidden", "");
               el.setAttribute("data-type", "icon");
             } else {
@@ -1848,9 +1843,9 @@
               console.warn(
                 "[bslib.toolbar-download-button] .bslib-toolbar-icon not found"
               );
-              return;
+            } else {
+              yield shinyRenderContent(iconEl, msg.icon);
             }
-            yield shinyRenderContent(iconEl, msg.icon);
           }
         })
       });
