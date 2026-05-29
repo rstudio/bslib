@@ -536,7 +536,9 @@ test_that("toolbar_input_select() icon parameter", {
   )
   # Icon wrapper is always rendered; when no icon is given its only child is NULL
   # (CSS hides the span via :empty when there's no rendered content)
-  icon_span <- tagQuery(select_no_icon)$find(".bslib-toolbar-icon")$selectedTags()[[1]]
+  icon_span <- tagQuery(select_no_icon)$find(
+    ".bslib-toolbar-icon"
+  )$selectedTags()[[1]]
   expect_null(icon_span$children[[1]])
 
   # With icon
@@ -1094,11 +1096,17 @@ test_that("toolbar_download_button() enabled = TRUE", {
     enabled = TRUE,
     show_label = TRUE
   )
-  expect_false(grepl("\\bdisabled\\b", htmltools::tagGetAttribute(btn, "class") %||% ""))
+  expect_false(grepl(
+    "\\bdisabled\\b",
+    htmltools::tagGetAttribute(btn, "class") %||% ""
+  ))
   expect_null(htmltools::tagGetAttribute(btn, "aria-disabled"))
   expect_null(htmltools::tagGetAttribute(btn, "tabindex"))
   # data-shiny-disable-auto-enable present — Shiny must NOT override enabled state
-  expect_false(is.null(htmltools::tagGetAttribute(btn, "data-shiny-disable-auto-enable")))
+  expect_false(is.null(htmltools::tagGetAttribute(
+    btn,
+    "data-shiny-disable-auto-enable"
+  )))
 
   expect_snapshot_html(
     toolbar_download_button(
@@ -1119,7 +1127,10 @@ test_that("toolbar_download_button() enabled = FALSE", {
   expect_equal(htmltools::tagGetAttribute(btn, "aria-disabled"), "true")
   expect_equal(htmltools::tagGetAttribute(btn, "tabindex"), "-1")
   # data-shiny-disable-auto-enable present — Shiny must NOT auto-enable
-  expect_false(is.null(htmltools::tagGetAttribute(btn, "data-shiny-disable-auto-enable")))
+  expect_false(is.null(htmltools::tagGetAttribute(
+    btn,
+    "data-shiny-disable-auto-enable"
+  )))
 
   expect_snapshot_html(
     toolbar_download_button(
@@ -1167,7 +1178,11 @@ test_that("toolbar_download_button() aborts when show_label = FALSE and no icon"
 
 test_that("toolbar_download_button() data-type: label, both, icon", {
   # "label": no icon, label visible
-  btn_label <- toolbar_download_button("dl_label_only", icon = NULL, show_label = TRUE)
+  btn_label <- toolbar_download_button(
+    "dl_label_only",
+    icon = NULL,
+    show_label = TRUE
+  )
   expect_match(htmltools::tagGetAttribute(btn_label, "data-type"), "label")
 
   # "both": default icon + label visible
@@ -1175,13 +1190,20 @@ test_that("toolbar_download_button() data-type: label, both, icon", {
   expect_match(htmltools::tagGetAttribute(btn_both, "data-type"), "both")
 
   # "icon": default icon only (show_label = FALSE is the default)
-  btn_icon_tag <- tagQuery(as.tags(toolbar_download_button("dl_icon")))$find("a")$selectedTags()[[1]]
+  btn_icon_tag <- tagQuery(as.tags(toolbar_download_button("dl_icon")))$find(
+    "a"
+  )$selectedTags()[[1]]
   expect_match(htmltools::tagGetAttribute(btn_icon_tag, "data-type"), "icon")
 })
 
 test_that("toolbar_download_button() border = TRUE", {
   expect_snapshot_html(
-    toolbar_download_button("dl_border", label = "Download", show_label = TRUE, border = TRUE)
+    toolbar_download_button(
+      "dl_border",
+      label = "Download",
+      show_label = TRUE,
+      border = TRUE
+    )
   )
 })
 
@@ -1197,7 +1219,11 @@ test_that("toolbar_download_button() errors on invalid enabled value", {
 })
 
 test_that("toolbar_download_button() merges class arg into button class", {
-  btn <- toolbar_download_button("dl_cls", label = "Export", class = "btn-success")
+  btn <- toolbar_download_button(
+    "dl_cls",
+    label = "Export",
+    class = "btn-success"
+  )
   btn_tag <- tagQuery(as.tags(btn))$find("a")$selectedTags()[[1]]
   cls <- htmltools::tagGetAttribute(btn_tag, "class")
   expect_match(cls, "bslib-toolbar-download-button")
@@ -1213,7 +1239,6 @@ test_that("toolbar_download_button() warns on empty label", {
 
 # Tests for update_toolbar_download_button() #
 
-
 test_that("update_toolbar_download_button() can disable and re-enable", {
   session <- list(
     sendCustomMessage = function(type, message) {
@@ -1221,11 +1246,19 @@ test_that("update_toolbar_download_button() can disable and re-enable", {
     }
   )
 
-  update_toolbar_download_button("dl_target", disabled = TRUE, session = session)
+  update_toolbar_download_button(
+    "dl_target",
+    disabled = TRUE,
+    session = session
+  )
   expect_equal(session$last_message$id, "dl_target")
   expect_equal(session$last_message$disabled, TRUE)
 
-  update_toolbar_download_button("dl_target", disabled = FALSE, session = session)
+  update_toolbar_download_button(
+    "dl_target",
+    disabled = FALSE,
+    session = session
+  )
   expect_equal(session$last_message$id, "dl_target")
   expect_equal(session$last_message$disabled, FALSE)
 })
@@ -1262,7 +1295,11 @@ test_that("update_toolbar_download_button() sends only specified fields", {
   )
 
   # Only specified fields appear — NULLs are dropped; id always included
-  update_toolbar_download_button("dl_target", disabled = TRUE, session = session)
+  update_toolbar_download_button(
+    "dl_target",
+    disabled = TRUE,
+    session = session
+  )
   expect_equal(session$last_type, "bslib.toolbar-download-button")
   expect_equal(sort(names(session$last_message)), c("disabled", "id"))
 })

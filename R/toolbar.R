@@ -1026,10 +1026,16 @@ toolbar_download_button <- function(
   check_shiny_supports_download_button_enabled("toolbar_download_button()")
   # Normalize the match.arg vector default to "auto", then hard-error on
   # anything else invalid (mirrors shiny::downloadButton()'s approach).
-  if (identical(enabled, c("auto", TRUE, FALSE))) enabled <- "auto"
+  if (identical(enabled, c("auto", TRUE, FALSE))) {
+    enabled <- "auto"
+  }
   if (!isTRUE(enabled) && !isFALSE(enabled) && !identical(enabled, "auto")) {
     rlang::abort(
-      paste0('`enabled` must be TRUE, FALSE, or "auto". Got ', deparse(enabled), ".")
+      paste0(
+        '`enabled` must be TRUE, FALSE, or "auto". Got ',
+        deparse(enabled),
+        "."
+      )
     )
   }
 
@@ -1142,7 +1148,9 @@ update_toolbar_download_button <- function(
   disabled = NULL,
   session = get_current_session()
 ) {
-  check_shiny_supports_download_button_enabled("update_toolbar_download_button()")
+  check_shiny_supports_download_button_enabled(
+    "update_toolbar_download_button()"
+  )
   if (!is.null(label)) {
     label_text <- paste(unlist(find_characters(label)), collapse = " ")
     if (!nzchar(trimws(label_text))) {
