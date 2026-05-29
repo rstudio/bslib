@@ -1046,6 +1046,10 @@ toolbar_download_button <- function(
 
   label_id <- paste0("btn-label-", p_randomInt(1000, 10000))
 
+  # shiny::downloadButton() doesn't wrap label/icon in span.action-label /
+  # span.action-icon (unlike shiny::actionButton()), so we do it here to keep
+  # the DOM structure consistent between the two toolbar button types.
+
   # We hide the label visually if `!show_label` but keep it in the DOM for use
   # with `aria-labelledby`. This ensures that ARIA always uses the label text:
   # screen readers will read out the icon's `aria-label` even if the icon is a
