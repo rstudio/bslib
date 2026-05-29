@@ -440,7 +440,7 @@ toolbar_input_button <- function(
     icon = icon_elem,
     disabled = disabled,
     class = "bslib-toolbar-input-button btn-sm",
-    class = if (!border) "border-0" else "border",
+    class = if (!border) "border-0" else "border-1",
     "data-type" = btn_type,
     "aria-labelledby" = label_id,
     ...
@@ -1086,7 +1086,7 @@ toolbar_download_button <- function(
     class = paste(
       c(
         "bslib-toolbar-download-button btn-sm",
-        if (!border) "border-0" else "border",
+        if (!border) "border-0" else "border-1",
         extra_class
       ),
       collapse = " "
