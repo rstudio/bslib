@@ -66,8 +66,6 @@ render (preserves state set by e.g. \code{shinyjs::disable()}).
 \item \code{FALSE} — button starts disabled with \code{data-shiny-disable-auto-enable},
 permanently opting out of Shiny's auto-enable. Use
 \code{\link[=update_toolbar_download_button]{update_toolbar_download_button()}} to manage enabled/disabled state.
-Note: if the button is inside a \code{renderUI}, re-renders reset it to the
-initial HTML state; use \code{enabled = FALSE} for persistent manual control.
 }}
 
 \item{border}{Whether to show a border around the button.}

@@ -980,8 +980,6 @@ toolbar_spacer <- function() {
 #'   * `FALSE` — button starts disabled with `data-shiny-disable-auto-enable`,
 #'     permanently opting out of Shiny's auto-enable. Use
 #'     [update_toolbar_download_button()] to manage enabled/disabled state.
-#'   Note: if the button is inside a `renderUI`, re-renders reset it to the
-#'   initial HTML state; use `enabled = FALSE` for persistent manual control.
 #'
 #' @return Returns a download button suitable for use in a toolbar.
 #'
