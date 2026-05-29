@@ -43,14 +43,24 @@
 
     // Reset Bootstrap's .btn-default styling so toolbar buttons use the
     // toolbar's own text color and a transparent background, with subtle
-    // emphasis-color highlights on interaction.
+    // emphasis-color highlights on interaction. `color: currentColor` is
+    // repeated on each state to prevent Bootstrap's link hover styles from
+    // overriding the text color (needed for the <a>-based download button).
     &.btn-default:not(.btn-primary):not(.btn-secondary):not(.btn-success):not(.btn-danger):not(.btn-warning):not(.btn-info):not(.btn-light):not(.btn-dark) {
       background-color: transparent !important;
       background-image: none !important;
       color: currentColor !important;
 
-      &:hover        { background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.08) !important; color: currentColor !important; }
-      &:active       { background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.16) !important; color: currentColor !important; }
+      &:hover {
+        background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.08) !important;
+        color: currentColor !important;
+      }
+
+      &:active {
+        background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.16) !important;
+        color: currentColor !important;
+      }
+
       &:focus-within {
         background-color: rgba(var(--bs-emphasis-color-rgb, 0, 0, 0), 0.12) !important;
         // Match the focus styling used by toolbar buttons (uses emphasis color for both border and shadow)
