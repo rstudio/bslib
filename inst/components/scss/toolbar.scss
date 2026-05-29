@@ -28,11 +28,11 @@
 
   .bslib-toolbar-input-button,
   .bslib-toolbar-download-button {
-    // Keep labels and icons centered; height keeps icon-only and label+icon buttons consistent
+    // Keep labels and icons centered
     align-items: center;
     justify-content: center;
     line-height: 1; // Override Bootstrap's line-height to avoid too much vertical space
-    height: var(--_toolbar-btn-size);
+    height: var(--_toolbar-btn-size); // Keep square icon and label + icon button heights consistent
     display: flex; // Prevent Shiny from overwriting flex centering
 
     // Remove margins from action button elements
