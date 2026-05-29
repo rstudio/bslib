@@ -26,11 +26,15 @@
 
   /* ---- Shared toolbar button interaction styles ---- */
 
-  // LibSass drops the .btn-default class from the second selector whenever &
-  // is used inside a comma list (e.g. .input-btn, .download-btn { &.btn-default
-  // { } } compiles incorrectly). Avoid & entirely by writing these as plain
-  // descendant selectors; LibSass handles those correctly. A variable holds the
-  // shared :not() exclusion list so it isn't repeated on every line.
+  // R's sass package uses LibSass, which has a bug: when & is used inside a
+  // comma-separated selector list, it drops any chained class from the second
+  // selector (e.g. `.a, .b { &.active { } }` compiles `.a.active, .b { }` —
+  // note .active is missing from .b). Writing these as plain descendant
+  // selectors (no &) avoids the bug. $_btn-not holds the shared :not() list
+  // so it isn't repeated on every line.
+  //
+  // Note: color and text-decoration overrides on hover/active/focus are
+  // download-button-specific (<a> tag behavior) and live in that block below.
   $_btn-not: ":not(.btn-primary):not(.btn-secondary):not(.btn-success):not(.btn-danger):not(.btn-warning):not(.btn-info):not(.btn-light):not(.btn-dark)";
 
   .bslib-toolbar-input-button.btn-default#{$_btn-not},
