@@ -967,16 +967,7 @@ toolbar_spacer <- function() {
 #' A download button designed to fit well in small places such as in a [toolbar()].
 #'
 #' @param outputId The download output ID (connects to [shiny::downloadHandler()] in server).
-#' @param label The button label. By default, `label` is not shown but is used by
-#'   `tooltip`. Set `show_label = TRUE` to show the label.
-#' @param icon An icon. Defaults to `shiny::icon("download")`.
-#' @param show_label Whether to show the label text. If `FALSE` (the default),
-#'   only the icon is shown. If `TRUE`, the label text is shown alongside the icon.
-#' @param tooltip Tooltip text to display when hovering. Can be:
-#'   * `TRUE` (default when `show_label = FALSE`) - shows tooltip with `label` text
-#'   * `FALSE` (default when `show_label = TRUE`) - no tooltip
-#'   * A character string - shows tooltip with custom text
-#' @param ... Additional attributes passed to the button tag.
+#' @inheritParams toolbar_input_button
 #' @param enabled Controls the initial enabled/disabled state and whether Shiny
 #'   manages auto-enabling:
 #'   * `"auto"` (default) — button starts disabled; Shiny auto-enables it once
@@ -990,21 +981,36 @@ toolbar_spacer <- function() {
 #'     [update_toolbar_download_button()] to manage enabled/disabled state.
 #'   Note: if the button is inside a `renderUI`, re-renders reset it to the
 #'   initial HTML state; use `enabled = FALSE` for persistent manual control.
-#' @param border Whether to show a border around the button.
 #'
 #' @return Returns a download button suitable for use in a toolbar.
 #'
 #' @examplesIf rlang::is_interactive()
-#' # Download button in a card toolbar
-#' card(
-#'   card_header(
-#'     "Flower Data",
-#'     toolbar(
-#'       align = "right",
-#'       toolbar_download_button("download_data", label = "Download")
-#'     )
+#' library(shiny)
+#' library(bslib)
+#'
+#' ui <- page_fluid(
+#'   card(
+#'     card_header(
+#'       "Flower Data",
+#'       toolbar(
+#'         align = "right",
+#'         toolbar_download_button("download_data", label = "Download CSV")
+#'       )
+#'     ),
+#'     tableOutput("table")
 #'   )
 #' )
+#'
+#' server <- function(input, output, session) {
+#'   output$table <- renderTable(head(iris))
+#'
+#'   output$download_data <- downloadHandler(
+#'     filename = function() "iris.csv",
+#'     content = function(file) write.csv(iris, file, row.names = FALSE)
+#'   )
+#' }
+#'
+#' shinyApp(ui, server)
 #'
 #' @family toolbar components
 #' @export

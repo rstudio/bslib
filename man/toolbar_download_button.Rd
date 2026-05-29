@@ -28,22 +28,31 @@ update_toolbar_download_button(
 \arguments{
 \item{outputId}{The download output ID (connects to \code{\link[shiny:downloadHandler]{shiny::downloadHandler()}} in server).}
 
-\item{label}{The button label. By default, \code{label} is not shown but is used by
-\code{tooltip}. Set \code{show_label = TRUE} to show the label.}
+\item{label}{The input label. By default, \code{label} is not shown but is used by
+\code{tooltip}. Set \code{show_label = TRUE} to show the label (see \code{tooltip} for
+details on how this affects the tooltip behavior).}
 
-\item{icon}{An icon. Defaults to \code{shiny::icon("download")}.}
+\item{icon}{An icon. If provided without \code{show_label = TRUE}, only the icon
+will be visible.}
 
 \item{show_label}{Whether to show the label text. If \code{FALSE} (the default),
-only the icon is shown. If \code{TRUE}, the label text is shown alongside the icon.}
+only the icon is shown (if provided). If \code{TRUE}, the label text is shown
+alongside the icon. Note that \code{show_label} can be dynamically updated using
+\code{\link[=update_toolbar_input_button]{update_toolbar_input_button()}}.}
 
-\item{tooltip}{Tooltip text to display when hovering. Can be:
+\item{tooltip}{Tooltip text to display when hovering over the input. Can be:
 \itemize{
-\item \code{TRUE} (default when \code{show_label = FALSE}) - shows tooltip with \code{label} text
+\item \code{TRUE} (default when \code{show_label = FALSE}) - shows a tooltip with the
+\code{label} text
 \item \code{FALSE} (default when \code{show_label = TRUE}) - no tooltip
-\item A character string - shows tooltip with custom text
-}}
+\item A character string - shows a tooltip with custom text
+}
 
-\item{...}{Additional attributes passed to the button tag.}
+Defaults to \code{!show_label}. When a tooltip is created, it will have an ID of
+\code{"{id}_tooltip"} which can be used to update the tooltip text dynamically
+via \code{\link[=update_tooltip]{update_tooltip()}}.}
+
+\item{...}{Additional attributes to pass to the button.}
 
 \item{enabled}{Controls the initial enabled/disabled state and whether Shiny
 manages auto-enabling:
@@ -82,23 +91,39 @@ A download button designed to fit well in small places such as in a \code{\link[
 }}
 \examples{
 \dontshow{if (rlang::is_interactive()) withAutoprint(\{ # examplesIf}
-# Download button in a card toolbar
-card(
-  card_header(
-    "Flower Data",
-    toolbar(
-      align = "right",
-      toolbar_download_button("download_data", label = "Download")
-    )
+library(shiny)
+library(bslib)
+
+ui <- page_fluid(
+  card(
+    card_header(
+      "Flower Data",
+      toolbar(
+        align = "right",
+        toolbar_download_button("download_data", label = "Download CSV")
+      )
+    ),
+    tableOutput("table")
   )
 )
+
+server <- function(input, output, session) {
+  output$table <- renderTable(head(iris))
+
+  output$download_data <- downloadHandler(
+    filename = function() "iris.csv",
+    content = function(file) write.csv(iris, file, row.names = FALSE)
+  )
+}
+
+shinyApp(ui, server)
 \dontshow{\}) # examplesIf}
 }
 \seealso{
-Other toolbar components: 
-\code{\link{toolbar}()},
-\code{\link{toolbar_divider}()},
-\code{\link{toolbar_input_button}()},
-\code{\link{toolbar_input_select}()}
+Other toolbar components:
+\code{\link[=toolbar]{toolbar()}},
+\code{\link[=toolbar_divider]{toolbar_divider()}},
+\code{\link[=toolbar_input_button]{toolbar_input_button()}},
+\code{\link[=toolbar_input_select]{toolbar_input_select()}}
 }
 \concept{toolbar components}
