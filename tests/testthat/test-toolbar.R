@@ -162,13 +162,13 @@ test_that("toolbar_input_button() tooltip parameter", {
     )
   )
 
-  # show_label = TRUE means tooltip = FALSE by default
+  # show_label = TRUE means tooltip = FALSE by default; no bslib_fragment wrapper
   btn_no_tooltip <- toolbar_input_button(
     id = "label_visible",
     label = "Visible Label",
     show_label = TRUE
   )
-  expect_false(inherits(btn_no_tooltip, "bslib_tooltip"))
+  expect_false(inherits(btn_no_tooltip, "bslib_fragment"))
 
   # But you can explicitly add tooltip when show_label = TRUE
   expect_snapshot_html(
@@ -179,6 +179,13 @@ test_that("toolbar_input_button() tooltip parameter", {
       show_label = TRUE,
       tooltip = "Save your work"
     )
+  )
+})
+
+test_that("toolbar_input_button() aborts when show_label = FALSE and no icon", {
+  expect_error(
+    toolbar_input_button("btn", label = "X", show_label = FALSE, icon = NULL),
+    "icon.*must be provided"
   )
 })
 
@@ -527,8 +534,10 @@ test_that("toolbar_input_select() icon parameter", {
       tooltip = FALSE
     )
   )
-  html_output <- as.character(select_no_icon)
-  expect_false(grepl("bslib-toolbar-input-select-icon", html_output))
+  # Icon wrapper is always rendered; when no icon is given its only child is NULL
+  # (CSS hides the span via :empty when there's no rendered content)
+  icon_span <- tagQuery(select_no_icon)$find(".bslib-toolbar-icon")$selectedTags()[[1]]
+  expect_null(icon_span$children[[1]])
 
   # With icon
   expect_snapshot_html(
@@ -795,6 +804,19 @@ test_that("toolbar_input_select() validates selected is in choices", {
       tooltip = FALSE
     )
   })
+})
+
+test_that("update_toolbar_input_select() warns when selected given without choices", {
+  session <- list(
+    sendInputMessage = function(id, message) {
+      session$last_message <<- message
+    },
+    input = list()
+  )
+  expect_warning(
+    update_toolbar_input_select("test_id", selected = "B", session = session),
+    "cannot be set without `choices`"
+  )
 })
 
 test_that("update_toolbar_input_select() validates selected is in choices", {
@@ -1135,19 +1157,47 @@ test_that("toolbar_download_button() custom icon", {
   )
 })
 
-test_that("toolbar_download_button() warns on invalid enabled value", {
-  expect_warning(
-    btn <- toolbar_download_button("dl_bad", enabled = "yes"),
+test_that("toolbar_download_button() aborts when show_label = FALSE and no icon", {
+  expect_error(
+    toolbar_download_button("dl", icon = NULL, show_label = FALSE),
+    "icon.*must be provided"
+  )
+})
+
+test_that("toolbar_download_button() label-only type (icon = NULL, show_label = TRUE)", {
+  btn <- toolbar_download_button("dl_label_only", icon = NULL, show_label = TRUE)
+  expect_match(htmltools::tagGetAttribute(btn, "data-type"), "label")
+})
+
+test_that("toolbar_download_button() border = TRUE", {
+  expect_snapshot_html(
+    toolbar_download_button("dl_border", label = "Download", show_label = TRUE, border = TRUE)
+  )
+})
+
+test_that("toolbar_download_button() errors on invalid enabled value", {
+  expect_error(
+    toolbar_download_button("dl_bad", enabled = "yes"),
     '`enabled` must be TRUE, FALSE, or "auto"'
   )
-  # Falls back to "auto" — starts disabled, no data-shiny-disable-auto-enable
-  btn_tag <- tagQuery(as.tags(btn))$find("a")$selectedTags()[[1]]
-  expect_match(htmltools::tagGetAttribute(btn_tag, "class"), "disabled")
-  expect_null(htmltools::tagGetAttribute(btn_tag, "data-shiny-disable-auto-enable"))
-
-  expect_warning(
+  expect_error(
     toolbar_download_button("dl_bad2", enabled = 1),
     '`enabled` must be TRUE, FALSE, or "auto"'
+  )
+})
+
+test_that("toolbar_download_button() merges class arg into button class", {
+  btn <- toolbar_download_button("dl_cls", label = "Export", class = "btn-success")
+  btn_tag <- tagQuery(as.tags(btn))$find("a")$selectedTags()[[1]]
+  cls <- htmltools::tagGetAttribute(btn_tag, "class")
+  expect_match(cls, "bslib-toolbar-download-button")
+  expect_match(cls, "btn-success")
+})
+
+test_that("toolbar_download_button() warns on empty label", {
+  expect_warning(
+    toolbar_download_button("dl_empty", label = ""),
+    "non-empty string label"
   )
 })
 
@@ -1193,20 +1243,7 @@ test_that("update_toolbar_download_button() updates label, show_label, icon", {
   expect_equal(session$last_message$showLabel, FALSE)
 })
 
-test_that("update_toolbar_download_button() drops NULL args from message", {
-  session <- list(
-    sendCustomMessage = function(type, message) {
-      session$last_message <<- message
-    }
-  )
-
-  update_toolbar_download_button("dl_target", disabled = TRUE, session = session)
-
-  # Only `id` and `disabled` should be present.
-  expect_equal(sort(names(session$last_message)), c("disabled", "id"))
-})
-
-test_that("update_toolbar_download_button() with no updates still sends id-only message", {
+test_that("update_toolbar_download_button() sends only specified fields", {
   session <- list(
     sendCustomMessage = function(type, message) {
       session$last_type <<- type
@@ -1214,11 +1251,27 @@ test_that("update_toolbar_download_button() with no updates still sends id-only 
     }
   )
 
-  update_toolbar_download_button("dl_target", session = session)
+  # Only specified fields appear — NULLs are dropped
+  update_toolbar_download_button("dl_target", disabled = TRUE, session = session)
+  expect_equal(sort(names(session$last_message)), c("disabled", "id"))
 
+  # No args → id-only message on the correct channel
+  update_toolbar_download_button("dl_target", session = session)
   expect_equal(session$last_type, "bslib.toolbar-download-button")
   expect_equal(names(session$last_message), "id")
   expect_equal(session$last_message$id, "dl_target")
+})
+
+test_that("update_toolbar_download_button() warns on empty label", {
+  session <- list(
+    sendCustomMessage = function(type, message) {
+      session$last_message <<- message
+    }
+  )
+  expect_warning(
+    update_toolbar_download_button("dl_target", label = "", session = session),
+    "non-empty string label"
+  )
 })
 
 test_that("check_shiny_supports_download_button_enabled() passes on supported shiny", {

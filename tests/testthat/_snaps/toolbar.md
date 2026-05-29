@@ -99,7 +99,7 @@
       show_raw_html(toolbar_input_button(id = "with_border", label = "With Border",
         border = TRUE, show_label = TRUE))
     Output
-      <button aria-labelledby="btn-label-4785" class="btn btn-default action-button bslib-toolbar-input-button btn-sm border" data-type="label" id="with_border" type="button"><span class="action-icon"><span class="bslib-toolbar-icon" aria-hidden="true" style="pointer-events: none"></span></span><span class="action-label"><span id="btn-label-4785" class="bslib-toolbar-label">With Border</span></span></button>
+      <button aria-labelledby="btn-label-4785" class="btn btn-default action-button bslib-toolbar-input-button btn-sm border-1" data-type="label" id="with_border" type="button"><span class="action-icon"><span class="bslib-toolbar-icon" aria-hidden="true" style="pointer-events: none"></span></span><span class="action-label"><span id="btn-label-4785" class="bslib-toolbar-label">With Border</span></span></button>
 
 # toolbar_input_button() tooltip parameter
 
@@ -488,4 +488,21 @@
           </span>
         </a>
       </bslib-tooltip>
+
+# toolbar_download_button() border = TRUE
+
+    Code
+      show_raw_html(toolbar_download_button("dl_border", label = "Download",
+        show_label = TRUE, border = TRUE))
+    Output
+      <a aria-disabled="true" aria-labelledby="btn-label-4785" class="btn btn-default shiny-download-link disabled bslib-toolbar-download-button btn-sm border-1" data-type="both" download href="" id="dl_border" tabindex="-1" target="_blank">
+        <span class="action-icon">
+          <span class="bslib-toolbar-icon" aria-hidden="true" style="pointer-events: none">
+            <i class="fas fa-download" role="presentation" aria-label="download icon"></i>
+          </span>
+        </span>
+        <span class="action-label">
+          <span id="btn-label-4785" class="bslib-toolbar-label">Download</span>
+        </span>
+      </a>
 
