@@ -2,6 +2,8 @@
 
 ## Bug fixes
 
+* `card()` and `value_box()` no longer register `input$<id>_full_screen` for cards that don't have `full_screen = TRUE`, avoiding unexpected inputs in bookmarking workflows. (#1305)
+
 * Fixed label-to-options spacing on `shiny::radioButtons()` and `shiny::checkboxGroupInput()` in Bootstrap 5, where a Shiny rule was overriding the bslib fix. (#1308)
 
 # bslib 0.11.0

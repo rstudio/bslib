@@ -26,10 +26,9 @@
 #'   together into one `wrapper` call (e.g. given `card("a", "b",
 #'   card_body("c"), "d")`, `wrapper` would be called twice, once with `"a"` and
 #'   `"b"` and once with `"d"`).
-#' @param id Provide a unique identifier for the `card()` or `value_box()` to
-#'   report its full screen state to Shiny. For example, using `id = "my_card"`,
-#'   you can observe the card's full screen state with
-#'   `input$my_card_full_screen`.
+#' @param id A unique identifier for the card. Note that full-screen
+#'   capability cannot be added after card creation; `full_screen` must be set
+#'   at creation time.
 #'
 #' @return A [htmltools::div()] tag.
 #'
@@ -90,7 +89,11 @@ card <- function(
   children <- as_card_items(args[!nzchar(argnames)], wrapper = wrapper)
   children <- card_image_add_classes(children)
 
-  is_shiny_input <- !is.null(id)
+  # When full_screen=TRUE and id is provided, the card registers
+  # input$<id>_full_screen to report its full screen state to Shiny.
+  # The bslib-card-input class is what triggers this JS-side registration,
+  # so it must only be added when the card actually has full screen capability.
+  is_shiny_input <- !is.null(id) && full_screen
 
   if (full_screen && is.null(id)) {
     # a11y: full screen cards need an ID for aria-controls on the toggle button
