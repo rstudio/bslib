@@ -13,13 +13,14 @@
 #'   * A (unit-less) number between 0 and 1.
 #'     * This should be specified as `1/num`, where `num` represents the number
 #'       of desired columns.
-#'   * A [CSS length unit][htmltools::validateCssUnit()]
+#'   * A [CSS length][htmltools::validateCssUnit()], such as `"200px"`,
+#'     `"20rem"`, `"50%"`, or `"calc(100% - 2rem)"`
 #'     * Either the minimum (when `fixed_width=FALSE`) or fixed width
 #'       (`fixed_width=TRUE`).
 #'   * `NULL`
 #'     * Allows power users to set the `grid-template-columns` CSS property
 #'       manually, either via a `style` attribute or a CSS stylesheet.
-#' @param fixed_width When `width` is greater than 1 or is a CSS length unit,
+#' @param fixed_width When `width` is greater than 1 or is a CSS length,
 #'   e.g. `"200px"`, `fixed_width` indicates whether that `width` value
 #'   represents the absolute size of each column (`fixed_width=TRUE`) or the
 #'   minimum size of a column (`fixed_width=FALSE`). When `fixed_width=FALSE`,
@@ -39,6 +40,11 @@
 #'   Can be any valid [CSS unit][htmltools::validateCssUnit] (e.g.,
 #'   `max_height="200px"`). Use these arguments in filling layouts to ensure that a
 #'   layout container doesn't shrink below `min_height` or grow beyond `max_height`.
+#' @param gap A CSS length defining the gap (i.e., spacing) between elements
+#'   provided to `...`. Numeric values are treated as pixel values; character
+#'   values may use units like `"px"`, `"rem"`, or `"%"`, or CSS functions like
+#'   `"calc(1rem + 2px)"`. This argument is only applicable when
+#'   `fillable = TRUE`.
 #' @inheritParams card
 #' @inheritParams card_body
 #'
@@ -200,13 +206,13 @@ is_probably_a_css_unit <- function(x) {
 #'     (`fr`) height of the relevant row. If there are more rows than values
 #'     provided, the pattern will repeat. For example, `row_heights = c(1, 2)`
 #'     allows even rows to take up twice as much space as odd rows.
-#'   * A list of numeric and [CSS length units][htmltools::validateCssUnit()],
+#'   * A list of numeric values and [CSS lengths][htmltools::validateCssUnit()],
 #'     where each value represents the height of the relevant row. If more rows
 #'     are needed than values provided, the pattern will repeat. For example,
 #'     `row_heights = list("auto", 1)` allows the height of odd rows to be
 #'     driven by its contents and even rows to be
 #'     [`1fr`](https://css-tricks.com/introduction-fr-css-unit/).
-#'   * A character vector/string of [CSS length units][htmltools::validateCssUnit()].
+#'   * A character vector/string of [CSS lengths][htmltools::validateCssUnit()].
 #'     In this case, the value is supplied directly to `grid-auto-rows`.
 #'   * A [breakpoints()] object, where each breakpoint may be either of the above.
 #'
