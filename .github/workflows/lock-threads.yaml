@@ -16,4 +16,4 @@ concurrency:
 
 jobs:
   lock-threads:
-    uses: rstudio/shiny-workflows/.github/workflows/lock-threads.yaml@v1
+    uses: rstudio/shiny-workflows/.github/workflows/lock-threads.yaml@main
