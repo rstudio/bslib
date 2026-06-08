@@ -4,6 +4,8 @@
 
 * Fixed label-to-options spacing on `shiny::radioButtons()` and `shiny::checkboxGroupInput()` in Bootstrap 5, where a Shiny rule was overriding the bslib fix. (#1308)
 
+* Fixed the resize handle indicator position for `position = "right"` sidebars, which now correctly appears at the inner boundary of the sidebar handle. (#1322)
+
 # bslib 0.11.0
 
 ## New features
