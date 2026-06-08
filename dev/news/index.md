@@ -11,6 +11,11 @@
   in Bootstrap 5, where a Shiny rule was overriding the bslib fix.
   ([\#1308](https://github.com/rstudio/bslib/issues/1308))
 
+- Fixed the resize handle indicator position for `position = "right"`
+  sidebars, which now correctly appears at the inner boundary of the
+  sidebar handle.
+  ([\#1322](https://github.com/rstudio/bslib/issues/1322))
+
 ## bslib 0.11.0
 
 CRAN release: 2026-05-16
