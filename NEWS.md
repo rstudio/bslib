@@ -2,6 +2,8 @@
 
 ## Bug fixes
 
+* Fixed dynamically-rendered outputs (e.g. `uiOutput()`) failing to render inside a title-less `popover()` or `tooltip()`, caused by an upstream Shiny change. A temporary CSS workaround restores rendering. (#1326)
+
 * Fixed label-to-options spacing on `shiny::radioButtons()` and `shiny::checkboxGroupInput()` in Bootstrap 5, where a Shiny rule was overriding the bslib fix. (#1308)
 
 * Fixed the resize handle indicator position for `position = "right"` sidebars, which now correctly appears at the inner boundary of the sidebar handle. (#1322)
