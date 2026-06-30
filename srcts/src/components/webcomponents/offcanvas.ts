@@ -25,6 +25,8 @@ export class BslibOffcanvas extends BslibElement {
 
   static styles = css`
     :host {
+      /* Bootstrap's .offcanvas class (display: flex) takes over once its CSS is
+         loaded; this is just a sensible fallback for the host element. */
       display: block;
     }
   `;
@@ -48,6 +50,7 @@ export class BslibOffcanvas extends BslibElement {
   disconnectedCallback(): void {
     this.removeEventListener("shown.bs.offcanvas", this._onShown);
     this.removeEventListener("hidden.bs.offcanvas", this._onHidden);
+    bsOffcanvas.getInstance(this)?.dispose();
     super.disconnectedCallback();
   }
 
@@ -73,13 +76,12 @@ export class BslibOffcanvas extends BslibElement {
   onChangeCallback = (x: boolean): void => {};
 
   receiveMessage(el: HTMLElement, data: MessageData): void {
-    const method = data.method;
-    if (method === "hide") {
+    if (data.method === "hide") {
       bsOffcanvas.getOrCreateInstance(this).hide();
-    } else if (method === "toggle") {
-      this._toggle((data as ToggleMessage).value);
+    } else if (data.method === "toggle") {
+      this._toggle(data.value);
     } else {
-      throw new Error(`Unknown method ${method}`);
+      throw new Error(`Unknown method ${(data as { method: string }).method}`);
     }
   }
 

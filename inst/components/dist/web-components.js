@@ -2084,8 +2084,10 @@
       this.visible = this.classList.contains("show");
     }
     disconnectedCallback() {
+      var _a;
       this.removeEventListener("shown.bs.offcanvas", this._onShown);
       this.removeEventListener("hidden.bs.offcanvas", this._onHidden);
+      (_a = bsOffcanvas.getInstance(this)) == null ? void 0 : _a.dispose();
       super.disconnectedCallback();
     }
     render() {
@@ -2103,13 +2105,12 @@
       return this.visible;
     }
     receiveMessage(el, data) {
-      const method = data.method;
-      if (method === "hide") {
+      if (data.method === "hide") {
         bsOffcanvas.getOrCreateInstance(this).hide();
-      } else if (method === "toggle") {
+      } else if (data.method === "toggle") {
         this._toggle(data.value);
       } else {
-        throw new Error(`Unknown method ${method}`);
+        throw new Error(`Unknown method ${data.method}`);
       }
     }
     _toggle(x2) {
@@ -2128,6 +2129,8 @@
   BslibOffcanvas.isShinyInput = true;
   BslibOffcanvas.styles = i2`
     :host {
+      /* Bootstrap's .offcanvas class (display: flex) takes over once its CSS is
+         loaded; this is just a sensible fallback for the host element. */
       display: block;
     }
   `;
