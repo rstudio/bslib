@@ -10,7 +10,7 @@ offcanvas(
   footer = NULL,
   id = NULL,
   trigger = NULL,
-  placement = c("right", "left", "top", "bottom"),
+  placement = c("right", "left", "top", "bottom", "start", "end"),
   width = NULL,
   height = NULL,
   close_button = TRUE,

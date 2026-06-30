@@ -17,26 +17,31 @@ test_that("offcanvas() returns a bslib_offcanvas object with defaults", {
 })
 
 test_that("offcanvas() stores named ... as attribs", {
-  oc <- offcanvas("content", placement = "right", `data-foo` = "bar", class = "my-class")
+  oc <- offcanvas(
+    "content",
+    placement = "right",
+    `data-foo` = "bar",
+    class = "my-class"
+  )
 
   expect_equal(oc$attribs$`data-foo`, "bar")
   expect_equal(oc$attribs$class, "my-class")
 })
 
 
-# normalize_offcanvas_placement() ----
+# offcanvas(placement=) ----
 
-test_that("normalize_offcanvas_placement() maps aliases and passes through canonical values", {
-  expect_equal(normalize_offcanvas_placement("start"), "left")
-  expect_equal(normalize_offcanvas_placement("end"), "right")
-  expect_equal(normalize_offcanvas_placement("left"), "left")
-  expect_equal(normalize_offcanvas_placement("right"), "right")
-  expect_equal(normalize_offcanvas_placement("top"), "top")
-  expect_equal(normalize_offcanvas_placement("bottom"), "bottom")
+test_that("offcanvas() placement maps aliases and passes through canonical values", {
+  expect_equal(offcanvas(placement = "start")$placement, "left")
+  expect_equal(offcanvas(placement = "end")$placement, "right")
+  expect_equal(offcanvas(placement = "left")$placement, "left")
+  expect_equal(offcanvas(placement = "right")$placement, "right")
+  expect_equal(offcanvas(placement = "top")$placement, "top")
+  expect_equal(offcanvas(placement = "bottom")$placement, "bottom")
 })
 
-test_that("normalize_offcanvas_placement() errors on invalid value", {
-  expect_error(normalize_offcanvas_placement("center"))
+test_that("offcanvas() errors on invalid placement value", {
+  expect_error(offcanvas(placement = "center"))
 })
 
 
@@ -80,7 +85,12 @@ test_that("as.tags() succeeds with an id", {
 })
 
 test_that("as.tags() succeeds with a trigger", {
-  oc <- offcanvas("content", placement = "right", trigger = shiny::actionButton("b", "Open"), title = "Panel")
+  oc <- offcanvas(
+    "content",
+    placement = "right",
+    trigger = shiny::actionButton("b", "Open"),
+    title = "Panel"
+  )
   expect_no_error(as.tags(oc))
 })
 
@@ -90,17 +100,32 @@ test_that("as.tags() warns when title and aria-label are both absent", {
 })
 
 test_that("as.tags() does not warn when title is provided", {
-  oc <- offcanvas("content", placement = "right", id = "oc1", title = "My Panel")
+  oc <- offcanvas(
+    "content",
+    placement = "right",
+    id = "oc1",
+    title = "My Panel"
+  )
   expect_no_warning(as.tags(oc))
 })
 
 test_that("as.tags() does not warn when aria-label is provided in ...", {
-  oc <- offcanvas("content", placement = "right", id = "oc1", `aria-label` = "My Panel")
+  oc <- offcanvas(
+    "content",
+    placement = "right",
+    id = "oc1",
+    `aria-label` = "My Panel"
+  )
   expect_no_warning(as.tags(oc))
 })
 
 test_that("as.tags() does not warn when aria-labelledby is provided in ...", {
-  oc <- offcanvas("content", placement = "right", id = "oc1", `aria-labelledby` = "some-heading")
+  oc <- offcanvas(
+    "content",
+    placement = "right",
+    id = "oc1",
+    `aria-labelledby` = "some-heading"
+  )
   expect_no_warning(as.tags(oc))
 })
 
@@ -124,7 +149,12 @@ test_that("as.tags() maps placement to the correct offcanvas-* class", {
 # Accessible name wiring ----
 
 test_that("title is wired to aria-labelledby and gets offcanvas-title class", {
-  oc <- offcanvas("content", placement = "right", id = "oc1", title = "My Panel")
+  oc <- offcanvas(
+    "content",
+    placement = "right",
+    id = "oc1",
+    title = "My Panel"
+  )
   html <- as.character(as.tags(oc))
 
   expect_match(html, 'aria-labelledby="oc1-title"')
@@ -136,7 +166,13 @@ test_that("title is wired to aria-labelledby and gets offcanvas-title class", {
 
 test_that("trigger gets data-bs-toggle, data-bs-target, and aria-controls", {
   btn <- shiny::actionButton("btn", "Open")
-  oc <- offcanvas("content", placement = "right", id = "oc1", trigger = btn, title = "T")
+  oc <- offcanvas(
+    "content",
+    placement = "right",
+    id = "oc1",
+    trigger = btn,
+    title = "T"
+  )
   html <- as.character(as.tags(oc))
 
   expect_match(html, 'data-bs-toggle="offcanvas"')
@@ -148,25 +184,49 @@ test_that("trigger gets data-bs-toggle, data-bs-target, and aria-controls", {
 # data-bs-* attributes ----
 
 test_that("backdrop='static' emits data-bs-backdrop='static'", {
-  oc <- offcanvas("x", placement = "right", id = "t", title = "T", backdrop = "static")
+  oc <- offcanvas(
+    "x",
+    placement = "right",
+    id = "t",
+    title = "T",
+    backdrop = "static"
+  )
   html <- as.character(as.tags(oc))
   expect_match(html, 'data-bs-backdrop="static"')
 })
 
 test_that("backdrop=FALSE emits data-bs-backdrop='false'", {
-  oc <- offcanvas("x", placement = "right", id = "t", title = "T", backdrop = FALSE)
+  oc <- offcanvas(
+    "x",
+    placement = "right",
+    id = "t",
+    title = "T",
+    backdrop = FALSE
+  )
   html <- as.character(as.tags(oc))
   expect_match(html, 'data-bs-backdrop="false"')
 })
 
 test_that("scroll=TRUE emits data-bs-scroll='true'", {
-  oc <- offcanvas("x", placement = "right", id = "t", title = "T", scroll = TRUE)
+  oc <- offcanvas(
+    "x",
+    placement = "right",
+    id = "t",
+    title = "T",
+    scroll = TRUE
+  )
   html <- as.character(as.tags(oc))
   expect_match(html, 'data-bs-scroll="true"')
 })
 
 test_that("keyboard=FALSE emits data-bs-keyboard='false'", {
-  oc <- offcanvas("x", placement = "right", id = "t", title = "T", keyboard = FALSE)
+  oc <- offcanvas(
+    "x",
+    placement = "right",
+    id = "t",
+    title = "T",
+    keyboard = FALSE
+  )
   html <- as.character(as.tags(oc))
   expect_match(html, 'data-bs-keyboard="false"')
 })

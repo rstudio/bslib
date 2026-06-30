@@ -1,3 +1,9 @@
+.offcanvas-title {
+  font-size: calc(1.275rem + .3vw); // .h4
+  font-weight: 400;
+  color: var(--#{$prefix}heading-color);
+}
+
 .offcanvas-footer {
   display: flex;
   align-items: center;

@@ -105,7 +105,7 @@ offcanvas <- function(
   footer = NULL,
   id = NULL,
   trigger = NULL,
-  placement = c("right", "left", "top", "bottom"),
+  placement = c("right", "left", "top", "bottom", "start", "end"),
   width = NULL,
   height = NULL,
   close_button = TRUE,
@@ -115,7 +115,8 @@ offcanvas <- function(
 ) {
   args <- separate_arguments(...)
 
-  placement <- normalize_offcanvas_placement(placement)
+  placement <- rlang::arg_match(placement)
+  placement <- switch(placement, start = "left", end = "right", placement)
 
   if (!is.null(width) && placement %in% c("top", "bottom")) {
     rlang::warn('`width` is ignored when `placement` is "top" or "bottom".')
@@ -173,9 +174,9 @@ as.tags.bslib_offcanvas <- function(x, ...) {
 
   phys_class <- switch(
     x$placement,
-    left   = "offcanvas-start",
-    right  = "offcanvas-end",
-    top    = "offcanvas-top",
+    left = "offcanvas-start",
+    right = "offcanvas-end",
+    top = "offcanvas-top",
     bottom = "offcanvas-bottom"
   )
 
@@ -283,7 +284,9 @@ print.bslib_offcanvas <- function(x, ...) {
   if (is.null(x$trigger)) {
     x_tags <- tagQuery(x_tags)$addClass("show")$allTags()
   } else {
-    x_tags <- tagQuery(x_tags)$find("bslib-offcanvas")$addClass("show")$allTags()
+    x_tags <- tagQuery(x_tags)$find("bslib-offcanvas")$addClass(
+      "show"
+    )$allTags()
   }
   print(as_fragment(x_tags))
   invisible(x)
@@ -394,7 +397,12 @@ hide_offcanvas <- function(id, ..., session = get_current_session()) {
 
 #' @describeIn show_offcanvas Toggle an offcanvas by `id`.
 #' @export
-toggle_offcanvas <- function(id, show = NULL, ..., session = get_current_session()) {
+toggle_offcanvas <- function(
+  id,
+  show = NULL,
+  ...,
+  session = get_current_session()
+) {
   rlang::check_dots_empty()
 
   show <- normalize_show_value(show)
@@ -402,21 +410,6 @@ toggle_offcanvas <- function(id, show = NULL, ..., session = get_current_session
   force(id)
   session$onFlush(function() session$sendInputMessage(id, msg), once = TRUE)
   invisible(id)
-}
-
-normalize_offcanvas_placement <- function(
-  placement = c("right", "left", "top", "bottom"),
-  error_call = rlang::caller_env()
-) {
-  if (length(placement) > 1) {
-    placement <- placement[[1]]
-  }
-  placement <- rlang::arg_match0(
-    placement,
-    c("right", "left", "top", "bottom", "start", "end"),
-    error_call = error_call
-  )
-  switch(placement, start = "left", end = "right", placement)
 }
 
 offcanvas_random_id <- function() {
