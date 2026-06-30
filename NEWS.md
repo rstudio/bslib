@@ -2,7 +2,7 @@
 
 ## New features
 
-* Added `offcanvas()` to create [Bootstrap offcanvas](https://getbootstrap.com/docs/5.3/components/offcanvas/) panels that slide in from an edge of the viewport. Panels can be revealed by a `trigger` element in the UI or controlled from the server with `show_offcanvas()`, `hide_offcanvas()`, and `toggle_offcanvas()`.
+* Added `offcanvas()` to create [Bootstrap offcanvas](https://getbootstrap.com/docs/5.3/components/offcanvas/) panels that slide in from an edge of the viewport. Panels can be revealed by a `trigger` element in the UI or controlled from the server with `show_offcanvas()`, `hide_offcanvas()`, and `toggle_offcanvas()`. (#1328)
 
 ## Bug fixes
 
