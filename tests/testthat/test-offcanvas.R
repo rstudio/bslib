@@ -180,6 +180,184 @@ test_that("trigger gets data-bs-toggle, data-bs-target, and aria-controls", {
   expect_match(html, 'aria-controls="oc1"')
 })
 
+test_that("trigger as a tagList wires the last top-level element", {
+  oc <- offcanvas(
+    "content",
+    placement = "right",
+    id = "oc1",
+    title = "T",
+    trigger = tagList(
+      shiny::actionButton("first", "First"),
+      shiny::actionButton("last", "Open")
+    )
+  )
+  html <- as.character(as.tags(oc))
+
+  expect_match(html, 'id="last"[^>]*data-bs-toggle="offcanvas"')
+  expect_false(grepl('id="first"[^>]*data-bs-toggle', html))
+})
+
+test_that("a bare-string trigger is wrapped in a span before wiring", {
+  oc <- offcanvas(
+    "content",
+    placement = "right",
+    id = "oc1",
+    title = "T",
+    trigger = "Open"
+  )
+  html <- as.character(as.tags(oc))
+
+  expect_match(html, '<span[^>]*data-bs-toggle="offcanvas"[^>]*>Open</span>')
+})
+
+test_that("a bare-string last tagList element is wrapped in a span", {
+  oc <- offcanvas(
+    "content",
+    placement = "right",
+    id = "oc1",
+    title = "T",
+    trigger = tagList(shiny::actionButton("b", "First"), "Open")
+  )
+  html <- as.character(as.tags(oc))
+
+  expect_match(html, '<span[^>]*data-bs-toggle="offcanvas"[^>]*>Open</span>')
+})
+
+
+# Header / footer / close button ----
+
+test_that("footer content renders in an .offcanvas-footer", {
+  oc <- offcanvas(
+    "content",
+    placement = "right",
+    id = "oc1",
+    title = "T",
+    footer = "Footer text"
+  )
+  html <- as.character(as.tags(oc))
+
+  expect_match(html, 'class="offcanvas-footer"')
+  expect_match(html, "Footer text")
+})
+
+test_that("no footer means no .offcanvas-footer element", {
+  oc <- offcanvas("content", placement = "right", id = "oc1", title = "T")
+  html <- as.character(as.tags(oc))
+
+  expect_false(grepl("offcanvas-footer", html))
+})
+
+test_that("close_button = TRUE renders a dismiss button", {
+  oc <- offcanvas("content", placement = "right", id = "oc1", title = "T")
+  html <- as.character(as.tags(oc))
+
+  expect_match(html, 'class="btn-close"')
+  expect_match(html, 'data-bs-dismiss="offcanvas"')
+})
+
+test_that("close_button = FALSE omits the dismiss button but keeps the header", {
+  oc <- offcanvas(
+    "content",
+    placement = "right",
+    id = "oc1",
+    title = "T",
+    close_button = FALSE
+  )
+  html <- as.character(as.tags(oc))
+
+  expect_false(grepl("btn-close", html))
+  expect_match(html, 'class="offcanvas-header"')
+})
+
+test_that("header is omitted when title is NULL and close_button = FALSE", {
+  oc <- offcanvas(
+    "content",
+    placement = "right",
+    id = "oc1",
+    `aria-label` = "Panel",
+    close_button = FALSE
+  )
+  html <- as.character(as.tags(oc))
+
+  expect_false(grepl("offcanvas-header", html))
+})
+
+test_that("header renders with only the close button when title is NULL", {
+  oc <- offcanvas(
+    "content",
+    placement = "right",
+    id = "oc1",
+    `aria-label` = "Panel"
+  )
+  html <- as.character(as.tags(oc))
+
+  expect_match(html, 'class="offcanvas-header"')
+  expect_match(html, 'class="btn-close"')
+  expect_false(grepl("offcanvas-title", html))
+})
+
+
+# Size CSS variables ----
+
+test_that("width emits the --bs-offcanvas-width CSS variable", {
+  oc <- offcanvas(
+    "x",
+    placement = "right",
+    id = "oc1",
+    title = "T",
+    width = 300
+  )
+  html <- as.character(as.tags(oc))
+
+  expect_match(html, "--bs-offcanvas-width: 300px;", fixed = TRUE)
+})
+
+test_that("height emits the --bs-offcanvas-height CSS variable", {
+  oc <- offcanvas(
+    "x",
+    placement = "top",
+    id = "oc1",
+    title = "T",
+    height = "40vh"
+  )
+  html <- as.character(as.tags(oc))
+
+  expect_match(html, "--bs-offcanvas-height: 40vh;", fixed = TRUE)
+})
+
+test_that("no size args emit no offcanvas size CSS variables", {
+  oc <- offcanvas("x", placement = "right", id = "oc1", title = "T")
+  html <- as.character(as.tags(oc))
+
+  expect_false(grepl("--bs-offcanvas-width", html))
+  expect_false(grepl("--bs-offcanvas-height", html))
+})
+
+
+# print() preview ----
+
+test_that("preview renders a shown panel and generates an id when missing", {
+  oc <- offcanvas("content", placement = "right", title = "T")
+  html <- as.character(offcanvas_preview_tags(oc))
+
+  expect_match(html, "bslib-offcanvas")
+  expect_match(html, "show")
+  expect_match(html, 'id="bslib-offcanvas-')
+})
+
+test_that("preview with a trigger shows the panel, not the trigger", {
+  oc <- offcanvas(
+    "content",
+    placement = "right",
+    title = "T",
+    trigger = shiny::actionButton("b", "Open")
+  )
+  html <- as.character(offcanvas_preview_tags(oc))
+
+  expect_match(html, 'class="offcanvas offcanvas-end show"')
+  expect_false(grepl("action-button[^>]*show", html))
+})
+
 
 # data-bs-* attributes ----
 

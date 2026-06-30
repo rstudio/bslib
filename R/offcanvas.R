@@ -282,21 +282,26 @@ offcanvas_wire_trigger <- function(trigger, id) {
 # nocov start
 #' @export
 print.bslib_offcanvas <- function(x, ...) {
+  print(as_fragment(offcanvas_preview_tags(x)))
+  invisible(x)
+}
+# nocov end
+
+# Tags for a static, shown preview of an offcanvas (used by print()). Kept
+# separate from print() so the rendering can be tested without opening a browser.
+offcanvas_preview_tags <- function(x) {
   if (is.null(x$id) && is.null(x$trigger)) {
     x$id <- offcanvas_random_id()
   }
   x_tags <- as.tags(x)
   if (is.null(x$trigger)) {
-    x_tags <- tagQuery(x_tags)$addClass("show")$allTags()
+    tagQuery(x_tags)$addClass("show")$allTags()
   } else {
-    x_tags <- tagQuery(x_tags)$find("bslib-offcanvas")$addClass(
-      "show"
-    )$allTags()
+    # The panel is a top-level sibling of the trigger, so filter() (not find(),
+    # which only searches descendants) selects it.
+    tagQuery(x_tags)$filter("bslib-offcanvas")$addClass("show")$allTags()
   }
-  print(as_fragment(x_tags))
-  invisible(x)
 }
-# nocov end
 
 #' Show, hide, or toggle an offcanvas from the server
 #'
