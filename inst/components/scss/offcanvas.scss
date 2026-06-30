@@ -1,0 +1,6 @@
+.offcanvas-footer {
+  display: flex;
+  align-items: center;
+  padding: var(--#{$prefix}offcanvas-padding-y) var(--#{$prefix}offcanvas-padding-x);
+  border-top: var(--#{$prefix}offcanvas-border-width) solid var(--#{$prefix}offcanvas-border-color);
+}
