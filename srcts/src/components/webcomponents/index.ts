@@ -5,6 +5,7 @@ import { makeInputBinding } from "./_makeInputBinding";
 import { shinyAddCustomMessageHandlers } from "../_shinyAddCustomMessageHandlers";
 import { BslibLayoutColumns } from "./layoutColumns";
 import { BslibSwitch, BslibSwitchInline } from "./switch";
+import { BslibOffcanvas } from "./offcanvas";
 
 [
   BslibTooltip,
@@ -13,6 +14,7 @@ import { BslibSwitch, BslibSwitchInline } from "./switch";
   BslibLayoutColumns,
   BslibSwitch,
   BslibSwitchInline,
+  BslibOffcanvas,
 ].forEach((cls) => {
   if (!customElements.get(cls.tagName)) {
     customElements.define(cls.tagName, cls);
