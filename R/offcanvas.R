@@ -157,7 +157,10 @@ as.tags.bslib_offcanvas <- function(x, ...) {
     )
   }
 
-  if (is.null(x$title)) {
+  has_aria_label <- any(
+    c("aria-label", "aria-labelledby") %in% names(x$attribs)
+  )
+  if (is.null(x$title) && !has_aria_label) {
     rlang::warn(
       paste0(
         "Consider providing a `title` for the offcanvas for accessibility. ",
@@ -220,7 +223,7 @@ as.tags.bslib_offcanvas <- function(x, ...) {
 
   el <- htmltools::tag(
     "bslib-offcanvas",
-    list(
+    rlang::list2(
       class = paste("offcanvas", phys_class),
       id = id,
       tabindex = "-1",
@@ -240,16 +243,34 @@ as.tags.bslib_offcanvas <- function(x, ...) {
   el <- as_fragment(tag_require(el, version = 5))
 
   if (!is.null(x$trigger)) {
-    tq <- tagQuery(x$trigger)$last()$addAttrs(
-      `data-bs-toggle` = "offcanvas",
-      `data-bs-target` = paste0("#", id),
-      `aria-controls` = id
-    )
-    wired_trigger <- tq$allTags()
+    wired_trigger <- offcanvas_wire_trigger(x$trigger, id)
     tagList(wired_trigger, el)
   } else {
     el
   }
+}
+
+offcanvas_wire_trigger <- function(trigger, id) {
+  add_attrs <- function(el) {
+    tagAppendAttributes(
+      el,
+      `data-bs-toggle` = "offcanvas",
+      `data-bs-target` = paste0("#", id),
+      `aria-controls` = id
+    )
+  }
+
+  if (inherits(trigger, "shiny.tag")) {
+    return(add_attrs(trigger))
+  }
+
+  # `trigger` is a tagList (or list of tags): wire the last top-level element
+  n <- length(trigger)
+  if (n == 0) {
+    return(trigger)
+  }
+  trigger[[n]] <- add_attrs(trigger[[n]])
+  trigger
 }
 
 # nocov start
@@ -310,6 +331,15 @@ print.bslib_offcanvas <- function(x, ...) {
 #'   observeEvent(input$hide, hide_offcanvas("note"))
 #' }
 #' shinyApp(ui, server)
+#'
+#' @section Module IDs:
+#'   When controlling an offcanvas from a Shiny module, pass the
+#'   **module-local** id to `hide_offcanvas()` / `toggle_offcanvas()` — the
+#'   same bare id you would use with `input[[id]]`. `shiny::NS()` /
+#'   `session$ns()` is only applied when *creating* the panel's `id` in the UI.
+#'   `show_offcanvas()` returns the local id, so it round-trips cleanly to
+#'   `hide_offcanvas()` / `toggle_offcanvas()`. Do not pass a UI object whose
+#'   id was already namespaced back to a server verb — it would double-namespace.
 #'
 #' @describeIn show_offcanvas Render (if needed) and show an offcanvas.
 #' @export
@@ -378,7 +408,10 @@ normalize_offcanvas_placement <- function(
   placement = c("right", "left", "top", "bottom"),
   error_call = rlang::caller_env()
 ) {
-  placement <- rlang::arg_match(
+  if (length(placement) > 1) {
+    placement <- placement[[1]]
+  }
+  placement <- rlang::arg_match0(
     placement,
     c("right", "left", "top", "bottom", "start", "end"),
     error_call = error_call
