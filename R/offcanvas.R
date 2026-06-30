@@ -253,6 +253,11 @@ as.tags.bslib_offcanvas <- function(x, ...) {
 
 offcanvas_wire_trigger <- function(trigger, id) {
   add_attrs <- function(el) {
+    # Wrap a bare string in a <span> so we have an element to wire
+    # (mirrors getOrCreateTriggerEl() in srcts/src/components/_utilsTooltip.ts).
+    if (!inherits(el, "shiny.tag")) {
+      el <- tags$span(el)
+    }
     tagAppendAttributes(
       el,
       `data-bs-toggle` = "offcanvas",
@@ -261,7 +266,7 @@ offcanvas_wire_trigger <- function(trigger, id) {
     )
   }
 
-  if (inherits(trigger, "shiny.tag")) {
+  if (inherits(trigger, "shiny.tag") || !is.list(trigger)) {
     return(add_attrs(trigger))
   }
 
@@ -301,13 +306,18 @@ print.bslib_offcanvas <- function(x, ...) {
 #' already there); `hide_offcanvas()` and `toggle_offcanvas()` act on a panel
 #' already in the UI, by **id**.
 #'
+#' If a panel with the same `id` is already present in the page,
+#' `show_offcanvas()` simply reveals it; the object's content is not re-rendered
+#' or updated. To change the content of a persistent panel, update the inputs and
+#' outputs it contains rather than calling `show_offcanvas()` again.
+#'
 #' @param offcanvas An [offcanvas()] object, or a string / tags that will be
 #'   converted to an offcanvas with default settings.
 #' @param id The `id` of an offcanvas in the UI. `hide_offcanvas()` also accepts
 #'   an [offcanvas()] object whose `id` was set.
 #' @param show Whether to show (`TRUE`) or hide (`FALSE`) the offcanvas. The
 #'   default (`NULL`) shows it if hidden and hides it if shown.
-#' @param ... Currently ignored; must be empty.
+#' @param ... Reserved for future extensions (currently ignored).
 #' @param session A Shiny session object (the default should almost always be
 #'   used).
 #'

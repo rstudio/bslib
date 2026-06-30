@@ -16,7 +16,7 @@ toggle_offcanvas(id, show = NULL, ..., session = get_current_session())
 \item{offcanvas}{An \code{\link[=offcanvas]{offcanvas()}} object, or a string / tags that will be
 converted to an offcanvas with default settings.}
 
-\item{...}{Currently ignored; must be empty.}
+\item{...}{Reserved for future extensions (currently ignored).}
 
 \item{session}{A Shiny session object (the default should almost always be
 used).}
@@ -36,6 +36,11 @@ Control an \code{\link[=offcanvas]{offcanvas()}} panel from a Shiny server funct
 takes an offcanvas \strong{object} (and will render it into the page if it isn't
 already there); \code{hide_offcanvas()} and \code{toggle_offcanvas()} act on a panel
 already in the UI, by \strong{id}.
+
+If a panel with the same \code{id} is already present in the page,
+\code{show_offcanvas()} simply reveals it; the object's content is not re-rendered
+or updated. To change the content of a persistent panel, update the inputs and
+outputs it contains rather than calling \code{show_offcanvas()} again.
 }
 \section{Functions}{
 \itemize{
