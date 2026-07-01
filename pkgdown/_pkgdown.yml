@@ -192,6 +192,14 @@ reference:
     - popover
     - toast
     - show_toast
+- subtitle: Offcanvas
+  desc: |
+    Offcanvas panels slide in from an edge of the viewport. Use them for
+    navigation, settings, or any content you want to reveal on demand --
+    from a trigger in the UI or programmatically from the server.
+  contents:
+    - offcanvas
+    - show_offcanvas
 - subtitle: Miscellaneous inputs
   desc: |
     UI controls for capturing user input
