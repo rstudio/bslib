@@ -125,6 +125,48 @@ server <- function(input, output, session) {
   observeEvent(input$details, message("Panel is open: ", input$details))
 }
 shinyApp(ui, server)
+
+# 3. Module namespacing: `ns()` is only used in the UI; server verbs and
+# `input[[id]]` use the module-local id (see the "Module IDs" section in
+# ?show_offcanvas).
+demo_offcanvas_ui <- function(id) {
+  ns <- NS(id)
+  tagList(
+    actionButton(ns("open"), "Open panel"),
+    actionButton(ns("toggle"), "Toggle panel"),
+    offcanvas(
+      sliderInput(ns("slider"), "Pick a value", min = 0, max = 100, value = 50),
+      verbatimTextOutput(ns("value_output")),
+      actionButton(ns("close_panel"), "Close panel"),
+      title = "Module panel",
+      id = ns("panel")
+    )
+  )
+}
+demo_offcanvas_server <- function(id) {
+  moduleServer(id, function(input, output, session) {
+    observeEvent(input$open, toggle_offcanvas("panel", show = TRUE))
+    observeEvent(input$toggle, toggle_offcanvas("panel"))
+    observeEvent(input$close_panel, toggle_offcanvas("panel", show = FALSE))
+
+    output$value_output <- renderPrint({
+      cat("slider value:", input$slider, "\n")
+      cat("panel open:", isTRUE(input$panel), "\n")
+    })
+  })
+}
+
+ui <- page_fluid(
+  h4("Module A"),
+  demo_offcanvas_ui("a"),
+  h4("Module B"),
+  demo_offcanvas_ui("b")
+)
+server <- function(input, output, session) {
+  demo_offcanvas_server("a")
+  demo_offcanvas_server("b")
+}
+shinyApp(ui, server)
 \dontshow{\}) # examplesIf}
 }
 \references{
