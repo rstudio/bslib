@@ -2,6 +2,21 @@
 
 ## bslib (development version)
 
+### New features
+
+- Added
+  [`offcanvas()`](https://rstudio.github.io/bslib/dev/reference/offcanvas.md)
+  to create [Bootstrap
+  offcanvas](https://getbootstrap.com/docs/5.3/components/offcanvas/)
+  panels that slide in from an edge of the viewport. Panels can be
+  revealed by a `trigger` element in the UI or controlled from the
+  server with
+  [`show_offcanvas()`](https://rstudio.github.io/bslib/dev/reference/show_offcanvas.md),
+  [`hide_offcanvas()`](https://rstudio.github.io/bslib/dev/reference/show_offcanvas.md),
+  and
+  [`toggle_offcanvas()`](https://rstudio.github.io/bslib/dev/reference/show_offcanvas.md).
+  ([\#1328](https://github.com/rstudio/bslib/issues/1328))
+
 ### Bug fixes
 
 - Fixed label-to-options spacing on

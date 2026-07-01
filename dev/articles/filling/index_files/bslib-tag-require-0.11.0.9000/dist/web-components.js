@@ -2063,6 +2063,78 @@
     }
   `;
 
+  // srcts/src/components/webcomponents/offcanvas.ts
+  var bsOffcanvas = window.bootstrap ? window.bootstrap.Offcanvas : class {
+  };
+  var BslibOffcanvas = class extends BslibElement {
+    constructor() {
+      super();
+      this.visible = false;
+      // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
+      this.onChangeCallback = (x2) => {
+      };
+      this._onShown = this._onShown.bind(this);
+      this._onHidden = this._onHidden.bind(this);
+    }
+    connectedCallback() {
+      super.connectedCallback();
+      bsOffcanvas.getOrCreateInstance(this);
+      this.addEventListener("shown.bs.offcanvas", this._onShown);
+      this.addEventListener("hidden.bs.offcanvas", this._onHidden);
+      this.visible = this.classList.contains("show");
+    }
+    disconnectedCallback() {
+      var _a;
+      this.removeEventListener("shown.bs.offcanvas", this._onShown);
+      this.removeEventListener("hidden.bs.offcanvas", this._onHidden);
+      (_a = bsOffcanvas.getInstance(this)) == null ? void 0 : _a.dispose();
+      super.disconnectedCallback();
+    }
+    render() {
+      return x`<slot></slot>`;
+    }
+    _onShown() {
+      this.visible = true;
+      this.onChangeCallback(true);
+    }
+    _onHidden() {
+      this.visible = false;
+      this.onChangeCallback(true);
+    }
+    getValue() {
+      return this.visible;
+    }
+    receiveMessage(el, data) {
+      if (data.method === "hide") {
+        bsOffcanvas.getOrCreateInstance(this).hide();
+      } else if (data.method === "toggle") {
+        this._toggle(data.value);
+      } else {
+        throw new Error(`Unknown method ${data.method}`);
+      }
+    }
+    _toggle(x2) {
+      if (x2 === "toggle" || x2 === void 0) {
+        x2 = this.visible ? "hide" : "show";
+      }
+      if (x2 === "hide") {
+        bsOffcanvas.getOrCreateInstance(this).hide();
+      }
+      if (x2 === "show") {
+        bsOffcanvas.getOrCreateInstance(this).show();
+      }
+    }
+  };
+  BslibOffcanvas.tagName = "bslib-offcanvas";
+  BslibOffcanvas.isShinyInput = true;
+  BslibOffcanvas.styles = i2`
+    :host {
+      /* Bootstrap's .offcanvas class (display: flex) takes over once its CSS is
+         loaded; this is just a sensible fallback for the host element. */
+      display: block;
+    }
+  `;
+
   // srcts/src/components/webcomponents/index.ts
   [
     BslibTooltip,
@@ -2070,7 +2142,8 @@
     BslibInputDarkMode,
     BslibLayoutColumns,
     BslibSwitch,
-    BslibSwitchInline
+    BslibSwitchInline,
+    BslibOffcanvas
   ].forEach((cls) => {
     if (!customElements.get(cls.tagName)) {
       customElements.define(cls.tagName, cls);

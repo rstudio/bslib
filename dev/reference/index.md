@@ -207,6 +207,19 @@ that appear temporarily in a corner of the screen.
   [`hide_toast()`](https://rstudio.github.io/bslib/dev/reference/show_toast.md)
   : Show or hide a toast notification
 
+### Offcanvas
+
+Offcanvas panels slide in from an edge of the viewport. Use them for
+navigation, settings, or any content you want to reveal on demand – from
+a trigger in the UI or programmatically from the server.
+
+- [`offcanvas()`](https://rstudio.github.io/bslib/dev/reference/offcanvas.md)
+  : Offcanvas panels
+- [`show_offcanvas()`](https://rstudio.github.io/bslib/dev/reference/show_offcanvas.md)
+  [`hide_offcanvas()`](https://rstudio.github.io/bslib/dev/reference/show_offcanvas.md)
+  [`toggle_offcanvas()`](https://rstudio.github.io/bslib/dev/reference/show_offcanvas.md)
+  : Show, hide, or toggle an offcanvas from the server
+
 ### Miscellaneous inputs
 
 UI controls for capturing user input
