@@ -1144,8 +1144,11 @@
         _onResizeStart(event) {
           if (!this._shouldEnableResize())
             return;
-          if (!("touches" in event) && !this.resizeHandleActivated)
-            return;
+          if (!("touches" in event) && !this.resizeHandleActivated) {
+            const target = event.target;
+            if (!target.closest(".resize-indicator"))
+              return;
+          }
           event.preventDefault();
           const clientX = "touches" in event ? event.touches[0].clientX : event.clientX;
           this.resizeState.isResizing = true;

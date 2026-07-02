@@ -31,6 +31,9 @@
   sidebar handle.
   ([\#1322](https://github.com/rstudio/bslib/issues/1322))
 
+- Allow users to directly grab the sidebar handle to resize the sidebar.
+  ([\#1331](https://github.com/rstudio/bslib/issues/1331))
+
 ## bslib 0.11.0
 
 CRAN release: 2026-05-16
