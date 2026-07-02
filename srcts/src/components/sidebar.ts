@@ -386,7 +386,11 @@ class Sidebar {
 
     // Fine pointers (mouse) must cross the handle midpoint before grabbing,
     // so that clicks on the sidebar scrollbar don't start a resize.
-    if (!("touches" in event) && !this.resizeHandleActivated) return;
+    // Exception: clicking directly on the visible indicator always grabs.
+    if (!("touches" in event) && !this.resizeHandleActivated) {
+      const target = event.target as HTMLElement;
+      if (!target.closest(".resize-indicator")) return;
+    }
 
     event.preventDefault();
 
