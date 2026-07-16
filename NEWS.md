@@ -4,6 +4,10 @@
 
 * Added `offcanvas()` to create [Bootstrap offcanvas](https://getbootstrap.com/docs/5.3/components/offcanvas/) panels that slide in from an edge of the viewport. Panels can be revealed by a `trigger` element in the UI or controlled from the server with `show_offcanvas()`, `hide_offcanvas()`, and `toggle_offcanvas()`. (#1328)
 
+## Documentation
+
+* `layout_columns()` and `layout_column_wrap()` now describe their CSS length inputs with concrete examples. (@LeonidasZhak #1300)
+
 ## Bug fixes
 
 * Fixed label-to-options spacing on `shiny::radioButtons()` and `shiny::checkboxGroupInput()` in Bootstrap 5, where a Shiny rule was overriding the bslib fix. (#1308)
