@@ -6,9 +6,7 @@
 
 ## Documentation
 
-* `layout_columns()` and `layout_column_wrap()` now describe their CSS length
-  inputs with concrete examples, including numeric pixel values, unit-bearing
-  strings, percentages, and `calc()` expressions. (#1300)
+* `layout_columns()` and `layout_column_wrap()` now describe their CSS length inputs with concrete examples. (@LeonidasZhak #1300)
 
 ## Bug fixes
 
