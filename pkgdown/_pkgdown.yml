@@ -171,6 +171,7 @@ reference:
     [dashboard layouts](#dashboard-layouts) to highlight key metrics.
   contents:
     - value_box
+    - showcase_left_center
 - subtitle: Accordions
   desc: |
     Create collapsible sections of content. Each collapsible section is defined
