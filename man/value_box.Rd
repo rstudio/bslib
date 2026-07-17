@@ -3,9 +3,6 @@
 \name{value_box}
 \alias{value_box}
 \alias{value_box_theme}
-\alias{showcase_left_center}
-\alias{showcase_top_right}
-\alias{showcase_bottom}
 \title{Value box}
 \usage{
 value_box(
@@ -26,29 +23,6 @@ value_box(
 )
 
 value_box_theme(name = NULL, bg = NULL, fg = NULL)
-
-showcase_left_center(
-  width = 0.3,
-  width_full_screen = "1fr",
-  max_height = "100px",
-  max_height_full_screen = 0.67
-)
-
-showcase_top_right(
-  width = 0.4,
-  width_full_screen = "1fr",
-  max_height = "75px",
-  max_height_full_screen = 0.67
-)
-
-showcase_bottom(
-  width = "100\%",
-  width_full_screen = NULL,
-  height = "auto",
-  height_full_screen = "2fr",
-  max_height = "100px",
-  max_height_full_screen = NULL
-)
 }
 \arguments{
 \item{title, value}{A string, number, or \code{\link[htmltools:tag]{htmltools::tag()}} child to display as
@@ -78,6 +52,10 @@ control, you can create your own theme with \code{value_box_theme()} where you
 can pass foreground and background colors directly. See the \strong{Themes}
 section for more details.}
 
+\item{height}{Any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
+\code{height="200px"}). Doesn't apply when a card is made \code{full_screen}
+(in this case, consider setting a \code{height} in \code{\link[=card_body]{card_body()}}).}
+
 \item{max_height}{The maximum height of the \code{value_box()} or the showcase
 area when used in a \verb{showcase_layout_*()} function. Can be any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g., \code{max_height="200px"}).}
 
@@ -103,24 +81,6 @@ you can observe the card's full screen state with
 is provided, then the foreground color is automatically chosen from
 \verb{$black} or \verb{$white} to provide the best contrast with the background
 color.}
-
-\item{width, width_full_screen, height, height_full_screen}{one of the
-following:
-\itemize{
-\item A proportion (i.e., a number between 0 and 1) of available width or
-height to allocate to the showcase.
-\item A valid \link[htmltools:validateCssUnit]{CSS unit} defining the width or
-height of the showcase column, or a valid value accepted by the
-\code{grid-template-columns} (width) or \code{grid-template-rows} (height) CSS
-property to define the width or height of the showcase column or row.
-Accepted values in the second category are \code{"auto"}, \code{"min-content"},
-\code{"max-content"}, a fractional unit (e.g. \verb{2fr}), or a \code{minmax()} function
-(e.g., \verb{minmax(100px, 1fr)}).
-}}
-
-\item{max_height_full_screen}{A proportion (i.e., a number between
-0 and 1) or any valid \link[htmltools:validateCssUnit]{CSS unit} defining the
-showcase \code{max_height} in a full screen card.}
 }
 \description{
 An opinionated (\code{\link[=card]{card()}}-powered) box, designed for displaying a \code{value} and
@@ -400,6 +360,9 @@ Value boxes are featured on the bslib website in a few articles:
 \seealso{
 Value boxes are a specialized form of a \code{\link[=card]{card()}} component.
 
+Use \link[=showcase]{showcase_*()} functions in the \code{showcase_layout}
+argument.
+
 \code{\link[=layout_columns]{layout_columns()}} and \code{\link[=layout_column_wrap]{layout_column_wrap()}} help position multiple
 value boxes into columns and rows.
 
@@ -407,6 +370,7 @@ Other Components:
 \code{\link[=accordion]{accordion()}},
 \code{\link[=card]{card()}},
 \code{\link[=popover]{popover()}},
+\code{\link[=showcase_left_center]{showcase_left_center()}},
 \code{\link[=tooltip]{tooltip()}}
 }
 \concept{Components}

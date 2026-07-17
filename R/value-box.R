@@ -66,6 +66,8 @@
 #' @param theme_color `r lifecycle::badge("deprecated")` Use `theme` instead.
 #'
 #' @seealso Value boxes are a specialized form of a [card()] component.
+#' @seealso Use [showcase_*()][showcase] functions in the `showcase_layout`
+#'   argument.
 #' @seealso [layout_columns()] and [layout_column_wrap()] help position multiple
 #'   value boxes into columns and rows.
 #'
@@ -229,6 +231,12 @@ new_value_box_theme <- function(class = NULL, bg = NULL, fg = NULL) {
   )
 }
 
+#' Custom layouts to use in other functions
+#'
+#' @description
+#' An collection of functions to build custom layouts that can be used in other
+#' functions, such as [value_box()].
+#'
 #' @param width,width_full_screen,height,height_full_screen one of the
 #'   following:
 #'   * A proportion (i.e., a number between 0 and 1) of available width or
@@ -244,8 +252,27 @@ new_value_box_theme <- function(class = NULL, bg = NULL, fg = NULL) {
 #'   0 and 1) or any valid [CSS unit][htmltools::validateCssUnit] defining the
 #'   showcase `max_height` in a full screen card.
 #'
+#' @seealso [value_box()] takes a `showcase_layout` where one can use the various
+#' `showcase_*()` functions.
+#'
+#' @examplesIf rlang::is_interactive()
+#' library(htmltools)
+#'
+#' value_box(
+#'   "KPI Title",
+#'   h1(HTML("$1 <i>Billion</i> Dollars")),
+#'   span(
+#'     bsicons::bs_icon("arrow-up"),
+#'     " 30% VS PREVIOUS 30 DAYS"
+#'   ),
+#'   showcase = bsicons::bs_icon("piggy-bank"),
+#'   showcase_layout = showcase_top_right()
+#' )
+#'
+#' @family Components
+#'
 #' @export
-#' @rdname value_box
+#' @rdname showcase
 showcase_left_center <- function(
   width = 0.3,
   width_full_screen = "1fr",
@@ -262,7 +289,7 @@ showcase_left_center <- function(
 }
 
 #' @export
-#' @rdname value_box
+#' @rdname showcase
 showcase_top_right <- function(
   width = 0.4,
   width_full_screen = "1fr",
@@ -279,7 +306,7 @@ showcase_top_right <- function(
 }
 
 #' @export
-#' @rdname value_box
+#' @rdname showcase
 showcase_bottom <- function(
   width = "100%",
   width_full_screen = NULL,
