@@ -109,30 +109,7 @@ create engaging <a href="https://rstudio.github.io/bslib/articles/value-boxes/in
 <span>  theme_color <span class="op">=</span> <span class="fu"><a href="deprecated.html">deprecated</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">value_box_theme</span><span class="op">(</span>name <span class="op">=</span> <span class="cn">NULL</span>, bg <span class="op">=</span> <span class="cn">NULL</span>, fg <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">showcase_left_center</span><span class="op">(</span></span>
-<span>  width <span class="op">=</span> <span class="fl">0.3</span>,</span>
-<span>  width_full_screen <span class="op">=</span> <span class="st">"1fr"</span>,</span>
-<span>  max_height <span class="op">=</span> <span class="st">"100px"</span>,</span>
-<span>  max_height_full_screen <span class="op">=</span> <span class="fl">0.67</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">showcase_top_right</span><span class="op">(</span></span>
-<span>  width <span class="op">=</span> <span class="fl">0.4</span>,</span>
-<span>  width_full_screen <span class="op">=</span> <span class="st">"1fr"</span>,</span>
-<span>  max_height <span class="op">=</span> <span class="st">"75px"</span>,</span>
-<span>  max_height_full_screen <span class="op">=</span> <span class="fl">0.67</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">showcase_bottom</span><span class="op">(</span></span>
-<span>  width <span class="op">=</span> <span class="st">"100%"</span>,</span>
-<span>  width_full_screen <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  height <span class="op">=</span> <span class="st">"auto"</span>,</span>
-<span>  height_full_screen <span class="op">=</span> <span class="st">"2fr"</span>,</span>
-<span>  max_height <span class="op">=</span> <span class="st">"100px"</span>,</span>
-<span>  max_height_full_screen <span class="op">=</span> <span class="cn">NULL</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">value_box_theme</span><span class="op">(</span>name <span class="op">=</span> <span class="cn">NULL</span>, bg <span class="op">=</span> <span class="cn">NULL</span>, fg <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -158,8 +135,8 @@ element.</p></dd>
 <dt id="arg-showcase-layout">showcase_layout<a class="anchor" aria-label="anchor" href="#arg-showcase-layout"></a></dt>
 <dd><p>One of <code>"left center"</code> (default), <code>"top right"</code> or
 <code>"bottom"</code>. Alternatively, you can customize the showcase layout options
-with the <code>showcase_left_center()</code>, <code>showcase_top_right()</code>, or
-<code>showcase_bottom()</code> functions. Use the options functions when you want to
+with the <code><a href="showcase.html">showcase_left_center()</a></code>, <code><a href="showcase.html">showcase_top_right()</a></code>, or
+<code><a href="showcase.html">showcase_bottom()</a></code> functions. Use the options functions when you want to
 control the height or width of the showcase area.</p></dd>
 
 
@@ -176,6 +153,12 @@ the value box. See below for more details on the provided themes. For more
 control, you can create your own theme with <code>value_box_theme()</code> where you
 can pass foreground and background colors directly. See the <strong>Themes</strong>
 section for more details.</p></dd>
+
+
+<dt id="arg-height">height<a class="anchor" aria-label="anchor" href="#arg-height"></a></dt>
+<dd><p>Any valid <a href="https://rstudio.github.io/htmltools/reference/validateCssUnit.html" class="external-link">CSS unit</a> (e.g.,
+<code>height="200px"</code>). Doesn't apply when a card is made <code>full_screen</code>
+(in this case, consider setting a <code>height</code> in <code><a href="card_body.html">card_body()</a></code>).</p></dd>
 
 
 <dt id="arg-max-height">max_height<a class="anchor" aria-label="anchor" href="#arg-max-height"></a></dt>
@@ -218,26 +201,6 @@ you can observe the card's full screen state with
 is provided, then the foreground color is automatically chosen from
 <code>$black</code> or <code>$white</code> to provide the best contrast with the background
 color.</p></dd>
-
-
-<dt id="arg-width-width-full-screen-height-height-full-screen">width, width_full_screen, height, height_full_screen<a class="anchor" aria-label="anchor" href="#arg-width-width-full-screen-height-height-full-screen"></a></dt>
-<dd><p>one of the
-following:</p><ul><li><p>A proportion (i.e., a number between 0 and 1) of available width or
-height to allocate to the showcase.</p></li>
-<li><p>A valid <a href="https://rstudio.github.io/htmltools/reference/validateCssUnit.html" class="external-link">CSS unit</a> defining the width or
-height of the showcase column, or a valid value accepted by the
-<code>grid-template-columns</code> (width) or <code>grid-template-rows</code> (height) CSS
-property to define the width or height of the showcase column or row.
-Accepted values in the second category are <code>"auto"</code>, <code>"min-content"</code>,
-<code>"max-content"</code>, a fractional unit (e.g. <code>2fr</code>), or a <code>minmax()</code> function
-(e.g., <code>minmax(100px, 1fr)</code>).</p></li>
-</ul></dd>
-
-
-<dt id="arg-max-height-full-screen">max_height_full_screen<a class="anchor" aria-label="anchor" href="#arg-max-height-full-screen"></a></dt>
-<dd><p>A proportion (i.e., a number between
-0 and 1) or any valid <a href="https://rstudio.github.io/htmltools/reference/validateCssUnit.html" class="external-link">CSS unit</a> defining the
-showcase <code>max_height</code> in a full screen card.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -399,7 +362,7 @@ This means that <code>theme = "purple"</code> will use your Bootstrap theme's pu
 
 <p>Use the <code>showcase</code> argument to add a plot or icon to your <code>value_box()</code>.
 There are three layouts available: <code>"left center"</code>, <code>"top right"</code>, and <code>"bottom"</code>.
-Set <code>showcase</code> to the name of the layout you'd like, or use the <code>showcase_left_center()</code>, <code>showcase_top_right()</code>, or <code>showcase_bottom()</code> helper functions to customize the showcase area's size.</p>
+Set <code>showcase</code> to the name of the layout you'd like, or use the <code><a href="showcase.html">showcase_left_center()</a></code>, <code><a href="showcase.html">showcase_top_right()</a></code>, or <code><a href="showcase.html">showcase_bottom()</a></code> helper functions to customize the showcase area's size.</p>
 <p>If you're using a plot as your showcase, you may also want to set <code>fullscreen = TRUE</code> so that your users can expand the value box into a full screen card.
 See the <a href="https://rstudio.github.io/bslib/articles/value-boxes/index.html">value box article</a> for more details.</p><div class="section">
 <h3 id="left-center-showcase">Left-center showcase<a class="anchor" aria-label="anchor" href="#left-center-showcase"></a></h3>
@@ -459,12 +422,15 @@ In this example, we've created a sparkline plot using base R graphics, which isn
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Value boxes are a specialized form of a <code><a href="card.html">card()</a></code> component.</p>
+<p>Use <a href="showcase.html">showcase_*()</a> functions in the <code>showcase_layout</code>
+argument.</p>
 <p><code><a href="layout_columns.html">layout_columns()</a></code> and <code><a href="layout_column_wrap.html">layout_column_wrap()</a></code> help position multiple
 value boxes into columns and rows.</p>
 <p>Other Components:
 <code><a href="accordion.html">accordion()</a></code>,
 <code><a href="card.html">card()</a></code>,
 <code><a href="popover.html">popover()</a></code>,
+<code><a href="showcase.html">showcase_left_center()</a></code>,
 <code><a href="tooltip.html">tooltip()</a></code></p></div>
     </div>
 

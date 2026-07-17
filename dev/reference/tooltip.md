@@ -157,6 +157,7 @@ Other Components:
 [`accordion()`](https://rstudio.github.io/bslib/dev/reference/accordion.md),
 [`card()`](https://rstudio.github.io/bslib/dev/reference/card.md),
 [`popover()`](https://rstudio.github.io/bslib/dev/reference/popover.md),
+[`showcase_left_center()`](https://rstudio.github.io/bslib/dev/reference/showcase.md),
 [`value_box()`](https://rstudio.github.io/bslib/dev/reference/value_box.md)
 
 ## Examples
