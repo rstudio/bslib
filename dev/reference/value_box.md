@@ -33,6 +33,29 @@ value_box(
 )
 
 value_box_theme(name = NULL, bg = NULL, fg = NULL)
+
+showcase_left_center(
+  width = 0.3,
+  width_full_screen = "1fr",
+  max_height = "100px",
+  max_height_full_screen = 0.67
+)
+
+showcase_top_right(
+  width = 0.4,
+  width_full_screen = "1fr",
+  max_height = "75px",
+  max_height_full_screen = 0.67
+)
+
+showcase_bottom(
+  width = "100%",
+  width_full_screen = NULL,
+  height = "auto",
+  height_full_screen = "2fr",
+  max_height = "100px",
+  max_height_full_screen = NULL
+)
 ```
 
 ## Arguments
@@ -65,12 +88,9 @@ value_box_theme(name = NULL, bg = NULL, fg = NULL)
 
   One of `"left center"` (default), `"top right"` or `"bottom"`.
   Alternatively, you can customize the showcase layout options with the
-  [`showcase_left_center()`](https://rstudio.github.io/bslib/dev/reference/showcase.md),
-  [`showcase_top_right()`](https://rstudio.github.io/bslib/dev/reference/showcase.md),
-  or
-  [`showcase_bottom()`](https://rstudio.github.io/bslib/dev/reference/showcase.md)
-  functions. Use the options functions when you want to control the
-  height or width of the showcase area.
+  `showcase_left_center()`, `showcase_top_right()`, or
+  `showcase_bottom()` functions. Use the options functions when you want
+  to control the height or width of the showcase area.
 
 - full_screen:
 
@@ -86,14 +106,6 @@ value_box_theme(name = NULL, bg = NULL, fg = NULL)
   themes. For more control, you can create your own theme with
   `value_box_theme()` where you can pass foreground and background
   colors directly. See the **Themes** section for more details.
-
-- height:
-
-  Any valid [CSS
-  unit](https://rstudio.github.io/htmltools/reference/validateCssUnit.html)
-  (e.g., `height="200px"`). Doesn't apply when a card is made
-  `full_screen` (in this case, consider setting a `height` in
-  [`card_body()`](https://rstudio.github.io/bslib/dev/reference/card_body.md)).
 
 - max_height:
 
@@ -142,6 +154,29 @@ value_box_theme(name = NULL, bg = NULL, fg = NULL)
   provided, then the foreground color is automatically chosen from
   `$black` or `$white` to provide the best contrast with the background
   color.
+
+- width, width_full_screen, height, height_full_screen:
+
+  one of the following:
+
+  - A proportion (i.e., a number between 0 and 1) of available width or
+    height to allocate to the showcase.
+
+  - A valid [CSS
+    unit](https://rstudio.github.io/htmltools/reference/validateCssUnit.html)
+    defining the width or height of the showcase column, or a valid
+    value accepted by the `grid-template-columns` (width) or
+    `grid-template-rows` (height) CSS property to define the width or
+    height of the showcase column or row. Accepted values in the second
+    category are `"auto"`, `"min-content"`, `"max-content"`, a
+    fractional unit (e.g. `2fr`), or a `minmax()` function (e.g.,
+    `minmax(100px, 1fr)`).
+
+- max_height_full_screen:
+
+  A proportion (i.e., a number between 0 and 1) or any valid [CSS
+  unit](https://rstudio.github.io/htmltools/reference/validateCssUnit.html)
+  defining the showcase `max_height` in a full screen card.
 
 ## Build-a-Box App
 
@@ -323,12 +358,9 @@ theme's purple color, and `bg = "purple"` will use the CSS color for
 Use the `showcase` argument to add a plot or icon to your `value_box()`.
 There are three layouts available: `"left center"`, `"top right"`, and
 `"bottom"`. Set `showcase` to the name of the layout you'd like, or use
-the
-[`showcase_left_center()`](https://rstudio.github.io/bslib/dev/reference/showcase.md),
-[`showcase_top_right()`](https://rstudio.github.io/bslib/dev/reference/showcase.md),
-or
-[`showcase_bottom()`](https://rstudio.github.io/bslib/dev/reference/showcase.md)
-helper functions to customize the showcase area's size.
+the `showcase_left_center()`, `showcase_top_right()`, or
+`showcase_bottom()` helper functions to customize the showcase area's
+size.
 
 If you're using a plot as your showcase, you may also want to set
 `fullscreen = TRUE` so that your users can expand the value box into a
@@ -457,10 +489,6 @@ Value boxes are a specialized form of a
 [`card()`](https://rstudio.github.io/bslib/dev/reference/card.md)
 component.
 
-Use
-[showcase\_\*()](https://rstudio.github.io/bslib/dev/reference/showcase.md)
-functions in the `showcase_layout` argument.
-
 [`layout_columns()`](https://rstudio.github.io/bslib/dev/reference/layout_columns.md)
 and
 [`layout_column_wrap()`](https://rstudio.github.io/bslib/dev/reference/layout_column_wrap.md)
@@ -470,7 +498,6 @@ Other Components:
 [`accordion()`](https://rstudio.github.io/bslib/dev/reference/accordion.md),
 [`card()`](https://rstudio.github.io/bslib/dev/reference/card.md),
 [`popover()`](https://rstudio.github.io/bslib/dev/reference/popover.md),
-[`showcase_left_center()`](https://rstudio.github.io/bslib/dev/reference/showcase.md),
 [`tooltip()`](https://rstudio.github.io/bslib/dev/reference/tooltip.md)
 
 ## Examples

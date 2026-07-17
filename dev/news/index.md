@@ -807,16 +807,16 @@ CRAN release: 2023-11-21
     within your bslib-powered UI.
 
   - Added
-    [`showcase_bottom()`](https://rstudio.github.io/bslib/dev/reference/showcase.md),
+    [`showcase_bottom()`](https://rstudio.github.io/bslib/dev/reference/value_box.md),
     a new
     [`value_box()`](https://rstudio.github.io/bslib/dev/reference/value_box.md)
     layout that places the showcase below the value box title and value,
     perfect for a full-bleed plot.
     ([\#758](https://github.com/rstudio/bslib/issues/758))
 
-  - [`showcase_left_center()`](https://rstudio.github.io/bslib/dev/reference/showcase.md)
+  - [`showcase_left_center()`](https://rstudio.github.io/bslib/dev/reference/value_box.md)
     and
-    [`showcase_top_right()`](https://rstudio.github.io/bslib/dev/reference/showcase.md)
+    [`showcase_top_right()`](https://rstudio.github.io/bslib/dev/reference/value_box.md)
     no longer take two values for the `width` argument. Instead, they
     now take a single value (e.g., `width = "30%"`) representing the
     width of the showcase are in the value box. Furthermore, they’ve
