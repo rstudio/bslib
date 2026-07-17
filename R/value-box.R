@@ -66,7 +66,7 @@
 #' @param theme_color `r lifecycle::badge("deprecated")` Use `theme` instead.
 #'
 #' @seealso Value boxes are a specialized form of a [card()] component.
-#' @seealso Use [showcase_*()][showcase] functions in the `showcase_layout`
+#' @seealso Use [showcase_*()][showcase_left_center] functions in the `showcase_layout`
 #'   argument.
 #' @seealso [layout_columns()] and [layout_column_wrap()] help position multiple
 #'   value boxes into columns and rows.
@@ -237,6 +237,7 @@ new_value_box_theme <- function(class = NULL, bg = NULL, fg = NULL) {
 #' A collection of functions to build custom layouts that can be used in other
 #' functions, such as [value_box()].
 #'
+#' @inheritParams value_box
 #' @param width,width_full_screen,height,height_full_screen one of the
 #'   following:
 #'   * A proportion (i.e., a number between 0 and 1) of available width or

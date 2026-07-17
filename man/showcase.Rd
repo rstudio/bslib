@@ -44,6 +44,9 @@ Accepted values in the second category are \code{"auto"}, \code{"min-content"},
 (e.g., \verb{minmax(100px, 1fr)}).
 }}
 
+\item{max_height}{The maximum height of the \code{value_box()} or the showcase
+area when used in a \verb{showcase_layout_*()} function. Can be any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g., \code{max_height="200px"}).}
+
 \item{max_height_full_screen}{A proportion (i.e., a number between
 0 and 1) or any valid \link[htmltools:validateCssUnit]{CSS unit} defining the
 showcase \code{max_height} in a full screen card.}

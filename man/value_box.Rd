@@ -360,7 +360,7 @@ Value boxes are featured on the bslib website in a few articles:
 \seealso{
 Value boxes are a specialized form of a \code{\link[=card]{card()}} component.
 
-Use \link[=showcase]{showcase_*()} functions in the \code{showcase_layout}
+Use \link[=showcase_left_center]{showcase_*()} functions in the \code{showcase_layout}
 argument.
 
 \code{\link[=layout_columns]{layout_columns()}} and \code{\link[=layout_column_wrap]{layout_column_wrap()}} help position multiple
