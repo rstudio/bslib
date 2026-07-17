@@ -125,13 +125,13 @@ above.</p></li>
 (<code>fr</code>) height of the relevant row. If there are more rows than values
 provided, the pattern will repeat. For example, <code>row_heights = c(1, 2)</code>
 allows even rows to take up twice as much space as odd rows.</p></li>
-<li><p>A list of numeric and <a href="https://rstudio.github.io/htmltools/reference/validateCssUnit.html" class="external-link">CSS length units</a>,
+<li><p>A list of numeric values and <a href="https://rstudio.github.io/htmltools/reference/validateCssUnit.html" class="external-link">CSS lengths</a>,
 where each value represents the height of the relevant row. If more rows
 are needed than values provided, the pattern will repeat. For example,
 <code>row_heights = list("auto", 1)</code> allows the height of odd rows to be
 driven by its contents and even rows to be
 <a href="https://css-tricks.com/introduction-fr-css-unit/" class="external-link"><code>1fr</code></a>.</p></li>
-<li><p>A character vector/string of <a href="https://rstudio.github.io/htmltools/reference/validateCssUnit.html" class="external-link">CSS length units</a>.
+<li><p>A character vector/string of <a href="https://rstudio.github.io/htmltools/reference/validateCssUnit.html" class="external-link">CSS lengths</a>.
 In this case, the value is supplied directly to <code>grid-auto-rows</code>.</p></li>
 <li><p>A <code><a href="breakpoints.html">breakpoints()</a></code> object, where each breakpoint may be either of the above.</p></li>
 </ul></dd>
@@ -147,8 +147,11 @@ fillable container with an opinionated height (e.g., <code><a href="page_fillabl
 
 
 <dt id="arg-gap">gap<a class="anchor" aria-label="anchor" href="#arg-gap"></a></dt>
-<dd><p>A <a href="https://rstudio.github.io/htmltools/reference/validateCssUnit.html" class="external-link">CSS length unit</a> defining the
-<code>gap</code> (i.e., spacing) between elements provided to <code>...</code>. This argument is only applicable when <code>fillable = TRUE</code></p></dd>
+<dd><p>A CSS length defining the gap (i.e., spacing) between elements
+provided to <code>...</code>. Numeric values are treated as pixel values; character
+values may use units like <code>"px"</code>, <code>"rem"</code>, or <code>"%"</code>, or CSS functions like
+<code>"calc(1rem + 2px)"</code>. This argument is only applicable when
+<code>fillable = TRUE</code>.</p></dd>
 
 
 <dt id="arg-class">class<a class="anchor" aria-label="anchor" href="#arg-class"></a></dt>
@@ -233,7 +236,7 @@ responsive breakpoints.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

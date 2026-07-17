@@ -61,16 +61,16 @@ layout_columns(
     `row_heights = c(1, 2)` allows even rows to take up twice as much
     space as odd rows.
 
-  - A list of numeric and [CSS length
-    units](https://rstudio.github.io/htmltools/reference/validateCssUnit.html),
+  - A list of numeric values and [CSS
+    lengths](https://rstudio.github.io/htmltools/reference/validateCssUnit.html),
     where each value represents the height of the relevant row. If more
     rows are needed than values provided, the pattern will repeat. For
     example, `row_heights = list("auto", 1)` allows the height of odd
     rows to be driven by its contents and even rows to be
     [`1fr`](https://css-tricks.com/introduction-fr-css-unit/).
 
-  - A character vector/string of [CSS length
-    units](https://rstudio.github.io/htmltools/reference/validateCssUnit.html).
+  - A character vector/string of [CSS
+    lengths](https://rstudio.github.io/htmltools/reference/validateCssUnit.html).
     In this case, the value is supplied directly to `grid-auto-rows`.
 
   - A
@@ -89,10 +89,11 @@ layout_columns(
 
 - gap:
 
-  A [CSS length
-  unit](https://rstudio.github.io/htmltools/reference/validateCssUnit.html)
-  defining the `gap` (i.e., spacing) between elements provided to `...`.
-  This argument is only applicable when `fillable = TRUE`
+  A CSS length defining the gap (i.e., spacing) between elements
+  provided to `...`. Numeric values are treated as pixel values;
+  character values may use units like `"px"`, `"rem"`, or `"%"`, or CSS
+  functions like `"calc(1rem + 2px)"`. This argument is only applicable
+  when `fillable = TRUE`.
 
 - class:
 

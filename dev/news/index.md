@@ -17,6 +17,15 @@
   [`toggle_offcanvas()`](https://rstudio.github.io/bslib/dev/reference/show_offcanvas.md).
   ([\#1328](https://github.com/rstudio/bslib/issues/1328))
 
+### Documentation
+
+- [`layout_columns()`](https://rstudio.github.io/bslib/dev/reference/layout_columns.md)
+  and
+  [`layout_column_wrap()`](https://rstudio.github.io/bslib/dev/reference/layout_column_wrap.md)
+  now describe their CSS length inputs with concrete examples.
+  ([@LeonidasZhak](https://github.com/LeonidasZhak)
+  [\#1300](https://github.com/rstudio/bslib/issues/1300))
+
 ### Bug fixes
 
 - Fixed label-to-options spacing on

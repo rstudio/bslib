@@ -119,7 +119,8 @@ arguments become attributes on the containing <a href="https://rstudio.github.io
 following:</p><ul><li><p>A (unit-less) number between 0 and 1.</p><ul><li><p>This should be specified as <code>1/num</code>, where <code>num</code> represents the number
 of desired columns.</p></li>
 </ul></li>
-<li><p>A <a href="https://rstudio.github.io/htmltools/reference/validateCssUnit.html" class="external-link">CSS length unit</a></p><ul><li><p>Either the minimum (when <code>fixed_width=FALSE</code>) or fixed width
+<li><p>A <a href="https://rstudio.github.io/htmltools/reference/validateCssUnit.html" class="external-link">CSS length</a>, such as <code>"200px"</code>,
+<code>"20rem"</code>, <code>"50%"</code>, or <code>"calc(100% - 2rem)"</code></p><ul><li><p>Either the minimum (when <code>fixed_width=FALSE</code>) or fixed width
 (<code>fixed_width=TRUE</code>).</p></li>
 </ul></li>
 <li><p><code>NULL</code></p><ul><li><p>Allows power users to set the <code>grid-template-columns</code> CSS property
@@ -129,7 +130,7 @@ manually, either via a <code>style</code> attribute or a CSS stylesheet.</p></li
 
 
 <dt id="arg-fixed-width">fixed_width<a class="anchor" aria-label="anchor" href="#arg-fixed-width"></a></dt>
-<dd><p>When <code>width</code> is greater than 1 or is a CSS length unit,
+<dd><p>When <code>width</code> is greater than 1 or is a CSS length,
 e.g. <code>"200px"</code>, <code>fixed_width</code> indicates whether that <code>width</code> value
 represents the absolute size of each column (<code>fixed_width=TRUE</code>) or the
 minimum size of a column (<code>fixed_width=FALSE</code>). When <code>fixed_width=FALSE</code>,
@@ -173,8 +174,11 @@ layout container doesn't shrink below <code>min_height</code> or grow beyond <co
 
 
 <dt id="arg-gap">gap<a class="anchor" aria-label="anchor" href="#arg-gap"></a></dt>
-<dd><p>A <a href="https://rstudio.github.io/htmltools/reference/validateCssUnit.html" class="external-link">CSS length unit</a> defining the
-<code>gap</code> (i.e., spacing) between elements provided to <code>...</code>. This argument is only applicable when <code>fillable = TRUE</code></p></dd>
+<dd><p>A CSS length defining the gap (i.e., spacing) between elements
+provided to <code>...</code>. Numeric values are treated as pixel values; character
+values may use units like <code>"px"</code>, <code>"rem"</code>, or <code>"%"</code>, or CSS functions like
+<code>"calc(1rem + 2px)"</code>. This argument is only applicable when
+<code>fillable = TRUE</code>.</p></dd>
 
 
 <dt id="arg-class">class<a class="anchor" aria-label="anchor" href="#arg-class"></a></dt>
@@ -222,7 +226,7 @@ layout container doesn't shrink below <code>min_height</code> or grow beyond <co
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

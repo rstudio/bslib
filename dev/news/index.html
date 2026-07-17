@@ -80,6 +80,11 @@
 <ul><li>Added <code><a href="../reference/offcanvas.html">offcanvas()</a></code> to create <a href="https://getbootstrap.com/docs/5.3/components/offcanvas/" class="external-link">Bootstrap offcanvas</a> panels that slide in from an edge of the viewport. Panels can be revealed by a <code>trigger</code> element in the UI or controlled from the server with <code><a href="../reference/show_offcanvas.html">show_offcanvas()</a></code>, <code><a href="../reference/show_offcanvas.html">hide_offcanvas()</a></code>, and <code><a href="../reference/show_offcanvas.html">toggle_offcanvas()</a></code>. (<a href="https://github.com/rstudio/bslib/issues/1328" class="external-link">#1328</a>)</li>
 </ul></div>
 <div class="section level3">
+<h3 id="documentation-development-version">Documentation<a class="anchor" aria-label="anchor" href="#documentation-development-version"></a></h3>
+<ul><li>
+<code><a href="../reference/layout_columns.html">layout_columns()</a></code> and <code><a href="../reference/layout_column_wrap.html">layout_column_wrap()</a></code> now describe their CSS length inputs with concrete examples. (<a href="https://github.com/LeonidasZhak" class="external-link">@LeonidasZhak</a> <a href="https://github.com/rstudio/bslib/issues/1300" class="external-link">#1300</a>)</li>
+</ul></div>
+<div class="section level3">
 <h3 id="bug-fixes-development-version">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
 <ul><li><p>Fixed label-to-options spacing on <code><a href="https://rdrr.io/pkg/shiny/man/radioButtons.html" class="external-link">shiny::radioButtons()</a></code> and <code><a href="https://rdrr.io/pkg/shiny/man/checkboxGroupInput.html" class="external-link">shiny::checkboxGroupInput()</a></code> in Bootstrap 5, where a Shiny rule was overriding the bslib fix. (<a href="https://github.com/rstudio/bslib/issues/1308" class="external-link">#1308</a>)</p></li>
 <li><p>Fixed the resize handle indicator position for <code>position = "right"</code> sidebars, which now correctly appears at the inner boundary of the sidebar handle. (<a href="https://github.com/rstudio/bslib/issues/1322" class="external-link">#1322</a>)</p></li>
@@ -532,7 +537,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>
