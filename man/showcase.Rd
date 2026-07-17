@@ -49,7 +49,7 @@ Accepted values in the second category are \code{"auto"}, \code{"min-content"},
 showcase \code{max_height} in a full screen card.}
 }
 \description{
-An collection of functions to build custom layouts that can be used in other
+A collection of functions to build custom layouts that can be used in other
 functions, such as \code{\link[=value_box]{value_box()}}.
 }
 \examples{
@@ -69,8 +69,8 @@ value_box(
 \dontshow{\}) # examplesIf}
 }
 \seealso{
-\code{\link[=value_box]{value_box()}} takes a \code{showcase_layout} where one can use the various
-\verb{showcase_*()} functions.
+\code{\link[=value_box]{value_box()}} has a \code{showcase_layout} argument where one can use the
+various \verb{showcase_*()} functions.
 
 Other Components:
 \code{\link[=accordion]{accordion()}},

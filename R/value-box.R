@@ -234,7 +234,7 @@ new_value_box_theme <- function(class = NULL, bg = NULL, fg = NULL) {
 #' Custom layouts to use in other functions
 #'
 #' @description
-#' An collection of functions to build custom layouts that can be used in other
+#' A collection of functions to build custom layouts that can be used in other
 #' functions, such as [value_box()].
 #'
 #' @param width,width_full_screen,height,height_full_screen one of the
@@ -252,8 +252,8 @@ new_value_box_theme <- function(class = NULL, bg = NULL, fg = NULL) {
 #'   0 and 1) or any valid [CSS unit][htmltools::validateCssUnit] defining the
 #'   showcase `max_height` in a full screen card.
 #'
-#' @seealso [value_box()] takes a `showcase_layout` where one can use the various
-#' `showcase_*()` functions.
+#' @seealso [value_box()] has a `showcase_layout` argument where one can use the
+#'   various `showcase_*()` functions.
 #'
 #' @examplesIf rlang::is_interactive()
 #' library(htmltools)
