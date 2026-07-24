@@ -1,7 +1,4 @@
-# Mirrors the "Dynamically themeable component" factory pattern from #1330:
-# each call captures a different `name`/`css`, but the deferred closures are
-# otherwise byte-identical and so collide on the shared memoise cache unless
-# given a distinct `cache_key`.
+# A factory of deferred deps that differ only in captured variables (#1330).
 defer_test_dep <- function(name, css, ...) {
   bs_dependency_defer(
     function(theme) {
