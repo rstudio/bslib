@@ -23,7 +23,7 @@ the top (\code{"fixed-top"}), or pinned at the bottom
 (\code{"fixed-bottom"}). Note that using \code{"fixed-top"} or
 \code{"fixed-bottom"} will cause the navbar to overlay your body content,
 unless you add padding, e.g.: \code{tags$style(type="text/css", "body
-{padding-top: 70px;}")}}
+  {padding-top: 70px;}")}}
 
 \item{bg}{a CSS color to use for the navbar's background color.}
 
