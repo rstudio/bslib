@@ -245,10 +245,11 @@ in [dashboard layouts](#dashboard-layouts) to highlight key metrics.
 
 - [`value_box()`](https://rstudio.github.io/bslib/dev/reference/value_box.md)
   [`value_box_theme()`](https://rstudio.github.io/bslib/dev/reference/value_box.md)
-  [`showcase_left_center()`](https://rstudio.github.io/bslib/dev/reference/value_box.md)
-  [`showcase_top_right()`](https://rstudio.github.io/bslib/dev/reference/value_box.md)
-  [`showcase_bottom()`](https://rstudio.github.io/bslib/dev/reference/value_box.md)
   : Value box
+- [`showcase_left_center()`](https://rstudio.github.io/bslib/dev/reference/showcase.md)
+  [`showcase_top_right()`](https://rstudio.github.io/bslib/dev/reference/showcase.md)
+  [`showcase_bottom()`](https://rstudio.github.io/bslib/dev/reference/showcase.md)
+  : Custom layouts to use in other functions
 
 ### Accordions
 
