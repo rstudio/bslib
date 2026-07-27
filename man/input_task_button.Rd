@@ -58,7 +58,7 @@ in "ready" state after its click is handled by the server.}
 \item{session}{The \code{session} object; using the default is recommended.}
 }
 \description{
-\code{input_task_button} is a button that can be used in conjuction with
+\code{input_task_button} is a button that can be used in conjunction with
 \code{\link[shiny:bindEvent]{shiny::bindEvent()}} (or the older \code{\link[shiny:eventReactive]{shiny::eventReactive()}} and
 \code{\link[shiny:observeEvent]{shiny::observeEvent()}} functions) to trigger actions or recomputation.
 

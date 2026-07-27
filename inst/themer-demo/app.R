@@ -352,7 +352,7 @@ shinyApp(
       br(),
       tags$p(
         "With the default settings, enabling of box shadows adds a very subtle and
-              barely noticable inner box-shadow to most input widgets. The difference is
+              barely noticeable inner box-shadow to most input widgets. The difference is
               a little more obvious in a progress bar:"
       ),
       progressBar,
