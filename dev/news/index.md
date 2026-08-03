@@ -28,6 +28,16 @@
 
 ### Bug fixes
 
+- Fixed dynamically-rendered outputs
+  (e.g. [`uiOutput()`](https://rdrr.io/pkg/shiny/man/htmlOutput.html))
+  failing to render inside a title-less
+  [`popover()`](https://rstudio.github.io/bslib/dev/reference/popover.md)
+  or
+  [`tooltip()`](https://rstudio.github.io/bslib/dev/reference/tooltip.md),
+  caused by an upstream Shiny change. A temporary CSS workaround
+  restores rendering.
+  ([\#1326](https://github.com/rstudio/bslib/issues/1326))
+
 - Fixed label-to-options spacing on
   [`shiny::radioButtons()`](https://rdrr.io/pkg/shiny/man/radioButtons.html)
   and
