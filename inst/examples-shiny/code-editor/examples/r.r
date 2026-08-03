@@ -21,7 +21,7 @@ result <- data %>%
   )
 
 # Create visualization with ggplot2
-plot_output <- ggplot(result, aes(x = group, y = mean_value, fill = group)) +
+plot_output = ggplot(result, aes(x = group, y = mean_value, fill = group)) +
   geom_col(alpha = 0.8, show.legend = FALSE) +
   labs(title = "Summary Statistics by Group", x = "Group", y = "Mean Value") +
   theme_minimal() +
