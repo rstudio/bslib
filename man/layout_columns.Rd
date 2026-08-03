@@ -44,13 +44,13 @@ above.
 (\code{fr}) height of the relevant row. If there are more rows than values
 provided, the pattern will repeat. For example, \code{row_heights = c(1, 2)}
 allows even rows to take up twice as much space as odd rows.
-\item A list of numeric and \link[htmltools:validateCssUnit]{CSS length units},
+\item A list of numeric values and \link[htmltools:validateCssUnit]{CSS lengths},
 where each value represents the height of the relevant row. If more rows
 are needed than values provided, the pattern will repeat. For example,
 \code{row_heights = list("auto", 1)} allows the height of odd rows to be
 driven by its contents and even rows to be
 \href{https://css-tricks.com/introduction-fr-css-unit/}{\verb{1fr}}.
-\item A character vector/string of \link[htmltools:validateCssUnit]{CSS length units}.
+\item A character vector/string of \link[htmltools:validateCssUnit]{CSS lengths}.
 In this case, the value is supplied directly to \code{grid-auto-rows}.
 \item A \code{\link[=breakpoints]{breakpoints()}} object, where each breakpoint may be either of the above.
 }}
@@ -60,8 +60,11 @@ fillable container with an opinionated height (e.g., \code{page_fillable()}).}
 
 \item{fillable}{Whether or not each element is wrapped in a fillable container.}
 
-\item{gap}{A \link[htmltools:validateCssUnit]{CSS length unit} defining the
-\code{gap} (i.e., spacing) between elements provided to \code{...}. This argument is only applicable when \code{fillable = TRUE}}
+\item{gap}{A CSS length defining the gap (i.e., spacing) between elements
+provided to \code{...}. Numeric values are treated as pixel values; character
+values may use units like \code{"px"}, \code{"rem"}, or \code{"\%"}, or CSS functions like
+\code{"calc(1rem + 2px)"}. This argument is only applicable when
+\code{fillable = TRUE}.}
 
 \item{class}{Additional CSS classes for the returned UI element.}
 

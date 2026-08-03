@@ -109,6 +109,7 @@ Collate:
     'navbar_options.R'
     'navs-legacy.R'
     'navs.R'
+    'offcanvas.R'
     'onLoad.R'
     'page.R'
     'popover.R'

@@ -1,5 +1,13 @@
 # bslib (development version)
 
+## New features
+
+* Added `offcanvas()` to create [Bootstrap offcanvas](https://getbootstrap.com/docs/5.3/components/offcanvas/) panels that slide in from an edge of the viewport. Panels can be revealed by a `trigger` element in the UI or controlled from the server with `show_offcanvas()`, `hide_offcanvas()`, and `toggle_offcanvas()`. (#1328)
+
+## Documentation
+
+* `layout_columns()` and `layout_column_wrap()` now describe their CSS length inputs with concrete examples. (@LeonidasZhak #1300)
+
 ## Bug fixes
 
 * Fixed dynamically-rendered outputs (e.g. `uiOutput()`) failing to render inside a title-less `popover()` or `tooltip()`, caused by an upstream Shiny change. A temporary CSS workaround restores rendering. (#1326)
@@ -7,6 +15,8 @@
 * Fixed label-to-options spacing on `shiny::radioButtons()` and `shiny::checkboxGroupInput()` in Bootstrap 5, where a Shiny rule was overriding the bslib fix. (#1308)
 
 * Fixed the resize handle indicator position for `position = "right"` sidebars, which now correctly appears at the inner boundary of the sidebar handle. (#1322)
+
+* Allow users to directly grab the sidebar handle to resize the sidebar. (#1331)
 
 # bslib 0.11.0
 

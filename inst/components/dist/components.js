@@ -1144,8 +1144,11 @@
         _onResizeStart(event) {
           if (!this._shouldEnableResize())
             return;
-          if (!("touches" in event) && !this.resizeHandleActivated)
-            return;
+          if (!("touches" in event) && !this.resizeHandleActivated) {
+            const target = event.target;
+            if (!target.closest(".resize-indicator"))
+              return;
+          }
           event.preventDefault();
           const clientX = "touches" in event ? event.touches[0].clientX : event.clientX;
           this.resizeState.isResizing = true;
@@ -2337,6 +2340,44 @@
     }
   });
 
+  // srcts/src/components/offcanvas.ts
+  function showOffcanvas(message) {
+    return __async(this, null, function* () {
+      const { html, deps, id, temporary } = message;
+      let el = document.getElementById(id);
+      if (!el) {
+        yield shinyRenderContent(document.body, { html, deps }, "beforeEnd");
+        el = document.getElementById(id);
+      }
+      if (!el)
+        return;
+      const offcanvasEl = el;
+      bsOffcanvas.getOrCreateInstance(offcanvasEl).show();
+      if (temporary) {
+        offcanvasEl.addEventListener(
+          "hidden.bs.offcanvas",
+          () => {
+            var _a, _b;
+            (_b = (_a = window == null ? void 0 : window.Shiny) == null ? void 0 : _a.unbindAll) == null ? void 0 : _b.call(_a, offcanvasEl);
+            offcanvasEl.remove();
+          },
+          { once: true }
+        );
+      }
+    });
+  }
+  var bsOffcanvas;
+  var init_offcanvas = __esm({
+    "srcts/src/components/offcanvas.ts"() {
+      "use strict";
+      init_shinyAddCustomMessageHandlers();
+      init_utils();
+      bsOffcanvas = window.bootstrap ? window.bootstrap.Offcanvas : class {
+      };
+      shinyAddCustomMessageHandlers({ "bslib.show-offcanvas": showOffcanvas });
+    }
+  });
+
   // srcts/src/components/index.ts
   var require_components = __commonJS({
     "srcts/src/components/index.ts"(exports) {
@@ -2348,6 +2389,7 @@
       init_toolbarInputSelect();
       init_submitTextArea();
       init_toast();
+      init_offcanvas();
       init_utils();
       init_shinyAddCustomMessageHandlers();
       var bslibMessageHandlers = {

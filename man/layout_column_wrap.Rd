@@ -31,7 +31,8 @@ following:
 \item This should be specified as \code{1/num}, where \code{num} represents the number
 of desired columns.
 }
-\item A \link[htmltools:validateCssUnit]{CSS length unit}
+\item A \link[htmltools:validateCssUnit]{CSS length}, such as \code{"200px"},
+\code{"20rem"}, \code{"50\%"}, or \code{"calc(100\% - 2rem)"}
 \itemize{
 \item Either the minimum (when \code{fixed_width=FALSE}) or fixed width
 (\code{fixed_width=TRUE}).
@@ -43,7 +44,7 @@ manually, either via a \code{style} attribute or a CSS stylesheet.
 }
 }}
 
-\item{fixed_width}{When \code{width} is greater than 1 or is a CSS length unit,
+\item{fixed_width}{When \code{width} is greater than 1 or is a CSS length,
 e.g. \code{"200px"}, \code{fixed_width} indicates whether that \code{width} value
 represents the absolute size of each column (\code{fixed_width=TRUE}) or the
 minimum size of a column (\code{fixed_width=FALSE}). When \code{fixed_width=FALSE},
@@ -73,8 +74,11 @@ Can be any valid \link[htmltools:validateCssUnit]{CSS unit} (e.g.,
 \code{max_height="200px"}). Use these arguments in filling layouts to ensure that a
 layout container doesn't shrink below \code{min_height} or grow beyond \code{max_height}.}
 
-\item{gap}{A \link[htmltools:validateCssUnit]{CSS length unit} defining the
-\code{gap} (i.e., spacing) between elements provided to \code{...}. This argument is only applicable when \code{fillable = TRUE}}
+\item{gap}{A CSS length defining the gap (i.e., spacing) between elements
+provided to \code{...}. Numeric values are treated as pixel values; character
+values may use units like \code{"px"}, \code{"rem"}, or \code{"\%"}, or CSS functions like
+\code{"calc(1rem + 2px)"}. This argument is only applicable when
+\code{fillable = TRUE}.}
 
 \item{class}{Additional CSS classes for the returned UI element.}
 }

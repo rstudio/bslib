@@ -9,6 +9,7 @@ import "./toolbarInputButton";
 import "./toolbarInputSelect";
 import "./submitTextArea";
 import "./toast";
+import "./offcanvas";
 
 // ----------------------------------------------------------------------------
 // Register custom message handlers for Shiny

@@ -1,7 +1,7 @@
 #' Button for launching longer-running operations
 #'
 #' @description
-#' `input_task_button` is a button that can be used in conjuction with
+#' `input_task_button` is a button that can be used in conjunction with
 #' [shiny::bindEvent()] (or the older [shiny::eventReactive()] and
 #' [shiny::observeEvent()] functions) to trigger actions or recomputation.
 #'

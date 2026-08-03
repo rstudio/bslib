@@ -103,6 +103,7 @@ information.
 Other Components:
 \code{\link[=accordion]{accordion()}},
 \code{\link[=popover]{popover()}},
+\code{\link[=showcase_left_center]{showcase_left_center()}},
 \code{\link[=tooltip]{tooltip()}},
 \code{\link[=value_box]{value_box()}}
 }
