@@ -1,4 +1,4 @@
-# bslib (development version)
+# bslib 0.12.0
 
 ## New features
 
