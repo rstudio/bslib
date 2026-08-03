@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">bslib</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.11.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.12.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -70,9 +70,28 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/rstudio/bslib/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/rstudio/bslib/blob/rc-v0.12.0/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.12.0" id="bslib-0120">bslib 0.12.0<a class="anchor" aria-label="anchor" href="#bslib-0120"></a></h2>
+<div class="section level3">
+<h3 id="new-features-0-12-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-12-0"></a></h3>
+<ul><li>Added <code><a href="../reference/offcanvas.html">offcanvas()</a></code> to create <a href="https://getbootstrap.com/docs/5.3/components/offcanvas/" class="external-link">Bootstrap offcanvas</a> panels that slide in from an edge of the viewport. Panels can be revealed by a <code>trigger</code> element in the UI or controlled from the server with <code><a href="../reference/show_offcanvas.html">show_offcanvas()</a></code>, <code><a href="../reference/show_offcanvas.html">hide_offcanvas()</a></code>, and <code><a href="../reference/show_offcanvas.html">toggle_offcanvas()</a></code>. (<a href="https://github.com/rstudio/bslib/issues/1328" class="external-link">#1328</a>)</li>
+</ul></div>
+<div class="section level3">
+<h3 id="documentation-0-12-0">Documentation<a class="anchor" aria-label="anchor" href="#documentation-0-12-0"></a></h3>
+<ul><li>
+<code><a href="../reference/layout_columns.html">layout_columns()</a></code> and <code><a href="../reference/layout_column_wrap.html">layout_column_wrap()</a></code> now describe their CSS length inputs with concrete examples. (<a href="https://github.com/LeonidasZhak" class="external-link">@LeonidasZhak</a> <a href="https://github.com/rstudio/bslib/issues/1300" class="external-link">#1300</a>)</li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-0-12-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-12-0"></a></h3>
+<ul><li><p>Fixed dynamically-rendered outputs (e.g. <code><a href="https://rdrr.io/pkg/shiny/man/htmlOutput.html" class="external-link">uiOutput()</a></code>) failing to render inside a title-less <code><a href="../reference/popover.html">popover()</a></code> or <code><a href="../reference/tooltip.html">tooltip()</a></code>, caused by an upstream Shiny change. A temporary CSS workaround restores rendering. (<a href="https://github.com/rstudio/bslib/issues/1326" class="external-link">#1326</a>)</p></li>
+<li><p>Fixed label-to-options spacing on <code><a href="https://rdrr.io/pkg/shiny/man/radioButtons.html" class="external-link">shiny::radioButtons()</a></code> and <code><a href="https://rdrr.io/pkg/shiny/man/checkboxGroupInput.html" class="external-link">shiny::checkboxGroupInput()</a></code> in Bootstrap 5, where a Shiny rule was overriding the bslib fix. (<a href="https://github.com/rstudio/bslib/issues/1308" class="external-link">#1308</a>)</p></li>
+<li><p>Fixed the resize handle indicator position for <code>position = "right"</code> sidebars, which now correctly appears at the inner boundary of the sidebar handle. (<a href="https://github.com/rstudio/bslib/issues/1322" class="external-link">#1322</a>)</p></li>
+<li><p>Allow users to directly grab the sidebar handle to resize the sidebar. (<a href="https://github.com/rstudio/bslib/issues/1331" class="external-link">#1331</a>)</p></li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.11.0" id="bslib-0110">bslib 0.11.0<a class="anchor" aria-label="anchor" href="#bslib-0110"></a></h2><p class="text-muted">CRAN release: 2026-05-16</p>
 <div class="section level3">
@@ -277,8 +296,8 @@
 <p>In addition to the Bootstrap theme names (<code>primary</code> ,<code>secondary</code>, etc.), you can now use the main Boostrap colors (<code>purple</code>, <code>blue</code>, <code>red</code>, etc.). You can also choose to apply the color to the background or foreground by prepending a <code>bg-</code> or <code>text-</code> prefix to the theme or color name. Finally, we’ve also added new gradient themes allowing you to pair any two color names as <code>bg-gradient-{from}-{to}</code> (e.g., <code>bg-gradient-purple-blue</code>).</p>
 <p>These named color themes aren’t limited to value boxes: because they’re powered by small utility classes, you can use them anywhere within your bslib-powered UI.</p>
 </li>
-<li><p>Added <code><a href="../reference/value_box.html">showcase_bottom()</a></code>, a new <code><a href="../reference/value_box.html">value_box()</a></code> layout that places the showcase below the value box title and value, perfect for a full-bleed plot. (<a href="https://github.com/rstudio/bslib/issues/758" class="external-link">#758</a>)</p></li>
-<li><p><code><a href="../reference/value_box.html">showcase_left_center()</a></code> and <code><a href="../reference/value_box.html">showcase_top_right()</a></code> no longer take two values for the <code>width</code> argument. Instead, they now take a single value (e.g., <code>width = "30%"</code>) representing the width of the showcase are in the value box. Furthermore, they’ve both gained <code>width_full_screen</code> arguments that determine the width of the showcase area when the value box is expanded to fill the screen. (<a href="https://github.com/rstudio/bslib/issues/758" class="external-link">#758</a>)</p></li>
+<li><p>Added <code><a href="../reference/showcase.html">showcase_bottom()</a></code>, a new <code><a href="../reference/value_box.html">value_box()</a></code> layout that places the showcase below the value box title and value, perfect for a full-bleed plot. (<a href="https://github.com/rstudio/bslib/issues/758" class="external-link">#758</a>)</p></li>
+<li><p><code><a href="../reference/showcase.html">showcase_left_center()</a></code> and <code><a href="../reference/showcase.html">showcase_top_right()</a></code> no longer take two values for the <code>width</code> argument. Instead, they now take a single value (e.g., <code>width = "30%"</code>) representing the width of the showcase are in the value box. Furthermore, they’ve both gained <code>width_full_screen</code> arguments that determine the width of the showcase area when the value box is expanded to fill the screen. (<a href="https://github.com/rstudio/bslib/issues/758" class="external-link">#758</a>)</p></li>
 <li><p>The <code>showcase_layout</code> argument of <code><a href="../reference/value_box.html">value_box()</a></code> now accepts one of three character values: <code>"left center"</code>, <code>"top right"</code>, <code>"bottom"</code>. (<a href="https://github.com/rstudio/bslib/issues/758" class="external-link">#758</a>)</p></li>
 <li><p>A new <a href="https://bslib.shinyapps.io/build-a-box/" class="external-link">Build a Box app</a> is now available online or via bslib. See <code>?value_box()</code> for details. The app helps preview a set of value boxes while you configure and customize their appearance and provides you with code to copy and paste into your app. (<a href="https://github.com/rstudio/bslib/issues/790" class="external-link">#790</a>)</p></li>
 </ul></li>
@@ -519,7 +538,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

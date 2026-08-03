@@ -1,6 +1,6 @@
 # Button for launching longer-running operations
 
-`input_task_button` is a button that can be used in conjuction with
+`input_task_button` is a button that can be used in conjunction with
 [`shiny::bindEvent()`](https://rdrr.io/pkg/shiny/man/bindEvent.html) (or
 the older
 [`shiny::eventReactive()`](https://rdrr.io/pkg/shiny/man/observeEvent.html)

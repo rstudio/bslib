@@ -48,7 +48,7 @@ page_fixed(..., title = NULL, theme = bs_theme(), lang = NULL)
 
 - `page()`: A bslib wrapper for
   [`shiny::bootstrapPage()`](https://rdrr.io/pkg/shiny/man/bootstrapPage.html),
-  a basic Boostrap page where the content is added directly to the page
+  a basic Bootstrap page where the content is added directly to the page
   body.
 
 - `page_fluid()`: A bslib wrapper for

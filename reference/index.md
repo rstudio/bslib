@@ -159,10 +159,11 @@ in [dashboard layouts](#dashboard-layouts) to highlight key metrics.
 
 - [`value_box()`](https://rstudio.github.io/bslib/reference/value_box.md)
   [`value_box_theme()`](https://rstudio.github.io/bslib/reference/value_box.md)
-  [`showcase_left_center()`](https://rstudio.github.io/bslib/reference/value_box.md)
-  [`showcase_top_right()`](https://rstudio.github.io/bslib/reference/value_box.md)
-  [`showcase_bottom()`](https://rstudio.github.io/bslib/reference/value_box.md)
   : Value box
+- [`showcase_left_center()`](https://rstudio.github.io/bslib/reference/showcase.md)
+  [`showcase_top_right()`](https://rstudio.github.io/bslib/reference/showcase.md)
+  [`showcase_bottom()`](https://rstudio.github.io/bslib/reference/showcase.md)
+  : Custom layouts to use in other functions
 
 ### Accordions
 
@@ -206,6 +207,19 @@ that appear temporarily in a corner of the screen.
 - [`show_toast()`](https://rstudio.github.io/bslib/reference/show_toast.md)
   [`hide_toast()`](https://rstudio.github.io/bslib/reference/show_toast.md)
   : Show or hide a toast notification
+
+### Offcanvas
+
+Offcanvas panels slide in from an edge of the viewport. Use them for
+navigation, settings, or any content you want to reveal on demand – from
+a trigger in the UI or programmatically from the server.
+
+- [`offcanvas()`](https://rstudio.github.io/bslib/reference/offcanvas.md)
+  : Offcanvas panels
+- [`show_offcanvas()`](https://rstudio.github.io/bslib/reference/show_offcanvas.md)
+  [`hide_offcanvas()`](https://rstudio.github.io/bslib/reference/show_offcanvas.md)
+  [`toggle_offcanvas()`](https://rstudio.github.io/bslib/reference/show_offcanvas.md)
+  : Show, hide, or toggle an offcanvas from the server
 
 ### Miscellaneous inputs
 

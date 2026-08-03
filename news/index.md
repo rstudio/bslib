@@ -1,5 +1,57 @@
 # Changelog
 
+## bslib 0.12.0
+
+### New features
+
+- Added
+  [`offcanvas()`](https://rstudio.github.io/bslib/reference/offcanvas.md)
+  to create [Bootstrap
+  offcanvas](https://getbootstrap.com/docs/5.3/components/offcanvas/)
+  panels that slide in from an edge of the viewport. Panels can be
+  revealed by a `trigger` element in the UI or controlled from the
+  server with
+  [`show_offcanvas()`](https://rstudio.github.io/bslib/reference/show_offcanvas.md),
+  [`hide_offcanvas()`](https://rstudio.github.io/bslib/reference/show_offcanvas.md),
+  and
+  [`toggle_offcanvas()`](https://rstudio.github.io/bslib/reference/show_offcanvas.md).
+  ([\#1328](https://github.com/rstudio/bslib/issues/1328))
+
+### Documentation
+
+- [`layout_columns()`](https://rstudio.github.io/bslib/reference/layout_columns.md)
+  and
+  [`layout_column_wrap()`](https://rstudio.github.io/bslib/reference/layout_column_wrap.md)
+  now describe their CSS length inputs with concrete examples.
+  ([@LeonidasZhak](https://github.com/LeonidasZhak)
+  [\#1300](https://github.com/rstudio/bslib/issues/1300))
+
+### Bug fixes
+
+- Fixed dynamically-rendered outputs
+  (e.g. [`uiOutput()`](https://rdrr.io/pkg/shiny/man/htmlOutput.html))
+  failing to render inside a title-less
+  [`popover()`](https://rstudio.github.io/bslib/reference/popover.md) or
+  [`tooltip()`](https://rstudio.github.io/bslib/reference/tooltip.md),
+  caused by an upstream Shiny change. A temporary CSS workaround
+  restores rendering.
+  ([\#1326](https://github.com/rstudio/bslib/issues/1326))
+
+- Fixed label-to-options spacing on
+  [`shiny::radioButtons()`](https://rdrr.io/pkg/shiny/man/radioButtons.html)
+  and
+  [`shiny::checkboxGroupInput()`](https://rdrr.io/pkg/shiny/man/checkboxGroupInput.html)
+  in Bootstrap 5, where a Shiny rule was overriding the bslib fix.
+  ([\#1308](https://github.com/rstudio/bslib/issues/1308))
+
+- Fixed the resize handle indicator position for `position = "right"`
+  sidebars, which now correctly appears at the inner boundary of the
+  sidebar handle.
+  ([\#1322](https://github.com/rstudio/bslib/issues/1322))
+
+- Allow users to directly grab the sidebar handle to resize the sidebar.
+  ([\#1331](https://github.com/rstudio/bslib/issues/1331))
+
 ## bslib 0.11.0
 
 CRAN release: 2026-05-16
@@ -762,16 +814,16 @@ CRAN release: 2023-11-21
     within your bslib-powered UI.
 
   - Added
-    [`showcase_bottom()`](https://rstudio.github.io/bslib/reference/value_box.md),
+    [`showcase_bottom()`](https://rstudio.github.io/bslib/reference/showcase.md),
     a new
     [`value_box()`](https://rstudio.github.io/bslib/reference/value_box.md)
     layout that places the showcase below the value box title and value,
     perfect for a full-bleed plot.
     ([\#758](https://github.com/rstudio/bslib/issues/758))
 
-  - [`showcase_left_center()`](https://rstudio.github.io/bslib/reference/value_box.md)
+  - [`showcase_left_center()`](https://rstudio.github.io/bslib/reference/showcase.md)
     and
-    [`showcase_top_right()`](https://rstudio.github.io/bslib/reference/value_box.md)
+    [`showcase_top_right()`](https://rstudio.github.io/bslib/reference/showcase.md)
     no longer take two values for the `width` argument. Instead, they
     now take a single value (e.g., `width = "30%"`) representing the
     width of the showcase are in the value box. Furthermore, they’ve

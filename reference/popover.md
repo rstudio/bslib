@@ -173,6 +173,7 @@ typically when focusing or hovering over a trigger element.
 Other Components:
 [`accordion()`](https://rstudio.github.io/bslib/reference/accordion.md),
 [`card()`](https://rstudio.github.io/bslib/reference/card.md),
+[`showcase_left_center()`](https://rstudio.github.io/bslib/reference/showcase.md),
 [`tooltip()`](https://rstudio.github.io/bslib/reference/tooltip.md),
 [`value_box()`](https://rstudio.github.io/bslib/reference/value_box.md)
 

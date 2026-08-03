@@ -101,6 +101,7 @@ add or remove accordion panels from an accordion.
 Other Components:
 [`card()`](https://rstudio.github.io/bslib/reference/card.md),
 [`popover()`](https://rstudio.github.io/bslib/reference/popover.md),
+[`showcase_left_center()`](https://rstudio.github.io/bslib/reference/showcase.md),
 [`tooltip()`](https://rstudio.github.io/bslib/reference/tooltip.md),
 [`value_box()`](https://rstudio.github.io/bslib/reference/value_box.md)
 

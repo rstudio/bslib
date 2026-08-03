@@ -43,8 +43,9 @@ layout_column_wrap(
     - This should be specified as `1/num`, where `num` represents the
       number of desired columns.
 
-  - A [CSS length
-    unit](https://rstudio.github.io/htmltools/reference/validateCssUnit.html)
+  - A [CSS
+    length](https://rstudio.github.io/htmltools/reference/validateCssUnit.html),
+    such as `"200px"`, `"20rem"`, `"50%"`, or `"calc(100% - 2rem)"`
 
     - Either the minimum (when `fixed_width=FALSE`) or fixed width
       (`fixed_width=TRUE`).
@@ -56,14 +57,14 @@ layout_column_wrap(
 
 - fixed_width:
 
-  When `width` is greater than 1 or is a CSS length unit, e.g.
-  `"200px"`, `fixed_width` indicates whether that `width` value
-  represents the absolute size of each column (`fixed_width=TRUE`) or
-  the minimum size of a column (`fixed_width=FALSE`). When
-  `fixed_width=FALSE`, new columns are added to a row when `width` space
-  is available and columns will never exceed the container or viewport
-  size. When `fixed_width=TRUE`, all columns will be exactly `width`
-  wide, which may result in columns overflowing the parent container.
+  When `width` is greater than 1 or is a CSS length, e.g. `"200px"`,
+  `fixed_width` indicates whether that `width` value represents the
+  absolute size of each column (`fixed_width=TRUE`) or the minimum size
+  of a column (`fixed_width=FALSE`). When `fixed_width=FALSE`, new
+  columns are added to a row when `width` space is available and columns
+  will never exceed the container or viewport size. When
+  `fixed_width=TRUE`, all columns will be exactly `width` wide, which
+  may result in columns overflowing the parent container.
 
 - heights_equal:
 
@@ -105,10 +106,11 @@ layout_column_wrap(
 
 - gap:
 
-  A [CSS length
-  unit](https://rstudio.github.io/htmltools/reference/validateCssUnit.html)
-  defining the `gap` (i.e., spacing) between elements provided to `...`.
-  This argument is only applicable when `fillable = TRUE`
+  A CSS length defining the gap (i.e., spacing) between elements
+  provided to `...`. Numeric values are treated as pixel values;
+  character values may use units like `"px"`, `"rem"`, or `"%"`, or CSS
+  functions like `"calc(1rem + 2px)"`. This argument is only applicable
+  when `fillable = TRUE`.
 
 - class:
 
