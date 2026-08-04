@@ -2,6 +2,10 @@
 
 ## bslib (development version)
 
+## bslib 0.12.0
+
+CRAN release: 2026-08-03
+
 ### New features
 
 - Added
