@@ -625,6 +625,29 @@ navbarMenuTextFilter <- function(text) {
   }
 }
 
+# The tabset ID is the `data-tabsetid` join key, and it is also baked into the
+# `tab-<tabsetId>-<index>` DOM ids and the `#tab-<tabsetId>-<index>` hrefs that
+# target them.
+#
+# When the tabset has an input `id`, reuse it: input ids are already unique, so
+# the ids stay unique, and the rendered markup becomes stable across renders and
+# straightforward to target from custom CSS/JS.
+#
+# Shiny does not restrict the characters in an input id, so an id is only safe
+# here if it survives being embedded in a CSS selector -- `tabsetPanel(id =
+# "my.tabs")` would otherwise emit `href="#tab-my.tabs-0"`, which a browser reads
+# as "#tab-my" + ".tabs-0". Ids that don't qualify fall back to the random
+# integer, i.e. to the behavior from before this was introduced. `-` is allowed
+# because that is what `shiny::NS()` uses to join module namespaces.
+tabset_id <- function(id = NULL) {
+  is_selector_safe <- is.character(id) &&
+    length(id) == 1 &&
+    !is.na(id) &&
+    grepl("^[A-Za-z0-9_-]+$", id)
+
+  if (is_selector_safe) id else as.character(p_randomInt(1000, 10000))
+}
+
 # This function is called internally by navbarPage, tabsetPanel
 # and navlistPanel
 buildTabset <- function(
@@ -654,7 +677,7 @@ buildTabset <- function(
     )
   }
 
-  tabsetId <- p_randomInt(1000, 10000)
+  tabsetId <- tabset_id(id)
   tabs <- lapply(
     seq_len(length(tabs)),
     buildTabItem,
