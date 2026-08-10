@@ -259,7 +259,10 @@ test_that("a tabset with an unsafe id falls back to a random tabset id", {
   # The `id` attribute itself is still whatever the user asked for
   expect_warning(
     html <- as.character(
-      htmltools::renderTags(navset_tab(nav_panel("a", "a"), id = "my.tabs"))$html
+      htmltools::renderTags(navset_tab(
+        nav_panel("a", "a"),
+        id = "my.tabs"
+      ))$html
     ),
     class = "bslib_tabset_id_unsafe"
   )
