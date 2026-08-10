@@ -632,20 +632,35 @@ navbarMenuTextFilter <- function(text) {
 # When the tabset has an input `id`, reuse it: input ids are already unique, so
 # the ids stay unique, and the rendered markup becomes stable across renders and
 # straightforward to target from custom CSS/JS.
-#
-# Shiny does not restrict the characters in an input id, so an id is only safe
-# here if it survives being embedded in a CSS selector -- `tabsetPanel(id =
-# "my.tabs")` would otherwise emit `href="#tab-my.tabs-0"`, which a browser reads
-# as "#tab-my" + ".tabs-0". Ids that don't qualify fall back to the random
-# integer, i.e. to the behavior from before this was introduced. `-` is allowed
-# because that is what `shiny::NS()` uses to join module namespaces.
 tabset_id <- function(id = NULL) {
   is_selector_safe <- is.character(id) &&
     length(id) == 1 &&
     !is.na(id) &&
     grepl("^[A-Za-z0-9_-]+$", id)
 
-  if (is_selector_safe) id else as.character(p_randomInt(1000, 10000))
+  if (is_selector_safe) {
+    id
+  } else {
+    if (!is.null(id)) {
+      rlang::warn(
+        c(
+          paste0(
+            "Not using the tabset `id` (",
+            encodeString(paste(format(id), collapse = ", "), quote = '"'),
+            ") as its `data-tabsetid`."
+          ),
+          i = paste(
+            "The `id` is embedded in a CSS selector, so it may only contain",
+            "letters, numbers, `_`, and `-`."
+          ),
+          i = "A random tabset id was used instead."
+        ),
+        class = "bslib_tabset_id_unsafe",
+        call = rlang::caller_env()
+      )
+    }
+    as.character(p_randomInt(1000, 10000))
+  }
 }
 
 # This function is called internally by navbarPage, tabsetPanel

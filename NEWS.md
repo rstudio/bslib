@@ -2,7 +2,7 @@
 
 ## Improvements
 
-* Navsets created with an `id` (e.g. `navset_tab(id = "tabs")`) now use that `id` as their `data-tabsetid`, so their tab panes get stable `tab-tabs-1` style DOM ids instead of ones derived from a random integer. This makes the rendered markup reproducible across renders and easier to target from custom CSS and JavaScript. Navsets without an `id`, `nav_menu()` dropdowns, and `id`s that would not survive being embedded in a CSS selector all keep the random ID. (#1342)
+* Navsets created with an `id` (e.g. `navset_tab(id = "tabs")`) now use that `id` as their `data-tabsetid`, so their tab panes get stable `tab-tabs-1` style DOM ids instead of ones derived from a random integer. This makes the rendered markup reproducible across renders and easier to target from custom CSS and JavaScript. Navsets without an `id` and `nav_menu()` dropdowns keep the random ID, as do `id`s that would not survive being embedded in a CSS selector (those also warn). (#1342)
 
 # bslib 0.12.0
 
