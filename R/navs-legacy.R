@@ -625,44 +625,6 @@ navbarMenuTextFilter <- function(text) {
   }
 }
 
-# The tabset ID is the `data-tabsetid` join key, and it is also baked into the
-# `tab-<tabsetId>-<index>` DOM ids and the `#tab-<tabsetId>-<index>` hrefs that
-# target them.
-#
-# When the tabset has an input `id`, reuse it: input ids are already unique, so
-# the ids stay unique, and the rendered markup becomes stable across renders and
-# straightforward to target from custom CSS/JS.
-tabset_id <- function(id = NULL) {
-  is_selector_safe <- is.character(id) &&
-    length(id) == 1 &&
-    !is.na(id) &&
-    grepl("^[A-Za-z0-9_-]+$", id)
-
-  if (is_selector_safe) {
-    id
-  } else {
-    if (!is.null(id)) {
-      rlang::warn(
-        c(
-          paste0(
-            "Not using the tabset `id` (",
-            encodeString(paste(format(id), collapse = ", "), quote = '"'),
-            ") as its `data-tabsetid`."
-          ),
-          i = paste(
-            "The `id` is embedded in a CSS selector, so it may only contain",
-            "letters, numbers, `_`, and `-`."
-          ),
-          i = "A random tabset id was used instead."
-        ),
-        class = "bslib_tabset_id_unsafe",
-        call = rlang::caller_env()
-      )
-    }
-    as.character(p_randomInt(1000, 10000))
-  }
-}
-
 # This function is called internally by navbarPage, tabsetPanel
 # and navlistPanel
 buildTabset <- function(
@@ -692,7 +654,10 @@ buildTabset <- function(
     )
   }
 
-  tabsetId <- tabset_id(id)
+  # Reuse the input `id` when there is one: input ids are already unique, so the
+  # derived `tab-<tabsetId>-<index>` DOM ids stay unique, and the rendered markup
+  # becomes stable across renders.
+  tabsetId <- id %||% p_randomInt(1000, 10000)
   tabs <- lapply(
     seq_len(length(tabs)),
     buildTabItem,

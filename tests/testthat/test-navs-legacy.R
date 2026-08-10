@@ -167,40 +167,6 @@ tabset_ids_of <- function(x) {
   sub('^data-tabsetid="(.*)"$', "\\1", matches)
 }
 
-test_that("tabset_id() uses a selector-safe id", {
-  expect_equal(tabset_id("tabs"), "tabs")
-  expect_equal(tabset_id("my_tabs"), "my_tabs")
-  # `-` is what shiny::NS() uses to join module namespaces
-  expect_equal(tabset_id("mod-tabs"), "mod-tabs")
-
-  # No id to key off, so nothing to report -- just a random id
-  expect_silent(res <- tabset_id(NULL))
-  expect_match(res, "^[0-9]+$")
-})
-
-test_that("tabset_id() warns and falls back for an unsafe id", {
-  # Shiny doesn't restrict input id characters, so ids that would break the
-  # `#tab-<id>-<index>` selector fall back to the random integer
-  expect_unsafe_id <- function(id) {
-    expect_warning(res <- tabset_id(id), class = "bslib_tabset_id_unsafe")
-    expect_match(res, "^[0-9]+$")
-  }
-
-  expect_unsafe_id("my.tabs")
-  expect_unsafe_id("my tabs")
-  expect_unsafe_id("tabs[1]")
-  expect_unsafe_id("tabs:x")
-  expect_unsafe_id(NA_character_)
-  expect_unsafe_id(character(0))
-})
-
-test_that("the unsafe id warning names the id and is classed", {
-  cnd <- rlang::catch_cnd(tabset_id("my.tabs"), classes = "warning")
-
-  expect_s3_class(cnd, "bslib_tabset_id_unsafe")
-  expect_match(rlang::cnd_message(cnd), "my.tabs", fixed = TRUE)
-})
-
 test_that("a tabset with an id uses it as the tabset id", {
   x <- navset_tab(nav_panel("a", "a"), nav_panel("b", "b"), id = "my_tabs")
   html <- as.character(htmltools::renderTags(x)$html)
@@ -249,22 +215,10 @@ test_that("a nav_menu() keeps its own random tabset id", {
   expect_equal(ids[[3]], "my_tabs")
 })
 
-test_that("a tabset with an unsafe id falls back to a random tabset id", {
-  expect_warning(
-    ids <- tabset_ids_of(navset_tab(nav_panel("a", "a"), id = "my.tabs")),
-    class = "bslib_tabset_id_unsafe"
+test_that("a module-namespaced id is used as-is", {
+  ids <- tabset_ids_of(
+    navset_tab(nav_panel("a", "a"), id = shiny::NS("mod")("tabs"))
   )
-  expect_match(ids[[1]], "^[0-9]+$")
 
-  # The `id` attribute itself is still whatever the user asked for
-  expect_warning(
-    html <- as.character(
-      htmltools::renderTags(navset_tab(
-        nav_panel("a", "a"),
-        id = "my.tabs"
-      ))$html
-    ),
-    class = "bslib_tabset_id_unsafe"
-  )
-  expect_true(grepl('id="my.tabs"', html, fixed = TRUE))
+  expect_equal(ids[[1]], "mod-tabs")
 })
