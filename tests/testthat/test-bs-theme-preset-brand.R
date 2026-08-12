@@ -391,12 +391,12 @@ describe("bs_brand_bundle()", {
   })
 })
 
-brand_css <- function(brand) {
+brand_theme_css <- function(theme, output_style = "expanded") {
   withr::local_options("bslib.color_contrast_warnings" = FALSE)
 
   dependencies <- bs_theme_dependencies(
-    bs_theme(version = 5, preset = "bootstrap", brand = brand),
-    sass_options = sass::sass_options(output_style = "expanded"),
+    theme,
+    sass_options = sass::sass_options(output_style = output_style),
     cache = FALSE,
     precompiled = FALSE
   )
@@ -408,6 +408,13 @@ brand_css <- function(brand) {
   paste(
     readLines(file.path(bootstrap$src$file, bootstrap$stylesheet)),
     collapse = "\n"
+  )
+}
+
+brand_css <- function(brand, output_style = "expanded") {
+  brand_theme_css(
+    bs_theme(version = 5, preset = "bootstrap", brand = brand),
+    output_style = output_style
   )
 }
 
@@ -453,8 +460,8 @@ brand_css_dark_rule <- function(css, selector) {
       perl = TRUE
     )
   )[[1]]
-  expect_length(matches, 1)
-  matches[[1]]
+  expect_gte(length(matches), 1)
+  paste(matches, collapse = "\n")
 }
 
 brand_css_dark_runtime <- function(css) {
@@ -472,6 +479,119 @@ brand_css_dark_runtime <- function(css) {
 
 describe("brand light and dark color modes", {
   skip_if_not_installed("brand.yml", minimum_version = "0.1.0.9000")
+
+  it("preserves brand metadata through public theme mutators", {
+    theme <- bs_theme(
+      version = 5,
+      preset = "bootstrap",
+      brand = list(
+        color = list(
+          primary = list(light = "#123456", dark = "#abcdef")
+        )
+      )
+    )
+
+    mutated <- list(
+      bundle = bs_bundle(theme, sass::sass_layer(rules = ".bundle {}")),
+      variables = bs_add_variables(theme, "border-width" = "2px"),
+      rules = bs_add_rules(theme, ".rules {}"),
+      functions = bs_add_functions(
+        theme,
+        "@function brand-test() { @return true; }"
+      ),
+      mixins = bs_add_mixins(theme, "@mixin brand-test() {}"),
+      update = bs_theme_update(theme, preset = "flatly"),
+      remove = bs_remove(theme, "_carousel")
+    )
+
+    lapply(mutated, function(x) {
+      expect_identical(attr(x, "brand"), attr(theme, "brand"))
+    })
+
+    expect_null(attr(bs_remove(theme, "brand"), "brand"))
+  })
+
+  it("does not add dark CSS for Bootstrap 4", {
+    theme <- suppressWarnings(bs_theme(
+      version = 4,
+      preset = "bootstrap",
+      brand = list(
+        color = list(
+          primary = list(light = "#123456", dark = "#abcdef")
+        )
+      )
+    ))
+    theme <- bs_add_rules(theme, ".brand-primary { color: $primary; }")
+
+    expect_identical(
+      bs_brand_dark_css(
+        theme,
+        sass::sass_options(output_style = "expanded"),
+        FALSE
+      ),
+      ""
+    )
+  })
+
+  it("preserves font dependencies after appending dark CSS", {
+    cache <- withr::local_tempdir()
+    theme <- bs_theme(
+      version = 5,
+      preset = "bootstrap",
+      brand = list(
+        color = list(
+          primary = list(light = "#123456", dark = "#abcdef")
+        ),
+        typography = list(
+          fonts = list(list(family = "Fira Code", source = "bunny")),
+          base = list(family = "Fira Code")
+        )
+      )
+    )
+
+    compile_dependencies <- function() {
+      bs_theme_dependencies(
+        theme,
+        sass_options = sass::sass_options(output_style = "expanded"),
+        cache = cache,
+        precompiled = FALSE
+      )
+    }
+
+    for (dependencies in list(compile_dependencies(), compile_dependencies())) {
+      expect_true(
+        "Fira_Code" %in%
+          vapply(
+            dependencies,
+            function(x) x$name,
+            character(1)
+          )
+      )
+    }
+  })
+
+  it("rewrites the dark root after charset and byte-order-mark prefixes", {
+    brand <- list(
+      color = list(
+        primary = list(light = "#123456", dark = "#abcdef")
+      ),
+      typography = list(base = list(family = "Café Sans"))
+    )
+
+    for (output_style in c("expanded", "compressed")) {
+      css <- brand_css(brand, output_style = output_style)
+      expect_match(
+        brand_css_dark_root(css),
+        "--bs-primary: #abcdef;",
+        fixed = TRUE
+      )
+      expect_false(grepl(
+        ':root\\s*,\\s*\\[data-bs-theme="light"\\]\\s*\\{[^}]*#abcdef',
+        css,
+        perl = TRUE
+      ))
+    }
+  })
 
   it("emits full color and typography variants in Bootstrap mode selectors", {
     css <- brand_css(list(
@@ -496,6 +616,44 @@ describe("brand light and dark color modes", {
     expect_match(dark, "--bs-body-bg: #222222;", fixed = TRUE)
     expect_match(dark, "--bs-primary: #66b2ff;", fixed = TRUE)
     expect_match(dark, "--bs-heading-color: #ddeeff;", fixed = TRUE)
+  })
+
+  it("recompiles Bootstrap components and custom rules in dark mode", {
+    theme <- bs_theme(
+      version = 5,
+      preset = "flatly",
+      brand = list(
+        color = list(
+          primary = list(light = "#123456", dark = "#abcdef")
+        )
+      )
+    )
+    theme <- bs_add_rules(
+      theme,
+      ".brand-primary { color: $primary; }"
+    )
+    css <- brand_theme_css(theme)
+
+    expect_match(
+      brand_css_dark_rule(css, "\\.btn-primary"),
+      "--bs-btn-bg: #abcdef;",
+      fixed = TRUE
+    )
+    expect_match(
+      brand_css_dark_rule(css, "\\.bg-primary"),
+      "background-color: rgba(var(--bs-primary-rgb)",
+      fixed = TRUE
+    )
+    expect_match(
+      brand_css_dark_root(css),
+      "--bs-primary-rgb: 171, 205, 239;",
+      fixed = TRUE
+    )
+    expect_match(
+      brand_css_dark_rule(css, "\\.brand-primary"),
+      "color: #abcdef;",
+      fixed = TRUE
+    )
   })
 
   it("leaves an undefined mode at Bootstrap's default", {
@@ -529,6 +687,16 @@ describe("brand light and dark color modes", {
     expect_false(grepl(
       "#112233",
       brand_css_dark_root(light_only),
+      fixed = TRUE
+    ))
+    expect_match(
+      brand_css_dark_rule(light_only, "\\.btn-primary"),
+      "--bs-btn-bg: #0d6efd;",
+      fixed = TRUE
+    )
+    expect_false(grepl(
+      "#112233",
+      brand_css_dark_rule(light_only, "\\.btn-primary"),
       fixed = TRUE
     ))
   })

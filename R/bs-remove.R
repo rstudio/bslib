@@ -30,7 +30,11 @@
 #' bs4_no_compat <- bs_remove(bs4, "bs3compat")
 bs_remove <- function(theme, ids = character(0)) {
   ids <- retain_valid_ids(theme, ids)
-  sass_bundle_remove(theme, ids)
+  result <- preserve_theme_attributes(sass_bundle_remove(theme, ids), theme)
+  if (any(ids %in% c("brand_base", "brand_defaults", "brand"))) {
+    attr(result, "brand") <- NULL
+  }
+  result
 }
 
 #' @rdname bs_remove
