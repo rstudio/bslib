@@ -13,8 +13,13 @@ hide_offcanvas(id, ..., session = get_current_session())
 toggle_offcanvas(id, show = NULL, ..., session = get_current_session())
 }
 \arguments{
-\item{offcanvas}{An \code{\link[=offcanvas]{offcanvas()}} object, or a string / tags that will be
-converted to an offcanvas with default settings.}
+\item{offcanvas}{One of: the \code{id} (a single string) of an \code{\link[=offcanvas]{offcanvas()}}
+panel already in the UI, which is revealed; list-like or tag content
+(e.g. a string or \code{\link[htmltools:tagList]{htmltools::tagList()}}), which is wrapped into a new
+anonymous offcanvas with default settings; or an \code{\link[=offcanvas]{offcanvas()}} object,
+which is rendered into the page (if needed) and shown. Note that a bare
+string used to be treated as body content for a new anonymous panel; it
+is now treated as an \code{id} lookup instead.}
 
 \item{...}{Reserved for future extensions (currently ignored).}
 
@@ -33,9 +38,10 @@ Invisibly returns the offcanvas \code{id} (the generated id when
 }
 \description{
 Control an \code{\link[=offcanvas]{offcanvas()}} panel from a Shiny server function. \code{show_offcanvas()}
-takes an offcanvas \strong{object} (and will render it into the page if it isn't
-already there); \code{hide_offcanvas()} and \code{toggle_offcanvas()} act on a panel
-already in the UI, by \strong{id}.
+can either reveal a panel already in the UI by \strong{id}, or take an offcanvas
+\strong{object} (rendering it into the page if it isn't already there);
+\code{hide_offcanvas()} and \code{toggle_offcanvas()} act on a panel already in the
+UI, by \strong{id}.
 
 If a panel with the same \code{id} is already present in the page,
 \code{show_offcanvas()} simply reveals it; the object's content is not re-rendered
@@ -79,6 +85,16 @@ server <- function(input, output, session) {
     )
   })
   observeEvent(input$hide, hide_offcanvas("note"))
+}
+shinyApp(ui, server)
+
+# Reveal an existing id'd panel already declared in the UI
+ui <- page_fluid(
+  actionButton("show", "Show"),
+  offcanvas("Panel content", title = "Notice", id = "note")
+)
+server <- function(input, output, session) {
+  observeEvent(input$show, show_offcanvas("note"))
 }
 shinyApp(ui, server)
 \dontshow{\}) # examplesIf}
