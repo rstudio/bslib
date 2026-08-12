@@ -361,11 +361,12 @@ offcanvas_preview_tags <- function(x) {
 #'
 #' @param offcanvas One of: the `id` (a single string) of an [offcanvas()]
 #'   panel already in the UI, which is revealed; list-like or tag content
-#'   (e.g. a string or [htmltools::tagList()]), which is wrapped into a new
-#'   anonymous offcanvas with default settings; or an [offcanvas()] object,
-#'   which is rendered into the page (if needed) and shown. Note that a bare
-#'   string used to be treated as body content for a new anonymous panel; it
-#'   is now treated as an `id` lookup instead.
+#'   (e.g. [htmltools::HTML()] or a [htmltools::tagList()]), which is wrapped
+#'   into a new anonymous offcanvas with default settings; or an [offcanvas()]
+#'   object, which is rendered into the page (if needed) and shown. Note that
+#'   a bare string used to be treated as body content for a new anonymous
+#'   panel; it is now treated as an `id` lookup instead, and errors if it
+#'   looks like body text (e.g. it contains whitespace or is empty).
 #' @param id The `id` of an offcanvas in the UI. `hide_offcanvas()` also accepts
 #'   an [offcanvas()] object whose `id` was set.
 #' @param show Whether to show (`TRUE`) or hide (`FALSE`) the offcanvas. The
@@ -426,8 +427,17 @@ show_offcanvas <- function(
 ) {
   rlang::check_dots_empty()
 
-  if (rlang::is_scalar_character(offcanvas)) {
+  if (rlang::is_scalar_character(offcanvas) && !inherits(offcanvas, "html")) {
     id <- offcanvas
+    if (grepl("[[:space:]]", id) || !nzchar(id)) {
+      rlang::abort(
+        c(
+          "`offcanvas` looks like body text, not an offcanvas `id` (ids can't contain whitespace or be empty).",
+          "i" = "To show new content, wrap it in `htmltools::tagList()` or pass an `offcanvas()` object.",
+          "i" = "To reveal an existing panel, pass its `id` (no spaces, non-empty)."
+        )
+      )
+    }
     msg <- list(method = "toggle", value = "show")
     force(id)
     session$onFlush(function() session$sendInputMessage(id, msg), once = TRUE)

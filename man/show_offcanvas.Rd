@@ -15,11 +15,12 @@ toggle_offcanvas(id, show = NULL, ..., session = get_current_session())
 \arguments{
 \item{offcanvas}{One of: the \code{id} (a single string) of an \code{\link[=offcanvas]{offcanvas()}}
 panel already in the UI, which is revealed; list-like or tag content
-(e.g. a string or \code{\link[htmltools:tagList]{htmltools::tagList()}}), which is wrapped into a new
-anonymous offcanvas with default settings; or an \code{\link[=offcanvas]{offcanvas()}} object,
-which is rendered into the page (if needed) and shown. Note that a bare
-string used to be treated as body content for a new anonymous panel; it
-is now treated as an \code{id} lookup instead.}
+(e.g. \code{\link[htmltools:HTML]{htmltools::HTML()}} or a \code{\link[htmltools:tagList]{htmltools::tagList()}}), which is wrapped
+into a new anonymous offcanvas with default settings; or an \code{\link[=offcanvas]{offcanvas()}}
+object, which is rendered into the page (if needed) and shown. Note that
+a bare string used to be treated as body content for a new anonymous
+panel; it is now treated as an \code{id} lookup instead, and errors if it
+looks like body text (e.g. it contains whitespace or is empty).}
 
 \item{...}{Reserved for future extensions (currently ignored).}
 

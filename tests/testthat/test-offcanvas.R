@@ -505,6 +505,30 @@ test_that("show_offcanvas() with list-like content wraps it into an anonymous pa
   expect_length(session$input_messages, 0)
 })
 
+test_that("show_offcanvas() treats htmltools::HTML() as body content, not an id", {
+  local_mocked_bindings(
+    offcanvas_random_id = function() "bslib-offcanvas-0003"
+  )
+
+  session <- mock_session()
+
+  returned_id <- suppressWarnings(
+    show_offcanvas(htmltools::HTML("some_id"), session = session)
+  )
+
+  expect_equal(returned_id, "bslib-offcanvas-0003")
+  expect_length(session$messages, 1)
+  expect_equal(session$messages[[1]]$type, "bslib.show-offcanvas")
+  expect_length(session$input_messages, 0)
+})
+
+test_that("show_offcanvas() errors on a string that looks like body text", {
+  session <- mock_session()
+
+  expect_error(show_offcanvas("has spaces", session = session))
+  expect_error(show_offcanvas("", session = session))
+})
+
 test_that("hide_offcanvas() sends hide input message", {
   session <- mock_session()
 
