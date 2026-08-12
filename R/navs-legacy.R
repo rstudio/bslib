@@ -654,7 +654,10 @@ buildTabset <- function(
     )
   }
 
-  tabsetId <- p_randomInt(1000, 10000)
+  # Reuse the input `id` when there is one: input ids are already unique, so the
+  # derived `tab-<tabsetId>-<index>` DOM ids stay unique, and the rendered markup
+  # becomes stable across renders.
+  tabsetId <- id %||% p_randomInt(1000, 10000)
   tabs <- lapply(
     seq_len(length(tabs)),
     buildTabItem,
