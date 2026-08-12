@@ -390,3 +390,164 @@ describe("bs_brand_bundle()", {
     expect_equal(bs_theme(brand = FALSE), bs_theme_base)
   })
 })
+
+brand_css <- function(brand) {
+  withr::local_options("bslib.color_contrast_warnings" = FALSE)
+
+  dependencies <- bs_theme_dependencies(
+    bs_theme(version = 5, preset = "bootstrap", brand = brand),
+    sass_options = sass::sass_options(output_style = "expanded"),
+    cache = FALSE,
+    precompiled = FALSE
+  )
+  bootstrap <- Filter(
+    function(x) identical(x$name, "bootstrap"),
+    dependencies
+  )[[1]]
+
+  paste(
+    readLines(file.path(bootstrap$src$file, bootstrap$stylesheet)),
+    collapse = "\n"
+  )
+}
+
+brand_css_light_root <- function(css) {
+  matches <- regmatches(
+    css,
+    gregexpr(
+      ':root\\s*,\\s*\\[data-bs-theme="light"\\]\\s*\\{[^}]*\\}',
+      css,
+      perl = TRUE
+    )
+  )[[1]]
+  matches <- Filter(
+    function(x) grepl("--bs-body-bg:", x, fixed = TRUE),
+    matches
+  )
+  expect_length(matches, 1)
+  matches[[1]]
+}
+
+brand_css_dark_root <- function(css) {
+  matches <- regmatches(
+    css,
+    gregexpr('\\[data-bs-theme="dark"\\]\\s*\\{[^}]*\\}', css, perl = TRUE)
+  )[[1]]
+  expect_gte(length(matches), 2)
+
+  # The final stylesheet layer emits the complete dark root followed by
+  # Bootstrap's dark-specific variables.
+  tail(matches, 2)[[1]]
+}
+
+describe("brand light and dark color modes", {
+  skip_if_not_installed("brand.yml", minimum_version = "0.1.0.9000")
+
+  it("emits full color and typography variants in Bootstrap mode selectors", {
+    css <- brand_css(list(
+      color = list(
+        foreground = list(light = "#111111", dark = "#eeeeee"),
+        background = list(light = "#ffffff", dark = "#222222"),
+        primary = list(light = "#0066cc", dark = "#66b2ff")
+      ),
+      typography = list(
+        headings = list(color = list(light = "#223344", dark = "#ddeeff"))
+      )
+    ))
+
+    light <- brand_css_light_root(css)
+    dark <- brand_css_dark_root(css)
+
+    expect_match(light, "--bs-body-color: #111111;", fixed = TRUE)
+    expect_match(light, "--bs-body-bg: #ffffff;", fixed = TRUE)
+    expect_match(light, "--bs-primary: #0066cc;", fixed = TRUE)
+    expect_match(light, "--bs-heading-color: #223344;", fixed = TRUE)
+    expect_match(dark, "--bs-body-color: #eeeeee;", fixed = TRUE)
+    expect_match(dark, "--bs-body-bg: #222222;", fixed = TRUE)
+    expect_match(dark, "--bs-primary: #66b2ff;", fixed = TRUE)
+    expect_match(dark, "--bs-heading-color: #ddeeff;", fixed = TRUE)
+  })
+
+  it("leaves an undefined mode at Bootstrap's default", {
+    dark_only <- brand_css(list(
+      color = list(background = list(dark = "#222222"))
+    ))
+    expect_match(
+      brand_css_light_root(dark_only),
+      "--bs-body-bg: #fff;",
+      fixed = TRUE
+    )
+    expect_match(
+      brand_css_dark_root(dark_only),
+      "--bs-body-bg: #222222;",
+      fixed = TRUE
+    )
+
+    light_only <- brand_css(list(
+      color = list(primary = list(light = "#112233"))
+    ))
+    expect_match(
+      brand_css_light_root(light_only),
+      "--bs-primary: #112233;",
+      fixed = TRUE
+    )
+    expect_match(
+      brand_css_dark_root(light_only),
+      "--bs-primary: #0d6efd;",
+      fixed = TRUE
+    )
+    expect_false(grepl(
+      "#112233",
+      brand_css_dark_root(light_only),
+      fixed = TRUE
+    ))
+  })
+
+  it("resolves partial references within their own color mode", {
+    css <- brand_css(list(
+      color = list(
+        primary = list(dark = "#112233"),
+        secondary = list(light = "primary", dark = "#445566")
+      )
+    ))
+
+    expect_match(
+      brand_css_light_root(css),
+      "--bs-secondary: #6c757d;",
+      fixed = TRUE
+    )
+    expect_match(
+      brand_css_dark_root(css),
+      "--bs-secondary: #445566;",
+      fixed = TRUE
+    )
+  })
+
+  it("keeps scalar colors and typography values in both modes", {
+    css <- brand_css(list(
+      color = list(primary = "#123456"),
+      typography = list(
+        base = list(family = "Georgia"),
+        headings = list(color = "#445566")
+      )
+    ))
+
+    for (root in list(brand_css_light_root(css), brand_css_dark_root(css))) {
+      expect_match(root, "--bs-primary: #123456;", fixed = TRUE)
+      expect_match(root, "--bs-body-font-family: Georgia;", fixed = TRUE)
+      expect_match(root, "--bs-heading-color: #445566;", fixed = TRUE)
+    }
+  })
+
+  it("ships both selectors in one stylesheet for runtime switching", {
+    css <- brand_css(list(
+      color = list(primary = list(light = "#0066cc", dark = "#66b2ff"))
+    ))
+
+    expect_true(grepl('[data-bs-theme="light"]', css, fixed = TRUE))
+    expect_gte(
+      length(gregexpr('\\[data-bs-theme="dark"\\]', css, perl = TRUE)[[1]]),
+      2
+    )
+  })
+})

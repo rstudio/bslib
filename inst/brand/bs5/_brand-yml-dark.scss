@@ -1,0 +1,53 @@
+/*-- scss:defaults --*/
+
+// Sass variables from the dark brand layer are inserted above this file. This
+// isolated compile maps them to both the default and dark Bootstrap variables,
+// so Bootstrap's root stylesheet can generate a complete dark-mode override.
+$brand_color_foreground: null !default;
+$brand_color_background: null !default;
+$brand_color_primary: null !default;
+$brand_color_secondary: null !default;
+$brand_color_tertiary: null !default;
+$brand_color_success: null !default;
+$brand_color_info: null !default;
+$brand_color_warning: null !default;
+$brand_color_danger: null !default;
+$brand_color_light: null !default;
+$brand_color_dark: null !default;
+$brand_typography_base_family: null !default;
+$brand_typography_base_size: null !default;
+$brand_typography_base_line-height: null !default;
+$brand_typography_base_weight: null !default;
+$brand_typography_headings_color: null !default;
+$brand_typography_monospace_inline_color: null !default;
+$brand_typography_link_color: null !default;
+
+$primary: $brand_color_primary !default;
+$secondary: $brand_color_secondary !default;
+$tertiary: $brand_color_tertiary !default;
+$success: $brand_color_success !default;
+$info: $brand_color_info !default;
+$warning: $brand_color_warning !default;
+$danger: $brand_color_danger !default;
+$light: $brand_color_light !default;
+$dark: $brand_color_dark !default;
+
+$body-color: $brand_color_foreground !default;
+$body-bg: $brand_color_background !default;
+$body-color-dark: $brand_color_foreground !default;
+$body-bg-dark: $brand_color_background !default;
+$body-secondary-color: $brand_color_secondary !default;
+$body-secondary-color-dark: $brand_color_secondary !default;
+$body-tertiary-color: $brand_color_tertiary !default;
+$body-tertiary-color-dark: $brand_color_tertiary !default;
+
+$font-family-base: $brand_typography_base_family !default;
+$font-size-base: $brand_typography_base_size !default;
+$line-height-base: $brand_typography_base_line-height !default;
+$font-weight-base: $brand_typography_base_weight !default;
+$headings-color: $brand_typography_headings_color !default;
+$headings-color-dark: $brand_typography_headings_color !default;
+$code-color: $brand_typography_monospace_inline_color !default;
+$code-color-dark: $brand_typography_monospace_inline_color !default;
+$link-color: $brand_typography_link_color !default;
+$link-color-dark: $brand_typography_link_color !default;

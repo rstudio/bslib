@@ -1,5 +1,9 @@
 # bslib (development version)
 
+* `bs_theme(brand = ...)` now supports light and dark color variants from
+  `{brand.yml}`. Bootstrap switches the generated variables through its
+  existing `data-bs-theme` attribute. (#120)
+
 # bslib 0.12.0
 
 ## New features
