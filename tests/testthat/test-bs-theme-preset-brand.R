@@ -433,11 +433,41 @@ brand_css_dark_root <- function(css) {
     css,
     gregexpr('\\[data-bs-theme="dark"\\]\\s*\\{[^}]*\\}', css, perl = TRUE)
   )[[1]]
+  matches <- Filter(
+    function(x) grepl("--bs-body-bg:", x, fixed = TRUE),
+    matches
+  )
   expect_gte(length(matches), 2)
 
   # The final stylesheet layer emits the complete dark root followed by
   # Bootstrap's dark-specific variables.
   tail(matches, 2)[[1]]
+}
+
+brand_css_dark_rule <- function(css, selector) {
+  matches <- regmatches(
+    css,
+    gregexpr(
+      sprintf('\\[data-bs-theme="dark"\\]\\s+%s\\s*\\{[^}]*\\}', selector),
+      css,
+      perl = TRUE
+    )
+  )[[1]]
+  expect_length(matches, 1)
+  matches[[1]]
+}
+
+brand_css_dark_runtime <- function(css) {
+  matches <- regmatches(
+    css,
+    gregexpr('\\[data-bs-theme="dark"\\]\\s*\\{[^}]*\\}', css, perl = TRUE)
+  )[[1]]
+  matches <- Filter(
+    function(x) grepl("--bs-link-bg:", x, fixed = TRUE),
+    matches
+  )
+  expect_length(matches, 1)
+  matches[[1]]
 }
 
 describe("brand light and dark color modes", {
@@ -537,6 +567,131 @@ describe("brand light and dark color modes", {
       expect_match(root, "--bs-body-font-family: Georgia;", fixed = TRUE)
       expect_match(root, "--bs-heading-color: #445566;", fixed = TRUE)
     }
+  })
+
+  it("switches typography backgrounds and block colors", {
+    css <- brand_css(list(
+      typography = list(
+        link = list(
+          "background-color" = list(
+            light = "#e6f0ff",
+            dark = "#12243d"
+          )
+        ),
+        "monospace-inline" = list(
+          "background-color" = list(
+            light = "#f1f3f5",
+            dark = "#24292f"
+          )
+        ),
+        "monospace-block" = list(
+          color = list(light = "#202124", dark = "#f8f9fa"),
+          "background-color" = list(light = "#ffffff", dark = "#161b22")
+        )
+      )
+    ))
+
+    expect_match(css, "--bs-link-bg: #e6f0ff;", fixed = TRUE)
+    expect_match(css, "--bs-link-bg: #12243d;", fixed = TRUE)
+    expect_match(css, "background-color: #f1f3f5;", fixed = TRUE)
+    expect_match(
+      brand_css_dark_rule(css, "code"),
+      "background-color: #24292f;",
+      fixed = TRUE
+    )
+    expect_match(css, "color: #202124;", fixed = TRUE)
+    expect_match(css, "background-color: #ffffff;", fixed = TRUE)
+    expect_match(
+      brand_css_dark_rule(css, "pre"),
+      "color: #f8f9fa;",
+      fixed = TRUE
+    )
+    expect_match(
+      brand_css_dark_rule(css, "pre"),
+      "background-color: #161b22;",
+      fixed = TRUE
+    )
+  })
+
+  it("does not leak light typography backgrounds into dark mode", {
+    css <- brand_css(list(
+      typography = list(
+        link = list("background-color" = list(light = "#e6f0ff")),
+        "monospace-inline" = list(
+          "background-color" = list(light = "#f1f3f5")
+        ),
+        "monospace-block" = list(
+          color = list(light = "#202124"),
+          "background-color" = list(light = "#ffffff")
+        )
+      )
+    ))
+
+    expect_match(
+      brand_css_dark_runtime(css),
+      "--bs-link-bg: ;",
+      fixed = TRUE
+    )
+    expect_false(grepl(
+      "#f1f3f5",
+      brand_css_dark_rule(css, "code"),
+      fixed = TRUE
+    ))
+    expect_false(grepl(
+      "#202124|#ffffff",
+      brand_css_dark_rule(css, "pre")
+    ))
+  })
+
+  it("uses typography link color before semantic link color in each mode", {
+    semantic_css <- brand_css(list(
+      color = list(link = list(light = "#0066cc", dark = "#66b2ff"))
+    ))
+    expect_match(
+      brand_css_light_root(semantic_css),
+      "--bs-link-color: #0066cc;",
+      fixed = TRUE
+    )
+    expect_match(
+      brand_css_dark_root(semantic_css),
+      "--bs-link-color: #66b2ff;",
+      fixed = TRUE
+    )
+
+    css <- brand_css(list(
+      color = list(link = list(dark = "#66b2ff")),
+      typography = list(
+        link = list(color = list(light = "#0066cc"))
+      )
+    ))
+
+    expect_match(
+      brand_css_light_root(css),
+      "--bs-link-color: #0066cc;",
+      fixed = TRUE
+    )
+    expect_match(
+      brand_css_dark_root(css),
+      "--bs-link-color: #66b2ff;",
+      fixed = TRUE
+    )
+
+    override_css <- brand_css(list(
+      color = list(link = list(light = "#0066cc", dark = "#66b2ff")),
+      typography = list(
+        link = list(color = list(light = "#00509e", dark = "#8ac5ff"))
+      )
+    ))
+    expect_match(
+      brand_css_light_root(override_css),
+      "--bs-link-color: #00509e;",
+      fixed = TRUE
+    )
+    expect_match(
+      brand_css_dark_root(override_css),
+      "--bs-link-color: #8ac5ff;",
+      fixed = TRUE
+    )
   })
 
   it("ships both selectors in one stylesheet for runtime switching", {

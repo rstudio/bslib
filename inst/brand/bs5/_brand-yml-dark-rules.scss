@@ -1,0 +1,14 @@
+/*-- scss:rules --*/
+
+[data-bs-theme="dark"] {
+  --#{$prefix}link-bg: #{$link-bg};
+}
+
+[data-bs-theme="dark"] code {
+  background-color: $code-bg;
+}
+
+[data-bs-theme="dark"] pre {
+  color: $pre-color;
+  background-color: $pre-bg;
+}

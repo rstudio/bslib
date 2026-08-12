@@ -230,6 +230,14 @@ bs_brand_dark_root_theme <- function(theme, brand) {
     list(
       "_brand_dark_root" = as_sass_layer(sass_layer(
         rules = bs5_sass_files("root")
+      )),
+      "_brand_dark_runtime" = as_sass_layer(sass_layer_file(
+        system_file(
+          "brand",
+          "bs5",
+          "_brand-yml-dark-rules.scss",
+          package = "bslib"
+        )
       ))
     )
   )
