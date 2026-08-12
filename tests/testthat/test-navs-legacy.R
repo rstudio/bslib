@@ -157,3 +157,68 @@ test_that("navbar markup snapshots", {
     )
   )
 })
+
+
+# tabset ids -------------------------------------------------------------------
+
+tabset_ids_of <- function(x) {
+  html <- as.character(htmltools::renderTags(x)$html)
+  matches <- regmatches(html, gregexpr('data-tabsetid="[^"]*"', html))[[1]]
+  sub('^data-tabsetid="(.*)"$', "\\1", matches)
+}
+
+test_that("a tabset with an id uses it as the tabset id", {
+  x <- navset_tab(nav_panel("a", "a"), nav_panel("b", "b"), id = "my_tabs")
+  html <- as.character(htmltools::renderTags(x)$html)
+
+  # Both the <ul> and the <div class="tab-content"> share the id
+  expect_equal(tabset_ids_of(x), c("my_tabs", "my_tabs"))
+  expect_true(grepl('id="tab-my_tabs-1"', html, fixed = TRUE))
+  expect_true(grepl('href="#tab-my_tabs-1"', html, fixed = TRUE))
+})
+
+test_that("a tabset with an id renders identically every time", {
+  render_once <- function() {
+    as.character(
+      htmltools::renderTags(
+        navset_tab(nav_panel("a", "a"), nav_panel("b", "b"), id = "my_tabs")
+      )$html
+    )
+  }
+
+  expect_identical(render_once(), render_once())
+})
+
+test_that("a tabset without an id still gets a random tabset id", {
+  first <- tabset_ids_of(navset_tab(nav_panel("a", "a")))
+  second <- tabset_ids_of(navset_tab(nav_panel("a", "a")))
+
+  expect_length(first, 2)
+  expect_equal(first[[1]], first[[2]])
+  expect_match(first[[1]], "^[0-9]+$")
+  # ...but separate renders do not agree, since there is no id to key off
+  expect_false(identical(first[[1]], second[[1]]))
+})
+
+test_that("a nav_menu() keeps its own random tabset id", {
+  ids <- tabset_ids_of(
+    navset_tab(
+      nav_panel("a", "a"),
+      nav_menu("Menu", nav_panel("c", "c")),
+      id = "my_tabs"
+    )
+  )
+
+  # <ul>, the dropdown <ul>, and the tab content <div>
+  expect_equal(ids[[1]], "my_tabs")
+  expect_match(ids[[2]], "^[0-9]+$")
+  expect_equal(ids[[3]], "my_tabs")
+})
+
+test_that("a module-namespaced id is used as-is", {
+  ids <- tabset_ids_of(
+    navset_tab(nav_panel("a", "a"), id = shiny::NS("mod")("tabs"))
+  )
+
+  expect_equal(ids[[1]], "mod-tabs")
+})
