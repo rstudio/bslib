@@ -656,6 +656,107 @@ describe("brand light and dark color modes", {
     )
   })
 
+  it("switches derived component styles at runtime", {
+    skip_if_not_installed("chromote")
+
+    browser <- tryCatch(
+      chromote::ChromoteSession$new(wait_ = TRUE),
+      error = function(e) NULL
+    )
+    if (is.null(browser)) {
+      skip("A local Chrome or Chromium browser is required")
+    }
+    on.exit(browser$close(), add = TRUE)
+
+    theme <- bs_theme(
+      version = 5,
+      preset = "bootstrap",
+      brand = list(
+        color = list(
+          foreground = list(light = "#111111", dark = "#eeeeee"),
+          background = list(light = "#ffffff", dark = "#222222"),
+          primary = list(light = "#123456", dark = "#abcdef"),
+          link = list(light = "#006699", dark = "#cc6600")
+        )
+      )
+    )
+    bootstrap <- Filter(
+      function(x) identical(x$name, "bootstrap"),
+      bs_theme_dependencies(
+        theme,
+        sass_options = sass::sass_options(output_style = "expanded"),
+        cache = FALSE,
+        precompiled = FALSE
+      )
+    )[[1]]
+    css <- paste(
+      readLines(
+        file.path(bootstrap$src$file, bootstrap$stylesheet),
+        warn = FALSE
+      ),
+      collapse = "\n"
+    )
+
+    html_file <- withr::local_tempfile(fileext = ".html")
+    writeLines(
+      c(
+        "<!doctype html>",
+        '<html data-bs-theme="light"><head><meta charset="utf-8">',
+        paste0(
+          "<style>",
+          css,
+          "</style><style>.btn { transition: none !important; }</style>",
+          "</head><body>"
+        ),
+        '<button class="btn btn-primary">Primary</button>',
+        '<a href="#target">Link</a></body></html>'
+      ),
+      html_file,
+      useBytes = TRUE
+    )
+    browser$go_to(paste0("file://", normalizePath(html_file)))
+
+    computed_style <- function(selector, property) {
+      js <- sprintf(
+        "getComputedStyle(document.querySelector(%s)).getPropertyValue(%s)",
+        jsonlite::toJSON(selector, auto_unbox = TRUE),
+        jsonlite::toJSON(property, auto_unbox = TRUE)
+      )
+      browser$Runtime$evaluate(js)$result$value
+    }
+
+    expect_equal(
+      computed_style(".btn-primary", "background-color"),
+      "rgb(18, 52, 86)"
+    )
+    expect_equal(
+      computed_style("body", "background-color"),
+      "rgb(255, 255, 255)"
+    )
+    expect_equal(computed_style("a", "color"), "rgb(0, 102, 153)")
+
+    browser$Runtime$evaluate(
+      paste0(
+        "new Promise(resolve => { ",
+        'document.documentElement.setAttribute("data-bs-theme", "dark"); ',
+        "requestAnimationFrame(() => requestAnimationFrame(() => resolve(true)));",
+        " })"
+      ),
+      awaitPromise = TRUE,
+      returnByValue = TRUE
+    )
+
+    expect_equal(
+      computed_style(".btn-primary", "background-color"),
+      "rgb(171, 205, 239)"
+    )
+    expect_equal(
+      computed_style("body", "background-color"),
+      "rgb(34, 34, 34)"
+    )
+    expect_equal(computed_style("a", "color"), "rgb(204, 102, 0)")
+  })
+
   it("leaves an undefined mode at Bootstrap's default", {
     dark_only <- brand_css(list(
       color = list(background = list(dark = "#222222"))
