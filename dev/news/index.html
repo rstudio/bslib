@@ -75,6 +75,10 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="bslib-development-version">bslib (development version)<a class="anchor" aria-label="anchor" href="#bslib-development-version"></a></h2>
+<div class="section level3">
+<h3 id="improvements-development-version">Improvements<a class="anchor" aria-label="anchor" href="#improvements-development-version"></a></h3>
+<ul><li>Navsets created with an <code>id</code> (e.g. <code>navset_tab(id = "tabs")</code>) now use that <code>id</code> as their <code>data-tabsetid</code>, so their tab panes get stable <code>tab-tabs-1</code> style DOM ids instead of ones derived from a random integer. This makes the rendered markup reproducible across renders and easier to target from custom CSS and JavaScript. Navsets without an <code>id</code>, and <code><a href="../reference/nav-items.html">nav_menu()</a></code> dropdowns, keep the random ID. (<a href="https://github.com/rstudio/bslib/issues/1342" class="external-link">#1342</a>)</li>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.12.0" id="bslib-0120">bslib 0.12.0<a class="anchor" aria-label="anchor" href="#bslib-0120"></a></h2><p class="text-muted">CRAN release: 2026-08-03</p>
