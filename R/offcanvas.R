@@ -349,17 +349,23 @@ offcanvas_preview_tags <- function(x) {
 #'
 #' @description
 #' Control an [offcanvas()] panel from a Shiny server function. `show_offcanvas()`
-#' takes an offcanvas **object** (and will render it into the page if it isn't
-#' already there); `hide_offcanvas()` and `toggle_offcanvas()` act on a panel
-#' already in the UI, by **id**.
+#' can either reveal a panel already in the UI by **id**, or take an offcanvas
+#' **object** (rendering it into the page if it isn't already there);
+#' `hide_offcanvas()` and `toggle_offcanvas()` act on a panel already in the
+#' UI, by **id**.
 #'
 #' If a panel with the same `id` is already present in the page,
 #' `show_offcanvas()` simply reveals it; the object's content is not re-rendered
 #' or updated. To change the content of a persistent panel, update the inputs and
 #' outputs it contains rather than calling `show_offcanvas()` again.
 #'
-#' @param offcanvas An [offcanvas()] object, or a string / tags that will be
-#'   converted to an offcanvas with default settings.
+#' @param offcanvas One of: the `id` (a single string) of an [offcanvas()]
+#'   panel already in the UI, which is revealed; list-like or tag content
+#'   (e.g. a string or [htmltools::tagList()]), which is wrapped into a new
+#'   anonymous offcanvas with default settings; or an [offcanvas()] object,
+#'   which is rendered into the page (if needed) and shown. Note that a bare
+#'   string used to be treated as body content for a new anonymous panel; it
+#'   is now treated as an `id` lookup instead.
 #' @param id The `id` of an offcanvas in the UI. `hide_offcanvas()` also accepts
 #'   an [offcanvas()] object whose `id` was set.
 #' @param show Whether to show (`TRUE`) or hide (`FALSE`) the offcanvas. The
@@ -392,6 +398,16 @@ offcanvas_preview_tags <- function(x) {
 #' }
 #' shinyApp(ui, server)
 #'
+#' # Reveal an existing id'd panel already declared in the UI
+#' ui <- page_fluid(
+#'   actionButton("show", "Show"),
+#'   offcanvas("Panel content", title = "Notice", id = "note")
+#' )
+#' server <- function(input, output, session) {
+#'   observeEvent(input$show, show_offcanvas("note"))
+#' }
+#' shinyApp(ui, server)
+#'
 #' @section Module IDs:
 #'   When controlling an offcanvas from a Shiny module, pass the
 #'   **module-local** id to `hide_offcanvas()` / `toggle_offcanvas()` — the
@@ -409,6 +425,14 @@ show_offcanvas <- function(
   session = get_current_session()
 ) {
   rlang::check_dots_empty()
+
+  if (rlang::is_scalar_character(offcanvas)) {
+    id <- offcanvas
+    msg <- list(method = "toggle", value = "show")
+    force(id)
+    session$onFlush(function() session$sendInputMessage(id, msg), once = TRUE)
+    return(invisible(id))
+  }
 
   if (!inherits(offcanvas, "bslib_offcanvas")) {
     offcanvas <- offcanvas(offcanvas)
