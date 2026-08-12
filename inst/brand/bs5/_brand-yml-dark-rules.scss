@@ -1,7 +1,11 @@
 /*-- scss:rules --*/
 
 [data-bs-theme="dark"] {
-  --#{$prefix}link-bg: #{$link-bg};
+  @if $link-bg == null {
+    --#{$prefix}link-bg: initial;
+  } @else {
+    --#{$prefix}link-bg: #{$link-bg};
+  }
 }
 
 [data-bs-theme="dark"] code {

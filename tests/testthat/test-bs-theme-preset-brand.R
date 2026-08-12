@@ -629,9 +629,14 @@ describe("brand light and dark color modes", {
 
     expect_match(
       brand_css_dark_runtime(css),
-      "--bs-link-bg: ;",
+      "--bs-link-bg: initial;",
       fixed = TRUE
     )
+    expect_false(grepl(
+      "#e6f0ff",
+      brand_css_dark_runtime(css),
+      fixed = TRUE
+    ))
     expect_false(grepl(
       "#f1f3f5",
       brand_css_dark_rule(css, "code"),
