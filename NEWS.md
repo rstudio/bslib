@@ -1,5 +1,9 @@
 # bslib (development version)
 
+## Breaking changes
+
+* `show_offcanvas()` now accepts a character `id` to reveal a panel already in the UI, in addition to a `bslib_offcanvas` object. Previously, a bare string was treated as body content for a new anonymous panel; it is now treated as an id lookup instead, and errors if it looks like body text (e.g. it contains whitespace or is empty). `htmltools::HTML()` continues to be treated as body content. (#1346)
+
 ## Improvements
 
 * Navsets created with an `id` (e.g. `navset_tab(id = "tabs")`) now use that `id` as their `data-tabsetid`, so their tab panes get stable `tab-tabs-1` style DOM ids instead of ones derived from a random integer. This makes the rendered markup reproducible across renders and easier to target from custom CSS and JavaScript. Navsets without an `id`, and `nav_menu()` dropdowns, keep the random ID. (#1342)

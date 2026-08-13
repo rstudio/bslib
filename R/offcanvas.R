@@ -349,17 +349,24 @@ offcanvas_preview_tags <- function(x) {
 #'
 #' @description
 #' Control an [offcanvas()] panel from a Shiny server function. `show_offcanvas()`
-#' takes an offcanvas **object** (and will render it into the page if it isn't
-#' already there); `hide_offcanvas()` and `toggle_offcanvas()` act on a panel
-#' already in the UI, by **id**.
+#' can either reveal a panel already in the UI by **id**, or take an offcanvas
+#' **object** (rendering it into the page if it isn't already there);
+#' `hide_offcanvas()` and `toggle_offcanvas()` act on a panel already in the
+#' UI, by **id**.
 #'
 #' If a panel with the same `id` is already present in the page,
 #' `show_offcanvas()` simply reveals it; the object's content is not re-rendered
 #' or updated. To change the content of a persistent panel, update the inputs and
 #' outputs it contains rather than calling `show_offcanvas()` again.
 #'
-#' @param offcanvas An [offcanvas()] object, or a string / tags that will be
-#'   converted to an offcanvas with default settings.
+#' @param offcanvas One of: the `id` (a single string) of an [offcanvas()]
+#'   panel already in the UI, which is revealed; list-like or tag content
+#'   (e.g. [htmltools::HTML()] or a [htmltools::tagList()]), which is wrapped
+#'   into a new anonymous offcanvas with default settings; or an [offcanvas()]
+#'   object, which is rendered into the page (if needed) and shown. Note that
+#'   a bare string used to be treated as body content for a new anonymous
+#'   panel; it is now treated as an `id` lookup instead, and errors if it
+#'   looks like body text (e.g. it contains whitespace or is empty).
 #' @param id The `id` of an offcanvas in the UI. `hide_offcanvas()` also accepts
 #'   an [offcanvas()] object whose `id` was set.
 #' @param show Whether to show (`TRUE`) or hide (`FALSE`) the offcanvas. The
@@ -392,14 +399,25 @@ offcanvas_preview_tags <- function(x) {
 #' }
 #' shinyApp(ui, server)
 #'
+#' # Reveal an existing id'd panel already declared in the UI
+#' ui <- page_fluid(
+#'   actionButton("show", "Show"),
+#'   offcanvas("Panel content", title = "Notice", id = "note")
+#' )
+#' server <- function(input, output, session) {
+#'   observeEvent(input$show, show_offcanvas("note"))
+#' }
+#' shinyApp(ui, server)
+#'
 #' @section Module IDs:
 #'   When controlling an offcanvas from a Shiny module, pass the
-#'   **module-local** id to `hide_offcanvas()` / `toggle_offcanvas()` — the
-#'   same bare id you would use with `input[[id]]`. `shiny::NS()` /
-#'   `session$ns()` is only applied when *creating* the panel's `id` in the UI.
-#'   `show_offcanvas()` returns the local id, so it round-trips cleanly to
-#'   `hide_offcanvas()` / `toggle_offcanvas()`. Do not pass a UI object whose
-#'   id was already namespaced back to a server verb — it would double-namespace.
+#'   **module-local** id to `show_offcanvas()` / `hide_offcanvas()` /
+#'   `toggle_offcanvas()` — the same bare id you would use with `input[[id]]`.
+#'   `shiny::NS()` / `session$ns()` is only applied when *creating* the panel's
+#'   `id` in the UI. `show_offcanvas()` returns the local id, so it round-trips
+#'   cleanly to `hide_offcanvas()` / `toggle_offcanvas()`. Do not pass a UI
+#'   object whose id was already namespaced back to a server verb — it would
+#'   double-namespace.
 #'
 #' @describeIn show_offcanvas Render (if needed) and show an offcanvas.
 #' @export
@@ -409,6 +427,21 @@ show_offcanvas <- function(
   session = get_current_session()
 ) {
   rlang::check_dots_empty()
+
+  if (is.character(offcanvas) && !inherits(offcanvas, "html")) {
+    rlang::check_string(offcanvas, allow_empty = FALSE)
+    id <- offcanvas
+    if (grepl("[[:space:]]", id)) {
+      rlang::abort(
+        c(
+          "`offcanvas` looks like body text, not an offcanvas `id` (ids can't contain whitespace or be empty).",
+          "i" = "To show new content, wrap it in `htmltools::tagList()` or pass an `offcanvas()` object.",
+          "i" = "To reveal an existing panel, pass its `id` (no spaces, non-empty)."
+        )
+      )
+    }
+    return(toggle_offcanvas(id, show = TRUE, session = session))
+  }
 
   if (!inherits(offcanvas, "bslib_offcanvas")) {
     offcanvas <- offcanvas(offcanvas)
