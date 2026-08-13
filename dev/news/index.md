@@ -2,6 +2,18 @@
 
 ## bslib (development version)
 
+### Breaking changes
+
+- [`show_offcanvas()`](https://rstudio.github.io/bslib/dev/reference/show_offcanvas.md)
+  now accepts a character `id` to reveal a panel already in the UI, in
+  addition to a `bslib_offcanvas` object. Previously, a bare string was
+  treated as body content for a new anonymous panel; it is now treated
+  as an id lookup instead, and errors if it looks like body text
+  (e.g. it contains whitespace or is empty).
+  [`htmltools::HTML()`](https://rstudio.github.io/htmltools/reference/HTML.html)
+  continues to be treated as body content.
+  ([\#1346](https://github.com/rstudio/bslib/issues/1346))
+
 ### Improvements
 
 - Navsets created with an `id` (e.g. `navset_tab(id = "tabs")`) now use
