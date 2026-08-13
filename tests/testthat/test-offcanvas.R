@@ -527,8 +527,14 @@ test_that("show_offcanvas() errors on invalid string ids", {
 
   expect_error(show_offcanvas("has spaces", session = session), "body text")
   expect_error(show_offcanvas("", session = session), "empty string")
-  expect_error(show_offcanvas(NA_character_, session = session), "character `NA`")
-  expect_error(show_offcanvas(c("one", "two"), session = session), "character vector")
+  expect_error(
+    show_offcanvas(NA_character_, session = session),
+    "character `NA`"
+  )
+  expect_error(
+    show_offcanvas(c("one", "two"), session = session),
+    "character vector"
+  )
 })
 
 test_that("hide_offcanvas() sends hide input message", {
