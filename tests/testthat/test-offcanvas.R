@@ -522,11 +522,13 @@ test_that("show_offcanvas() treats htmltools::HTML() as body content, not an id"
   expect_length(session$input_messages, 0)
 })
 
-test_that("show_offcanvas() errors on a string that looks like body text", {
+test_that("show_offcanvas() errors on invalid string ids", {
   session <- mock_session()
 
-  expect_error(show_offcanvas("has spaces", session = session))
-  expect_error(show_offcanvas("", session = session))
+  expect_error(show_offcanvas("has spaces", session = session), "body text")
+  expect_error(show_offcanvas("", session = session), "empty string")
+  expect_error(show_offcanvas(NA_character_, session = session), "character `NA`")
+  expect_error(show_offcanvas(c("one", "two"), session = session), "character vector")
 })
 
 test_that("hide_offcanvas() sends hide input message", {

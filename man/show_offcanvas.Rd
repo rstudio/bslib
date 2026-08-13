@@ -61,12 +61,13 @@ outputs it contains rather than calling \code{show_offcanvas()} again.
 \section{Module IDs}{
 
 When controlling an offcanvas from a Shiny module, pass the
-\strong{module-local} id to \code{hide_offcanvas()} / \code{toggle_offcanvas()} — the
-same bare id you would use with \code{input[[id]]}. \code{shiny::NS()} /
-\code{session$ns()} is only applied when \emph{creating} the panel's \code{id} in the UI.
-\code{show_offcanvas()} returns the local id, so it round-trips cleanly to
-\code{hide_offcanvas()} / \code{toggle_offcanvas()}. Do not pass a UI object whose
-id was already namespaced back to a server verb — it would double-namespace.
+\strong{module-local} id to \code{show_offcanvas()} / \code{hide_offcanvas()} /
+\code{toggle_offcanvas()} — the same bare id you would use with \code{input[[id]]}.
+\code{shiny::NS()} / \code{session$ns()} is only applied when \emph{creating} the panel's
+\code{id} in the UI. \code{show_offcanvas()} returns the local id, so it round-trips
+cleanly to \code{hide_offcanvas()} / \code{toggle_offcanvas()}. Do not pass a UI
+object whose id was already namespaced back to a server verb — it would
+double-namespace.
 }
 
 \examples{

@@ -411,12 +411,13 @@ offcanvas_preview_tags <- function(x) {
 #'
 #' @section Module IDs:
 #'   When controlling an offcanvas from a Shiny module, pass the
-#'   **module-local** id to `hide_offcanvas()` / `toggle_offcanvas()` — the
-#'   same bare id you would use with `input[[id]]`. `shiny::NS()` /
-#'   `session$ns()` is only applied when *creating* the panel's `id` in the UI.
-#'   `show_offcanvas()` returns the local id, so it round-trips cleanly to
-#'   `hide_offcanvas()` / `toggle_offcanvas()`. Do not pass a UI object whose
-#'   id was already namespaced back to a server verb — it would double-namespace.
+#'   **module-local** id to `show_offcanvas()` / `hide_offcanvas()` /
+#'   `toggle_offcanvas()` — the same bare id you would use with `input[[id]]`.
+#'   `shiny::NS()` / `session$ns()` is only applied when *creating* the panel's
+#'   `id` in the UI. `show_offcanvas()` returns the local id, so it round-trips
+#'   cleanly to `hide_offcanvas()` / `toggle_offcanvas()`. Do not pass a UI
+#'   object whose id was already namespaced back to a server verb — it would
+#'   double-namespace.
 #'
 #' @describeIn show_offcanvas Render (if needed) and show an offcanvas.
 #' @export
@@ -427,9 +428,10 @@ show_offcanvas <- function(
 ) {
   rlang::check_dots_empty()
 
-  if (rlang::is_scalar_character(offcanvas) && !inherits(offcanvas, "html")) {
+  if (is.character(offcanvas) && !inherits(offcanvas, "html")) {
+    rlang::check_string(offcanvas, allow_empty = FALSE)
     id <- offcanvas
-    if (grepl("[[:space:]]", id) || !nzchar(id)) {
+    if (grepl("[[:space:]]", id)) {
       rlang::abort(
         c(
           "`offcanvas` looks like body text, not an offcanvas `id` (ids can't contain whitespace or be empty).",
@@ -438,10 +440,7 @@ show_offcanvas <- function(
         )
       )
     }
-    msg <- list(method = "toggle", value = "show")
-    force(id)
-    session$onFlush(function() session$sendInputMessage(id, msg), once = TRUE)
-    return(invisible(id))
+    return(toggle_offcanvas(id, show = TRUE, session = session))
   }
 
   if (!inherits(offcanvas, "bslib_offcanvas")) {
