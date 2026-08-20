@@ -2,7 +2,7 @@
 
 ## Bug fixes
 
-* Fixed `input_dark_mode()` writing an invalid `"undefined"` value to the `data-bs-theme` attribute when it connected while the document was already set to `"light"`.
+* Fixed `input_dark_mode()` writing an invalid `"undefined"` value to the `data-bs-theme` attribute when it connected while the document was already set to `"light"`. (#1349)
 
 ## Breaking changes
 
