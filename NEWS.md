@@ -1,5 +1,9 @@
 # bslib (development version)
 
+## Bug fixes
+
+* Fixed `input_dark_mode()` writing an invalid `"undefined"` value to the `data-bs-theme` attribute when it connected while the document was already set to `"light"`.
+
 ## Breaking changes
 
 * `show_offcanvas()` now accepts a character `id` to reveal a panel already in the UI, in addition to a `bslib_offcanvas` object. Previously, a bare string was treated as body content for a new anonymous panel; it is now treated as an id lookup instead, and errors if it looks like body text (e.g. it contains whitespace or is empty). `htmltools::HTML()` continues to be treated as body content. (#1346)
