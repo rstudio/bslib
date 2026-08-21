@@ -178,11 +178,11 @@
         choices = c("A", "B", "C"), tooltip = FALSE))
     Output
       <div id="select1" class="bslib-toolbar-input-select shiny-input-container">
-        <label id="select1-label" class="control-label" for="select1">
+        <label id="select1-label" class="control-label" for="select1-select">
           <span class="bslib-toolbar-icon" aria-hidden="true" style="pointer-events: none" role="none" tabindex="-1"></span>
           <span class="bslib-toolbar-label visually-hidden">Basic select</span>
         </label>
-        <select id="select1" class="form-select form-select-sm" data-shiny-no-bind-input><option value="A" selected>A</option>
+        <select id="select1-select" class="form-select form-select-sm" data-shiny-no-bind-input><option value="A" selected>A</option>
       <option value="B">B</option>
       <option value="C">C</option></select>
       </div>
@@ -195,11 +195,11 @@
         tooltip = FALSE))
     Output
       <div id="select2" class="bslib-toolbar-input-select shiny-input-container">
-        <label id="select2-label" class="control-label" for="select2">
+        <label id="select2-label" class="control-label" for="select2-select">
           <span class="bslib-toolbar-icon" aria-hidden="true" style="pointer-events: none" role="none" tabindex="-1"></span>
           <span class="bslib-toolbar-label visually-hidden">Select with selected</span>
         </label>
-        <select id="select2" class="form-select form-select-sm" data-shiny-no-bind-input><option value="Option 1">Option 1</option>
+        <select id="select2-select" class="form-select form-select-sm" data-shiny-no-bind-input><option value="Option 1">Option 1</option>
       <option value="Option 2" selected>Option 2</option>
       <option value="Option 3">Option 3</option></select>
       </div>
@@ -212,11 +212,11 @@
         tooltip = FALSE))
     Output
       <div class="bslib-toolbar-input-select shiny-input-container bg-success-subtle" id="select3" style="width: 400px">
-        <label id="select3-label" class="control-label" for="select3">
+        <label id="select3-label" class="control-label" for="select3-select">
           <span class="bslib-toolbar-icon" aria-hidden="true" style="pointer-events: none" role="none" tabindex="-1"></span>
           <span class="bslib-toolbar-label visually-hidden">Select with custom class</span>
         </label>
-        <select id="select3" class="form-select form-select-sm" data-shiny-no-bind-input><option value="X" selected>X</option>
+        <select id="select3-select" class="form-select form-select-sm" data-shiny-no-bind-input><option value="X" selected>X</option>
       <option value="Y">Y</option>
       <option value="Z">Z</option></select>
       </div>
@@ -227,11 +227,11 @@
       show_raw_html(grouped_select)
     Output
       <div id="grouped" class="bslib-toolbar-input-select shiny-input-container">
-        <label id="grouped-label" class="control-label" for="grouped">
+        <label id="grouped-label" class="control-label" for="grouped-select">
           <span class="bslib-toolbar-icon" aria-hidden="true" style="pointer-events: none" role="none" tabindex="-1"></span>
           <span class="bslib-toolbar-label visually-hidden">Grouped select</span>
         </label>
-        <select id="grouped" class="form-select form-select-sm" data-shiny-no-bind-input><optgroup label="Group A">
+        <select id="grouped-select" class="form-select form-select-sm" data-shiny-no-bind-input><optgroup label="Group A">
       <option value="A1" selected>A1</option>
       <option value="A2">A2</option>
       </optgroup>
@@ -248,7 +248,7 @@
         choices = c("A", "B"), tooltip = TRUE))
     Output
       <div id="tooltip_true" class="bslib-toolbar-input-select shiny-input-container">
-        <label id="tooltip_true-label" class="control-label" for="tooltip_true">
+        <label id="tooltip_true-label" class="control-label" for="tooltip_true-select">
           <span class="bslib-toolbar-icon" aria-hidden="true" style="pointer-events: none" role="none" tabindex="-1"></span>
           <span class="bslib-toolbar-label visually-hidden">My Select Label</span>
         </label>
@@ -256,7 +256,7 @@
           <template>
             <span aria-hidden="true">My Select Label</span>
           </template>
-          <select id="tooltip_true" class="form-select form-select-sm" data-shiny-no-bind-input><option value="A" selected>A</option>
+          <select id="tooltip_true-select" class="form-select form-select-sm" data-shiny-no-bind-input><option value="A" selected>A</option>
       <option value="B">B</option></select>
         </bslib-tooltip>
       </div>
@@ -268,13 +268,13 @@
         choices = c("A", "B"), tooltip = "This is helpful information"))
     Output
       <div id="with_tooltip" class="bslib-toolbar-input-select shiny-input-container">
-        <label id="with_tooltip-label" class="control-label" for="with_tooltip">
+        <label id="with_tooltip-label" class="control-label" for="with_tooltip-select">
           <span class="bslib-toolbar-icon" aria-hidden="true" style="pointer-events: none" role="none" tabindex="-1"></span>
           <span class="bslib-toolbar-label visually-hidden">With tooltip</span>
         </label>
         <bslib-tooltip id="with_tooltip_tooltip" placement="bottom" bsOptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
           <template>This is helpful information</template>
-          <select id="with_tooltip" class="form-select form-select-sm" data-shiny-no-bind-input><option value="A" selected>A</option>
+          <select id="with_tooltip-select" class="form-select form-select-sm" data-shiny-no-bind-input><option value="A" selected>A</option>
       <option value="B">B</option></select>
         </bslib-tooltip>
       </div>
@@ -286,13 +286,13 @@
         choices = c("A", "B"), icon = shiny::icon("filter"), tooltip = FALSE))
     Output
       <div id="with_icon" class="bslib-toolbar-input-select shiny-input-container">
-        <label id="with_icon-label" class="control-label" for="with_icon">
+        <label id="with_icon-label" class="control-label" for="with_icon-select">
           <span class="bslib-toolbar-icon" aria-hidden="true" style="pointer-events: none" role="none" tabindex="-1">
             <i class="fas fa-filter" role="presentation" aria-label="filter icon"></i>
           </span>
           <span class="bslib-toolbar-label visually-hidden">With icon</span>
         </label>
-        <select id="with_icon" class="form-select form-select-sm" data-shiny-no-bind-input><option value="A" selected>A</option>
+        <select id="with_icon-select" class="form-select form-select-sm" data-shiny-no-bind-input><option value="A" selected>A</option>
       <option value="B">B</option></select>
       </div>
 
@@ -303,7 +303,7 @@
         choices = c("A", "B"), icon = shiny::icon("star"), tooltip = "Select an option"))
     Output
       <div id="icon_tooltip" class="bslib-toolbar-input-select shiny-input-container">
-        <label id="icon_tooltip-label" class="control-label" for="icon_tooltip">
+        <label id="icon_tooltip-label" class="control-label" for="icon_tooltip-select">
           <span class="bslib-toolbar-icon" aria-hidden="true" style="pointer-events: none" role="none" tabindex="-1">
             <i class="far fa-star" role="presentation" aria-label="star icon"></i>
           </span>
@@ -311,7 +311,7 @@
         </label>
         <bslib-tooltip id="icon_tooltip_tooltip" placement="bottom" bsOptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
           <template>Select an option</template>
-          <select id="icon_tooltip" class="form-select form-select-sm" data-shiny-no-bind-input><option value="A" selected>A</option>
+          <select id="icon_tooltip-select" class="form-select form-select-sm" data-shiny-no-bind-input><option value="A" selected>A</option>
       <option value="B">B</option></select>
         </bslib-tooltip>
       </div>
