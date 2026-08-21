@@ -640,7 +640,7 @@ toolbar_input_select <- function(
   }
 
   select_tag <- tags$select(
-    id = id,
+    id = sprintf("%s--select", id),
     class = "form-select form-select-sm",
     `data-shiny-no-bind-input` = NA,
     processed$options
@@ -657,10 +657,9 @@ toolbar_input_select <- function(
   )
 
   label_elem <- tags$label(
-    # shiny::selectInput() append `-label` to id for the label `for` attribute
-    id = sprintf("%s-label", id),
+    id = sprintf("%s--label", id),
     class = "control-label",
-    `for` = id,
+    `for` = sprintf("%s--select", id),
     icon_elem,
     tags$span(
       class = "bslib-toolbar-label",

@@ -295,13 +295,13 @@ test_that("toolbar_input_select() has proper label structure", {
   label_elem <- tagQuery(tis)$find("label")$selectedTags()[[1]]
   expect_true(!is.null(label_elem))
 
-  # Label should have id matching pattern "{id}-label"
+  # Label should have id matching pattern "{id}--label"
   label_id <- htmltools::tagGetAttribute(label_elem, "id")
-  expect_equal(label_id, "select-label")
+  expect_equal(label_id, "select--label")
 
   # Label should have for attribute pointing to select
   label_for <- htmltools::tagGetAttribute(label_elem, "for")
-  expect_equal(label_for, "select")
+  expect_equal(label_for, "select--select")
 
   # Find the label text span
   label_spans <- tagQuery(label_elem)$find(
