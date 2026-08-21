@@ -298,6 +298,11 @@ bs_dependency <- function(
 #'   that you may want to avoid memoisation if `func` relies on side-effects
 #'   (e.g., files on-disk) that need to change for each themable widget
 #'   instance.
+#' @param cache_key A unique identifier for this dependency. Set this to a
+#'   distinct value (e.g. the widget name) whenever you create several
+#'   dependencies from similar `func`s. Without it, they can be mistaken for
+#'   one another in the cache, and every dependency after the first is served a
+#'   copy of the first one. Ignored when `memoise = FALSE`.
 #'
 #' @export
 #'
@@ -351,7 +356,12 @@ bs_dependency <- function(
 #'     myWidgetDependency()
 #'   )
 #' }
-bs_dependency_defer <- function(func, memoise = TRUE) {
+bs_dependency_defer <- function(func, memoise = TRUE, cache_key = NULL) {
+  if (!is.null(cache_key) && !memoise) {
+    rlang::warn("`cache_key` is ignored when `memoise = FALSE`.")
+    cache_key <- NULL
+  }
+
   # func() most likely calls stuff like sass_file() and bs_dependency() ->
   # sass_partial() -> sass() (e.g., see example section above) Even though
   # sass() calls can be cached, there is still considerable overhead involved
@@ -364,7 +374,17 @@ bs_dependency_defer <- function(func, memoise = TRUE) {
     # and then it is used once. This is not how memoized functions are normally
     # used, but in this case it works because the caching object is re-used, and
     # it still provides very significant improvement in performance.
-    mfunc <- memoise::memoise(func, cache = .dependency_cache)
+    memoise_func <- func
+    if (!is.null(cache_key)) {
+      # memoise() keys on formals, body, and args, not the enclosing
+      # environment, so fold cache_key in as a formal to tell otherwise
+      # identical closures apart.
+      formals(memoise_func) <- c(
+        formals(memoise_func),
+        list(.bslib_cache_key = cache_key)
+      )
+    }
+    mfunc <- memoise::memoise(memoise_func, cache = .dependency_cache)
   } else {
     mfunc <- func
   }

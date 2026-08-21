@@ -109,6 +109,12 @@ person <- function(name, title, company) {
 
 Note that when `theme` is a `bs_theme()` object, then `person.scss` is compiled with Bootstrap Sass variables and mixins included via `bs_dependency()` (which returns the compiled CSS as an `htmlDependency()`). Otherwise, if `theme` is *not* a `bs_theme()` object, then `person()` is being used in a context where `{bslib}` is not relevant, so a pre-compiled CSS file is returned instead. Pre-complied CSS isn't necessarily a requirement, but it's a good idea for increasing performance and reducing software dependencies for end users.
 
+::: {.callout .callout-note}
+<h3 data-toc-skip>Generating dependencies from a helper function</h3>
+
+Pass a distinct `cache_key`, such as the component `name`, when your dependency function is returned by another function. This keeps each dependency separate in the cache, instead of every one after the first inheriting the first's styles.
+:::
+
 ## HTML widgets
 
 For `{htmlwidgets}` that can be themed via CSS, we recommend supplying a `bs_dependency_defer()` to the `dependencies` argument of `createWidget()` (similar to the `person()` component from the last section), which will make the widget dynamically themeable. For widgets that can *not* be themed via CSS, the best option may be to query the active theme inside a `preRenderHook()` via `bs_current_theme()`, and then translate any relevant information to the widget's instance data, for example:
