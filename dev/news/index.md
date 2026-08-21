@@ -14,6 +14,15 @@
   continues to be treated as body content.
   ([\#1346](https://github.com/rstudio/bslib/issues/1346))
 
+### Bug fixes
+
+- Fixed
+  [`toolbar_input_select()`](https://rstudio.github.io/bslib/dev/reference/toolbar_input_select.md)
+  creating duplicate element IDs by assigning the same ID to both the
+  container div and the inner select element. The select element now
+  receives a distinct ID using the pattern `{id}-select`.
+  ([\#1350](https://github.com/rstudio/bslib/issues/1350))
+
 ### Improvements
 
 - Navsets created with an `id` (e.g. `navset_tab(id = "tabs")`) now use
