@@ -229,7 +229,7 @@ export class BslibInputDarkMode extends LitElement {
       if (fromDom === "dark") {
         this.mode = "dark";
       } else if (fromDom === "light") {
-        this.mode == "light";
+        this.mode = "light";
       } else {
         this.mode = window.matchMedia("(prefers-color-scheme: dark)").matches
           ? "dark"
