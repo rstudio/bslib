@@ -2,6 +2,14 @@
 
 ## bslib (development version)
 
+### Bug fixes
+
+- Fixed
+  [`input_dark_mode()`](https://rstudio.github.io/bslib/dev/reference/input_dark_mode.md)
+  writing an invalid `"undefined"` value to the `data-bs-theme`
+  attribute when it connected while the document was already set to
+  `"light"`. ([\#1349](https://github.com/rstudio/bslib/issues/1349))
+
 ### Breaking changes
 
 - [`show_offcanvas()`](https://rstudio.github.io/bslib/dev/reference/show_offcanvas.md)

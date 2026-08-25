@@ -76,12 +76,16 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="bslib-development-version">bslib (development version)<a class="anchor" aria-label="anchor" href="#bslib-development-version"></a></h2>
 <div class="section level3">
+<h3 id="bug-fixes-development-version">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
+<ul><li>Fixed <code><a href="../reference/input_dark_mode.html">input_dark_mode()</a></code> writing an invalid <code>"undefined"</code> value to the <code>data-bs-theme</code> attribute when it connected while the document was already set to <code>"light"</code>. (<a href="https://github.com/rstudio/bslib/issues/1349" class="external-link">#1349</a>)</li>
+</ul></div>
+<div class="section level3">
 <h3 id="breaking-changes-development-version">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-development-version"></a></h3>
 <ul><li>
 <code><a href="../reference/show_offcanvas.html">show_offcanvas()</a></code> now accepts a character <code>id</code> to reveal a panel already in the UI, in addition to a <code>bslib_offcanvas</code> object. Previously, a bare string was treated as body content for a new anonymous panel; it is now treated as an id lookup instead, and errors if it looks like body text (e.g. it contains whitespace or is empty). <code><a href="https://rstudio.github.io/htmltools/reference/HTML.html" class="external-link">htmltools::HTML()</a></code> continues to be treated as body content. (<a href="https://github.com/rstudio/bslib/issues/1346" class="external-link">#1346</a>)</li>
 </ul></div>
 <div class="section level3">
-<h3 id="bug-fixes-development-version">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
+<h3 id="bug-fixes-development-version-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version-1"></a></h3>
 <ul><li>Fixed <code><a href="../reference/toolbar_input_select.html">toolbar_input_select()</a></code> creating duplicate element IDs by assigning the same ID to both the container div and the inner select element. The select element now receives a distinct ID using the pattern <code>{id}-select</code>. (<a href="https://github.com/rstudio/bslib/issues/1350" class="external-link">#1350</a>)</li>
 </ul></div>
 <div class="section level3">
