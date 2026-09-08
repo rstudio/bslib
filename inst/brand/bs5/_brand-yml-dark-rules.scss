@@ -1,0 +1,18 @@
+/*-- scss:rules --*/
+
+[data-bs-theme="dark"] {
+  @if $link-bg == null {
+    --#{$prefix}link-bg: initial;
+  } @else {
+    --#{$prefix}link-bg: #{$link-bg};
+  }
+}
+
+[data-bs-theme="dark"] code {
+  background-color: $code-bg;
+}
+
+[data-bs-theme="dark"] pre {
+  color: $pre-color;
+  background-color: $pre-bg;
+}

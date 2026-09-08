@@ -40,6 +40,7 @@ $brand_color_warning: null !default;
 $brand_color_danger: null !default;
 $brand_color_light: null !default;
 $brand_color_dark: null !default;
+$brand_color_link: null !default;
 $brand_typography_base_family: null !default;
 $brand_typography_base_size: null !default;
 $brand_typography_base_line-height: null !default;
@@ -120,8 +121,16 @@ $code-block-font-weight: $brand_typography_monospace-block_weight !default;
 $code-block-font-size: $brand_typography_monospace-block_size !default;
 // brand.typography.link
 $link-bg: $brand_typography_link_background-color !default;
-$link-color: $brand_typography_link_color !default;
-$link-color-dark: $brand_typography_link_color !default;
+$link-color: if(
+  $brand_typography_link_color != null,
+  $brand_typography_link_color,
+  $brand_color_link
+) !default;
+$link-color-dark: if(
+  $brand_typography_link_color != null,
+  $brand_typography_link_color,
+  $brand_color_link
+) !default;
 $link-weight: $brand_typography_link_weight !default;
 $link-decoration: $brand_typography_link_decoration !default;
 

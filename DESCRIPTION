@@ -30,6 +30,7 @@ Depends:
     R (>= 2.10)
 Imports:
     base64enc,
+    brand.yml (>= 0.1.0.9000),
     cachem,
     fastmap (>= 1.1.1),
     grDevices,
@@ -44,7 +45,6 @@ Imports:
     tools,
     utils
 Suggests:
-    brand.yml,
     bsicons,
     curl,
     fontawesome,
@@ -60,6 +60,8 @@ Suggests:
     thematic,
     withr,
     yaml
+Remotes:
+    posit-dev/brand-yml@feat/brand-color-light-dark
 Config/Needs/deploy: BH, chiflights22, colourpicker, commonmark, cpp11,
     cpsievert/chiflights22, cpsievert/histoslider, dplyr, DT, ggplot2,
     ggridges, gt, hexbin, histoslider, htmlwidgets, lattice, leaflet,
