@@ -37,7 +37,8 @@ but in many cases an icon provides enough visual context for the box to
 feel “complete”. We recommend using the new
 [bsicons](https://github.com/rstudio/bsicons) package since it’s
 designed with Bootstrap in mind, but you could also use
-[fontawesome](https://github.com/rstudio/fontawesome) or `{icons}`.
+[fontawesome](https://github.com/rstudio/fontawesome) or
+[icons](https://pkg.mitchelloharawild.com/icons/).
 
 With each value box you can `showcase` a plot or an icon, choosing from
 one of three values for `showcase_layout`: `"left center"`,

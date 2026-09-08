@@ -141,9 +141,8 @@ output:
 from RStudio by going to File -\> New File -\> R Markdown -\> From
 Template:
 
-\<img src=“rstudio-templates.png” class=“r-plt” alt=“RStudio”New
-Template” dialog showing three theming-related templates from bslib.”
-width=“582” style=“display: block; margin: auto;” /\>
+![RStudio "New Template" dialog showing three theming-related templates
+from bslib.](rstudio-templates.png)
 
 In addition to
 [`rmarkdown::html_document`](https://pkgs.rstudio.com/rmarkdown/reference/html_document.html),
