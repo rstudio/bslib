@@ -40,7 +40,9 @@ Imports:
     memoise (>= 2.0.1),
     mime,
     rlang,
-    sass (>= 0.4.9)
+    sass (>= 0.4.9),
+    tools,
+    utils
 Suggests:
     brand.yml,
     bsicons,
@@ -56,8 +58,6 @@ Suggests:
     shiny (>= 1.11.1.9000),
     testthat,
     thematic,
-    tools,
-    utils,
     withr,
     yaml
 Config/Needs/deploy: BH, chiflights22, colourpicker, commonmark, cpp11,
