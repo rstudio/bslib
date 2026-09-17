@@ -33,6 +33,61 @@ test_that("page_navbar()", {
   )
 })
 
+test_that("page_navbar() wraps the navbar in a <header> banner landmark", {
+  skip_if_not_installed("shiny")
+  with_private_seed()
+
+  html <- renderTags(page_navbar(
+    title = "foo",
+    nav_panel("One", "content")
+  ))$html
+  expect_match(
+    as.character(html),
+    "<header>\\s*<nav class=\"navbar",
+    perl = TRUE
+  )
+
+  # navset_bar() can appear anywhere on a page, so it must NOT be wrapped
+  with_private_seed()
+  html <- renderTags(navset_bar(
+    title = "foo",
+    nav_panel("One", "content")
+  ))$html
+  expect_no_match(as.character(html), "<header", fixed = TRUE)
+  expect_no_match(as.character(html), "<main", fixed = TRUE)
+})
+
+test_that("page_navbar() gives the content area a <main> landmark", {
+  skip_if_not_installed("shiny")
+  with_private_seed()
+
+  html <- renderTags(page_navbar(
+    title = "foo",
+    nav_panel("One", "content")
+  ))$html
+  expect_match(
+    as.character(html),
+    "<main class=\"container-fluid",
+    fixed = TRUE
+  )
+
+  # With a sidebar, the page-level <main> comes from page_main_container(),
+  # and there should be exactly one <main> on the page
+  with_private_seed()
+  html <- as.character(
+    renderTags(page_navbar(
+      title = "foo",
+      sidebar = sidebar("side"),
+      nav_panel("One", "content")
+    ))$html
+  )
+  expect_match(html, "<main class=\"bslib-page-main", fixed = TRUE)
+  expect_equal(
+    lengths(regmatches(html, gregexpr("<main", html, fixed = TRUE))),
+    1
+  )
+})
+
 test_that("page_sidebar()", {
   with_private_seed()
 
