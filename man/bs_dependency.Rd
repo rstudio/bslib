@@ -15,7 +15,7 @@ bs_dependency(
   .sass_args = list()
 )
 
-bs_dependency_defer(func, memoise = TRUE)
+bs_dependency_defer(func, memoise = TRUE, cache_key = NULL)
 }
 \arguments{
 \item{input}{Sass rules to compile, using \code{theme}.}
@@ -46,6 +46,12 @@ benefits when many instances of the same themable widget are rendered. Note
 that you may want to avoid memoisation if \code{func} relies on side-effects
 (e.g., files on-disk) that need to change for each themable widget
 instance.}
+
+\item{cache_key}{A unique identifier for this dependency. Set this to a
+distinct value (e.g. the widget name) whenever you create several
+dependencies from similar \code{func}s. Without it, they can be mistaken for
+one another in the cache, and every dependency after the first is served a
+copy of the first one. Ignored when \code{memoise = FALSE}.}
 }
 \value{
 \code{bs_dependency()} returns an \code{\link[htmltools:htmlDependency]{htmltools::htmlDependency()}} and
