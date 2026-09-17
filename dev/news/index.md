@@ -43,6 +43,12 @@
   dropdowns, keep the random ID.
   ([\#1342](https://github.com/rstudio/bslib/issues/1342))
 
+- Added an aria-controls attribute when using bslib::page_navbar() with
+  bslib::nav_panel() to establish an explicit relationship between the
+  tab and the controlled tab panel.
+  ([@shelbylevel](https://github.com/shelbylevel),
+  [\#1354](https://github.com/rstudio/bslib/issues/1354))
+
 ## bslib 0.12.0
 
 CRAN release: 2026-08-03
