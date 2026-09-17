@@ -790,6 +790,7 @@ liTag <- function(id, title, value, icon) {
       # data-bs-* is for BS5+
       `data-bs-toggle` = "tab",
       `data-value` = value,
+      `aria-controls` = id,
       disabled = if (is_hidden) NA,
       icon,
       title
