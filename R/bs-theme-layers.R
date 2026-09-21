@@ -177,8 +177,20 @@ bs_add_mixins <- function(theme, mixins) {
 #' @export
 bs_bundle <- function(theme, ...) {
   assert_bs_theme(theme)
-  structure(
+  result <- structure(
     sass_bundle(theme, ...),
     class = class(theme)
   )
+  preserve_theme_attributes(result, theme)
+}
+
+preserve_theme_attributes <- function(result, theme) {
+  extra <- attributes(theme)
+  extra[c("names", "class")] <- NULL
+
+  result_attrs <- attributes(result)
+  result_attrs[names(extra)] <- extra
+  attributes(result) <- result_attrs
+
+  result
 }

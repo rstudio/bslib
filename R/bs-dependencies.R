@@ -144,6 +144,7 @@ maybe_precompiled_css <- function(theme, sass_options, precompiled) {
 
 sass_compile_theme <- function(theme, sass_options, sass_cache) {
   version <- theme_version(theme)
+  brand <- attr(theme, "brand")
 
   contrast_warn <- get_shiny_devmode_option(
     "bslib.color_contrast_warnings",
@@ -155,6 +156,7 @@ sass_compile_theme <- function(theme, sass_options, sass_cache) {
     )
   )
   theme <- bs_add_variables(theme, "color-contrast-warnings" = contrast_warn)
+  attr(theme, "brand") <- brand
 
   out_file <- sass(
     input = theme,
@@ -168,9 +170,154 @@ sass_compile_theme <- function(theme, sass_options, sass_cache) {
     )
   )
 
+  dark_css <- bs_brand_dark_css(
+    theme = theme,
+    sass_options = sass_options,
+    sass_cache = sass_cache
+  )
+  if (nzchar(dark_css)) {
+    out_file <- append_brand_dark_css(out_file, dark_css)
+  }
+
   bootstrap_javascript_copy_assets(version, dirname(out_file))
 
   out_file
+}
+
+bs_brand_dark_css <- function(theme, sass_options, sass_cache) {
+  brand <- attr(theme, "brand")
+  if (is.null(brand) || theme_version(theme) < 5) {
+    return("")
+  }
+
+  dark_theme <- bs_brand_dark_theme(theme, brand)
+  css <- sass(
+    input = dark_theme,
+    options = sass_options,
+    cache = sass_cache,
+    cache_key_extra = list(
+      "bslib-brand-dark",
+      get_exact_version(theme_version(theme)),
+      get_package_version("bslib")
+    )
+  )
+
+  sub(
+    ":root\\s*,\\s*\\[data-bs-theme=(?:\"light\"|light)\\]",
+    '[data-bs-theme="dark"]',
+    css,
+    perl = TRUE
+  )
+}
+
+bs_brand_dark_theme <- function(theme, brand) {
+  brand_layers <- c("brand_base", "brand_defaults", "brand")
+  brand_idx <- match("brand_base", names(theme$layers))
+  if (is.na(brand_idx)) {
+    return(theme)
+  }
+
+  layers <- theme$layers[!names(theme$layers) %in% brand_layers]
+  dark_bundle <- bs_brand_dark_bundle(brand)
+  dark_layers <- dark_bundle$layers
+  layers <- append(layers, dark_layers, after = brand_idx - 1L)
+
+  # Bootstrap components contain Sass-derived colors that root variables alone
+  # cannot switch. Recompile the theme's rules inside the dark mode selector.
+  scoped_rules <- if (isTRUE(attr(dark_bundle, "has_dark_variants"))) {
+    unlist(
+      lapply(seq_along(layers), function(i) {
+        if (identical(names(layers)[[i]], "_root")) {
+          return(NULL)
+        }
+        layers[[i]]$rules
+      }),
+      recursive = FALSE
+    )
+  }
+
+  layers <- lapply(layers, function(layer) {
+    layer$rules <- NULL
+    layer
+  })
+  dark_rule_layers <- list(
+    "_brand_dark_root" = as_sass_layer(sass_layer(
+      rules = bs5_sass_files("root")
+    ))
+  )
+  if (length(scoped_rules)) {
+    dark_rule_layers[["_brand_dark_components"]] <- as_sass_layer(sass_layer(
+      rules = c(
+        list('[data-bs-theme="dark"] {'),
+        scoped_rules,
+        list("}")
+      )
+    ))
+  }
+  dark_rule_layers[["_brand_dark_runtime"]] <- as_sass_layer(sass_layer_file(
+    system_file(
+      "brand",
+      "bs5",
+      "_brand-yml-dark-rules.scss",
+      package = "bslib"
+    )
+  ))
+  layers <- c(layers, dark_rule_layers)
+
+  structure(
+    list(layers = layers),
+    class = class(theme)
+  )
+}
+
+bs_brand_dark_bundle <- function(brand) {
+  brand_fonts <- brand.yml::brand_sass_fonts(brand)
+  brand_color_palette <- brand.yml::brand_sass_color_palette(brand)
+  brand_color <- brand.yml::brand_sass_color(brand)
+  brand_defaults <- brand.yml::brand_sass_defaults_bootstrap(brand)
+  brand_typography <- brand.yml::brand_sass_typography(brand)
+
+  bundle <- sass_bundle(
+    "brand_dark_base" = sass_layer_file(
+      system_file("brand", "bs5", "_brand-yml-dark.scss", package = "bslib")
+    ),
+    "brand_dark_bootstrap_defaults" = brand_defaults$layer,
+    "brand_dark_defaults" = sass_layer(
+      defaults = list2(
+        !!!brand_color_palette$defaults,
+        !!!brand_defaults$defaults,
+        !!!(brand_color$defaults_dark %||% brand_color$defaults),
+        !!!brand_fonts$defaults,
+        !!!(brand_typography$defaults_dark %||% brand_typography$defaults)
+      )
+    )
+  )
+  attr(bundle, "has_dark_variants") <-
+    !is.null(brand_color$defaults_dark) ||
+    !is.null(brand_typography$defaults_dark)
+  bundle
+}
+
+append_brand_dark_css <- function(out_file, dark_css) {
+  suffix <- substr(rlang::hash(dark_css), 1L, 12L)
+  ext <- tools::file_ext(out_file)
+  out_file_dark <- file.path(
+    dirname(out_file),
+    sprintf(
+      "%s-brand-dark-%s.%s",
+      tools::file_path_sans_ext(basename(out_file)),
+      suffix,
+      ext
+    )
+  )
+
+  if (!file.exists(out_file_dark)) {
+    file.copy(out_file, out_file_dark)
+    cat("\n", dark_css, "\n", file = out_file_dark, append = TRUE, sep = "")
+  }
+
+  attributes(out_file_dark) <- attributes(out_file)
+  out_file_dark
 }
 
 bootstrap_javascript_copy_assets <- function(version, to) {
