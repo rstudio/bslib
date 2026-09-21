@@ -135,7 +135,10 @@ test_that("sidebar() labels landmarks with custom and HTML() titles", {
   label_id <- sub(".*aria-labelledby=\"([^\"]+)\".*", "\\1", raw)
   expect_match(
     raw,
-    sprintf('<div id="%s" style="display:contents"><b>Filters</b></div>', label_id),
+    sprintf(
+      '<div id="%s" style="display:contents"><b>Filters</b></div>',
+      label_id
+    ),
     fixed = TRUE
   )
 })
