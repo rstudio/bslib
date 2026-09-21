@@ -285,8 +285,10 @@ page_sidebar <- function(
     border = FALSE,
     border_radius = FALSE,
     !!!dots$attribs,
-    page_main_container(dots$children, fillable = fillable)
+    !!!dots$children
   )
+
+  sidebar_layout <- rlang::exec(layout_sidebar, !!!layout_sidebar_args)
 
   page_fillable(
     padding = 0,
@@ -297,13 +299,14 @@ page_sidebar <- function(
     fillable_mobile = fillable_mobile,
     class = "bslib-page-sidebar",
     navbar_title,
-    rlang::exec(layout_sidebar, !!!layout_sidebar_args)
+    page_main_container(sidebar_layout, fillable = fillable, gap = FALSE)
   )
 }
 
-page_main_container <- function(..., fillable = TRUE) {
+page_main_container <- function(..., fillable = TRUE, gap = TRUE) {
   main <- tags$main(
-    class = "bslib-page-main bslib-gap-spacing",
+    class = "bslib-page-main",
+    class = if (gap) "bslib-gap-spacing",
     ...
   )
   if (fillable) as_fill_carrier(main) else main
