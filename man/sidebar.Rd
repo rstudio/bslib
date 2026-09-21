@@ -13,6 +13,7 @@ sidebar(
   open = NULL,
   id = NULL,
   title = NULL,
+  role = NULL,
   bg = NULL,
   fg = NULL,
   class = NULL,
@@ -81,6 +82,33 @@ update) the \code{collapsible} state in a Shiny app.}
 wrapped in a \verb{<header>} element with class \code{sidebar-title}. You can also
 provide a custom \code{\link[htmltools:tag]{htmltools::tag()}} for the title element, in which case
 you'll likely want to give this element \code{class = "sidebar-title"}.}
+
+\item{role}{An \href{https://www.w3.org/TR/wai-aria-1.2/#role_definitions}{ARIA role}
+that describes the sidebar's purpose. The default, \code{NULL}, adds no
+landmark. Choose a role based on the content in the sidebar and its
+relationship with your app:
+\itemize{
+\item Use \code{"form"} for controls that work together on the page's main task.
+For example, use it for dashboard filters that change the displayed
+data. In \code{\link[=page_sidebar]{page_sidebar()}}, the form is inside the page's main landmark.
+\item Use \code{"search"} only for controls that search an app, site, or dataset.
+\item Use \code{"complementary"} for help text, related links, or other secondary
+content that still makes sense without the main content. Do not use it
+for controls that drive the main output.
+\item Use \code{"region"} for an important, named section when another landmark
+does not fit. Use regions sparingly because each one is a navigation
+destination for screen reader users.
+}
+
+\code{sidebar()} uses native HTML when possible: \code{"complementary"} creates an
+\verb{<aside>}. Other roles create a \verb{<div>} with the corresponding \code{role}
+attribute, e.g. \verb{<div role="form">}.
+
+Landmark roles require an accessible name. Provide a visible
+\code{title}, such as \code{title = "Filters"}, or provide a name without a visible
+title by setting \code{aria-label = "Filters"} in \code{...}. To use an existing
+label, set \code{aria-labelledby = "filter-heading"}, where \code{"filter-heading"}
+is the \code{id} of the labeling element.}
 
 \item{bg, fg}{A background or foreground color. If only one of either is
 provided, an accessible contrasting color is provided for the opposite

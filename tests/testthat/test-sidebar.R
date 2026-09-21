@@ -29,6 +29,117 @@ test_that("sidebar() - assigns input binding class if `id` is provided", {
   )
 })
 
+test_that("sidebar() has neutral markup by default", {
+  sidebar_tag <- as.tags(sidebar())[[1]]
+
+  expect_identical(sidebar_tag$name, "div")
+  expect_null(htmltools::tagGetAttribute(sidebar_tag, "role"))
+})
+
+test_that("sidebar() renders semantic roles and accessible names", {
+  complementary <- as.tags(
+    sidebar(role = "complementary", title = "Related information")
+  )[[1]]
+  expect_identical(complementary$name, "aside")
+  expect_null(htmltools::tagGetAttribute(complementary, "role"))
+  expect_match(
+    htmltools::tagGetAttribute(complementary, "aria-labelledby"),
+    "bslib-sidebar-\\d+-title"
+  )
+
+  form <- as.tags(sidebar(role = "form", title = "Filters"))[[1]]
+  expect_identical(form$name, "div")
+  expect_identical(htmltools::tagGetAttribute(form, "role"), "form")
+  expect_match(
+    htmltools::tagGetAttribute(form, "aria-labelledby"),
+    "bslib-sidebar-\\d+-title"
+  )
+
+  search <- as.tags(sidebar(role = "search", title = "Search"))[[1]]
+  expect_identical(search$name, "div")
+  expect_identical(htmltools::tagGetAttribute(search, "role"), "search")
+
+  region <- as.tags(
+    sidebar(role = "region", `aria-label` = "Filters")
+  )[[1]]
+  expect_identical(region$name, "div")
+  expect_identical(htmltools::tagGetAttribute(region, "role"), "region")
+  expect_identical(htmltools::tagGetAttribute(region, "aria-label"), "Filters")
+
+  labelled_region <- as.tags(
+    sidebar(role = "region", `aria-labelledby` = "filters-heading")
+  )[[1]]
+  expect_identical(
+    htmltools::tagGetAttribute(labelled_region, "aria-labelledby"),
+    "filters-heading"
+  )
+})
+
+test_that("sidebar() accepts documented roles only", {
+  expect_error(sidebar(role = "navigation"), "`role`")
+  expect_error(sidebar(role = c("form", "search")), "`role`")
+  expect_error(sidebar(role = 1), "`role`")
+  expect_error(sidebar(role = ""), "`role`")
+})
+
+test_that("sidebar() requires accessible names for landmark roles", {
+  for (role in c("form", "search", "complementary", "region")) {
+    expect_error(
+      as.tags(sidebar(role = role)),
+      "requires an accessible name"
+    )
+    expect_silent(
+      as.tags(sidebar(role = role, title = "Filters"))
+    )
+  }
+
+  expect_silent(
+    as.tags(sidebar(role = "form", `aria-label` = "Filters"))
+  )
+  expect_silent(
+    as.tags(sidebar(role = "region", `aria-labelledby` = "filters-heading"))
+  )
+})
+
+test_that("sidebar() prefers explicit aria labels over the title", {
+  with_label <- renderTags(
+    sidebar(role = "form", title = "Filters", `aria-label` = "My form")
+  )$html
+  expect_match(with_label, 'role="form" aria-label="My form"', fixed = TRUE)
+  expect_no_match(with_label, "aria-labelledby")
+  expect_match(with_label, '<header class="sidebar-title">', fixed = TRUE)
+
+  with_labelledby <- as.tags(
+    sidebar(role = "region", title = "Filters", `aria-labelledby` = "h")
+  )[[1]]
+  expect_identical(
+    htmltools::tagGetAttribute(with_labelledby, "aria-labelledby"),
+    "h"
+  )
+})
+
+test_that("sidebar() labels landmarks with custom and HTML() titles", {
+  custom <- renderTags(
+    sidebar(
+      role = "form",
+      title = tags$header(id = "mytitle", "Filters", class = "sidebar-title")
+    )
+  )$html
+  expect_match(custom, 'aria-labelledby="mytitle"', fixed = TRUE)
+  expect_match(custom, '<header id="mytitle"', fixed = TRUE)
+
+  raw <- renderTags(
+    sidebar(role = "form", title = HTML("<b>Filters</b>"))
+  )$html
+  expect_match(raw, 'aria-labelledby="(bslib-sidebar-\\d+-title)"')
+  label_id <- sub(".*aria-labelledby=\"([^\"]+)\".*", "\\1", raw)
+  expect_match(
+    raw,
+    sprintf('<div id="%s" style="display:contents"><b>Filters</b></div>', label_id),
+    fixed = TRUE
+  )
+})
+
 test_that("sidebar() - assigns a random `id` if collapsible and `id` not provided", {
   sidebar_open <- as.tags(sidebar(open = "open"))
 
