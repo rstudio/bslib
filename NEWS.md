@@ -1,8 +1,19 @@
 # bslib (development version)
 
+## Improvements
+
+* Sidebars now use neutral `<div>` markup by default. Use the new `role`
+  argument of `sidebar()` to identify a sidebar as a complementary landmark,
+  form, search area, or another ARIA role. (#1358)
+
+* `page_sidebar()` now places its sidebar and content together inside the
+  page's single main landmark. (#1358)
+
 ## Bug fixes
 
 * Fixed `input_dark_mode()` writing an invalid `"undefined"` value to the `data-bs-theme` attribute when it connected while the document was already set to `"light"`. (#1349)
+
+* Fixed a bug in `as.tags.bslib_sidebar()` that prevented the default `open` value from being applied. (#1334)
 
 ## Breaking changes
 

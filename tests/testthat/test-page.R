@@ -78,6 +78,22 @@ test_that("page_sidebar()", {
   )
 })
 
+test_that("page_sidebar() has one main landmark containing both columns", {
+  page <- renderTags(
+    page_sidebar(
+      "main",
+      sidebar = sidebar("side")
+    )
+  )$html
+
+  expect_length(regmatches(page, gregexpr("<main", page, fixed = TRUE))[[1]], 1)
+  expect_match(
+    page,
+    "<main class=\"bslib-page-main[^\"]*\">\\s*<div class=\"bslib-sidebar-layout",
+    perl = TRUE
+  )
+})
+
 test_that("save_html() works on components and pages with a custom theme", {
   withr::with_tempdir({
     withr::local_options(list(htmltools.dir.version = FALSE))
