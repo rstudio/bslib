@@ -2,6 +2,20 @@
 
 ## bslib (development version)
 
+### Improvements
+
+- Sidebars now use neutral `<div>` markup by default. Use the new `role`
+  argument of
+  [`sidebar()`](https://rstudio.github.io/bslib/dev/reference/sidebar.md)
+  to identify a sidebar as a complementary landmark, form, search area,
+  or another ARIA role.
+  ([\#1358](https://github.com/rstudio/bslib/issues/1358))
+
+- [`page_sidebar()`](https://rstudio.github.io/bslib/dev/reference/page_sidebar.md)
+  now places its sidebar and content together inside the page’s single
+  main landmark.
+  ([\#1358](https://github.com/rstudio/bslib/issues/1358))
+
 ### Bug fixes
 
 - Fixed
@@ -9,6 +23,11 @@
   writing an invalid `"undefined"` value to the `data-bs-theme`
   attribute when it connected while the document was already set to
   `"light"`. ([\#1349](https://github.com/rstudio/bslib/issues/1349))
+
+- Fixed a bug in
+  [`as.tags.bslib_sidebar()`](https://rstudio.github.io/bslib/dev/reference/as.tags.bslib_sidebar.md)
+  that prevented the default `open` value from being applied.
+  ([\#1334](https://github.com/rstudio/bslib/issues/1334))
 
 ### Breaking changes
 

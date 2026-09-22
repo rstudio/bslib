@@ -43,6 +43,7 @@ sidebar(
   open = NULL,
   id = NULL,
   title = NULL,
+  role = NULL,
   bg = NULL,
   fg = NULL,
   class = NULL,
@@ -134,6 +135,40 @@ toggle_sidebar(id, open = NULL, session = get_current_session())
   [`htmltools::tag()`](https://rstudio.github.io/htmltools/reference/builder.html)
   for the title element, in which case you'll likely want to give this
   element `class = "sidebar-title"`.
+
+- role:
+
+  An [ARIA role](https://www.w3.org/TR/wai-aria-1.2/#role_definitions)
+  that describes the sidebar's purpose. The default, `NULL`, adds no
+  landmark. Choose a role based on the content in the sidebar and its
+  relationship with your app:
+
+  - Use `"form"` for controls that work together on the page's main
+    task. For example, use it for dashboard filters that change the
+    displayed data. In
+    [`page_sidebar()`](https://rstudio.github.io/bslib/dev/reference/page_sidebar.md),
+    the form is inside the page's main landmark.
+
+  - Use `"search"` only for controls that search an app, site, or
+    dataset.
+
+  - Use `"complementary"` for help text, related links, or other
+    secondary content that still makes sense without the main content.
+    Do not use it for controls that drive the main output.
+
+  - Use `"region"` for an important, named section when another landmark
+    does not fit. Use regions sparingly because each one is a navigation
+    destination for screen reader users.
+
+  `sidebar()` uses native HTML when possible: `"complementary"` creates
+  an `<aside>`. Other roles create a `<div>` with the corresponding
+  `role` attribute, e.g. `<div role="form">`.
+
+  Landmark roles require an accessible name. Provide a visible `title`,
+  such as `title = "Filters"`, or provide a name without a visible title
+  by setting `aria-label = "Filters"` in `...`. To use an existing
+  label, set `aria-labelledby = "filter-heading"`, where
+  `"filter-heading"` is the `id` of the labeling element.
 
 - bg, fg:
 
