@@ -658,10 +658,12 @@
          * paint above the expanded card. Dismissing them is a lifecycle concern,
          * not a stacking one, so we hide them here rather than adjusting z-indexes.
          *
-         * This covers both Bootstrap elements created directly (e.g. via
-         * `data-bs-toggle` attributes) and bslib's own web-component
-         * `<bslib-tooltip>` and `<bslib-popover>`, since both attach a Bootstrap
-         * Tooltip/Popover instance to a trigger carrying `data-bs-toggle`.
+         * This covers tooltips and popovers however they were created: via
+         * `data-bs-toggle` attributes, programmatically (e.g.
+         * `new bootstrap.Tooltip(el)`), or through bslib's `<bslib-tooltip>` and
+         * `<bslib-popover>` web components. We locate them through the visible
+         * overlay and its `aria-describedby` link rather than by trigger
+         * attributes, so instances without `data-bs-toggle` aren't missed.
          *
          * @private
          */
@@ -673,17 +675,20 @@
           document.querySelectorAll(".dropdown-menu.show").forEach((menu) => {
             var _a;
             const toggle = (_a = menu.parentElement) == null ? void 0 : _a.querySelector(
-              "[data-bs-toggle='dropdown']"
+              ":scope > [data-bs-toggle='dropdown']"
             );
             if (!toggle || !isOutsideCard(toggle))
               return;
             bootstrap.Dropdown.getOrCreateInstance(toggle).hide();
           });
-          document.querySelectorAll(
-            "[data-bs-toggle='tooltip'], [data-bs-toggle='popover']"
-          ).forEach((trigger) => {
+          document.querySelectorAll(".tooltip.show, .popover.show").forEach((tip) => {
             var _a, _b;
-            if (!isOutsideCard(trigger))
+            if (!tip.id)
+              return;
+            const trigger = document.querySelector(
+              `[aria-describedby='${tip.id}']`
+            );
+            if (!trigger || !isOutsideCard(trigger))
               return;
             (_a = bootstrap.Tooltip.getInstance(trigger)) == null ? void 0 : _a.hide();
             (_b = bootstrap.Popover.getInstance(trigger)) == null ? void 0 : _b.hide();
