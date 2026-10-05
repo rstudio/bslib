@@ -580,6 +580,7 @@
           }
           document.addEventListener("keydown", this._exitFullScreenOnEscape, false);
           document.addEventListener("keydown", this._trapFocusExit, true);
+          this._dismissOverlaysOutsideCard();
           this.card.setAttribute(_Card.attr.ATTR_FULL_SCREEN, "true");
           document.body.classList.add(_Card.attr.CLASS_HAS_FULL_SCREEN);
           this.card.insertAdjacentElement("beforebegin", this.overlay.container);
@@ -593,7 +594,7 @@
           this._setShinyInput();
         }
         /**
-         * Exit full screen mode. This removes the full screen overlay element,
+         * Exits full screen mode. This removes the full screen overlay element,
          * removes the full screen class from the card, and removes the keyboard event
          * listeners that were added when entering full screen mode.
          */
@@ -646,6 +647,52 @@
           if (!btnFullScreen)
             return;
           btnFullScreen.addEventListener("click", (ev) => this.enterFullScreen(ev));
+        }
+        /**
+         * Dismisses any open dropdowns, tooltips, and popovers whose triggers live
+         * outside of the card.
+         *
+         * @description
+         * Tooltips and popovers are positioned at a higher z-index tier than the
+         * full-screen card, so any that were opened from elsewhere in the app would
+         * paint above the expanded card. Dismissing them is a lifecycle concern,
+         * not a stacking one, so we hide them here rather than adjusting z-indexes.
+         *
+         * This covers tooltips and popovers however they were created: via
+         * `data-bs-toggle` attributes, programmatically (e.g.
+         * `new bootstrap.Tooltip(el)`), or through bslib's `<bslib-tooltip>` and
+         * `<bslib-popover>` web components. We locate them through the visible
+         * overlay and its `aria-describedby` link rather than by trigger
+         * attributes, so instances without `data-bs-toggle` aren't missed.
+         *
+         * @private
+         */
+        _dismissOverlaysOutsideCard() {
+          const bootstrap = window.bootstrap;
+          if (!bootstrap)
+            return;
+          const isOutsideCard = (el) => !this.card.contains(el);
+          document.querySelectorAll(".dropdown-menu.show").forEach((menu) => {
+            var _a;
+            const toggle = (_a = menu.parentElement) == null ? void 0 : _a.querySelector(
+              ":scope > [data-bs-toggle='dropdown']"
+            );
+            if (!toggle || !isOutsideCard(toggle))
+              return;
+            bootstrap.Dropdown.getOrCreateInstance(toggle).hide();
+          });
+          document.querySelectorAll(".tooltip.show, .popover.show").forEach((tip) => {
+            var _a, _b;
+            if (!tip.id)
+              return;
+            const trigger = document.querySelector(
+              `[aria-describedby='${tip.id}']`
+            );
+            if (!trigger || !isOutsideCard(trigger))
+              return;
+            (_a = bootstrap.Tooltip.getInstance(trigger)) == null ? void 0 : _a.hide();
+            (_b = bootstrap.Popover.getInstance(trigger)) == null ? void 0 : _b.hide();
+          });
         }
         /**
          * An event handler to exit full screen mode when the Escape key is pressed.

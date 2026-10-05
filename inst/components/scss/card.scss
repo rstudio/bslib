@@ -96,7 +96,12 @@
   height: auto !important;
   max-height: none !important;
   width: auto !important;
-  z-index: $zindex-popover;
+  // Full-screen cards are overlays in the same z-index family as offcanvas:
+  // they sit below modals (so modal dialogs paint above the expanded card),
+  // but above sticky/fixed elements and offcanvas backdrops. The companion
+  // backdrop (#bslib-full-screen-overlay) sits one tier below the card, just
+  // like Bootstrap's offcanvas/backdrop pair.
+  z-index: var(--bslib-card-full-screen-z-index, #{$zindex-offcanvas});
 }
 
 .bslib-full-screen-enter {
@@ -114,7 +119,7 @@
   font-size: .8rem;
   cursor: pointer;
   opacity: 0;
-  z-index: $zindex-popover;
+  z-index: var(--bslib-card-full-screen-z-index, #{$zindex-offcanvas});
 }
 
 .card:hover, .card:focus-within {
@@ -134,10 +139,11 @@
 }
 
 // A nested bslib-offcanvas is visually a page-level overlay, but it remains a DOM
-// descendant of the card it's wired from, so hovering it while open triggers the
-// card's :hover state above. Suppress the enter button in that case, since it would
-// otherwise render on top of the open offcanvas (its z-index is higher).
-.card:has(bslib-offcanvas.show, bslib-offcanvas.showing) .bslib-full-screen-enter {
+// descendant of the card it's wired from, so hovering the open panel triggers
+// the card's :hover state above. Suppress the enter button in that case: it
+// sits at the offcanvas tier, above the offcanvas backdrop, so it would
+// otherwise paint through the backdrop while the panel is open or transitioning.
+.card:has(bslib-offcanvas.show, bslib-offcanvas.showing, bslib-offcanvas.hiding) .bslib-full-screen-enter {
   display: none !important;
 }
 
@@ -167,7 +173,7 @@
   background-color: rgba(var(--bs-body-color-rgb), 0.6);
   backdrop-filter: blur(2px);
   -webkit-backdrop-filter: blur(2px);
-  z-index: $zindex-popover - 1;
+  z-index: var(--bslib-card-full-screen-backdrop-z-index, #{$zindex-offcanvas-backdrop});
   animation: bslib-full-screen-overlay-enter 400ms cubic-bezier(.6,.02,.65,1) forwards;
 }
 

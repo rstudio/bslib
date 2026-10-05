@@ -148,6 +148,10 @@ class Card {
     // capture phase so we have the best chance of preventing other handlers
     document.addEventListener("keydown", this._trapFocusExit, true);
 
+    // Dismiss stray overlays (dropdowns, popovers, tooltips) triggered outside
+    // this card so they don't paint above or around the full-screen card
+    this._dismissOverlaysOutsideCard();
+
     this.card.setAttribute(Card.attr.ATTR_FULL_SCREEN, "true");
     document.body.classList.add(Card.attr.CLASS_HAS_FULL_SCREEN);
     this.card.insertAdjacentElement("beforebegin", this.overlay.container);
@@ -168,7 +172,7 @@ class Card {
   }
 
   /**
-   * Exit full screen mode. This removes the full screen overlay element,
+   * Exits full screen mode. This removes the full screen overlay element,
    * removes the full screen class from the card, and removes the keyboard event
    * listeners that were added when entering full screen mode.
    */
@@ -226,6 +230,57 @@ class Card {
     );
     if (!btnFullScreen) return;
     btnFullScreen.addEventListener("click", (ev) => this.enterFullScreen(ev));
+  }
+
+  /**
+   * Dismisses any open dropdowns, tooltips, and popovers whose triggers live
+   * outside of the card.
+   *
+   * @description
+   * Tooltips and popovers are positioned at a higher z-index tier than the
+   * full-screen card, so any that were opened from elsewhere in the app would
+   * paint above the expanded card. Dismissing them is a lifecycle concern,
+   * not a stacking one, so we hide them here rather than adjusting z-indexes.
+   *
+   * This covers tooltips and popovers however they were created: via
+   * `data-bs-toggle` attributes, programmatically (e.g.
+   * `new bootstrap.Tooltip(el)`), or through bslib's `<bslib-tooltip>` and
+   * `<bslib-popover>` web components. We locate them through the visible
+   * overlay and its `aria-describedby` link rather than by trigger
+   * attributes, so instances without `data-bs-toggle` aren't missed.
+   *
+   * @private
+   */
+  private _dismissOverlaysOutsideCard(): void {
+    const bootstrap = window.bootstrap;
+    if (!bootstrap) return;
+
+    const isOutsideCard = (el: Element) => !this.card.contains(el);
+
+    // Dismiss any open dropdown menus
+    document
+      .querySelectorAll<HTMLElement>(".dropdown-menu.show")
+      .forEach((menu) => {
+        const toggle = menu.parentElement?.querySelector<HTMLElement>(
+          ":scope > [data-bs-toggle='dropdown']"
+        );
+        if (!toggle || !isOutsideCard(toggle)) return;
+        bootstrap.Dropdown.getOrCreateInstance(toggle).hide();
+      });
+
+    // Dismiss any open tooltips/popovers, including bslib's web-component
+    // variants and instances created programmatically (no trigger attribute)
+    document
+      .querySelectorAll<HTMLElement>(".tooltip.show, .popover.show")
+      .forEach((tip) => {
+        if (!tip.id) return;
+        const trigger = document.querySelector<HTMLElement>(
+          `[aria-describedby='${tip.id}']`
+        );
+        if (!trigger || !isOutsideCard(trigger)) return;
+        bootstrap.Tooltip.getInstance(trigger)?.hide();
+        bootstrap.Popover.getInstance(trigger)?.hide();
+      });
   }
 
   /**
