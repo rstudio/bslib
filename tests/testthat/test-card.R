@@ -77,7 +77,10 @@ test_that("full-screen cards stack in the offcanvas tier, below modals", {
 
   # The full-screen card and its enter button share the card's z-index
   # variable, defaulting to Bootstrap's offcanvas tier
-  card_z <- sprintf("z-index:var(--bslib-card-full-screen-z-index, %s)", z[["zindex-offcanvas"]])
+  card_z <- sprintf(
+    "z-index:var(--bslib-card-full-screen-z-index, %s)",
+    z[["zindex-offcanvas"]]
+  )
   expect_identical(count_matches(css, card_z), 2L)
 
   # The full-screen backdrop sits one tier below the card, mirroring the
@@ -90,7 +93,9 @@ test_that("full-screen cards stack in the offcanvas tier, below modals", {
 
   # The card now stacks below modals, so modal dialogs (including those from
   # Shiny's showModal()) paint above an expanded card
-  expect_true(as.numeric(z[["zindex-modal"]]) > as.numeric(z[["zindex-offcanvas"]]))
+  expect_true(
+    as.numeric(z[["zindex-modal"]]) > as.numeric(z[["zindex-offcanvas"]])
+  )
 
   # While a nested offcanvas (a DOM descendant of the card) is open, the
   # enter button must stay hidden so it doesn't paint through the panel's
@@ -98,7 +103,8 @@ test_that("full-screen cards stack in the offcanvas tier, below modals", {
   expect_true(
     grepl(
       ":has(bslib-offcanvas.show,bslib-offcanvas.showing,bslib-offcanvas.hiding) .bslib-full-screen-enter",
-      css, fixed = TRUE
+      css,
+      fixed = TRUE
     )
   )
 })
