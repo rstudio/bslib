@@ -24,6 +24,20 @@
   attribute when it connected while the document was already set to
   `"light"`. ([\#1349](https://github.com/rstudio/bslib/issues/1349))
 
+- Full-screen cards now stack in the same z-index tier as Bootstrap’s
+  offcanvas panels, which sits below modals. Previously they stacked
+  above modals, so modal dialogs (including those from Shiny’s
+  [`showModal()`](https://rdrr.io/pkg/shiny/man/showModal.html) and its
+  progress indicators) appeared behind an expanded card. Entering full
+  screen also dismisses any open dropdowns, tooltips, and popovers that
+  were triggered elsewhere in the app. The stacking levels are now
+  configurable at runtime via the new `--bslib-card-full-screen-z-index`
+  and `--bslib-card-full-screen-backdrop-z-index` CSS custom properties
+  (defaults: `$zindex-offcanvas` and `$zindex-offcanvas-backdrop`). As
+  part of this change, offcanvas backdrops no longer dim a full-screen
+  card, and stray dropdown menus no longer show through it.
+  ([\#1360](https://github.com/rstudio/bslib/issues/1360))
+
 - Fixed a bug in
   [`as.tags.bslib_sidebar()`](https://rstudio.github.io/bslib/dev/reference/as.tags.bslib_sidebar.md)
   that prevented the default `open` value from being applied.
