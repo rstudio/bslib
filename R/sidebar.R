@@ -63,6 +63,31 @@
 #'   wrapped in a `<header>` element with class `sidebar-title`. You can also
 #'   provide a custom [htmltools::tag()] for the title element, in which case
 #'   you'll likely want to give this element `class = "sidebar-title"`.
+#' @param role An [ARIA role](https://www.w3.org/TR/wai-aria-1.2/#role_definitions)
+#'   that describes the sidebar's purpose. The default, `NULL`, adds no
+#'   landmark. Choose a role based on the content in the sidebar and its
+#'   relationship with your app:
+#'
+#'   * Use `"form"` for controls that work together on the page's main task.
+#'     For example, use it for dashboard filters that change the displayed
+#'     data. In [page_sidebar()], the form is inside the page's main landmark.
+#'   * Use `"search"` only for controls that search an app, site, or dataset.
+#'   * Use `"complementary"` for help text, related links, or other secondary
+#'     content that still makes sense without the main content. Do not use it
+#'     for controls that drive the main output.
+#'   * Use `"region"` for an important, named section when another landmark
+#'     does not fit. Use regions sparingly because each one is a navigation
+#'     destination for screen reader users.
+#'
+#'   `sidebar()` uses native HTML when possible: `"complementary"` creates an
+#'   `<aside>`. Other roles create a `<div>` with the corresponding `role`
+#'   attribute, e.g. `<div role="form">`.
+#'
+#'   Landmark roles require an accessible name. Provide a visible
+#'   `title`, such as `title = "Filters"`, or provide a name without a visible
+#'   title by setting `aria-label = "Filters"` in `...`. To use an existing
+#'   label, set `aria-labelledby = "filter-heading"`, where `"filter-heading"`
+#'   is the `id` of the labeling element.
 #' @param bg,fg A background or foreground color. If only one of either is
 #'   provided, an accessible contrasting color is provided for the opposite
 #'   color, e.g. setting `bg` chooses an appropriate `fg` color.
@@ -99,6 +124,7 @@ sidebar <- function(
   open = NULL,
   id = NULL,
   title = NULL,
+  role = NULL,
   bg = NULL,
   fg = NULL,
   class = NULL,
@@ -113,6 +139,13 @@ sidebar <- function(
   padding <- validateCssPadding(padding)
   width <- validateCssUnit(width)
   max_height_mobile <- validateCssUnit(max_height_mobile)
+
+  if (!is.null(role)) {
+    role <- rlang::arg_match(
+      role,
+      values = c("form", "search", "complementary", "region")
+    )
+  }
 
   if (!is.null(open)) {
     open <- as_sidebar_open_on(open)
@@ -145,6 +178,7 @@ sidebar <- function(
   res <- list2(
     id = id,
     title = title,
+    role = role,
     class = class,
     gap = gap,
     padding = padding,
@@ -175,8 +209,8 @@ sidebar <- function(
 #' @keywords internal
 #' @export
 as.tags.bslib_sidebar <- function(x, ...) {
-  if (is.null(open)) {
-    open <- sidebar_open_on()
+  if (is.null(x$open)) {
+    x$open <- sidebar_open_on()
   }
 
   if (x$open$mobile == "always-above") {
@@ -221,26 +255,107 @@ as.tags.bslib_sidebar <- function(x, ...) {
       collapse_icon()
     )
 
-  sidebar_tag <- tags$aside(
-    id = x$id,
-    class = c("sidebar", x$class),
-    hidden = if (hidden_initially) NA,
-    `data-resizable` = if (isTRUE(x$resizable)) NA,
-    if (isTRUE(x$fillable)) as_fillable_container(),
-    tags$div(
-      class = "sidebar-content bslib-gap-spacing",
-      if (isTRUE(x$fillable)) as_fill_carrier(),
-      x$title,
-      style = css(
-        gap = x$gap,
-        padding = x$padding
-      ),
-      !!!x$attributes,
-      !!!x$children
+  is_landmark <- !is.null(x$role)
+  label_attrs <- list()
+  content_attrs <- x$attributes
+
+  if (is_landmark) {
+    label_attrs <- content_attrs[c("aria-label", "aria-labelledby")]
+    content_attrs[c("aria-label", "aria-labelledby")] <- NULL
+  }
+
+  title_tag <- x$title
+
+  # An explicit `aria-label`/`aria-labelledby` always wins; otherwise label the
+  # landmark with the sidebar's title.
+  if (
+    is_landmark &&
+      !sidebar_has_accessible_name(label_attrs) &&
+      !is.null(title_tag)
+  ) {
+    labelled <- sidebar_label_from_title(title_tag, x$id)
+    title_tag <- labelled$title
+    label_attrs <- list(`aria-labelledby` = labelled$id)
+  }
+
+  if (is_landmark && !sidebar_has_accessible_name(label_attrs)) {
+    rlang::abort(
+      c(
+        sprintf('`sidebar(role = "%s")` requires an accessible name.', x$role),
+        "i" = "Provide `title`, `aria-label`, or `aria-labelledby`."
+      )
+    )
+  }
+
+  sidebar_tag <- htmltools::tag(
+    sidebar_role_tag(x$role),
+    rlang::list2(
+      id = x$id,
+      class = c("sidebar", x$class),
+      hidden = if (hidden_initially) NA,
+      `data-resizable` = if (isTRUE(x$resizable)) NA,
+      role = sidebar_role_attribute(x$role),
+      !!!label_attrs,
+      if (isTRUE(x$fillable)) as_fillable_container(),
+      tags$div(
+        class = "sidebar-content bslib-gap-spacing",
+        if (isTRUE(x$fillable)) as_fill_carrier(),
+        title_tag,
+        style = css(
+          gap = x$gap,
+          padding = x$padding
+        ),
+        !!!content_attrs,
+        !!!x$children
+      )
     )
   )
 
   htmltools::tagList(sidebar_tag, collapse_tag)
+}
+
+sidebar_role_tag <- function(role) {
+  if (identical(role, "complementary")) "aside" else "div"
+}
+
+sidebar_role_attribute <- function(role) {
+  if (is.null(role) || identical(role, "complementary")) {
+    return(NULL)
+  }
+  role
+}
+
+sidebar_has_accessible_name <- function(attributes) {
+  any(vapply(
+    attributes,
+    function(x) {
+      rlang::is_string(x) && !is.na(x) && nzchar(x)
+    },
+    logical(1)
+  ))
+}
+
+sidebar_label_from_title <- function(title, sidebar_id) {
+  if (inherits(title, "shiny.tag")) {
+    id <- title$attribs$id
+    if (is.null(id)) {
+      id <- sidebar_title_id(sidebar_id)
+      title <- tagAppendAttributes(title, id = id)
+    }
+    return(list(title = title, id = id))
+  }
+
+  # Non-tag titles (e.g. `HTML()`) can't hold an `id`, so wrap them in one.
+  # The wrapper is display:contents so the title still participates directly
+  # in the sidebar's flex layout, and a `div` keeps block-level titles valid.
+  id <- sidebar_title_id(sidebar_id)
+  list(title = tags$div(id = id, style = "display:contents", title), id = id)
+}
+
+sidebar_title_id <- function(sidebar_id) {
+  sidebar_id <- sidebar_id %||%
+    paste0("bslib-sidebar-", p_randomInt(1000, 10000))
+  paste0(sidebar_id, "-title")
 }
 
 as_sidebar_open_on <- function(open) {
