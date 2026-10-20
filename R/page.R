@@ -442,7 +442,7 @@ page_navbar <- function(
   }
 
   # If a sidebar is provided, we want the layout_sidebar(fill = TRUE) component
-  # (which is a sibling of the <nav>) to always fill the page
+  # (which is a sibling of the navbar) to always fill the page
   page_func <- if (isFALSE(fillable) && is.null(sidebar)) {
     page
   } else {
@@ -469,7 +469,8 @@ page_navbar <- function(
     footer = footer,
     navbar_options = .navbar_options,
     fluid = fluid,
-    theme = theme
+    theme = theme,
+    page_landmarks = TRUE
   )
 
   page_func(

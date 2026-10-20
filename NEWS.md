@@ -31,6 +31,8 @@
 
 * Added an aria-controls attribute when using bslib::page_navbar() with bslib::nav_panel() to establish an explicit relationship between the tab and the controlled tab panel. (@shelbylevel, #1354)
 
+* `page_navbar()` now includes banner and main landmarks, making it easier for screen reader users to navigate the page. (@jcheng5, @shelbylevel, #1357)
+
 # bslib 0.12.0
 
 ## New features
