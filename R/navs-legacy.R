@@ -224,7 +224,8 @@ navs_bar_ <- function(
   header = NULL,
   footer = NULL,
   fluid = TRUE,
-  theme = NULL
+  theme = NULL,
+  page_landmarks = FALSE
 ) {
   navbar_options <- navbar_options %||% navbar_options()
 
@@ -258,7 +259,8 @@ navs_bar_ <- function(
     inverse = identical(navbar_theme, "dark"),
     underline = navbar_options[["underline"]],
     fluid = fluid,
-    theme = theme
+    theme = theme,
+    page_landmarks = page_landmarks
   )
 
   attribs <- navbar_options[["attribs"]] %||% list()
@@ -267,7 +269,7 @@ navs_bar_ <- function(
   # user includes both, the attribute wins for being most technically-correct.
   attribs[["data-bs-theme"]] <- attribs[["data-bs-theme"]] %||% navbar_theme
 
-  # navbarPage_() returns a tagList() of the nav and content
+  # navbarPage_() returns a tagList() of the navbar and content
   navbar[[1]] <- tagAppendAttributes(
     navbar[[1]],
     style = if (!is.null(navbar_bg)) {
@@ -300,7 +302,8 @@ navbarPage_ <- function(
   underline = TRUE,
   collapsible = FALSE,
   fluid = TRUE,
-  theme = NULL
+  theme = NULL,
+  page_landmarks = FALSE
 ) {
   # alias title so we can avoid conflicts w/ title in withTags
   pageTitle <- title
@@ -401,7 +404,11 @@ navbarPage_ <- function(
   contents <- dropNulls(list(header, tabset$content, footer))
 
   if (is.null(sidebar)) {
-    contentDiv <- div(class = containerClass, !!!contents)
+    contentDiv <- div(
+      class = containerClass,
+      role = if (page_landmarks) "main",
+      !!!contents
+    )
 
     # If fillable is truthy, the .container also needs to be fillable
     if (!isFALSE(fillable)) {
@@ -426,11 +433,17 @@ navbarPage_ <- function(
     contentDiv <- bindFillRole(contentDiv, container = TRUE, item = TRUE)
   }
 
+  # Keep the navbar and content as siblings for CSS and sticky positioning.
+  # Embedded navsets retain navigation semantics without page-level landmarks.
+  if (page_landmarks) {
+    containerDiv$name <- "nav"
+    navbar <- tags$header(class = navbarClass, containerDiv)
+  } else {
+    navbar <- tags$nav(class = navbarClass, role = "navigation", containerDiv)
+  }
+
   # *Don't* wrap in bootstrapPage() (shiny::navbarPage()) does that part
-  tagList(
-    tags$nav(class = navbarClass, role = "navigation", containerDiv),
-    contentDiv
-  )
+  tagList(navbar, contentDiv)
 }
 
 navbarMenu_ <- function(title, ..., menuName = title, icon = NULL, align) {

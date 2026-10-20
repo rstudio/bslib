@@ -439,7 +439,7 @@ page_navbar <- function(
   }
 
   # If a sidebar is provided, we want the layout_sidebar(fill = TRUE) component
-  # (which is a sibling of the <nav>) to always fill the page
+  # (which is a sibling of the navbar) to always fill the page
   page_func <- if (isFALSE(fillable) && is.null(sidebar)) {
     page
   } else {
@@ -466,23 +466,9 @@ page_navbar <- function(
     footer = footer,
     navbar_options = .navbar_options,
     fluid = fluid,
-    theme = theme
+    theme = theme,
+    page_landmarks = TRUE
   )
-
-  # Wrap the navbar in a <header> to give the page a banner landmark.
-  # This happens here, rather than in navs_bar_(), because navset_bar()
-  # (which shares that code) can appear anywhere on a page, where a
-  # banner landmark would be inappropriate.
-  navbar[[1]] <- tags$header(navbar[[1]])
-
-  # Give the content area a <main> landmark. When a sidebar is present, the
-  # content area already contains a <main> (via page_main_container()), so
-  # only change the content container's tag in the sidebar-less case. Done
-  # in-place (rather than wrapping) so the container remains a direct child
-  # of the page's fill container.
-  if (is.null(sidebar)) {
-    navbar[[2]]$name <- "main"
-  }
 
   page_func(
     title = infer_window_title(title, window_title),

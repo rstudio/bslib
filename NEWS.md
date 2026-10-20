@@ -18,9 +18,7 @@
 
 * Added an aria-controls attribute when using bslib::page_navbar() with bslib::nav_panel() to establish an explicit relationship between the tab and the controlled tab panel. (@shelbylevel, #1354)
 
-* `page_navbar()` now wraps the top navigation bar in a `<header>` element, giving the page a banner landmark that screen readers can navigate to.
-
-* `page_navbar()` now renders its content area as a `<main>` element, giving the page a main landmark. (Pages with a `sidebar` already had one, via `page_main_container()`.)
+* `page_navbar()` now includes banner and main landmarks, making it easier for screen reader users to navigate the page. (@jcheng5, @shelbylevel, #1357)
 
 # bslib 0.12.0
 
