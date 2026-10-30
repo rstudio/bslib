@@ -31,6 +31,8 @@
 
 * Added an aria-controls attribute when using bslib::page_navbar() with bslib::nav_panel() to establish an explicit relationship between the tab and the controlled tab panel. (@shelbylevel, #1354)
 
+* `nav_panel()` tab panels now use `aria-labelledby` to reference their associated tab controls, which are given unique IDs. (@shelbylevel, #1364)
+
 # bslib 0.12.0
 
 ## New features

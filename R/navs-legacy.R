@@ -752,6 +752,7 @@ buildTabItem <- function(
 
 buildNavItem <- function(divTag, tabsetId, index) {
   id <- paste("tab", tabsetId, index, sep = "-")
+  tabId <- paste0(id, "-tab")
   # Get title attribute directory (not via tagGetAttribute()) so that contents
   # don't get passed to as.character().
   # https://github.com/rstudio/shiny/issues/3352
@@ -760,11 +761,12 @@ buildNavItem <- function(divTag, tabsetId, index) {
   active <- isTabSelected(divTag)
   divTag <- tagAppendAttributes(divTag, class = if (active) "active")
   divTag$attribs$id <- id
+  divTag$attribs[["aria-labelledby"]] <- tabId
   divTag$attribs$title <- NULL
   list(
     divTag = divTag,
     liTag = tagAddRenderHook(
-      liTag(id, title, value, attr(divTag, "_shiny_icon")),
+      liTag(id, tabId, title, value, attr(divTag, "_shiny_icon")),
       function(x) {
         if (isTRUE(getCurrentThemeVersion() >= 4)) {
           tagQuery(x)$addClass("nav-item")$find("a")$addClass(
@@ -778,13 +780,14 @@ buildNavItem <- function(divTag, tabsetId, index) {
   )
 }
 
-liTag <- function(id, title, value, icon) {
+liTag <- function(id, tabId, title, value, icon) {
   # When title is NULL (i.e., nav_panel_hidden()), add disabled attribute to
   # prevent keyboard navigation
   is_hidden <- is.null(title)
 
   tags$li(
     tags$a(
+      id = tabId,
       href = paste0("#", id),
       `data-toggle` = "tab",
       # data-bs-* is for BS5+

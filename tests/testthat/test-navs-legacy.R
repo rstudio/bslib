@@ -173,9 +173,32 @@ test_that("a tabset with an id uses it as the tabset id", {
 
   # Both the <ul> and the <div class="tab-content"> share the id
   expect_equal(tabset_ids_of(x), c("my_tabs", "my_tabs"))
+  # Tabs and panels reference each other by id.
+  expect_true(grepl('id="tab-my_tabs-1-tab"', html, fixed = TRUE))
   expect_true(grepl('id="tab-my_tabs-1"', html, fixed = TRUE))
   expect_true(grepl('href="#tab-my_tabs-1"', html, fixed = TRUE))
   expect_true(grepl('aria-controls="tab-my_tabs-1"', html, fixed = TRUE))
+  expect_true(grepl('aria-labelledby="tab-my_tabs-1-tab"', html, fixed = TRUE))
+  # IDs and references are generated independently for subsequent tabs.
+  expect_true(grepl('id="tab-my_tabs-2-tab"', html, fixed = TRUE))
+  expect_true(grepl('id="tab-my_tabs-2"', html, fixed = TRUE))
+  expect_true(grepl('href="#tab-my_tabs-2"', html, fixed = TRUE))
+  expect_true(grepl('aria-controls="tab-my_tabs-2"', html, fixed = TRUE))
+  expect_true(grepl('aria-labelledby="tab-my_tabs-2-tab"', html, fixed = TRUE))
+})
+
+test_that("a hidden tab panel retains its tab relationship", {
+  x <- navset_hidden(
+    id = "my_tabs",
+    nav_panel_hidden("a", "a")
+  )
+  html <- as.character(htmltools::renderTags(x)$html)
+
+  expect_true(grepl('id="tab-my_tabs-1-tab"', html, fixed = TRUE))
+  expect_true(grepl('id="tab-my_tabs-1"', html, fixed = TRUE))
+  expect_true(grepl('href="#tab-my_tabs-1"', html, fixed = TRUE))
+  expect_true(grepl('aria-controls="tab-my_tabs-1"', html, fixed = TRUE))
+  expect_true(grepl('aria-labelledby="tab-my_tabs-1-tab"', html, fixed = TRUE))
 })
 
 test_that("a tabset with an id renders identically every time", {
