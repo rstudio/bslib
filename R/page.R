@@ -269,7 +269,7 @@ page_sidebar <- function(
 
   navbar_title <-
     if (!is.null(title)) {
-      div(
+      tags$header(
         class = "navbar navbar-static-top",
         div(title, class = "container-fluid")
       )

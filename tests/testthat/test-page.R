@@ -51,6 +51,19 @@ test_that("page_sidebar()", {
   expect_snapshot(
     renderTags(
       page_sidebar(
+        title = "foo",
+        window_title = "bar",
+        fillable = FALSE
+      )
+    )$html,
+    cran = TRUE
+  )
+
+  with_private_seed()
+
+  expect_snapshot(
+    renderTags(
+      page_sidebar(
         "main",
         title = "Title",
         # Removes the {bsicons} icon
