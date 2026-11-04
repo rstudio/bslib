@@ -2,6 +2,7 @@
 
 ## Improvements
 
+* The title in `page_sidebar()` now uses a landmark. ([#1362](https://github.com/rstudio/bslib/issues/1362))
 * Sidebars now use neutral `<div>` markup by default. Use the new `role`
   argument of `sidebar()` to identify a sidebar as a complementary landmark,
   form, search area, or another ARIA role. (#1358)
