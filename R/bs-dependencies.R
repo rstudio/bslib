@@ -128,7 +128,7 @@ maybe_precompiled_css <- function(theme, sass_options, precompiled) {
   }
 
   dir.create(out_dir)
-  file.copy(precompiled_css, out_file)
+  file.copy(precompiled_css, out_file, copy.mode = FALSE)
 
   # Usually sass() would handle file_attachments and dependencies,
   # but we need to do this manually
@@ -176,7 +176,12 @@ sass_compile_theme <- function(theme, sass_options, sass_cache) {
 bootstrap_javascript_copy_assets <- function(version, to) {
   js_files <- bootstrap_javascript(version)
   js_map_files <- bootstrap_javascript_map(version)
-  success_js_files <- file.copy(c(js_files, js_map_files), to, overwrite = TRUE)
+  success_js_files <- file.copy(
+    c(js_files, js_map_files),
+    to,
+    overwrite = TRUE,
+    copy.mode = FALSE
+  )
   if (any(!success_js_files)) {
     warning(
       "Failed to copy over bootstrap's javascript files into the htmlDependency() directory."
@@ -273,7 +278,12 @@ bs_dependency <- function(
         basename(outfile)
       )
     }
-    success <- file.copy(script, dirname(outfile), overwrite = TRUE)
+    success <- file.copy(
+      script,
+      dirname(outfile),
+      overwrite = TRUE,
+      copy.mode = FALSE
+    )
     if (!all(success)) {
       stop(
         "Failed to copy the following script(s): ",
